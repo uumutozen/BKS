@@ -144,6 +144,7 @@ namespace BKS
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1143, 750);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);

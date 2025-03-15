@@ -19,7 +19,7 @@ namespace BKS
             // Material Skin theme ayarlarý
             var manager = MaterialSkinManager.Instance;
             manager.AddFormToManage(this);
-            manager.Theme = MaterialSkinManager.Themes.DARK;
+            manager.Theme = MaterialSkinManager.Themes.LIGHT;
             manager.ColorScheme = new ColorScheme(Primary.Blue500, Primary.Blue700, Primary.Blue300, Accent.LightBlue200, TextShade.WHITE);
         }
 
@@ -32,11 +32,11 @@ namespace BKS
                 materialLabel3.Text = "Son Giriþ Zamaný: " + System.DateTime.Now.ToString();
             }
         }
-        private int GetUserIdFromDatabase(string username, string password)
+        private Guid GetUserIdFromDatabase(string username, string password)
         {
-            int userId = -1; // Varsayýlan olarak -1 döndür
+            Guid userId = Guid.NewGuid(); // Varsayýlan olarak -1 döndür
 
-            string query = "SELECT Id FROM BKSusers WHERE Username = @Username AND Password = @Password";
+            string query = "SELECT UserId FROM CompanyUsers ce  \r\njoin Companies c on c.CompanyId= ce.CompanyId\r\nWHERE ce.IsActive=1 and c.IsActive=1 and Email = @Username AND Password = @Password";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -51,7 +51,7 @@ namespace BKS
                         object result = command.ExecuteScalar();
                         if (result != null)
                         {
-                            userId = Convert.ToInt32(result);
+                            userId = (Guid)result;
                         }
                     }
                 }
@@ -61,7 +61,7 @@ namespace BKS
                 }
             }
             return userId;
-        }
+        } 
         private void bttnLgn_Click(object sender, EventArgs e)
         {
             // Kullanýcý adý ve þifre giriþleri
@@ -70,10 +70,12 @@ namespace BKS
 
             // SQL sorgusu
 
-            string sorgu = "Select count(*) from BKSUsers where Username=@Username and Password=@Password and anaokuluid is not null";
-            int userId = GetUserIdFromDatabase(username, password);
+            string sorgu = "Select count(*) from CompanyUsers ce join Companies c on c.CompanyId= ce.CompanyId WHERE ce.IsActive=1 and c.IsActive=1 and ce.Email=@Username and ce.Password=@Password and ce.CompanyId is not null";
+            
             Form2 form2 = new Form2();
-            form2.UserId = userId;
+            form2.UserId= GetUserIdFromDatabase(username, password);
+            Form1 form1 = new Form1();
+            
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -97,10 +99,11 @@ namespace BKS
                             {
                                 MessageBox.Show("Giriþ baþarýlý!", "Baþarýlý", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                form2.FormClosed += (s, args) => Application.Exit();  // Form2 kapanýnca Form1'i kapat
-                                this.Hide();
-                                form2.Show();
-
+                                this.Hide();  // Form1’i gizle
+                                form2.ShowDialog(); // Form2'yi aç, diðer iþlemleri blokla
+                                form2.UserId= GetUserIdFromDatabase(username, password);
+                                Environment.Exit(0); // Form2 kapandýktan sonra tüm programý kapat
+                               
                             }
                             else
                             {
@@ -113,11 +116,12 @@ namespace BKS
                 {
                     MessageBox.Show($"Bir hata oluþtu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+             
             }
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit(); // Tüm programý kapatýr.
+            Environment.Exit(0); // Tüm programý kapatýr.
         }
 
         public class LoginHistoryService
@@ -160,7 +164,7 @@ namespace BKS
 
         private void materialLabel3_Click(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

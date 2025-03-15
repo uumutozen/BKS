@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using MaterialSkin;
+using MaterialSkin.Controls;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,20 +15,60 @@ using System.Windows.Forms;
 
 namespace BKS
 {
-    public partial class Form2 : Form
+    public partial class Form2 : MaterialForm
     {
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
         public Form2()
         {
+
             InitializeComponent();
+          
+            if (salesGrid.DataSource != null)
+            {
+                LoadSalesData();
+            }
             LoadStockData();
             LoadStockComboBox();
             LoadPaymentData();
-            LoadSalesData();
+            
             LoadStudentClassComboBox();
             form1.Close();
+        
+           
+        }
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+            this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi";
+            LoadCompanyModules(UserId);
+
         }
         Form1 form1 = new Form1();
+        
+        private void LoadCompanyModules(Guid UserId)
+        {
+            List<string> activeModules = new List<string>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select m.ModuleName from CompanyUsers cu  join Companies c on c.CompanyId=cu.CompanyId join CompanyModules cm on cm.CompanyId=c.CompanyId join Modules m on m.ModuleId = cm.ModuleId where cu.UserId=@UserId";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            activeModules.Add(reader["ModuleName"].ToString());
+                        }
+                    }
+                }
+            }
+
+
+            SetTabAccess(activeModules);
+        }
 
         // Stok Yönetimi
         private void LoadStockData()
@@ -39,6 +82,30 @@ namespace BKS
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
+            }
+        }
+  
+        private void SetTabAccess(List<string> activeModules)
+        {
+            foreach (TabPage tab in tabControl.TabPages)
+            {
+                if (activeModules.Contains(tab.Name))
+                {
+                    tab.Enabled = true;
+                    // Aktif modüller
+                }
+                else
+                {
+                    tab.Enabled = false;
+                    HideTabPage(tab);
+                }
+            }
+        }
+        private void HideTabPage(TabPage tabPage)
+        {
+            if (tabControl.TabPages.Contains(tabPage))
+            {
+                tabControl.TabPages.Remove(tabPage);
             }
         }
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -61,10 +128,10 @@ namespace BKS
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                conn.Open();
+                conn.Open(); 
                 SqlCommand cmd = new SqlCommand("select Id=Id,'İsim'=Name,'Soyisim'=Surname,'Baba Adı'=FatherName,'Doğum Tarihi'=BirthDate," +
                     "'Öğrenci Kodu'=StudentCode,'Ödeme Durumu'=PaymentStatus,'Ödenen Tutar'=MonthlyFee,'Aktif Öğrenci mi'=case when IsActive=1 then'Evet' else'Hayır' end " +
-                    ",'Sınıfı'=ClassName from AYSstudents ", conn);
+                    ",'Sınıfı'=ClassName,* from AYSstudents ", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
                 comboBoxStok.Items.Clear();
                 while (reader.Read())
@@ -132,6 +199,8 @@ namespace BKS
                 salesGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
+
+
         private void dataGridViewStok_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -149,6 +218,7 @@ namespace BKS
                 }
             }
         }
+
 
 
         private void ShowPaymentDetails(Guid studentId)
@@ -284,10 +354,17 @@ namespace BKS
         {
             string ogrenciName = txtOgrenciAd.Text;
             string ogrenciSurname = textSoyad.Text;
-            string Fathername = textBabaAd.Text;
+            string Fathername = txtBabaAd.Text;
+            string MotherName = txtAnneAd.Text;
             string classing = cmbogrsınıf.Text;
             string studentcode = textOgrenciKod.Text;
+            string StudentsDetails = txtOgrenciHakkindaDetaylar.Text;
+            string FatherPhoneNumber = txtBabaTel.Text;
+            string MotherPhoneNumber = txtAnneTel.Text;
+            string FatherAddress = txtBabaEvAdres.Text;
+            string MotherAddress = txtAnneEvAdres.Text;
             decimal odenentutar = numericPrice.Value;
+            bool IsMarried = checkEvet.Checked == true ? checkEvet.Checked : false;
             bool odemedurum = checkOdemeDurum.Checked;
             bool aktiflik = checkAktif.Checked;
             DateTime dateTime = dateDogum.Value;
@@ -299,8 +376,8 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName)" +
-                    "VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName)", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName)" +
+                    "VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName)", conn);
 
                 cmd.Parameters.AddWithValue("@Id", Guid.NewGuid()); // Örnek olarak yeni bir GUID oluşturuluyor
                 cmd.Parameters.AddWithValue("@Name", ogrenciName);
@@ -312,6 +389,15 @@ namespace BKS
                 cmd.Parameters.AddWithValue("@MonthlyFee", odenentutar);
                 cmd.Parameters.AddWithValue("@IsActive", aktiflik);
                 cmd.Parameters.AddWithValue("@ClassName", classing);
+                cmd.Parameters.AddWithValue("@MotherName", MotherName);
+                cmd.Parameters.AddWithValue("@FatherAddress", FatherAddress);
+                cmd.Parameters.AddWithValue("@MotherAddress", MotherAddress);
+                cmd.Parameters.AddWithValue("@FatherPhoneNumber", FatherPhoneNumber);
+                cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
+                cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
+                cmd.Parameters.AddWithValue("@StudentsDetails", StudentsDetails);
+
+
                 cmd.ExecuteNonQuery();
             }
 
@@ -323,6 +409,8 @@ namespace BKS
         // Satış Yönetimi
         private void btnMakeSale_Click(object sender, EventArgs e)
         {
+
+
             if (comboBoxStok.SelectedItem == null)
             {
                 MessageBox.Show("Lütfen bir ürün seçin!");
@@ -355,16 +443,16 @@ namespace BKS
         }
 
         // Gelir-Gider Yönetimi
-      
-        private string GetCompanyName(int userId)
+
+        private string GetCompanyName(Guid userId)
         {
             string companyName = "Bilinmiyor"; // Varsayılan değer
             string query = @"SELECT ad = (SELECT ce.CompanyName 
                                           FROM Companies ce 
                                           WHERE ce.CompanyId = c.CompanyId) 
-                            FROM BKSusers b 
-                            LEFT OUTER JOIN CompanyUsers c ON c.UserId = b.anaokuluid 
-                            WHERE b.Id = @UserId";
+                            FROM CompanyUsers c
+                           
+                            WHERE c.UserId = @UserId";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -419,11 +507,7 @@ namespace BKS
 
         }
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
-
-            this.Text = GetCompanyName(UserId) +" "+"Anaokulu Yönetim Sistemi";
-        }
+     
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
@@ -458,7 +542,18 @@ namespace BKS
         {
 
         }
-        public int UserId { get; set; }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPageStok_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public Guid UserId { get; set; }
     }
 
     // ComboBox için özel bir sınıf
