@@ -395,7 +395,7 @@ namespace BKS
                 cmd.Parameters.AddWithValue("@FatherPhoneNumber", FatherPhoneNumber);
                 cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
                 cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
-                cmd.Parameters.AddWithValue("@StudentsDetails", StudentsDetails);
+                
 
 
                 cmd.ExecuteNonQuery();
