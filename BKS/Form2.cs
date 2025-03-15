@@ -358,7 +358,7 @@ namespace BKS
             string MotherName = txtAnneAd.Text;
             string classing = cmbogrsınıf.Text;
             string studentcode = textOgrenciKod.Text;
-            string StudentsDetails = txtOgrenciHakkindaDetaylar.Text;
+            
             string FatherPhoneNumber = txtBabaTel.Text;
             string MotherPhoneNumber = txtAnneTel.Text;
             string FatherAddress = txtBabaEvAdres.Text;
