@@ -41,7 +41,7 @@ namespace BKS
         {
 
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi";
-            this.materialLabel3.Text = "Son Giriş Zamanı : "+GetLastLoginTime(UserId);
+            this.materialLabel3.Text = "Merhaba "+GetLastUser(UserId)+" Son Giriş Zamanın : "+GetLastLoginTime(UserId);
 
             LoadCompanyModules(UserId);
 
@@ -231,6 +231,34 @@ namespace BKS
             }
 
             return lastLoginTime;
+        }
+        public string GetLastUser(Guid UserId)
+        {
+            string Kullanici = "Bilinmiyor";
+            string query = "SELECT Firstname FROM CompanyUsers WHERE UserId=@UserId";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserId", UserId);
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            Kullanici = result.ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Hata: " + ex.Message);
+                }
+            }
+
+            return Kullanici;
         }
         private void btnOgrenciYonetimiSil_Click(object sender, EventArgs e)
         {
