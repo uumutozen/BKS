@@ -18,11 +18,12 @@ namespace BKS
     public partial class Form2 : MaterialForm
     {
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
+
         public Form2()
         {
 
             InitializeComponent();
-          
+
             if (salesGrid.DataSource != null)
             {
                 LoadSalesData();
@@ -30,11 +31,11 @@ namespace BKS
             LoadStockData();
             LoadStockComboBox();
             LoadPaymentData();
-            
+
             LoadStudentClassComboBox();
             form1.Close();
-        
-           
+
+
         }
         private void Form2_Load(object sender, EventArgs e)
         {
@@ -44,7 +45,7 @@ namespace BKS
 
         }
         Form1 form1 = new Form1();
-        
+
         private void LoadCompanyModules(Guid UserId)
         {
             List<string> activeModules = new List<string>();
@@ -76,15 +77,160 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter("select Id=Id,'İsim'=Name,'Soyisim'=Surname,'Baba Adı'=FatherName,'Doğum Tarihi'=BirthDate," +
-                    "'Öğrenci Kodu'=StudentCode,'Ödeme Durumu'=PaymentStatus,'Ödenen Tutar'=MonthlyFee,'Aktif Öğrenci mi'=case when IsActive=1 then'Evet' else'Hayır' end " +
-                    ",'Sınıfı'=ClassName from AYSstudents ", conn);
+                SqlDataAdapter adapter = new SqlDataAdapter("select Id=Id,'İsim'=Name,'Soyisim'=Surname,'Baba Adı'=FatherName,'Doğum Tarihi'=BirthDate,\r\n                   'Öğrenci Kodu'=StudentCode,'Ödeme Durumu'=PaymentStatus,'Ödenen Tutar'=MonthlyFee,'Aktif Öğrenci mi'=case when IsActive=1 then'Evet' else'Hayır' end \r\n                   ,'Sınıfı'=ClassName,'Baba Adresi'=FatherAddress,'Anne Adresi'=MotherAddress,'Baba Telefon'=FatherPhoneNumber,'Anne Telefon'=MotherPhonenumber, 'Aile Ayrı Mı'=case when IsMarried=1 then'Evet' else'Hayır' end ,'Öğrenci Hakkında'=StudentsDetails,'Anne Adı'= MotherName from AYSstudents ", conn);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
             }
         }
-  
+        private void dataGridViewStok_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridViewStok.Rows[e.RowIndex];
+
+                txtOgrenciAd.Text = row.Cells["İsim"].Value?.ToString() ?? "";
+                textSoyad.Text = row.Cells["Soyisim"].Value?.ToString() ?? "";
+                txtBabaAd.Text = row.Cells["Baba Adı"].Value?.ToString() ?? "";
+                txtAnneAd.Text = row.Cells["Anne Adı"].Value?.ToString() ?? "";
+                cmbogrsınıf.Text = row.Cells["Sınıfı"].Value?.ToString() ?? "";
+                textOgrenciKod.Text = row.Cells["Öğrenci Kodu"].Value?.ToString() ?? "";
+                textOgrenciDetay.Text = row.Cells["Öğrenci Hakkında"].Value?.ToString() ?? "";
+                txtBabaTel.Text = row.Cells["Baba Telefon"].Value?.ToString() ?? "";
+                txtAnneTel.Text = row.Cells["Anne Telefon"].Value?.ToString() ?? "";
+                txtBabaEvAdres.Text = row.Cells["Baba Adresi"].Value?.ToString() ?? "";
+                txtAnneEvAdres.Text = row.Cells["Anne Adresi"].Value?.ToString() ?? "";
+
+                // Sayısal değerlerde null kontrolü ve varsayılan değer atama
+                numericPrice.Value = row.Cells["Ödenen Tutar"].Value != null
+                    && decimal.TryParse(row.Cells["Ödenen Tutar"].Value.ToString(), out decimal price)
+                    ? price : 0;
+
+                checkOdemeDurum.Checked = row.Cells["Ödeme Durumu"].Value?.ToString() == "True";
+                checkAktif.Checked = row.Cells["Aktif Öğrenci mi"].Value?.ToString() == "Evet";
+                checkEvet.Checked = row.Cells["Aile Ayrı Mı"].Value?.ToString() == "Evet";
+
+                // Tarih değerlerinde kontrol
+                if (row.Cells["Doğum Tarihi"].Value != null &&
+                   DateTime.TryParse(row.Cells["Doğum Tarihi"].Value.ToString(), out DateTime birthDate) &&
+                   birthDate >= dateDogum.MinDate)
+                {
+                    dateDogum.Value = birthDate;
+                }
+                else
+                {
+                    dateDogum.Value = DateTime.Now; // Geçersiz tarih varsa bugünün tarihi atanır
+                }
+
+            }
+        }
+
+        private void btnGuncelle_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewStok.CurrentRow != null)
+            {
+                Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
+
+                // Formdan alınan değerler
+                string isim = txtOgrenciAd.Text;
+                string soyisim = textSoyad.Text;
+                string babaAdi = txtBabaAd.Text;
+                string anneAdi = txtAnneAd.Text;
+                string sinif = cmbogrsınıf.Text;
+                string ogrenciKod = textOgrenciKod.Text;
+                string ogrenciDetay = textOgrenciDetay.Text;
+                string babaTel = txtBabaTel.Text;
+                string anneTel = txtAnneTel.Text;
+                string babaAdres = txtBabaEvAdres.Text;
+                string anneAdres = txtAnneEvAdres.Text;
+                decimal fiyat = numericPrice.Value;
+                bool odemeDurumu = checkOdemeDurum.Checked;
+                bool aktifMi = checkAktif.Checked;
+                bool aileAyrimi = checkEvet.Checked;
+                DateTime dogumTarihi = dateDogum.Value;
+
+                // SQL Güncelleme Sorgusu
+                string query = @"
+            UPDATE AYSstudents SET 
+                Name = @isim,
+                Surname = @soyisim,
+                FatherName = @babaAdi,
+                MotherName = @anneAdi,
+                ClassName = @sinif,
+                StudentCode = @ogrenciKod,
+                StudentsDetails = @ogrenciDetay,
+                FatherPhoneNumber = @babaTel,
+                MotherPhonenumber = @anneTel,
+                FatherAddress = @babaAdres,
+                MotherAddress = @anneAdres,
+                MonthlyFee = @fiyat,
+                PaymentStatus = @odemeDurumu,
+                IsActive = @aktifMi,
+                IsMarried = @aileAyrimi,
+                BirthDate = @dogumTarihi
+            WHERE Id = @id";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        // Parametreleri Ekle
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.Parameters.AddWithValue("@isim", isim);
+                        cmd.Parameters.AddWithValue("@soyisim", soyisim);
+                        cmd.Parameters.AddWithValue("@babaAdi", babaAdi);
+                        cmd.Parameters.AddWithValue("@anneAdi", anneAdi);
+                        cmd.Parameters.AddWithValue("@sinif", sinif);
+                        cmd.Parameters.AddWithValue("@ogrenciKod", ogrenciKod);
+                        cmd.Parameters.AddWithValue("@ogrenciDetay", ogrenciDetay);
+                        cmd.Parameters.AddWithValue("@babaTel", babaTel);
+                        cmd.Parameters.AddWithValue("@anneTel", anneTel);
+                        cmd.Parameters.AddWithValue("@babaAdres", babaAdres);
+                        cmd.Parameters.AddWithValue("@anneAdres", anneAdres);
+                        cmd.Parameters.AddWithValue("@fiyat", fiyat);
+                        cmd.Parameters.AddWithValue("@odemeDurumu", odemeDurumu);
+                        cmd.Parameters.AddWithValue("@aktifMi", aktifMi);
+                        cmd.Parameters.AddWithValue("@aileAyrimi", aileAyrimi);
+                        cmd.Parameters.AddWithValue("@dogumTarihi", dogumTarihi);
+
+                        cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                    }
+                }
+
+                MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadStockData(); // Güncellenmiş listeyi tekrar yükle
+            }
+        }
+        private void btnOgrenciYonetimiSil_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewStok.CurrentRow != null)
+            {
+                Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
+
+
+
+                string query = @"
+            delete from AysStudents
+            WHERE Id = @id";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        // Parametreleri Ekle
+                        cmd.Parameters.AddWithValue("@id", id);
+
+                        cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                    }
+                }
+
+                MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadStockData();
+            }
+        }
+
         private void SetTabAccess(List<string> activeModules)
         {
             foreach (TabPage tab in tabControl.TabPages)
@@ -128,10 +274,8 @@ namespace BKS
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                conn.Open(); 
-                SqlCommand cmd = new SqlCommand("select Id=Id,'İsim'=Name,'Soyisim'=Surname,'Baba Adı'=FatherName,'Doğum Tarihi'=BirthDate," +
-                    "'Öğrenci Kodu'=StudentCode,'Ödeme Durumu'=PaymentStatus,'Ödenen Tutar'=MonthlyFee,'Aktif Öğrenci mi'=case when IsActive=1 then'Evet' else'Hayır' end " +
-                    ",'Sınıfı'=ClassName,* from AYSstudents ", conn);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(" select Id=Id,'İsim'=Name,'Soyisim'=Surname,'Baba Adı'=FatherName,'Doğum Tarihi'=BirthDate,\r\n                   'Öğrenci Kodu'=StudentCode,'Ödeme Durumu'=PaymentStatus,'Ödenen Tutar'=MonthlyFee,'Aktif Öğrenci mi'=case when IsActive=1 then'Evet' else'Hayır' end \r\n                   ,'Sınıfı'=ClassName,'Baba Adresi'=FatherAddress,'Anne Adresi'=MotherAddress,'Baba Telefon'=FatherPhoneNumber,'Anne Telefon'=MotherPhonenumber, 'Aile Ayrı Mı'=case when IsMarried=1 then'Evet' else'Hayır' end ,'Öğrenci Hakkında'=StudentsDetails,'Anne Adı'= MotherName from AYSstudents ", conn);
                 SqlDataReader reader = cmd.ExecuteReader();
                 comboBoxStok.Items.Clear();
                 while (reader.Read())
@@ -358,7 +502,7 @@ namespace BKS
             string MotherName = txtAnneAd.Text;
             string classing = cmbogrsınıf.Text;
             string studentcode = textOgrenciKod.Text;
-            
+            string ogrenciDetails = textOgrenciDetay.Text;
             string FatherPhoneNumber = txtBabaTel.Text;
             string MotherPhoneNumber = txtAnneTel.Text;
             string FatherAddress = txtBabaEvAdres.Text;
@@ -393,9 +537,10 @@ namespace BKS
                 cmd.Parameters.AddWithValue("@FatherAddress", FatherAddress);
                 cmd.Parameters.AddWithValue("@MotherAddress", MotherAddress);
                 cmd.Parameters.AddWithValue("@FatherPhoneNumber", FatherPhoneNumber);
+                cmd.Parameters.AddWithValue("@StudentsDetails", ogrenciDetails);
                 cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
                 cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
-                
+
 
 
                 cmd.ExecuteNonQuery();
@@ -507,7 +652,7 @@ namespace BKS
 
         }
 
-     
+
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
@@ -552,6 +697,8 @@ namespace BKS
         {
 
         }
+
+    
 
         public Guid UserId { get; set; }
     }
