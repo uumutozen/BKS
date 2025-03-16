@@ -41,6 +41,8 @@ namespace BKS
         {
 
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi";
+            this.materialLabel3.Text = "Son Giriş Zamanı : "+GetLastLoginTime(UserId);
+
             LoadCompanyModules(UserId);
 
         }
@@ -201,6 +203,34 @@ namespace BKS
                 MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadStockData(); // Güncellenmiş listeyi tekrar yükle
             }
+        }
+        public string GetLastLoginTime(Guid UserId)
+        {
+            string lastLoginTime = "Bilinmiyor";
+            string query = "SELECT SonLogin FROM CompanyUsers WHERE UserId=@UserId";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserId", UserId);
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            lastLoginTime = result.ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Hata: " + ex.Message);
+                }
+            }
+
+            return lastLoginTime;
         }
         private void btnOgrenciYonetimiSil_Click(object sender, EventArgs e)
         {

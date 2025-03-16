@@ -89,6 +89,7 @@ namespace BKS
             tabPage1 = new TabPage();
             salesGrid = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
+            materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox11.SuspendLayout();
@@ -696,10 +697,24 @@ namespace BKS
             sqlCommand1.CommandTimeout = 30;
             sqlCommand1.EnableOptimizedParameterBinding = false;
             // 
+            // materialLabel3
+            // 
+            materialLabel3.AutoSize = true;
+            materialLabel3.Depth = 0;
+            materialLabel3.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            materialLabel3.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            materialLabel3.Location = new Point(1625, 42);
+            materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
+            materialLabel3.Name = "materialLabel3";
+            materialLabel3.Size = new Size(69, 19);
+            materialLabel3.TabIndex = 28;
+            materialLabel3.Text = "Son Giriş:";
+            // 
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
             ClientSize = new Size(1872, 1066);
+            Controls.Add(materialLabel3);
             Controls.Add(tabControl);
             Font = new Font("Times New Roman", 9F);
             Name = "Form2";
@@ -743,6 +758,7 @@ namespace BKS
             tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)salesGrid).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         private DataGridView dataGridOdeme;
@@ -781,5 +797,6 @@ namespace BKS
         private GroupBox groupBox11;
         private TextBox textOgrenciDetay;
         private Button btnGuncelle;
+        private MaterialSkin.Controls.MaterialLabel materialLabel3;
     }
 }

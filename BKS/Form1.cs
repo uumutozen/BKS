@@ -29,7 +29,7 @@ namespace BKS
             if (!string.IsNullOrEmpty(username))
             {
                 // Son giriþ bilgisini yükle
-                materialLabel3.Text = "Son Giriþ Zamaný: " + System.DateTime.Now.ToString();
+               
             }
         }
         private Guid GetUserIdFromDatabase(string username, string password)
@@ -70,7 +70,7 @@ namespace BKS
 
             // SQL sorgusu
 
-            string sorgu = "Select count(*) from CompanyUsers ce join Companies c on c.CompanyId= ce.CompanyId WHERE ce.IsActive=1 and c.IsActive=1 and ce.Email=@Username and ce.Password=@Password and ce.CompanyId is not null";
+            string sorgu = "exec ValidateAndUpdateLogin @Email, @Password";
             
             Form2 form2 = new Form2();
             form2.UserId= GetUserIdFromDatabase(username, password);
@@ -83,15 +83,15 @@ namespace BKS
                     connection.Open();
                     using (SqlCommand datecom = new SqlCommand(sorgu, connection))
                     {
-                        datecom.Parameters.AddWithValue("@username", username);
-                        datecom.Parameters.AddWithValue("@password", password);
+                        datecom.Parameters.AddWithValue("@Email", username);
+                        datecom.Parameters.AddWithValue("@Password", password);
 
                         using (SqlCommand command = new SqlCommand(sorgu, connection))
                         {
 
                             // Parametreleri ekle
-                            command.Parameters.AddWithValue("@username", username);
-                            command.Parameters.AddWithValue("@password", password);
+                            command.Parameters.AddWithValue("@Email", username);
+                            command.Parameters.AddWithValue("@Password", password);
 
                             // Sonucu kontrol et
                             int userCount = (int)command.ExecuteScalar();
