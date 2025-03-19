@@ -494,8 +494,11 @@ namespace BKS
             // 
             // dataGridViewStok
             // 
+            dataGridViewStok.BackgroundColor = SystemColors.ButtonHighlight;
+            dataGridViewStok.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
             dataGridViewStok.ColumnHeadersHeight = 34;
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
+            dataGridViewStok.GridColor = Color.DodgerBlue;
             dataGridViewStok.Location = new Point(3, 70);
             dataGridViewStok.Name = "dataGridViewStok";
             dataGridViewStok.RowHeadersWidth = 62;

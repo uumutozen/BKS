@@ -28,11 +28,11 @@ namespace BKS
             {
                 LoadSalesData();
             }
-            LoadStockData();
+            
             LoadStockComboBox();
             LoadPaymentData();
 
-            LoadStudentClassComboBox();
+            
             form1.Close();
 
 
@@ -42,8 +42,9 @@ namespace BKS
 
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi";
             this.materialLabel3.Text = "Merhaba "+GetLastUser(UserId)+" Son Giriş Zamanın : "+GetLastLoginTime(UserId);
-
+            LoadStockData(UserId);
             LoadCompanyModules(UserId);
+            LoadStudentClassComboBox(UserId);
 
         }
         Form1 form1 = new Form1();
@@ -74,13 +75,17 @@ namespace BKS
         }
 
         // Stok Yönetimi
-        private void LoadStockData()
+        private void LoadStockData(Guid UserId)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter("select Id=Id,'İsim'=Name,'Soyisim'=Surname,'Baba Adı'=FatherName,'Doğum Tarihi'=BirthDate,\r\n                   'Öğrenci Kodu'=StudentCode,'Ödeme Durumu'=PaymentStatus,'Ödenen Tutar'=MonthlyFee,'Aktif Öğrenci mi'=case when IsActive=1 then'Evet' else'Hayır' end \r\n                   ,'Sınıfı'=ClassName,'Baba Adresi'=FatherAddress,'Anne Adresi'=MotherAddress,'Baba Telefon'=FatherPhoneNumber,'Anne Telefon'=MotherPhonenumber, 'Aile Ayrı Mı'=case when IsMarried=1 then'Evet' else'Hayır' end ,'Öğrenci Hakkında'=StudentsDetails,'Anne Adı'= MotherName from AYSstudents ", conn);
+                string query = "select Id=Id,'İsim'=Name,'Soyisim'=Surname,'Baba Adı'=FatherName,'Doğum Tarihi'=BirthDate,'Öğrenci Kodu'=StudentCode,'Ödeme Durumu'=PaymentStatus,'Ödenen Tutar'=MonthlyFee,'Aktif Öğrenci mi'=case when IsActive=1 then'Evet' else'Hayır' end  ,'Sınıfı'=ClassName,'Baba Adresi'=FatherAddress,'Anne Adresi'=MotherAddress,'Baba Telefon'=FatherPhoneNumber,'Anne Telefon'=MotherPhonenumber, 'Aile Ayrı Mı'=case when IsMarried=1 then'Evet' else'Hayır' end ,'Öğrenci Hakkında'=StudentsDetails,'Anne Adı'= MotherName from AYSstudents where SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId) and Isnull(IsDeleted,0)=0";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+
                 DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
             }
@@ -201,7 +206,7 @@ namespace BKS
                 }
 
                 MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadStockData(); // Güncellenmiş listeyi tekrar yükle
+                LoadStockData(UserId); // Güncellenmiş listeyi tekrar yükle
             }
         }
         public string GetLastLoginTime(Guid UserId)
@@ -269,7 +274,7 @@ namespace BKS
 
 
                 string query = @"
-            delete from AysStudents
+            Update AysStudents set IsDeleted=1
             WHERE Id = @id";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -285,7 +290,7 @@ namespace BKS
                 }
 
                 MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadStockData();
+                LoadStockData(UserId);
             }
         }
 
@@ -346,12 +351,14 @@ namespace BKS
                 }
             }
         }
-        private void LoadStudentClassComboBox()
+        private void LoadStudentClassComboBox(Guid UserId)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
+                
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses ", conn);
+                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
                 SqlDataReader reader = cmd.ExecuteReader();
                 cmbogrsınıf.Items.Clear();
                 while (reader.Read())
@@ -434,10 +441,10 @@ namespace BKS
                 {
 
                     conn.Open();
-                    string query = "SELECT Amount, PaymentDate FROM AYSFeePayments WHERE StudentId = @StudentId";
+                    string query = "SELECT p.Amount, p.PaymentDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId and p.Isdeleted=0 and p.SchoolId =(Select CompanyId from CompanyUsers where UserId =@UserId)";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@StudentId", studentId);
-
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
                     DataTable paymentDetails = new DataTable();
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(paymentDetails);
@@ -485,7 +492,7 @@ namespace BKS
                             // Ödeme ekleme işlemi
                             if (decimal.TryParse(txtAmount.Text, out decimal amount))
                             {
-                                string insertQuery = "INSERT INTO AYSFeePayments (Id, StudentId, Amount, PaymentDate) VALUES (@Id, @StudentId, @Amount, @PaymentDate)";
+                                string insertQuery = "INSERT INTO AYSFeePayments (Id, StudentId, Amount, PaymentDate,SchoolId) VALUES (@Id, @StudentId, @Amount, @PaymentDate,(Select CompanyId from CompanyUsers WHERE UserId=@UserId ))";
                                 using (SqlCommand insertCmd = new SqlCommand(insertQuery, connn))
                                 {
 
@@ -494,7 +501,7 @@ namespace BKS
                                     insertCmd.Parameters.AddWithValue("@StudentId", studentId);
                                     insertCmd.Parameters.AddWithValue("@Amount", amount);
                                     insertCmd.Parameters.AddWithValue("@PaymentDate", dtpDate.Value);
-
+                                    insertCmd.Parameters.AddWithValue("@UserId", UserId);
                                     insertCmd.ExecuteNonQuery();
 
                                     // Grid'i güncelle
@@ -578,11 +585,11 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName)" +
-                    "VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName)", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName,SchoolId)VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName,(select CompanyId from CompanyUsers where UserId=@UserId) )", conn);
 
                 cmd.Parameters.AddWithValue("@Id", Guid.NewGuid()); // Örnek olarak yeni bir GUID oluşturuluyor
                 cmd.Parameters.AddWithValue("@Name", ogrenciName);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@Surname", ogrenciSurname);
                 cmd.Parameters.AddWithValue("@FatherName", Fathername);
                 cmd.Parameters.AddWithValue("@BirthDate", dateTime); // Tarih formatı
@@ -605,7 +612,7 @@ namespace BKS
             }
 
             MessageBox.Show("Öğrenci Başarıyla Eklendi...");
-            LoadStockData();
+            LoadStockData(UserId);
             LoadStockComboBox();
         }
 
@@ -642,7 +649,7 @@ namespace BKS
                 }
             }
 
-            LoadStockData();
+            LoadStockData(UserId);
         }
 
         // Gelir-Gider Yönetimi
