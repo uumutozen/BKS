@@ -29,7 +29,7 @@ namespace BKS
             if (!string.IsNullOrEmpty(username))
             {
                 // Son giriþ bilgisini yükle
-               
+
             }
         }
         private Guid GetUserIdFromDatabase(string username, string password)
@@ -61,7 +61,7 @@ namespace BKS
                 }
             }
             return userId;
-        } 
+        }
         private void bttnLgn_Click(object sender, EventArgs e)
         {
             // Kullanýcý adý ve þifre giriþleri
@@ -71,11 +71,11 @@ namespace BKS
             // SQL sorgusu
 
             string sorgu = "exec ValidateAndUpdateLogin @Email, @Password";
-            
+
             Form2 form2 = new Form2();
-            form2.UserId= GetUserIdFromDatabase(username, password);
+            form2.UserId = GetUserIdFromDatabase(username, password);
             Form1 form1 = new Form1();
-            
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -101,9 +101,9 @@ namespace BKS
 
                                 this.Hide();  // Form1’i gizle
                                 form2.ShowDialog(); // Form2'yi aç, diðer iþlemleri blokla
-                                form2.UserId= GetUserIdFromDatabase(username, password);
+                                form2.UserId = GetUserIdFromDatabase(username, password);
                                 Environment.Exit(0); // Form2 kapandýktan sonra tüm programý kapat
-                               
+
                             }
                             else
                             {
@@ -116,7 +116,7 @@ namespace BKS
                 {
                     MessageBox.Show($"Bir hata oluþtu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-             
+
             }
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -164,7 +164,17 @@ namespace BKS
 
         private void materialLabel3_Click(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

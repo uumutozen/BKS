@@ -30,13 +30,16 @@ namespace BKS
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             bttnLgn = new MaterialSkin.Controls.MaterialButton();
             passWord = new MaterialSkin.Controls.MaterialTextBox();
             userName = new MaterialSkin.Controls.MaterialTextBox();
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
+            pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // bttnLgn
@@ -46,9 +49,10 @@ namespace BKS
             bttnLgn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             bttnLgn.Depth = 0;
             bttnLgn.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
+            bttnLgn.ForeColor = SystemColors.ButtonHighlight;
             bttnLgn.HighEmphasis = true;
             bttnLgn.Icon = null;
-            bttnLgn.Location = new Point(684, 335);
+            bttnLgn.Location = new Point(671, 274);
             bttnLgn.Margin = new Padding(4, 6, 4, 6);
             bttnLgn.MouseState = MaterialSkin.MouseState.HOVER;
             bttnLgn.Name = "bttnLgn";
@@ -68,7 +72,7 @@ namespace BKS
             passWord.Depth = 0;
             passWord.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             passWord.LeadingIcon = null;
-            passWord.Location = new Point(6, 24);
+            passWord.Location = new Point(6, 23);
             passWord.MaxLength = 50;
             passWord.MouseState = MaterialSkin.MouseState.OUT;
             passWord.Multiline = false;
@@ -86,7 +90,7 @@ namespace BKS
             userName.Depth = 0;
             userName.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             userName.LeadingIcon = null;
-            userName.Location = new Point(6, 24);
+            userName.Location = new Point(6, 23);
             userName.MaxLength = 50;
             userName.MouseState = MaterialSkin.MouseState.OUT;
             userName.Multiline = false;
@@ -98,9 +102,10 @@ namespace BKS
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = Color.White;
             groupBox1.Controls.Add(userName);
             groupBox1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            groupBox1.Location = new Point(453, 129);
+            groupBox1.Location = new Point(429, 205);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(200, 79);
             groupBox1.TabIndex = 6;
@@ -109,30 +114,46 @@ namespace BKS
             // 
             // groupBox2
             // 
+            groupBox2.BackColor = Color.White;
             groupBox2.Controls.Add(passWord);
             groupBox2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            groupBox2.Location = new Point(453, 217);
+            groupBox2.ForeColor = SystemColors.ActiveCaptionText;
+            groupBox2.Location = new Point(429, 302);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(200, 79);
             groupBox2.TabIndex = 7;
             groupBox2.TabStop = false;
             groupBox2.Text = "Şifre";
+            groupBox2.Enter += groupBox2_Enter;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(6, 67);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(800, 460);
+            pictureBox1.TabIndex = 8;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.Control;
-            ClientSize = new Size(800, 450);
+            BackColor = Color.White;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            ClientSize = new Size(812, 533);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(bttnLgn);
+            Controls.Add(pictureBox1);
             Name = "Form1";
             Text = "Anaokulu Yönetim Sistemi";
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -143,5 +164,6 @@ namespace BKS
         private MaterialSkin.Controls.MaterialTextBox userName;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
+        private PictureBox pictureBox1;
     }
 }
