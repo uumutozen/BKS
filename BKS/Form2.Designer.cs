@@ -495,13 +495,19 @@ namespace BKS
             // dataGridViewStok
             // 
             dataGridViewStok.BackgroundColor = SystemColors.ButtonHighlight;
-            dataGridViewStok.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
+            dataGridViewStok.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewStok.ColumnHeadersHeight = 34;
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
             dataGridViewStok.GridColor = Color.DodgerBlue;
             dataGridViewStok.Location = new Point(3, 70);
             dataGridViewStok.Name = "dataGridViewStok";
+            dataGridViewStok.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewStok.RowHeadersVisible = false;
             dataGridViewStok.RowHeadersWidth = 62;
+            dataGridViewStok.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridViewStok.ShowRowErrors = false;
             dataGridViewStok.Size = new Size(852, 550);
             dataGridViewStok.TabIndex = 0;
             dataGridViewStok.CellClick += dataGridViewStok_CellClick;

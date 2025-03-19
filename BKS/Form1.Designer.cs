@@ -46,23 +46,24 @@ namespace BKS
             // 
             bttnLgn.AutoSize = false;
             bttnLgn.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            bttnLgn.BackColor = SystemColors.ActiveCaption;
             bttnLgn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             bttnLgn.Depth = 0;
             bttnLgn.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
             bttnLgn.ForeColor = SystemColors.ButtonHighlight;
             bttnLgn.HighEmphasis = true;
             bttnLgn.Icon = null;
-            bttnLgn.Location = new Point(671, 274);
+            bttnLgn.Location = new Point(669, 218);
             bttnLgn.Margin = new Padding(4, 6, 4, 6);
             bttnLgn.MouseState = MaterialSkin.MouseState.HOVER;
             bttnLgn.Name = "bttnLgn";
             bttnLgn.NoAccentTextColor = Color.Empty;
-            bttnLgn.Size = new Size(96, 36);
+            bttnLgn.Size = new Size(117, 50);
             bttnLgn.TabIndex = 3;
             bttnLgn.Text = "Giriş Yap";
             bttnLgn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             bttnLgn.UseAccentColor = false;
-            bttnLgn.UseVisualStyleBackColor = true;
+            bttnLgn.UseVisualStyleBackColor = false;
             bttnLgn.Click += bttnLgn_Click;
             // 
             // passWord
@@ -103,9 +104,11 @@ namespace BKS
             // groupBox1
             // 
             groupBox1.BackColor = Color.White;
+            groupBox1.BackgroundImage = (Image)resources.GetObject("groupBox1.BackgroundImage");
             groupBox1.Controls.Add(userName);
             groupBox1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            groupBox1.Location = new Point(429, 205);
+            groupBox1.ForeColor = SystemColors.Control;
+            groupBox1.Location = new Point(435, 110);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(200, 79);
             groupBox1.TabIndex = 6;
@@ -115,10 +118,11 @@ namespace BKS
             // groupBox2
             // 
             groupBox2.BackColor = Color.White;
+            groupBox2.BackgroundImage = (Image)resources.GetObject("groupBox2.BackgroundImage");
             groupBox2.Controls.Add(passWord);
             groupBox2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            groupBox2.ForeColor = SystemColors.ActiveCaptionText;
-            groupBox2.Location = new Point(429, 302);
+            groupBox2.ForeColor = SystemColors.Control;
+            groupBox2.Location = new Point(435, 195);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(200, 79);
             groupBox2.TabIndex = 7;

@@ -28,11 +28,11 @@ namespace BKS
             {
                 LoadSalesData();
             }
-            
+
             LoadStockComboBox();
             LoadPaymentData();
 
-            
+
             form1.Close();
 
 
@@ -41,10 +41,13 @@ namespace BKS
         {
 
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi";
-            this.materialLabel3.Text = "Merhaba "+GetLastUser(UserId)+" Son Giriş Zamanın : "+GetLastLoginTime(UserId);
+            this.materialLabel3.Text = "Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId);
             LoadStockData(UserId);
             LoadCompanyModules(UserId);
             LoadStudentClassComboBox(UserId);
+            dataGridViewStok.AllowUserToAddRows = false;
+
+
 
         }
         Form1 form1 = new Form1();
@@ -355,7 +358,7 @@ namespace BKS
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                
+
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
@@ -412,17 +415,21 @@ namespace BKS
 
         private void dataGridViewStok_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                // Sağ tıklama yapılan konumu tespit et
-                var hitTestInfo = dataGridViewStok.HitTest(e.X, e.Y);
-                if (hitTestInfo.RowIndex >= 0)
-                {
-                    // İlgili satırı seç
-                    dataGridViewStok.ClearSelection();
-                    dataGridViewStok.Rows[hitTestInfo.RowIndex].Selected = true;
+            DataGridView.HitTestInfo hit = dataGridViewStok.HitTest(e.X, e.Y);
 
-                    // Menü konumunu ayarla ve göster
+            if (hit.RowIndex >= 0) // Eğer geçerli bir satıra tıklanmışsa
+            {
+                // Sağ veya sol tık yapıldığında satırı seç
+                if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)
+                {
+                    dataGridViewStok.ClearSelection(); // Önceki seçimleri temizle
+                    dataGridViewStok.Rows[hit.RowIndex].Selected = true; // Yeni satırı seç
+                    dataGridViewStok.CurrentCell = dataGridViewStok.Rows[hit.RowIndex].Cells[0]; // Seçili satırı aktif yap
+                }
+
+                // Eğer sağ tık yapıldıysa bağlam menüsünü aç
+                if (e.Button == MouseButtons.Right)
+                {
                     contextMenuStrip1.Show(dataGridViewStok, e.Location);
                 }
             }
@@ -726,10 +733,18 @@ namespace BKS
 
         private void ödemeDetaylarıToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            if (dataGridViewStok.SelectedRows.Count > 0)
+            if (dataGridViewStok.CurrentRow.Cells.Count > 0)
             {
-                Guid selectedStudentId = (Guid)dataGridViewStok.SelectedRows[0].Cells["Id"].Value;
-                ShowPaymentDetails(selectedStudentId);
+
+                
+                    Guid selectedStudentId = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value;
+                    ShowPaymentDetails(selectedStudentId);
+                
+
+            }
+            else
+            {
+                MessageBox.Show("Uyarı", "HATA", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -763,7 +778,10 @@ namespace BKS
 
         }
 
-    
+        private void dataGridViewStok_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
 
         public Guid UserId { get; set; }
     }
