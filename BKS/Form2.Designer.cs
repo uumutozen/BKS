@@ -39,6 +39,8 @@ namespace BKS
             components = new System.ComponentModel.Container();
             tabControl = new TabControl();
             tabPageStok = new TabPage();
+            btnOgrenciYonetimiAra = new Button();
+            txtOgrenciYonetimiAra = new TextBox();
             btnGuncelle = new Button();
             groupBox11 = new GroupBox();
             textOgrenciDetay = new TextBox();
@@ -90,6 +92,16 @@ namespace BKS
             salesGrid = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
+            DgvOgrenciYonetimiSiniflar = new DataGridView();
+            groupBox13 = new GroupBox();
+            groupBox14 = new GroupBox();
+            txtOgrenciYonetimiSınıfAdı = new TextBox();
+            groupBox15 = new GroupBox();
+            cbxOgrenciYonetimiYasGrubu = new ComboBox();
+            cbxOgrenciYonetimiOgretmen = new ComboBox();
+            btnOgrenciYonetimiSinifGuncelle = new Button();
+            btnOgrenciYonetimiSinifSil = new Button();
+            btnOgrenciYonetimiSinifKaydet = new Button();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox11.SuspendLayout();
@@ -116,6 +128,10 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)numericAmount).BeginInit();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).BeginInit();
+            groupBox13.SuspendLayout();
+            groupBox14.SuspendLayout();
+            groupBox15.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl
@@ -135,6 +151,15 @@ namespace BKS
             // tabPageStok
             // 
             tabPageStok.BackColor = Color.White;
+            tabPageStok.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
+            tabPageStok.Controls.Add(btnOgrenciYonetimiSinifSil);
+            tabPageStok.Controls.Add(btnOgrenciYonetimiSinifKaydet);
+            tabPageStok.Controls.Add(groupBox13);
+            tabPageStok.Controls.Add(groupBox14);
+            tabPageStok.Controls.Add(groupBox15);
+            tabPageStok.Controls.Add(DgvOgrenciYonetimiSiniflar);
+            tabPageStok.Controls.Add(btnOgrenciYonetimiAra);
+            tabPageStok.Controls.Add(txtOgrenciYonetimiAra);
             tabPageStok.Controls.Add(btnGuncelle);
             tabPageStok.Controls.Add(groupBox11);
             tabPageStok.Controls.Add(btnOgrenciYonetimiSil);
@@ -158,6 +183,23 @@ namespace BKS
             tabPageStok.Text = "Öğrenci Yönetimi";
             tabPageStok.Click += tabPageStok_Click;
             // 
+            // btnOgrenciYonetimiAra
+            // 
+            btnOgrenciYonetimiAra.Location = new Point(230, 14);
+            btnOgrenciYonetimiAra.Name = "btnOgrenciYonetimiAra";
+            btnOgrenciYonetimiAra.Size = new Size(99, 23);
+            btnOgrenciYonetimiAra.TabIndex = 29;
+            btnOgrenciYonetimiAra.Text = "Öğrenci Ara";
+            btnOgrenciYonetimiAra.UseVisualStyleBackColor = true;
+            btnOgrenciYonetimiAra.Click += btnOgrenciYonetimiAra_Click;
+            // 
+            // txtOgrenciYonetimiAra
+            // 
+            txtOgrenciYonetimiAra.Location = new Point(-1, 14);
+            txtOgrenciYonetimiAra.Name = "txtOgrenciYonetimiAra";
+            txtOgrenciYonetimiAra.Size = new Size(197, 23);
+            txtOgrenciYonetimiAra.TabIndex = 28;
+            // 
             // btnGuncelle
             // 
             btnGuncelle.BackColor = SystemColors.MenuHighlight;
@@ -166,9 +208,9 @@ namespace BKS
             btnGuncelle.FlatStyle = FlatStyle.Flat;
             btnGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnGuncelle.ForeColor = Color.White;
-            btnGuncelle.Location = new Point(1488, 860);
+            btnGuncelle.Location = new Point(1719, 550);
             btnGuncelle.Name = "btnGuncelle";
-            btnGuncelle.Size = new Size(151, 64);
+            btnGuncelle.Size = new Size(114, 43);
             btnGuncelle.TabIndex = 27;
             btnGuncelle.Text = "Güncelle";
             btnGuncelle.UseVisualStyleBackColor = false;
@@ -179,16 +221,16 @@ namespace BKS
             groupBox11.Controls.Add(textOgrenciDetay);
             groupBox11.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox11.ForeColor = Color.CornflowerBlue;
-            groupBox11.Location = new Point(1105, 154);
+            groupBox11.Location = new Point(1105, 127);
             groupBox11.Name = "groupBox11";
-            groupBox11.Size = new Size(464, 78);
+            groupBox11.Size = new Size(482, 78);
             groupBox11.TabIndex = 14;
             groupBox11.TabStop = false;
             groupBox11.Text = "Öğrenci Detayları";
             // 
             // textOgrenciDetay
             // 
-            textOgrenciDetay.Location = new Point(14, 22);
+            textOgrenciDetay.Location = new Point(6, 22);
             textOgrenciDetay.Multiline = true;
             textOgrenciDetay.Name = "textOgrenciDetay";
             textOgrenciDetay.PlaceholderText = "Öğrenci Hakkında";
@@ -204,9 +246,9 @@ namespace BKS
             btnOgrenciYonetimiSil.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSil.ForeColor = Color.White;
-            btnOgrenciYonetimiSil.Location = new Point(1286, 860);
+            btnOgrenciYonetimiSil.Location = new Point(1479, 550);
             btnOgrenciYonetimiSil.Name = "btnOgrenciYonetimiSil";
-            btnOgrenciYonetimiSil.Size = new Size(151, 64);
+            btnOgrenciYonetimiSil.Size = new Size(114, 43);
             btnOgrenciYonetimiSil.TabIndex = 26;
             btnOgrenciYonetimiSil.Text = "Sil";
             btnOgrenciYonetimiSil.UseVisualStyleBackColor = false;
@@ -218,7 +260,7 @@ namespace BKS
             groupBox12.FlatStyle = FlatStyle.Popup;
             groupBox12.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox12.ForeColor = Color.CornflowerBlue;
-            groupBox12.Location = new Point(861, 428);
+            groupBox12.Location = new Point(861, 401);
             groupBox12.Name = "groupBox12";
             groupBox12.Size = new Size(188, 93);
             groupBox12.TabIndex = 25;
@@ -243,7 +285,7 @@ namespace BKS
             groupBox10.Controls.Add(txtAnneAd);
             groupBox10.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox10.ForeColor = Color.CornflowerBlue;
-            groupBox10.Location = new Point(1349, 238);
+            groupBox10.Location = new Point(1349, 211);
             groupBox10.Name = "groupBox10";
             groupBox10.Size = new Size(482, 184);
             groupBox10.TabIndex = 23;
@@ -282,7 +324,7 @@ namespace BKS
             groupBox7.FlatStyle = FlatStyle.Popup;
             groupBox7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox7.ForeColor = Color.CornflowerBlue;
-            groupBox7.Location = new Point(861, 527);
+            groupBox7.Location = new Point(861, 500);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(332, 93);
             groupBox7.TabIndex = 20;
@@ -316,7 +358,7 @@ namespace BKS
             groupBox6.Controls.Add(numericPrice);
             groupBox6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox6.ForeColor = Color.CornflowerBlue;
-            groupBox6.Location = new Point(1199, 527);
+            groupBox6.Location = new Point(1199, 500);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(238, 93);
             groupBox6.TabIndex = 19;
@@ -337,7 +379,7 @@ namespace BKS
             groupBox5.Controls.Add(dateDogum);
             groupBox5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox5.ForeColor = Color.CornflowerBlue;
-            groupBox5.Location = new Point(1593, 70);
+            groupBox5.Location = new Point(1593, 43);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(238, 78);
             groupBox5.TabIndex = 18;
@@ -357,7 +399,7 @@ namespace BKS
             groupBox4.Controls.Add(textOgrenciKod);
             groupBox4.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox4.ForeColor = Color.CornflowerBlue;
-            groupBox4.Location = new Point(1349, 70);
+            groupBox4.Location = new Point(1349, 43);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(238, 78);
             groupBox4.TabIndex = 17;
@@ -378,7 +420,7 @@ namespace BKS
             groupBox3.Controls.Add(txtOgrenciAd);
             groupBox3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox3.ForeColor = Color.CornflowerBlue;
-            groupBox3.Location = new Point(861, 70);
+            groupBox3.Location = new Point(861, 43);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(238, 78);
             groupBox3.TabIndex = 16;
@@ -399,7 +441,7 @@ namespace BKS
             groupBox2.Controls.Add(textSoyad);
             groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox2.ForeColor = Color.CornflowerBlue;
-            groupBox2.Location = new Point(1105, 70);
+            groupBox2.Location = new Point(1105, 43);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(238, 78);
             groupBox2.TabIndex = 15;
@@ -421,7 +463,7 @@ namespace BKS
             groupBox1.Controls.Add(txtBabaAd);
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox1.ForeColor = Color.CornflowerBlue;
-            groupBox1.Location = new Point(861, 238);
+            groupBox1.Location = new Point(861, 211);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(482, 184);
             groupBox1.TabIndex = 14;
@@ -461,7 +503,7 @@ namespace BKS
             groupBox.Controls.Add(cmbogrsınıf);
             groupBox.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox.ForeColor = Color.CornflowerBlue;
-            groupBox.Location = new Point(861, 154);
+            groupBox.Location = new Point(861, 127);
             groupBox.Name = "groupBox";
             groupBox.Size = new Size(238, 78);
             groupBox.TabIndex = 1;
@@ -484,9 +526,9 @@ namespace BKS
             btnAddStock.FlatStyle = FlatStyle.Flat;
             btnAddStock.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnAddStock.ForeColor = Color.White;
-            btnAddStock.Location = new Point(1680, 860);
+            btnAddStock.Location = new Point(1599, 550);
             btnAddStock.Name = "btnAddStock";
-            btnAddStock.Size = new Size(151, 64);
+            btnAddStock.Size = new Size(114, 43);
             btnAddStock.TabIndex = 4;
             btnAddStock.Text = "Kaydet";
             btnAddStock.UseVisualStyleBackColor = false;
@@ -499,7 +541,7 @@ namespace BKS
             dataGridViewStok.ColumnHeadersHeight = 34;
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
             dataGridViewStok.GridColor = Color.DodgerBlue;
-            dataGridViewStok.Location = new Point(3, 70);
+            dataGridViewStok.Location = new Point(3, 65);
             dataGridViewStok.Name = "dataGridViewStok";
             dataGridViewStok.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewStok.RowHeadersVisible = false;
@@ -511,6 +553,7 @@ namespace BKS
             dataGridViewStok.Size = new Size(852, 550);
             dataGridViewStok.TabIndex = 0;
             dataGridViewStok.CellClick += dataGridViewStok_CellClick;
+            dataGridViewStok.CellContentClick += dataGridViewStok_CellContentClick_1;
             // 
             // contextMenuStrip1
             // 
@@ -719,6 +762,131 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
+            // DgvOgrenciYonetimiSiniflar
+            // 
+            DgvOgrenciYonetimiSiniflar.BackgroundColor = SystemColors.ButtonHighlight;
+            DgvOgrenciYonetimiSiniflar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            DgvOgrenciYonetimiSiniflar.ColumnHeadersHeight = 34;
+            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = contextMenuStrip1;
+            DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
+            DgvOgrenciYonetimiSiniflar.Location = new Point(3, 621);
+            DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
+            DgvOgrenciYonetimiSiniflar.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            DgvOgrenciYonetimiSiniflar.RowHeadersVisible = false;
+            DgvOgrenciYonetimiSiniflar.RowHeadersWidth = 62;
+            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
+            DgvOgrenciYonetimiSiniflar.Size = new Size(852, 347);
+            DgvOgrenciYonetimiSiniflar.TabIndex = 30;
+            // 
+            // groupBox13
+            // 
+            groupBox13.Controls.Add(cbxOgrenciYonetimiOgretmen);
+            groupBox13.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox13.ForeColor = Color.CornflowerBlue;
+            groupBox13.Location = new Point(1349, 621);
+            groupBox13.Name = "groupBox13";
+            groupBox13.Size = new Size(238, 78);
+            groupBox13.TabIndex = 33;
+            groupBox13.TabStop = false;
+            groupBox13.Text = "Öğretmen ";
+            // 
+            // groupBox14
+            // 
+            groupBox14.Controls.Add(txtOgrenciYonetimiSınıfAdı);
+            groupBox14.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox14.ForeColor = Color.CornflowerBlue;
+            groupBox14.Location = new Point(861, 621);
+            groupBox14.Name = "groupBox14";
+            groupBox14.Size = new Size(238, 78);
+            groupBox14.TabIndex = 32;
+            groupBox14.TabStop = false;
+            groupBox14.Text = "Sınıf Adı";
+            // 
+            // txtOgrenciYonetimiSınıfAdı
+            // 
+            txtOgrenciYonetimiSınıfAdı.Location = new Point(6, 38);
+            txtOgrenciYonetimiSınıfAdı.Name = "txtOgrenciYonetimiSınıfAdı";
+            txtOgrenciYonetimiSınıfAdı.PlaceholderText = "Sınıf Adı";
+            txtOgrenciYonetimiSınıfAdı.Size = new Size(200, 23);
+            txtOgrenciYonetimiSınıfAdı.TabIndex = 1;
+            // 
+            // groupBox15
+            // 
+            groupBox15.Controls.Add(cbxOgrenciYonetimiYasGrubu);
+            groupBox15.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox15.ForeColor = Color.CornflowerBlue;
+            groupBox15.Location = new Point(1105, 621);
+            groupBox15.Name = "groupBox15";
+            groupBox15.Size = new Size(238, 78);
+            groupBox15.TabIndex = 31;
+            groupBox15.TabStop = false;
+            groupBox15.Text = "Yaş Grubu";
+            // 
+            // cbxOgrenciYonetimiYasGrubu
+            // 
+            cbxOgrenciYonetimiYasGrubu.FormattingEnabled = true;
+            cbxOgrenciYonetimiYasGrubu.Location = new Point(6, 38);
+            cbxOgrenciYonetimiYasGrubu.Name = "cbxOgrenciYonetimiYasGrubu";
+            cbxOgrenciYonetimiYasGrubu.Size = new Size(200, 23);
+            cbxOgrenciYonetimiYasGrubu.TabIndex = 0;
+            // 
+            // cbxOgrenciYonetimiOgretmen
+            // 
+            cbxOgrenciYonetimiOgretmen.FormattingEnabled = true;
+            cbxOgrenciYonetimiOgretmen.Location = new Point(6, 38);
+            cbxOgrenciYonetimiOgretmen.Name = "cbxOgrenciYonetimiOgretmen";
+            cbxOgrenciYonetimiOgretmen.Size = new Size(200, 23);
+            cbxOgrenciYonetimiOgretmen.TabIndex = 0;
+            cbxOgrenciYonetimiOgretmen.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // btnOgrenciYonetimiSinifGuncelle
+            // 
+            btnOgrenciYonetimiSinifGuncelle.BackColor = SystemColors.MenuHighlight;
+            btnOgrenciYonetimiSinifGuncelle.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifGuncelle.FlatAppearance.BorderSize = 0;
+            btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
+            btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifGuncelle.Location = new Point(1719, 904);
+            btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
+            btnOgrenciYonetimiSinifGuncelle.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
+            btnOgrenciYonetimiSinifGuncelle.Text = "Güncelle";
+            btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
+            // 
+            // btnOgrenciYonetimiSinifSil
+            // 
+            btnOgrenciYonetimiSinifSil.BackColor = SystemColors.MenuHighlight;
+            btnOgrenciYonetimiSinifSil.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifSil.FlatAppearance.BorderSize = 0;
+            btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
+            btnOgrenciYonetimiSinifSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOgrenciYonetimiSinifSil.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifSil.Location = new Point(1479, 904);
+            btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
+            btnOgrenciYonetimiSinifSil.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifSil.TabIndex = 35;
+            btnOgrenciYonetimiSinifSil.Text = "Sil";
+            btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
+            // 
+            // btnOgrenciYonetimiSinifKaydet
+            // 
+            btnOgrenciYonetimiSinifKaydet.BackColor = SystemColors.MenuHighlight;
+            btnOgrenciYonetimiSinifKaydet.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifKaydet.FlatAppearance.BorderSize = 0;
+            btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
+            btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOgrenciYonetimiSinifKaydet.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifKaydet.Location = new Point(1599, 904);
+            btnOgrenciYonetimiSinifKaydet.Name = "btnOgrenciYonetimiSinifKaydet";
+            btnOgrenciYonetimiSinifKaydet.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifKaydet.TabIndex = 34;
+            btnOgrenciYonetimiSinifKaydet.Text = "Kaydet";
+            btnOgrenciYonetimiSinifKaydet.UseVisualStyleBackColor = false;
+            // 
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
@@ -733,6 +901,7 @@ namespace BKS
             Load += Form2_Load;
             tabControl.ResumeLayout(false);
             tabPageStok.ResumeLayout(false);
+            tabPageStok.PerformLayout();
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
             groupBox12.ResumeLayout(false);
@@ -766,6 +935,11 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)numericAmount).EndInit();
             tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)salesGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).EndInit();
+            groupBox13.ResumeLayout(false);
+            groupBox14.ResumeLayout(false);
+            groupBox14.PerformLayout();
+            groupBox15.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -807,5 +981,17 @@ namespace BKS
         private TextBox textOgrenciDetay;
         private Button btnGuncelle;
         private MaterialSkin.Controls.MaterialLabel materialLabel3;
+        private Button btnOgrenciYonetimiAra;
+        private TextBox txtOgrenciYonetimiAra;
+        private GroupBox groupBox13;
+        private GroupBox groupBox14;
+        private TextBox txtOgrenciYonetimiSınıfAdı;
+        private GroupBox groupBox15;
+        private DataGridView DgvOgrenciYonetimiSiniflar;
+        private ComboBox cbxOgrenciYonetimiYasGrubu;
+        private ComboBox cbxOgrenciYonetimiOgretmen;
+        private Button btnOgrenciYonetimiSinifGuncelle;
+        private Button btnOgrenciYonetimiSinifSil;
+        private Button btnOgrenciYonetimiSinifKaydet;
     }
 }
