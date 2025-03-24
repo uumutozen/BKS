@@ -46,7 +46,8 @@ namespace BKS
             LoadCompanyModules(UserId);
             LoadStudentClassComboBox(UserId);
             dataGridViewStok.AllowUserToAddRows = false;
-
+            YasGrubuLoad();
+            SinifLoad(UserId);
 
 
         }
@@ -718,7 +719,33 @@ namespace BKS
         {
             LoadSalesData();
         }
+        private void YasGrubuLoad()
+        {
+            cbxOgrenciYonetimiYasGrubu.Items.Add("3 YAŞ");
+            cbxOgrenciYonetimiYasGrubu.Items.Add("4 YAŞ");
+            cbxOgrenciYonetimiYasGrubu.Items.Add("5 YAŞ");
+            cbxOgrenciYonetimiYasGrubu.Items.Add("6 YAŞ");
+        }
+        private void SinifAdd(Guid UserId)
+        {
+            
+        }
 
+        private void SinifLoad(Guid UserId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select Sınıf=ClassName,YasGrup=[Group],OgretmenAdi from aysclasses where SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                DgvOgrenciYonetimiSiniflar.DataSource = dt;
+            }
+        }
         private void salesGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -809,6 +836,27 @@ namespace BKS
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnOgrenciYonetimiSinifKaydet_Click(object sender, EventArgs e)
+        {
+            string sınıfadi = txtOgrenciYonetimiSınıfAdı.Text;
+            string yasgrubu = cbxOgrenciYonetimiYasGrubu.Text;
+            string ogretmen = cbxOgrenciYonetimiOgretmen.Text;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("insert into Aysclasses (Id,ClassName,[Group],SchoolId,OgretmenAdi) values (NEWID(),@ClassName,@YasGrup,(select CompanyId from CompanyUsers where UserId=@UserId),@OgretmenAdi)", conn);
+                cmd.Parameters.AddWithValue("@ClassName", sınıfadi);
+                cmd.Parameters.AddWithValue("@YasGrup", yasgrubu);
+                cmd.Parameters.AddWithValue("@OgretmenAdi", ogretmen);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                cmd.ExecuteNonQuery();
+            }
+
+            MessageBox.Show("Sınıf Eklendi..");
+            SinifLoad(UserId);
         }
 
         public Guid UserId { get; set; }

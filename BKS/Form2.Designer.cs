@@ -39,6 +39,18 @@ namespace BKS
             components = new System.ComponentModel.Container();
             tabControl = new TabControl();
             tabPageStok = new TabPage();
+            btnOgrenciYonetimiSinifGuncelle = new Button();
+            btnOgrenciYonetimiSinifSil = new Button();
+            btnOgrenciYonetimiSinifKaydet = new Button();
+            groupBox13 = new GroupBox();
+            cbxOgrenciYonetimiOgretmen = new ComboBox();
+            groupBox14 = new GroupBox();
+            txtOgrenciYonetimiSınıfAdı = new TextBox();
+            groupBox15 = new GroupBox();
+            cbxOgrenciYonetimiYasGrubu = new ComboBox();
+            DgvOgrenciYonetimiSiniflar = new DataGridView();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             btnOgrenciYonetimiAra = new Button();
             txtOgrenciYonetimiAra = new TextBox();
             btnGuncelle = new Button();
@@ -72,8 +84,6 @@ namespace BKS
             cmbogrsınıf = new ComboBox();
             btnAddStock = new Button();
             dataGridViewStok = new DataGridView();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -92,18 +102,13 @@ namespace BKS
             salesGrid = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            DgvOgrenciYonetimiSiniflar = new DataGridView();
-            groupBox13 = new GroupBox();
-            groupBox14 = new GroupBox();
-            txtOgrenciYonetimiSınıfAdı = new TextBox();
-            groupBox15 = new GroupBox();
-            cbxOgrenciYonetimiYasGrubu = new ComboBox();
-            cbxOgrenciYonetimiOgretmen = new ComboBox();
-            btnOgrenciYonetimiSinifGuncelle = new Button();
-            btnOgrenciYonetimiSinifSil = new Button();
-            btnOgrenciYonetimiSinifKaydet = new Button();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
+            groupBox13.SuspendLayout();
+            groupBox14.SuspendLayout();
+            groupBox15.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             groupBox11.SuspendLayout();
             groupBox12.SuspendLayout();
             groupBox10.SuspendLayout();
@@ -117,7 +122,6 @@ namespace BKS
             groupBox1.SuspendLayout();
             groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewStok).BeginInit();
-            contextMenuStrip1.SuspendLayout();
             tabPageSatis.SuspendLayout();
             groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).BeginInit();
@@ -128,10 +132,6 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)numericAmount).BeginInit();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).BeginInit();
-            groupBox13.SuspendLayout();
-            groupBox14.SuspendLayout();
-            groupBox15.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl
@@ -182,6 +182,147 @@ namespace BKS
             tabPageStok.TabIndex = 0;
             tabPageStok.Text = "Öğrenci Yönetimi";
             tabPageStok.Click += tabPageStok_Click;
+            // 
+            // btnOgrenciYonetimiSinifGuncelle
+            // 
+            btnOgrenciYonetimiSinifGuncelle.BackColor = SystemColors.MenuHighlight;
+            btnOgrenciYonetimiSinifGuncelle.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifGuncelle.FlatAppearance.BorderSize = 0;
+            btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
+            btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifGuncelle.Location = new Point(1719, 890);
+            btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
+            btnOgrenciYonetimiSinifGuncelle.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
+            btnOgrenciYonetimiSinifGuncelle.Text = "Güncelle";
+            btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
+            // 
+            // btnOgrenciYonetimiSinifSil
+            // 
+            btnOgrenciYonetimiSinifSil.BackColor = SystemColors.MenuHighlight;
+            btnOgrenciYonetimiSinifSil.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifSil.FlatAppearance.BorderSize = 0;
+            btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
+            btnOgrenciYonetimiSinifSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOgrenciYonetimiSinifSil.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifSil.Location = new Point(1479, 890);
+            btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
+            btnOgrenciYonetimiSinifSil.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifSil.TabIndex = 35;
+            btnOgrenciYonetimiSinifSil.Text = "Sil";
+            btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
+            // 
+            // btnOgrenciYonetimiSinifKaydet
+            // 
+            btnOgrenciYonetimiSinifKaydet.BackColor = SystemColors.MenuHighlight;
+            btnOgrenciYonetimiSinifKaydet.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifKaydet.FlatAppearance.BorderSize = 0;
+            btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
+            btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOgrenciYonetimiSinifKaydet.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifKaydet.Location = new Point(1599, 890);
+            btnOgrenciYonetimiSinifKaydet.Name = "btnOgrenciYonetimiSinifKaydet";
+            btnOgrenciYonetimiSinifKaydet.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifKaydet.TabIndex = 34;
+            btnOgrenciYonetimiSinifKaydet.Text = "Kaydet";
+            btnOgrenciYonetimiSinifKaydet.UseVisualStyleBackColor = false;
+            btnOgrenciYonetimiSinifKaydet.Click += btnOgrenciYonetimiSinifKaydet_Click;
+            // 
+            // groupBox13
+            // 
+            groupBox13.Controls.Add(cbxOgrenciYonetimiOgretmen);
+            groupBox13.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox13.ForeColor = Color.CornflowerBlue;
+            groupBox13.Location = new Point(1349, 621);
+            groupBox13.Name = "groupBox13";
+            groupBox13.Size = new Size(238, 78);
+            groupBox13.TabIndex = 33;
+            groupBox13.TabStop = false;
+            groupBox13.Text = "Öğretmen ";
+            // 
+            // cbxOgrenciYonetimiOgretmen
+            // 
+            cbxOgrenciYonetimiOgretmen.FormattingEnabled = true;
+            cbxOgrenciYonetimiOgretmen.Location = new Point(6, 38);
+            cbxOgrenciYonetimiOgretmen.Name = "cbxOgrenciYonetimiOgretmen";
+            cbxOgrenciYonetimiOgretmen.Size = new Size(200, 23);
+            cbxOgrenciYonetimiOgretmen.TabIndex = 0;
+            cbxOgrenciYonetimiOgretmen.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // groupBox14
+            // 
+            groupBox14.Controls.Add(txtOgrenciYonetimiSınıfAdı);
+            groupBox14.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox14.ForeColor = Color.CornflowerBlue;
+            groupBox14.Location = new Point(861, 621);
+            groupBox14.Name = "groupBox14";
+            groupBox14.Size = new Size(238, 78);
+            groupBox14.TabIndex = 32;
+            groupBox14.TabStop = false;
+            groupBox14.Text = "Sınıf Adı";
+            // 
+            // txtOgrenciYonetimiSınıfAdı
+            // 
+            txtOgrenciYonetimiSınıfAdı.Location = new Point(6, 38);
+            txtOgrenciYonetimiSınıfAdı.Name = "txtOgrenciYonetimiSınıfAdı";
+            txtOgrenciYonetimiSınıfAdı.PlaceholderText = "Sınıf Adı";
+            txtOgrenciYonetimiSınıfAdı.Size = new Size(200, 23);
+            txtOgrenciYonetimiSınıfAdı.TabIndex = 1;
+            // 
+            // groupBox15
+            // 
+            groupBox15.Controls.Add(cbxOgrenciYonetimiYasGrubu);
+            groupBox15.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox15.ForeColor = Color.CornflowerBlue;
+            groupBox15.Location = new Point(1105, 621);
+            groupBox15.Name = "groupBox15";
+            groupBox15.Size = new Size(238, 78);
+            groupBox15.TabIndex = 31;
+            groupBox15.TabStop = false;
+            groupBox15.Text = "Yaş Grubu";
+            // 
+            // cbxOgrenciYonetimiYasGrubu
+            // 
+            cbxOgrenciYonetimiYasGrubu.FormattingEnabled = true;
+            cbxOgrenciYonetimiYasGrubu.Location = new Point(6, 38);
+            cbxOgrenciYonetimiYasGrubu.Name = "cbxOgrenciYonetimiYasGrubu";
+            cbxOgrenciYonetimiYasGrubu.Size = new Size(200, 23);
+            cbxOgrenciYonetimiYasGrubu.TabIndex = 0;
+            // 
+            // DgvOgrenciYonetimiSiniflar
+            // 
+            DgvOgrenciYonetimiSiniflar.BackgroundColor = SystemColors.ButtonHighlight;
+            DgvOgrenciYonetimiSiniflar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            DgvOgrenciYonetimiSiniflar.ColumnHeadersHeight = 34;
+            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = contextMenuStrip1;
+            DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
+            DgvOgrenciYonetimiSiniflar.Location = new Point(3, 621);
+            DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
+            DgvOgrenciYonetimiSiniflar.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            DgvOgrenciYonetimiSiniflar.RowHeadersVisible = false;
+            DgvOgrenciYonetimiSiniflar.RowHeadersWidth = 62;
+            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
+            DgvOgrenciYonetimiSiniflar.Size = new Size(852, 312);
+            DgvOgrenciYonetimiSiniflar.TabIndex = 30;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(163, 26);
+            contextMenuStrip1.Text = "Ödeme Detayları";
+            // 
+            // ödemeDetaylarıToolStripMenuItem
+            // 
+            ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
+            ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
+            ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
             // btnOgrenciYonetimiAra
             // 
@@ -555,21 +696,6 @@ namespace BKS
             dataGridViewStok.CellClick += dataGridViewStok_CellClick;
             dataGridViewStok.CellContentClick += dataGridViewStok_CellContentClick_1;
             // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(163, 26);
-            contextMenuStrip1.Text = "Ödeme Detayları";
-            // 
-            // ödemeDetaylarıToolStripMenuItem
-            // 
-            ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
-            ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
-            ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
-            // 
             // tabPageSatis
             // 
             tabPageSatis.BackColor = Color.White;
@@ -762,131 +888,6 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
-            // DgvOgrenciYonetimiSiniflar
-            // 
-            DgvOgrenciYonetimiSiniflar.BackgroundColor = SystemColors.ButtonHighlight;
-            DgvOgrenciYonetimiSiniflar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            DgvOgrenciYonetimiSiniflar.ColumnHeadersHeight = 34;
-            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = contextMenuStrip1;
-            DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
-            DgvOgrenciYonetimiSiniflar.Location = new Point(3, 621);
-            DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
-            DgvOgrenciYonetimiSiniflar.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            DgvOgrenciYonetimiSiniflar.RowHeadersVisible = false;
-            DgvOgrenciYonetimiSiniflar.RowHeadersWidth = 62;
-            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
-            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
-            DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
-            DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
-            DgvOgrenciYonetimiSiniflar.Size = new Size(852, 347);
-            DgvOgrenciYonetimiSiniflar.TabIndex = 30;
-            // 
-            // groupBox13
-            // 
-            groupBox13.Controls.Add(cbxOgrenciYonetimiOgretmen);
-            groupBox13.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox13.ForeColor = Color.CornflowerBlue;
-            groupBox13.Location = new Point(1349, 621);
-            groupBox13.Name = "groupBox13";
-            groupBox13.Size = new Size(238, 78);
-            groupBox13.TabIndex = 33;
-            groupBox13.TabStop = false;
-            groupBox13.Text = "Öğretmen ";
-            // 
-            // groupBox14
-            // 
-            groupBox14.Controls.Add(txtOgrenciYonetimiSınıfAdı);
-            groupBox14.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox14.ForeColor = Color.CornflowerBlue;
-            groupBox14.Location = new Point(861, 621);
-            groupBox14.Name = "groupBox14";
-            groupBox14.Size = new Size(238, 78);
-            groupBox14.TabIndex = 32;
-            groupBox14.TabStop = false;
-            groupBox14.Text = "Sınıf Adı";
-            // 
-            // txtOgrenciYonetimiSınıfAdı
-            // 
-            txtOgrenciYonetimiSınıfAdı.Location = new Point(6, 38);
-            txtOgrenciYonetimiSınıfAdı.Name = "txtOgrenciYonetimiSınıfAdı";
-            txtOgrenciYonetimiSınıfAdı.PlaceholderText = "Sınıf Adı";
-            txtOgrenciYonetimiSınıfAdı.Size = new Size(200, 23);
-            txtOgrenciYonetimiSınıfAdı.TabIndex = 1;
-            // 
-            // groupBox15
-            // 
-            groupBox15.Controls.Add(cbxOgrenciYonetimiYasGrubu);
-            groupBox15.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox15.ForeColor = Color.CornflowerBlue;
-            groupBox15.Location = new Point(1105, 621);
-            groupBox15.Name = "groupBox15";
-            groupBox15.Size = new Size(238, 78);
-            groupBox15.TabIndex = 31;
-            groupBox15.TabStop = false;
-            groupBox15.Text = "Yaş Grubu";
-            // 
-            // cbxOgrenciYonetimiYasGrubu
-            // 
-            cbxOgrenciYonetimiYasGrubu.FormattingEnabled = true;
-            cbxOgrenciYonetimiYasGrubu.Location = new Point(6, 38);
-            cbxOgrenciYonetimiYasGrubu.Name = "cbxOgrenciYonetimiYasGrubu";
-            cbxOgrenciYonetimiYasGrubu.Size = new Size(200, 23);
-            cbxOgrenciYonetimiYasGrubu.TabIndex = 0;
-            // 
-            // cbxOgrenciYonetimiOgretmen
-            // 
-            cbxOgrenciYonetimiOgretmen.FormattingEnabled = true;
-            cbxOgrenciYonetimiOgretmen.Location = new Point(6, 38);
-            cbxOgrenciYonetimiOgretmen.Name = "cbxOgrenciYonetimiOgretmen";
-            cbxOgrenciYonetimiOgretmen.Size = new Size(200, 23);
-            cbxOgrenciYonetimiOgretmen.TabIndex = 0;
-            cbxOgrenciYonetimiOgretmen.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            // 
-            // btnOgrenciYonetimiSinifGuncelle
-            // 
-            btnOgrenciYonetimiSinifGuncelle.BackColor = SystemColors.MenuHighlight;
-            btnOgrenciYonetimiSinifGuncelle.Cursor = Cursors.Hand;
-            btnOgrenciYonetimiSinifGuncelle.FlatAppearance.BorderSize = 0;
-            btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
-            btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifGuncelle.Location = new Point(1719, 904);
-            btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
-            btnOgrenciYonetimiSinifGuncelle.Size = new Size(114, 43);
-            btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
-            btnOgrenciYonetimiSinifGuncelle.Text = "Güncelle";
-            btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
-            // 
-            // btnOgrenciYonetimiSinifSil
-            // 
-            btnOgrenciYonetimiSinifSil.BackColor = SystemColors.MenuHighlight;
-            btnOgrenciYonetimiSinifSil.Cursor = Cursors.Hand;
-            btnOgrenciYonetimiSinifSil.FlatAppearance.BorderSize = 0;
-            btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
-            btnOgrenciYonetimiSinifSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnOgrenciYonetimiSinifSil.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifSil.Location = new Point(1479, 904);
-            btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
-            btnOgrenciYonetimiSinifSil.Size = new Size(114, 43);
-            btnOgrenciYonetimiSinifSil.TabIndex = 35;
-            btnOgrenciYonetimiSinifSil.Text = "Sil";
-            btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
-            // 
-            // btnOgrenciYonetimiSinifKaydet
-            // 
-            btnOgrenciYonetimiSinifKaydet.BackColor = SystemColors.MenuHighlight;
-            btnOgrenciYonetimiSinifKaydet.Cursor = Cursors.Hand;
-            btnOgrenciYonetimiSinifKaydet.FlatAppearance.BorderSize = 0;
-            btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
-            btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnOgrenciYonetimiSinifKaydet.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifKaydet.Location = new Point(1599, 904);
-            btnOgrenciYonetimiSinifKaydet.Name = "btnOgrenciYonetimiSinifKaydet";
-            btnOgrenciYonetimiSinifKaydet.Size = new Size(114, 43);
-            btnOgrenciYonetimiSinifKaydet.TabIndex = 34;
-            btnOgrenciYonetimiSinifKaydet.Text = "Kaydet";
-            btnOgrenciYonetimiSinifKaydet.UseVisualStyleBackColor = false;
-            // 
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
@@ -902,6 +903,12 @@ namespace BKS
             tabControl.ResumeLayout(false);
             tabPageStok.ResumeLayout(false);
             tabPageStok.PerformLayout();
+            groupBox13.ResumeLayout(false);
+            groupBox14.ResumeLayout(false);
+            groupBox14.PerformLayout();
+            groupBox15.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
             groupBox12.ResumeLayout(false);
@@ -923,7 +930,6 @@ namespace BKS
             groupBox1.PerformLayout();
             groupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewStok).EndInit();
-            contextMenuStrip1.ResumeLayout(false);
             tabPageSatis.ResumeLayout(false);
             groupBox9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).EndInit();
@@ -935,11 +941,6 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)numericAmount).EndInit();
             tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)salesGrid).EndInit();
-            ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).EndInit();
-            groupBox13.ResumeLayout(false);
-            groupBox14.ResumeLayout(false);
-            groupBox14.PerformLayout();
-            groupBox15.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
