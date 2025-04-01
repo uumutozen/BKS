@@ -9,7 +9,7 @@ namespace BKS
         private System.Windows.Forms.TabPage tabPageStok;
         private System.Windows.Forms.TabPage tabPageSatis;
         private System.Windows.Forms.TabPage tabPageGelirGider;
-
+        private System.Windows.Forms.TabPage tabPagePersonelYonetimi;
         private System.Windows.Forms.DataGridView dataGridViewStok;
         private System.Windows.Forms.TextBox txtOgrenciAd;
         private System.Windows.Forms.NumericUpDown numericPrice;
@@ -101,8 +101,32 @@ namespace BKS
             radioIncome = new RadioButton();
             radioExpense = new RadioButton();
             btnAddIncomeExpense = new Button();
-            tabPage1 = new TabPage();
+            tabPageOzelRaporlar = new TabPage();
             salesGrid = new DataGridView();
+            tabPagePersonelYonetimi = new TabPage();
+            groupBox23 = new GroupBox();
+            textBox7 = new TextBox();
+            groupBox24 = new GroupBox();
+            textBox8 = new TextBox();
+            groupBox21 = new GroupBox();
+            textBox5 = new TextBox();
+            groupBox19 = new GroupBox();
+            textBox3 = new TextBox();
+            groupBox18 = new GroupBox();
+            textBox2 = new TextBox();
+            groupBox17 = new GroupBox();
+            pbxPersonelPicture = new PictureBox();
+            groupBox25 = new GroupBox();
+            textBox9 = new TextBox();
+            textBox1 = new TextBox();
+            groupBox22 = new GroupBox();
+            radioButton2 = new RadioButton();
+            radioButton1 = new RadioButton();
+            textBox11 = new TextBox();
+            textBox12 = new TextBox();
+            textBox4 = new TextBox();
+            textBox6 = new TextBox();
+            dgvPersonelYonetimi = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             tabControl.SuspendLayout();
@@ -134,8 +158,19 @@ namespace BKS
             tabPageGelirGider.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridOdeme).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericAmount).BeginInit();
-            tabPage1.SuspendLayout();
+            tabPageOzelRaporlar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
+            tabPagePersonelYonetimi.SuspendLayout();
+            groupBox23.SuspendLayout();
+            groupBox24.SuspendLayout();
+            groupBox21.SuspendLayout();
+            groupBox19.SuspendLayout();
+            groupBox18.SuspendLayout();
+            groupBox17.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbxPersonelPicture).BeginInit();
+            groupBox25.SuspendLayout();
+            groupBox22.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).BeginInit();
             SuspendLayout();
             // 
             // tabControl
@@ -143,13 +178,14 @@ namespace BKS
             tabControl.Controls.Add(tabPageStok);
             tabControl.Controls.Add(tabPageSatis);
             tabControl.Controls.Add(tabPageGelirGider);
-            tabControl.Controls.Add(tabPage1);
+            tabControl.Controls.Add(tabPageOzelRaporlar);
+            tabControl.Controls.Add(tabPagePersonelYonetimi);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabControl.Location = new Point(3, 64);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(1866, 999);
+            tabControl.Size = new Size(1866, 970);
             tabControl.TabIndex = 0;
             // 
             // tabPageStok
@@ -183,7 +219,7 @@ namespace BKS
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
-            tabPageStok.Size = new Size(1858, 971);
+            tabPageStok.Size = new Size(1858, 942);
             tabPageStok.TabIndex = 0;
             tabPageStok.Text = "Öğrenci Yönetimi";
             tabPageStok.Click += tabPageStok_Click;
@@ -742,7 +778,7 @@ namespace BKS
             tabPageSatis.Controls.Add(btnMakeSale);
             tabPageSatis.Location = new Point(4, 24);
             tabPageSatis.Name = "tabPageSatis";
-            tabPageSatis.Size = new Size(1858, 971);
+            tabPageSatis.Size = new Size(1858, 942);
             tabPageSatis.TabIndex = 1;
             tabPageSatis.Text = "Öğrenci Ödeme Yönetimi";
             // 
@@ -823,7 +859,7 @@ namespace BKS
             tabPageGelirGider.Controls.Add(btnAddIncomeExpense);
             tabPageGelirGider.Location = new Point(4, 24);
             tabPageGelirGider.Name = "tabPageGelirGider";
-            tabPageGelirGider.Size = new Size(1858, 971);
+            tabPageGelirGider.Size = new Size(1858, 942);
             tabPageGelirGider.TabIndex = 2;
             tabPageGelirGider.Text = "Gelir-Gider Yönetimi";
             // 
@@ -883,17 +919,17 @@ namespace BKS
             btnAddIncomeExpense.UseVisualStyleBackColor = false;
             btnAddIncomeExpense.Click += btnAddIncomeExpense_Click;
             // 
-            // tabPage1
+            // tabPageOzelRaporlar
             // 
-            tabPage1.BackColor = Color.White;
-            tabPage1.Controls.Add(salesGrid);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1858, 971);
-            tabPage1.TabIndex = 3;
-            tabPage1.Text = "Özel Raporlar";
-            tabPage1.Click += tabPage1_Click;
+            tabPageOzelRaporlar.BackColor = Color.White;
+            tabPageOzelRaporlar.Controls.Add(salesGrid);
+            tabPageOzelRaporlar.Location = new Point(4, 24);
+            tabPageOzelRaporlar.Name = "tabPageOzelRaporlar";
+            tabPageOzelRaporlar.Padding = new Padding(3);
+            tabPageOzelRaporlar.Size = new Size(1858, 942);
+            tabPageOzelRaporlar.TabIndex = 3;
+            tabPageOzelRaporlar.Text = "Özel Raporlar";
+            tabPageOzelRaporlar.Click += tabPage1_Click;
             // 
             // salesGrid
             // 
@@ -906,6 +942,264 @@ namespace BKS
             salesGrid.Size = new Size(1224, 557);
             salesGrid.TabIndex = 0;
             salesGrid.CellContentClick += salesGrid_CellContentClick;
+            // 
+            // tabPagePersonelYonetimi
+            // 
+            tabPagePersonelYonetimi.Controls.Add(groupBox23);
+            tabPagePersonelYonetimi.Controls.Add(groupBox24);
+            tabPagePersonelYonetimi.Controls.Add(groupBox21);
+            tabPagePersonelYonetimi.Controls.Add(groupBox19);
+            tabPagePersonelYonetimi.Controls.Add(groupBox18);
+            tabPagePersonelYonetimi.Controls.Add(groupBox17);
+            tabPagePersonelYonetimi.Controls.Add(dgvPersonelYonetimi);
+            tabPagePersonelYonetimi.Location = new Point(4, 24);
+            tabPagePersonelYonetimi.Name = "tabPagePersonelYonetimi";
+            tabPagePersonelYonetimi.Padding = new Padding(3);
+            tabPagePersonelYonetimi.Size = new Size(1858, 942);
+            tabPagePersonelYonetimi.TabIndex = 4;
+            tabPagePersonelYonetimi.Text = "Personel Yönetimi";
+            tabPagePersonelYonetimi.UseVisualStyleBackColor = true;
+            // 
+            // groupBox23
+            // 
+            groupBox23.Controls.Add(textBox7);
+            groupBox23.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox23.ForeColor = Color.CornflowerBlue;
+            groupBox23.Location = new Point(850, 748);
+            groupBox23.Name = "groupBox23";
+            groupBox23.Size = new Size(238, 78);
+            groupBox23.TabIndex = 28;
+            groupBox23.TabStop = false;
+            groupBox23.Text = "Öğrenci Adı";
+            // 
+            // textBox7
+            // 
+            textBox7.Location = new Point(6, 38);
+            textBox7.Name = "textBox7";
+            textBox7.PlaceholderText = "Öğrenci Adı";
+            textBox7.Size = new Size(200, 23);
+            textBox7.TabIndex = 1;
+            // 
+            // groupBox24
+            // 
+            groupBox24.Controls.Add(textBox8);
+            groupBox24.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox24.ForeColor = Color.CornflowerBlue;
+            groupBox24.Location = new Point(606, 748);
+            groupBox24.Name = "groupBox24";
+            groupBox24.Size = new Size(238, 78);
+            groupBox24.TabIndex = 27;
+            groupBox24.TabStop = false;
+            groupBox24.Text = "Öğrenci Adı";
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(6, 38);
+            textBox8.Name = "textBox8";
+            textBox8.PlaceholderText = "Öğrenci Adı";
+            textBox8.Size = new Size(200, 23);
+            textBox8.TabIndex = 1;
+            // 
+            // groupBox21
+            // 
+            groupBox21.Controls.Add(textBox5);
+            groupBox21.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox21.ForeColor = Color.CornflowerBlue;
+            groupBox21.Location = new Point(1196, 703);
+            groupBox21.Name = "groupBox21";
+            groupBox21.Size = new Size(238, 78);
+            groupBox21.TabIndex = 21;
+            groupBox21.TabStop = false;
+            groupBox21.Text = "Öğrenci Adı";
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(6, 38);
+            textBox5.Name = "textBox5";
+            textBox5.PlaceholderText = "Öğrenci Adı";
+            textBox5.Size = new Size(200, 23);
+            textBox5.TabIndex = 1;
+            // 
+            // groupBox19
+            // 
+            groupBox19.Controls.Add(textBox3);
+            groupBox19.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox19.ForeColor = Color.CornflowerBlue;
+            groupBox19.Location = new Point(1491, 439);
+            groupBox19.Name = "groupBox19";
+            groupBox19.Size = new Size(238, 78);
+            groupBox19.TabIndex = 19;
+            groupBox19.TabStop = false;
+            groupBox19.Text = "Öğrenci Adı";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(6, 38);
+            textBox3.Name = "textBox3";
+            textBox3.PlaceholderText = "Öğrenci Adı";
+            textBox3.Size = new Size(200, 23);
+            textBox3.TabIndex = 1;
+            // 
+            // groupBox18
+            // 
+            groupBox18.Controls.Add(textBox2);
+            groupBox18.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox18.ForeColor = Color.CornflowerBlue;
+            groupBox18.Location = new Point(1247, 439);
+            groupBox18.Name = "groupBox18";
+            groupBox18.Size = new Size(238, 78);
+            groupBox18.TabIndex = 18;
+            groupBox18.TabStop = false;
+            groupBox18.Text = "Personel Adress";
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(6, 38);
+            textBox2.Name = "textBox2";
+            textBox2.PlaceholderText = "Öğrenci Adı";
+            textBox2.Size = new Size(200, 23);
+            textBox2.TabIndex = 1;
+            // 
+            // groupBox17
+            // 
+            groupBox17.Controls.Add(pbxPersonelPicture);
+            groupBox17.Controls.Add(groupBox25);
+            groupBox17.Controls.Add(textBox1);
+            groupBox17.Controls.Add(groupBox22);
+            groupBox17.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox17.ForeColor = Color.CornflowerBlue;
+            groupBox17.Location = new Point(864, 6);
+            groupBox17.Name = "groupBox17";
+            groupBox17.Size = new Size(988, 550);
+            groupBox17.TabIndex = 17;
+            groupBox17.TabStop = false;
+            groupBox17.Text = "Personel Bilgileri";
+            // 
+            // pbxPersonelPicture
+            // 
+            pbxPersonelPicture.Location = new Point(6, 22);
+            pbxPersonelPicture.Name = "pbxPersonelPicture";
+            pbxPersonelPicture.Size = new Size(152, 162);
+            pbxPersonelPicture.TabIndex = 29;
+            pbxPersonelPicture.TabStop = false;
+            // 
+            // groupBox25
+            // 
+            groupBox25.Controls.Add(textBox9);
+            groupBox25.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox25.ForeColor = Color.CornflowerBlue;
+            groupBox25.Location = new Point(6, 190);
+            groupBox25.Name = "groupBox25";
+            groupBox25.Size = new Size(976, 162);
+            groupBox25.TabIndex = 26;
+            groupBox25.TabStop = false;
+            groupBox25.Text = "Personel Telefon Numarası";
+            // 
+            // textBox9
+            // 
+            textBox9.Location = new Point(33, 51);
+            textBox9.Name = "textBox9";
+            textBox9.PlaceholderText = "Öğrenci Adı";
+            textBox9.Size = new Size(200, 23);
+            textBox9.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(64, 372);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Öğrenci Adı";
+            textBox1.Size = new Size(200, 23);
+            textBox1.TabIndex = 1;
+            // 
+            // groupBox22
+            // 
+            groupBox22.Controls.Add(radioButton2);
+            groupBox22.Controls.Add(radioButton1);
+            groupBox22.Controls.Add(textBox11);
+            groupBox22.Controls.Add(textBox12);
+            groupBox22.Controls.Add(textBox4);
+            groupBox22.Controls.Add(textBox6);
+            groupBox22.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox22.ForeColor = Color.CornflowerBlue;
+            groupBox22.Location = new Point(164, 22);
+            groupBox22.Name = "groupBox22";
+            groupBox22.Size = new Size(558, 162);
+            groupBox22.TabIndex = 20;
+            groupBox22.TabStop = false;
+            groupBox22.Text = "Kişisel Bilgiler";
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(497, 137);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(55, 19);
+            radioButton2.TabIndex = 7;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Kadın";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            radioButton1.AutoSize = true;
+            radioButton1.Location = new Point(438, 137);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(53, 19);
+            radioButton1.TabIndex = 6;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Erkek";
+            radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // textBox11
+            // 
+            textBox11.Location = new Point(8, 78);
+            textBox11.Name = "textBox11";
+            textBox11.PlaceholderText = "Adı";
+            textBox11.Size = new Size(161, 23);
+            textBox11.TabIndex = 5;
+            // 
+            // textBox12
+            // 
+            textBox12.Location = new Point(6, 107);
+            textBox12.Name = "textBox12";
+            textBox12.PlaceholderText = "Adı";
+            textBox12.Size = new Size(163, 23);
+            textBox12.TabIndex = 4;
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(174, 38);
+            textBox4.Name = "textBox4";
+            textBox4.PlaceholderText = "Soyadı";
+            textBox4.Size = new Size(147, 23);
+            textBox4.TabIndex = 2;
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(6, 38);
+            textBox6.Name = "textBox6";
+            textBox6.PlaceholderText = "Adı";
+            textBox6.Size = new Size(147, 23);
+            textBox6.TabIndex = 1;
+            // 
+            // dgvPersonelYonetimi
+            // 
+            dgvPersonelYonetimi.BackgroundColor = SystemColors.ButtonHighlight;
+            dgvPersonelYonetimi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dgvPersonelYonetimi.ColumnHeadersHeight = 34;
+            dgvPersonelYonetimi.ContextMenuStrip = contextMenuStrip1;
+            dgvPersonelYonetimi.GridColor = Color.DodgerBlue;
+            dgvPersonelYonetimi.Location = new Point(6, 6);
+            dgvPersonelYonetimi.Name = "dgvPersonelYonetimi";
+            dgvPersonelYonetimi.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvPersonelYonetimi.RowHeadersVisible = false;
+            dgvPersonelYonetimi.RowHeadersWidth = 62;
+            dgvPersonelYonetimi.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            dgvPersonelYonetimi.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            dgvPersonelYonetimi.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgvPersonelYonetimi.ShowRowErrors = false;
+            dgvPersonelYonetimi.Size = new Size(852, 550);
+            dgvPersonelYonetimi.TabIndex = 1;
             // 
             // sqlCommand1
             // 
@@ -928,7 +1222,7 @@ namespace BKS
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
-            ClientSize = new Size(1872, 1066);
+            ClientSize = new Size(1872, 1037);
             Controls.Add(materialLabel3);
             Controls.Add(tabControl);
             Font = new Font("Times New Roman", 9F);
@@ -978,15 +1272,34 @@ namespace BKS
             tabPageGelirGider.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridOdeme).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericAmount).EndInit();
-            tabPage1.ResumeLayout(false);
+            tabPageOzelRaporlar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)salesGrid).EndInit();
+            tabPagePersonelYonetimi.ResumeLayout(false);
+            groupBox23.ResumeLayout(false);
+            groupBox23.PerformLayout();
+            groupBox24.ResumeLayout(false);
+            groupBox24.PerformLayout();
+            groupBox21.ResumeLayout(false);
+            groupBox21.PerformLayout();
+            groupBox19.ResumeLayout(false);
+            groupBox19.PerformLayout();
+            groupBox18.ResumeLayout(false);
+            groupBox18.PerformLayout();
+            groupBox17.ResumeLayout(false);
+            groupBox17.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbxPersonelPicture).EndInit();
+            groupBox25.ResumeLayout(false);
+            groupBox25.PerformLayout();
+            groupBox22.ResumeLayout(false);
+            groupBox22.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         private DataGridView dataGridOdeme;
         private Microsoft.Data.SqlClient.SqlCommand sqlCommand1;
-        private TabPage tabPage1;
+        private TabPage tabPageOzelRaporlar;
         private DataGridView salesGrid;
         private TextBox txtBabaAd;
         private TextBox textSoyad;
@@ -1036,5 +1349,29 @@ namespace BKS
         private ToolStripMenuItem excelİleAktarToolStripMenuItem;
         private GroupBox groupBox16;
         private CheckBox cbxUserId;
+   
+        private GroupBox groupBox23;
+        private TextBox textBox7;
+        private GroupBox groupBox24;
+        private TextBox textBox8;
+        private GroupBox groupBox25;
+        private TextBox textBox9;
+        private GroupBox groupBox21;
+        private TextBox textBox5;
+        private GroupBox groupBox22;
+        private TextBox textBox6;
+        private GroupBox groupBox19;
+        private TextBox textBox3;
+        private GroupBox groupBox18;
+        private TextBox textBox2;
+        private GroupBox groupBox17;
+        private TextBox textBox1;
+        private DataGridView dgvPersonelYonetimi;
+        private PictureBox pbxPersonelPicture;
+        private TextBox textBox11;
+        private TextBox textBox12;
+        private TextBox textBox4;
+        private RadioButton radioButton2;
+        private RadioButton radioButton1;
     }
 }
