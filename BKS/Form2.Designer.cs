@@ -102,6 +102,7 @@ namespace BKS
             salesGrid = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
+            excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
@@ -312,15 +313,15 @@ namespace BKS
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(163, 26);
+            contextMenuStrip1.Size = new Size(181, 70);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // ödemeDetaylarıToolStripMenuItem
             // 
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(180, 22);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
@@ -888,6 +889,13 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
+            // excelİleAktarToolStripMenuItem
+            // 
+            excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
+            excelİleAktarToolStripMenuItem.Size = new Size(180, 22);
+            excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
+            excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
+            // 
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
@@ -994,5 +1002,6 @@ namespace BKS
         private Button btnOgrenciYonetimiSinifGuncelle;
         private Button btnOgrenciYonetimiSinifSil;
         private Button btnOgrenciYonetimiSinifKaydet;
+        private ToolStripMenuItem excelİleAktarToolStripMenuItem;
     }
 }
