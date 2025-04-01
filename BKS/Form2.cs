@@ -303,7 +303,7 @@ namespace BKS
                 LoadStockData(UserId);
             }
         }
-
+        //
         private void SetTabAccess(List<string> activeModules)
         {
             foreach (TabPage tab in tabControl.TabPages)
