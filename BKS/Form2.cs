@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OfficeOpenXml;
+using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace BKS
 {
@@ -46,6 +48,7 @@ namespace BKS
             LoadCompanyModules(UserId);
             LoadStudentClassComboBox(UserId);
             dataGridViewStok.AllowUserToAddRows = false;
+            DgvOgrenciYonetimiSiniflar.AllowUserToAddRows=false;
             YasGrubuLoad();
             SinifLoad(UserId);
 
@@ -216,7 +219,7 @@ namespace BKS
         public string GetLastLoginTime(Guid UserId)
         {
             string lastLoginTime = "Bilinmiyor";
-            string query = "SELECT SonLogin FROM CompanyUsers WHERE UserId=@UserId";
+            string query = "SELECT PreviousLogin FROM CompanyUsers WHERE UserId=@UserId";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -516,7 +519,7 @@ namespace BKS
 
 
                                     MessageBox.Show("Ödeme başarıyla eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                                    paymentGrid.DataSource= OdemeLoad(UserId,studentId);
 
 
                                 }
@@ -695,6 +698,109 @@ namespace BKS
 
             return companyName;
         }
+        private void excelAktarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                if (dataGridViewStok.Rows.Count > 0) // DataGridView'de veri var mı kontrol et
+                {
+                    // Excel dosyası seçme penceresi açılıyor
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.Filter = "Excel Dosyaları|*.xls;*.xlsx";
+                    openFileDialog.Title = "Bir Excel Dosyası Seçin";
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string dosyaYolu = openFileDialog.FileName; // Seçilen dosyanın yolu
+
+                        // EPPlus ile Excel dosyasını aç
+                        FileInfo fi = new FileInfo(dosyaYolu);
+                        using (var package = new ExcelPackage(fi))
+                        {
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // İlk sayfayı al
+
+                            int row = 2; // 1. satır başlık olduğu için 2. satırdan başlayalım
+                            int col = 1;
+
+                            // Veritabanı bağlantı dizesi
+                            using (SqlConnection conn = new SqlConnection(connectionString))
+                            {
+                                conn.Open(); // Veritabanına bağlantıyı aç
+
+                                // Excel verilerini veritabanına aktar
+                                while (worksheet.Cells[row, 1].Text != "") // 1. kolon boş değilse, veri var demektir
+                                {
+                                    // Excel'den veri çekme
+                                    string ogrenciName = worksheet.Cells[row, 1].Text;
+                                    string ogrenciSurname = worksheet.Cells[row, 2].Text;
+                                    string Fathername = worksheet.Cells[row, 3].Text;
+                                    DateTime dateTime = DateTime.Parse(worksheet.Cells[row, 4].Text); // Tarih verisini dönüştürme
+                                    string studentcode = worksheet.Cells[row, 5].Text;
+                                    bool odemedurum = bool.Parse(worksheet.Cells[row, 6].Text);
+                                    decimal odenentutar = decimal.Parse(worksheet.Cells[row, 7].Text);
+                                    bool aktiflik = bool.Parse(worksheet.Cells[row, 8].Text); // Aktivite durumu
+                                    string classing = worksheet.Cells[row, 9].Text;
+                                    string MotherName = worksheet.Cells[row, 10].Text;
+                                    string FatherAddress = worksheet.Cells[row, 11].Text;
+                                    string MotherAddress = worksheet.Cells[row, 12].Text;
+                                    string FatherPhoneNumber = worksheet.Cells[row, 13].Text;
+                                    string ogrenciDetails = worksheet.Cells[row, 14].Text;
+                                    string MotherPhoneNumber = worksheet.Cells[row, 15].Text;
+                                    bool IsMarried = string.IsNullOrEmpty(worksheet.Cells[row, 16].Text) ? true : bool.Parse(worksheet.Cells[row, 16].Text);
+                                    // Burada kullanıcı id'sini doğru şekilde ayarlayın
+
+                                    // SQL sorgusu
+                                    string sqlQuery = "INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName, SchoolId) " +
+                                                      "VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (SELECT Id FROM AYSClasses WHERE ClassName = @ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName, (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId))";
+
+                                    using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
+                                    {
+                                        // Parametreleri ekle
+                                        cmd.Parameters.AddWithValue("@Id", Guid.NewGuid()); // Örnek olarak yeni bir GUID oluşturuluyor
+                                        cmd.Parameters.AddWithValue("@Name", ogrenciName);
+                                        cmd.Parameters.AddWithValue("@UserId", UserId);
+                                        cmd.Parameters.AddWithValue("@Surname", ogrenciSurname);
+                                        cmd.Parameters.AddWithValue("@FatherName", Fathername);
+                                        cmd.Parameters.AddWithValue("@BirthDate", dateTime); // Tarih formatı
+                                        cmd.Parameters.AddWithValue("@StudentCode", studentcode);
+                                        cmd.Parameters.AddWithValue("@PaymentStatus", odemedurum);
+                                        cmd.Parameters.AddWithValue("@MonthlyFee", odenentutar);
+                                        cmd.Parameters.AddWithValue("@IsActive", aktiflik);
+                                        cmd.Parameters.AddWithValue("@ClassName", classing);
+                                        cmd.Parameters.AddWithValue("@MotherName", MotherName);
+                                        cmd.Parameters.AddWithValue("@FatherAddress", FatherAddress);
+                                        cmd.Parameters.AddWithValue("@MotherAddress", MotherAddress);
+                                        cmd.Parameters.AddWithValue("@FatherPhoneNumber", FatherPhoneNumber);
+                                        cmd.Parameters.AddWithValue("@StudentsDetails", ogrenciDetails);
+                                        cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
+                                        cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
+
+                                        // SQL sorgusunu çalıştır
+                                        cmd.ExecuteNonQuery();
+                                    }
+
+                                    row++; // Sonraki satıra geç
+                                }
+
+                                conn.Close(); // Veritabanı bağlantısını kapat
+                            }
+
+                            // Kullanıcıya başarı mesajı göster
+                            MessageBox.Show("Excel verisi veritabanına aktarıldı!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Excel verisi veritabanına aktarılamadı!!!", "Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void btnAddIncomeExpense_Click(object sender, EventArgs e)
         {
             string description = txtDescription.Text;
@@ -744,6 +850,21 @@ namespace BKS
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 DgvOgrenciYonetimiSiniflar.DataSource = dt;
+            }
+        }
+        private object OdemeLoad(Guid UserId,Guid StudentId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT p.Amount, p.PaymentDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId and p.Isdeleted=0 and p.SchoolId =(Select CompanyId from CompanyUsers where UserId =@UserId)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                cmd.Parameters.AddWithValue("@StudentId", StudentId);
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                return dt;
             }
         }
         private void salesGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
