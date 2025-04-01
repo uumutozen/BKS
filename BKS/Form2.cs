@@ -48,10 +48,11 @@ namespace BKS
             LoadCompanyModules(UserId);
             LoadStudentClassComboBox(UserId);
             dataGridViewStok.AllowUserToAddRows = false;
-            DgvOgrenciYonetimiSiniflar.AllowUserToAddRows=false;
+            DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             YasGrubuLoad();
             SinifLoad(UserId);
-
+            cbxUserId.Checked = false;
+            dataGridViewStok.Columns["Id"].Visible = false;
 
         }
         Form1 form1 = new Form1();
@@ -95,6 +96,8 @@ namespace BKS
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
+                dataGridViewStok.Columns["Id"].Visible = true;
+
             }
         }
         private void dataGridViewStok_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -519,7 +522,7 @@ namespace BKS
 
 
                                     MessageBox.Show("Ödeme başarıyla eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    paymentGrid.DataSource= OdemeLoad(UserId,studentId);
+                                    paymentGrid.DataSource = OdemeLoad(UserId, studentId);
 
 
                                 }
@@ -702,8 +705,6 @@ namespace BKS
         {
             try
             {
-
-
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 if (dataGridViewStok.Rows.Count > 0) // DataGridView'de veri var mı kontrol et
                 {
@@ -790,6 +791,7 @@ namespace BKS
 
                             // Kullanıcıya başarı mesajı göster
                             MessageBox.Show("Excel verisi veritabanına aktarıldı!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadStockData(UserId);
                         }
                     }
 
@@ -834,7 +836,7 @@ namespace BKS
         }
         private void SinifAdd(Guid UserId)
         {
-            
+
         }
 
         private void SinifLoad(Guid UserId)
@@ -852,7 +854,7 @@ namespace BKS
                 DgvOgrenciYonetimiSiniflar.DataSource = dt;
             }
         }
-        private object OdemeLoad(Guid UserId,Guid StudentId)
+        private object OdemeLoad(Guid UserId, Guid StudentId)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -978,6 +980,19 @@ namespace BKS
 
             MessageBox.Show("Sınıf Eklendi..");
             SinifLoad(UserId);
+        }
+
+        private void cbxUserId_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxUserId.Checked)
+            {
+                dataGridViewStok.Columns["Id"].Visible = true;
+            }
+            else 
+            {
+                dataGridViewStok.Columns["Id"].Visible = false;
+            }
+           
         }
 
         public Guid UserId { get; set; }

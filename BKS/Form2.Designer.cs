@@ -39,6 +39,8 @@ namespace BKS
             components = new System.ComponentModel.Container();
             tabControl = new TabControl();
             tabPageStok = new TabPage();
+            groupBox16 = new GroupBox();
+            cbxUserId = new CheckBox();
             btnOgrenciYonetimiSinifGuncelle = new Button();
             btnOgrenciYonetimiSinifSil = new Button();
             btnOgrenciYonetimiSinifKaydet = new Button();
@@ -51,6 +53,7 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar = new DataGridView();
             contextMenuStrip1 = new ContextMenuStrip(components);
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
+            excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             btnOgrenciYonetimiAra = new Button();
             txtOgrenciYonetimiAra = new TextBox();
             btnGuncelle = new Button();
@@ -102,9 +105,9 @@ namespace BKS
             salesGrid = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
+            groupBox16.SuspendLayout();
             groupBox13.SuspendLayout();
             groupBox14.SuspendLayout();
             groupBox15.SuspendLayout();
@@ -152,6 +155,7 @@ namespace BKS
             // tabPageStok
             // 
             tabPageStok.BackColor = Color.White;
+            tabPageStok.Controls.Add(groupBox16);
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifSil);
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifKaydet);
@@ -183,6 +187,31 @@ namespace BKS
             tabPageStok.TabIndex = 0;
             tabPageStok.Text = "Öğrenci Yönetimi";
             tabPageStok.Click += tabPageStok_Click;
+            // 
+            // groupBox16
+            // 
+            groupBox16.Controls.Add(cbxUserId);
+            groupBox16.FlatStyle = FlatStyle.Popup;
+            groupBox16.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox16.ForeColor = Color.CornflowerBlue;
+            groupBox16.Location = new Point(1055, 401);
+            groupBox16.Name = "groupBox16";
+            groupBox16.Size = new Size(188, 93);
+            groupBox16.TabIndex = 26;
+            groupBox16.TabStop = false;
+            groupBox16.Text = "UserId Göster";
+            // 
+            // cbxUserId
+            // 
+            cbxUserId.AutoSize = true;
+            cbxUserId.ForeColor = Color.Black;
+            cbxUserId.Location = new Point(56, 43);
+            cbxUserId.Name = "cbxUserId";
+            cbxUserId.Size = new Size(48, 19);
+            cbxUserId.TabIndex = 11;
+            cbxUserId.Text = "Evet";
+            cbxUserId.UseVisualStyleBackColor = true;
+            cbxUserId.CheckedChanged += cbxUserId_CheckedChanged;
             // 
             // btnOgrenciYonetimiSinifGuncelle
             // 
@@ -315,15 +344,22 @@ namespace BKS
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(181, 70);
+            contextMenuStrip1.Size = new Size(163, 48);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // ödemeDetaylarıToolStripMenuItem
             // 
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(180, 22);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
+            // 
+            // excelİleAktarToolStripMenuItem
+            // 
+            excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
+            excelİleAktarToolStripMenuItem.Size = new Size(162, 22);
+            excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
+            excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
             // btnOgrenciYonetimiAra
             // 
@@ -337,7 +373,7 @@ namespace BKS
             // 
             // txtOgrenciYonetimiAra
             // 
-            txtOgrenciYonetimiAra.Location = new Point(-1, 14);
+            txtOgrenciYonetimiAra.Location = new Point(17, 15);
             txtOgrenciYonetimiAra.Name = "txtOgrenciYonetimiAra";
             txtOgrenciYonetimiAra.Size = new Size(197, 23);
             txtOgrenciYonetimiAra.TabIndex = 28;
@@ -683,7 +719,7 @@ namespace BKS
             dataGridViewStok.ColumnHeadersHeight = 34;
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
             dataGridViewStok.GridColor = Color.DodgerBlue;
-            dataGridViewStok.Location = new Point(3, 65);
+            dataGridViewStok.Location = new Point(3, 53);
             dataGridViewStok.Name = "dataGridViewStok";
             dataGridViewStok.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewStok.RowHeadersVisible = false;
@@ -889,13 +925,6 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
-            // excelİleAktarToolStripMenuItem
-            // 
-            excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(180, 22);
-            excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
-            excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
-            // 
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
@@ -911,6 +940,8 @@ namespace BKS
             tabControl.ResumeLayout(false);
             tabPageStok.ResumeLayout(false);
             tabPageStok.PerformLayout();
+            groupBox16.ResumeLayout(false);
+            groupBox16.PerformLayout();
             groupBox13.ResumeLayout(false);
             groupBox14.ResumeLayout(false);
             groupBox14.PerformLayout();
@@ -1003,5 +1034,7 @@ namespace BKS
         private Button btnOgrenciYonetimiSinifSil;
         private Button btnOgrenciYonetimiSinifKaydet;
         private ToolStripMenuItem excelİleAktarToolStripMenuItem;
+        private GroupBox groupBox16;
+        private CheckBox cbxUserId;
     }
 }
