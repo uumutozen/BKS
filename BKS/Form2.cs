@@ -46,7 +46,7 @@ namespace BKS
             this.materialLabel3.Text = "Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId);
             LoadStockData(UserId);
             LoadCompanyModules(UserId);
-            LoadStudentClassComboBox(UserId);
+            
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             YasGrubuLoad();
@@ -56,6 +56,7 @@ namespace BKS
             dataGridViewStok.Columns["MonthlyFee"].Visible = false;//önemli değiştirme
             LoadTeacherComboBox(UserId);
             PersonelYonetimiLoad(UserId);
+            LoadStudentClassComboBox(UserId);
         }
         Form1 form1 = new Form1();
 
@@ -960,26 +961,26 @@ namespace BKS
             try
             {
 
-          
-            string ogrenciadi = string.IsNullOrEmpty(txtOgrenciYonetimiAra.Text) ? null : txtOgrenciYonetimiAra.Text;
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "exec GetStudentFind @UserId,@Name";// arama modülü eklenecek
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
-                cmd.Parameters.AddWithValue("@Name", string.IsNullOrEmpty(ogrenciadi) ? (object)DBNull.Value : ogrenciadi);
-                DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                adapter.Fill(dt);
-                dataGridViewStok.DataSource = dt;
+                string ogrenciadi = string.IsNullOrEmpty(txtOgrenciYonetimiAra.Text) ? null : txtOgrenciYonetimiAra.Text;
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "exec GetStudentFind @UserId,@Name";// arama modülü eklenecek
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@Name", string.IsNullOrEmpty(ogrenciadi) ? (object)DBNull.Value : ogrenciadi);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                    dataGridViewStok.DataSource = dt;
                 }
             }
             catch (Exception)
             {
 
-                MessageBox.Show("Hatalı Veri Girişi","Hata");
+                MessageBox.Show("Hatalı Veri Girişi", "Hata");
             }
         }
 
@@ -1047,7 +1048,7 @@ namespace BKS
 
         private void tabPagePersonelYonetimi_Click(object sender, EventArgs e)
         {
-          
+
         }
         private void PersonelYonetimiLoad(Guid UserId)
         {
@@ -1063,6 +1064,11 @@ namespace BKS
                 adapter.Fill(dt);
                 dgvPersonelYonetimi.DataSource = dt;
             }
+        }
+
+        private void cmbogrsınıf_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         public Guid UserId { get; set; }

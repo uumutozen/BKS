@@ -708,6 +708,7 @@ namespace BKS
             cmbogrsınıf.Name = "cmbogrsınıf";
             cmbogrsınıf.Size = new Size(200, 23);
             cmbogrsınıf.TabIndex = 13;
+            cmbogrsınıf.SelectedIndexChanged += cmbogrsınıf_SelectedIndexChanged;
             // 
             // btnAddStock
             // 
