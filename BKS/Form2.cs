@@ -957,12 +957,16 @@ namespace BKS
 
         private void btnOgrenciYonetimiAra_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+          
             string ogrenciadi = string.IsNullOrEmpty(txtOgrenciYonetimiAra.Text) ? null : txtOgrenciYonetimiAra.Text;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "exec GetStudent @UserId --UserId=@UserId) and Isnull(IsDeleted,0)=0 and Name like isnull(@Name,Name)";// arama modülü eklenecek
+                string query = "exec GetStudentFind @UserId,@Name";// arama modülü eklenecek
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@Name", string.IsNullOrEmpty(ogrenciadi) ? (object)DBNull.Value : ogrenciadi);
@@ -970,6 +974,12 @@ namespace BKS
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
+                }
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Hatalı Veri Girişi","Hata");
             }
         }
 
