@@ -1055,7 +1055,7 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "select 'Adı'=UPPER(FirstName),'Soyadı'=UPPER(Lastname),Email,Telefon=Phone,Adres=Address,'Şehir'=City,'Ülke'=Country,'Doğum Tarihi'=BirthDate,Cinsiyet=Gender,'TC Kimlik No'=IdentityNumber,'İş Ünvanı'=JobTitle,'İşe Başlama Tarihi'=HireDate,'Maaş'=Salary,\r\nAktif=case when IsActive=1 then 'Evet'else 'Hayır'end,'Kayıt Tarihi'=CreatedAt,'Güncellenme Tarihi'=UpdatedAt,'Öğretmen Mi?'=Case when IsTeacher=1 then 'Evet'else 'Hayır'end from Personel  where CompanyId=(select CompanyId from CompanyUsers where UserId=@UserId)";
+                string query = "exec GetPersonel @UserId";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
 
