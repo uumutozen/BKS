@@ -51,9 +51,6 @@ namespace BKS
             groupBox15 = new GroupBox();
             cbxOgrenciYonetimiYasGrubu = new ComboBox();
             DgvOgrenciYonetimiSiniflar = new DataGridView();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
-            excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             btnOgrenciYonetimiAra = new Button();
             txtOgrenciYonetimiAra = new TextBox();
             btnGuncelle = new Button();
@@ -87,6 +84,9 @@ namespace BKS
             cmbogrsınıf = new ComboBox();
             btnAddStock = new Button();
             dataGridViewStok = new DataGridView();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
+            excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -136,7 +136,6 @@ namespace BKS
             groupBox14.SuspendLayout();
             groupBox15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).BeginInit();
-            contextMenuStrip1.SuspendLayout();
             groupBox11.SuspendLayout();
             groupBox12.SuspendLayout();
             groupBox10.SuspendLayout();
@@ -150,6 +149,7 @@ namespace BKS
             groupBox1.SuspendLayout();
             groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewStok).BeginInit();
+            contextMenuStrip1.SuspendLayout();
             tabPageSatis.SuspendLayout();
             groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).BeginInit();
@@ -361,7 +361,6 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.BackgroundColor = SystemColors.ButtonHighlight;
             DgvOgrenciYonetimiSiniflar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             DgvOgrenciYonetimiSiniflar.ColumnHeadersHeight = 34;
-            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = contextMenuStrip1;
             DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
             DgvOgrenciYonetimiSiniflar.Location = new Point(3, 621);
             DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
@@ -374,28 +373,6 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
             DgvOgrenciYonetimiSiniflar.Size = new Size(852, 312);
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
-            // 
-            // contextMenuStrip1
-            // 
-            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(163, 48);
-            contextMenuStrip1.Text = "Ödeme Detayları";
-            // 
-            // ödemeDetaylarıToolStripMenuItem
-            // 
-            ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
-            ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
-            ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
-            // 
-            // excelİleAktarToolStripMenuItem
-            // 
-            excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(162, 22);
-            excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
-            excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
             // btnOgrenciYonetimiAra
             // 
@@ -769,6 +746,28 @@ namespace BKS
             dataGridViewStok.CellClick += dataGridViewStok_CellClick;
             dataGridViewStok.CellContentClick += dataGridViewStok_CellContentClick_1;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(24, 24);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(163, 48);
+            contextMenuStrip1.Text = "Ödeme Detayları";
+            // 
+            // ödemeDetaylarıToolStripMenuItem
+            // 
+            ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
+            ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
+            ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
+            // 
+            // excelİleAktarToolStripMenuItem
+            // 
+            excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
+            excelİleAktarToolStripMenuItem.Size = new Size(162, 22);
+            excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
+            excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
+            // 
             // tabPageSatis
             // 
             tabPageSatis.BackColor = Color.White;
@@ -959,6 +958,7 @@ namespace BKS
             tabPagePersonelYonetimi.TabIndex = 4;
             tabPagePersonelYonetimi.Text = "Personel Yönetimi";
             tabPagePersonelYonetimi.UseVisualStyleBackColor = true;
+            tabPagePersonelYonetimi.Click += tabPagePersonelYonetimi_Click;
             // 
             // groupBox23
             // 
@@ -1082,6 +1082,7 @@ namespace BKS
             pbxPersonelPicture.Size = new Size(152, 162);
             pbxPersonelPicture.TabIndex = 29;
             pbxPersonelPicture.TabStop = false;
+            pbxPersonelPicture.Click += pbxPersonelPicture_Click;
             // 
             // groupBox25
             // 
@@ -1152,18 +1153,18 @@ namespace BKS
             // 
             // textBox11
             // 
-            textBox11.Location = new Point(8, 78);
+            textBox11.Location = new Point(6, 78);
             textBox11.Name = "textBox11";
             textBox11.PlaceholderText = "Adı";
-            textBox11.Size = new Size(161, 23);
+            textBox11.Size = new Size(147, 23);
             textBox11.TabIndex = 5;
             // 
             // textBox12
             // 
-            textBox12.Location = new Point(6, 107);
+            textBox12.Location = new Point(6, 116);
             textBox12.Name = "textBox12";
             textBox12.PlaceholderText = "Adı";
-            textBox12.Size = new Size(163, 23);
+            textBox12.Size = new Size(147, 23);
             textBox12.TabIndex = 4;
             // 
             // textBox4
@@ -1187,7 +1188,6 @@ namespace BKS
             dgvPersonelYonetimi.BackgroundColor = SystemColors.ButtonHighlight;
             dgvPersonelYonetimi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dgvPersonelYonetimi.ColumnHeadersHeight = 34;
-            dgvPersonelYonetimi.ContextMenuStrip = contextMenuStrip1;
             dgvPersonelYonetimi.GridColor = Color.DodgerBlue;
             dgvPersonelYonetimi.Location = new Point(6, 6);
             dgvPersonelYonetimi.Name = "dgvPersonelYonetimi";
@@ -1241,7 +1241,6 @@ namespace BKS
             groupBox14.PerformLayout();
             groupBox15.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).EndInit();
-            contextMenuStrip1.ResumeLayout(false);
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
             groupBox12.ResumeLayout(false);
@@ -1263,6 +1262,7 @@ namespace BKS
             groupBox1.PerformLayout();
             groupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewStok).EndInit();
+            contextMenuStrip1.ResumeLayout(false);
             tabPageSatis.ResumeLayout(false);
             groupBox9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).EndInit();

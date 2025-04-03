@@ -53,7 +53,8 @@ namespace BKS
             SinifLoad(UserId);
             cbxUserId.Checked = false;
             dataGridViewStok.Columns["Id"].Visible = false;
-
+            LoadTeacherComboBox(UserId);
+            PersonelYonetimiLoad(UserId);
         }
         Form1 form1 = new Form1();
 
@@ -377,6 +378,26 @@ namespace BKS
                     {
                         Text = reader["ClassName"].ToString(),
                         Value = reader["Group"].ToString()
+                    });
+                }
+            }
+        }
+        private void LoadTeacherComboBox(Guid UserId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("select isim=(FirstName+' '+LastName), PersonelId from personel where CompanyId=(Select CompanyId from CompanyUsers where UserId=@UserId) and IsTeacher=1", conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                cmbogrsınıf.Items.Clear();
+                while (reader.Read())
+                {
+                    cbxOgrenciYonetimiOgretmen.Items.Add(new ComboBoxItem
+                    {
+                        Text = reader["isim"].ToString(),
+                        Value = reader["PersonelId"].ToString()
                     });
                 }
             }
@@ -970,7 +991,7 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("insert into Aysclasses (Id,ClassName,[Group],SchoolId,OgretmenAdi) values (NEWID(),@ClassName,@YasGrup,(select CompanyId from CompanyUsers where UserId=@UserId),@OgretmenAdi)", conn);
+                SqlCommand cmd = new SqlCommand("insert into Aysclasses (Id,ClassName,[Group],SchoolId,OgretmenAdi,OgretmenId) values (NEWID(),@ClassName,@YasGrup,(select CompanyId from CompanyUsers where UserId=@UserId),@OgretmenAdi,(select PersonelId from (select isim=FirstName+' '+LastName,PersonelId from personel)a where a.isim=@OgretmenAdi) )", conn);
                 cmd.Parameters.AddWithValue("@ClassName", sınıfadi);
                 cmd.Parameters.AddWithValue("@YasGrup", yasgrubu);
                 cmd.Parameters.AddWithValue("@OgretmenAdi", ogretmen);
@@ -988,14 +1009,53 @@ namespace BKS
             {
                 dataGridViewStok.Columns["Id"].Visible = true;
             }
-            else 
+            else
             {
                 dataGridViewStok.Columns["Id"].Visible = false;
             }
-           
+
+        }
+
+        private void pbxPersonelPicture_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Fotoğraf |*.png;*.jpeg";
+            openFileDialog.Title = "Bir Fotoğraf Seçin";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Photo = openFileDialog.FileName; // Seçilen dosyanın yolu
+                pbxPersonelPicture.Image = System.Drawing.Image.FromFile(Photo);
+                if (pbxPersonelPicture.Image != null)
+                {
+                    pbxPersonelPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+
+            }
+        }
+
+        private void tabPagePersonelYonetimi_Click(object sender, EventArgs e)
+        {
+          
+        }
+        private void PersonelYonetimiLoad(Guid UserId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select 'Adı'=UPPER(FirstName),'Soyadı'=UPPER(Lastname),Email,Telefon=Phone,Adres=Address,'Şehir'=City,'Ülke'=Country,'Doğum Tarihi'=BirthDate,Cinsiyet=Gender,'TC Kimlik No'=IdentityNumber,'İş Ünvanı'=JobTitle,'İşe Başlama Tarihi'=HireDate,'Maaş'=Salary,\r\nAktif=case when IsActive=1 then 'Evet'else 'Hayır'end,'Kayıt Tarihi'=CreatedAt,'Güncellenme Tarihi'=UpdatedAt,'Öğretmen Mi?'=Case when IsTeacher=1 then 'Evet'else 'Hayır'end from Personel  where CompanyId=(select CompanyId from CompanyUsers where UserId=@UserId)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                dgvPersonelYonetimi.DataSource = dt;
+            }
         }
 
         public Guid UserId { get; set; }
+        public string Photo { get; set; }
     }
 
     // ComboBox için özel bir sınıf
