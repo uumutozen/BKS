@@ -304,6 +304,7 @@ namespace BKS
                 }
 
                 MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+           
                 LoadStockData(UserId);
             }
         }
