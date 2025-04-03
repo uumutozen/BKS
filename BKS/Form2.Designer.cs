@@ -104,31 +104,56 @@ namespace BKS
             tabPageOzelRaporlar = new TabPage();
             salesGrid = new DataGridView();
             tabPagePersonelYonetimi = new TabPage();
-            groupBox23 = new GroupBox();
-            textBox7 = new TextBox();
-            groupBox24 = new GroupBox();
-            textBox8 = new TextBox();
-            groupBox21 = new GroupBox();
-            textBox5 = new TextBox();
-            groupBox19 = new GroupBox();
-            textBox3 = new TextBox();
-            groupBox18 = new GroupBox();
-            textBox2 = new TextBox();
             groupBox17 = new GroupBox();
             pbxPersonelPicture = new PictureBox();
             groupBox25 = new GroupBox();
-            textBox9 = new TextBox();
-            textBox1 = new TextBox();
+            txtPersonelIletişimAcilDurum = new TextBox();
+            txtPersonelMail = new TextBox();
+            txtPersonelTel = new TextBox();
+            txtPersonelAdres = new TextBox();
             groupBox22 = new GroupBox();
-            radioButton2 = new RadioButton();
-            radioButton1 = new RadioButton();
-            textBox11 = new TextBox();
-            textBox12 = new TextBox();
-            textBox4 = new TextBox();
-            textBox6 = new TextBox();
+            cbxPersonelUyruk = new ComboBox();
+            rbtPersonelEvli = new RadioButton();
+            label1 = new Label();
+            dateTimePicker1 = new DateTimePicker();
+            rbtPersonelKadin = new RadioButton();
+            rbtPersonelErkek = new RadioButton();
+            txtPersonelKimlik = new TextBox();
+            txtPersonelSoyad = new TextBox();
+            txtPersonelAd = new TextBox();
+            groupBox18 = new GroupBox();
+            cbxPersonelEgitimDurumu = new ComboBox();
+            label4 = new Label();
+            txtPersonelGorev = new TextBox();
+            dateTimePicker3 = new DateTimePicker();
+            cbxPersoneIIsAyrıldı = new CheckBox();
+            dateTimePicker2 = new DateTimePicker();
+            label3 = new Label();
+            label2 = new Label();
+            txtPersonelMaas = new TextBox();
             dgvPersonelYonetimi = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
+            groupBox20 = new GroupBox();
+            textBox1 = new TextBox();
+            txtPersonelSertifika = new TextBox();
+            txtPersonelYabanciDil = new TextBox();
+            txtPersonelDepartman = new TextBox();
+            cbxPersonelUniversite = new ComboBox();
+            label5 = new Label();
+            txtPersonelUniBolum = new TextBox();
+            cbxPersonelCalismaSekli = new ComboBox();
+            label6 = new Label();
+            txtPersonelPersonelNo = new TextBox();
+            cbxPersonelSigorta = new ComboBox();
+            label7 = new Label();
+            txtPersonelPrimVeEk = new TextBox();
+            txtPersonelYemekYol = new TextBox();
+            txtPersonelEmeklilik = new TextBox();
+            txtPersonelSaglikSigorta = new TextBox();
+            txtPersonelSGKSicilNum = new TextBox();
+            txtPersonelAyrilmaNedeni = new TextBox();
+            txtPersonelKidemTazminat = new TextBox();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox16.SuspendLayout();
@@ -161,16 +186,13 @@ namespace BKS
             tabPageOzelRaporlar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
             tabPagePersonelYonetimi.SuspendLayout();
-            groupBox23.SuspendLayout();
-            groupBox24.SuspendLayout();
-            groupBox21.SuspendLayout();
-            groupBox19.SuspendLayout();
-            groupBox18.SuspendLayout();
             groupBox17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbxPersonelPicture).BeginInit();
             groupBox25.SuspendLayout();
             groupBox22.SuspendLayout();
+            groupBox18.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).BeginInit();
+            groupBox20.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl
@@ -945,11 +967,6 @@ namespace BKS
             // 
             // tabPagePersonelYonetimi
             // 
-            tabPagePersonelYonetimi.Controls.Add(groupBox23);
-            tabPagePersonelYonetimi.Controls.Add(groupBox24);
-            tabPagePersonelYonetimi.Controls.Add(groupBox21);
-            tabPagePersonelYonetimi.Controls.Add(groupBox19);
-            tabPagePersonelYonetimi.Controls.Add(groupBox18);
             tabPagePersonelYonetimi.Controls.Add(groupBox17);
             tabPagePersonelYonetimi.Controls.Add(dgvPersonelYonetimi);
             tabPagePersonelYonetimi.Location = new Point(4, 24);
@@ -961,117 +978,17 @@ namespace BKS
             tabPagePersonelYonetimi.UseVisualStyleBackColor = true;
             tabPagePersonelYonetimi.Click += tabPagePersonelYonetimi_Click;
             // 
-            // groupBox23
-            // 
-            groupBox23.Controls.Add(textBox7);
-            groupBox23.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox23.ForeColor = Color.CornflowerBlue;
-            groupBox23.Location = new Point(850, 748);
-            groupBox23.Name = "groupBox23";
-            groupBox23.Size = new Size(238, 78);
-            groupBox23.TabIndex = 28;
-            groupBox23.TabStop = false;
-            groupBox23.Text = "Öğrenci Adı";
-            // 
-            // textBox7
-            // 
-            textBox7.Location = new Point(6, 38);
-            textBox7.Name = "textBox7";
-            textBox7.PlaceholderText = "Öğrenci Adı";
-            textBox7.Size = new Size(200, 23);
-            textBox7.TabIndex = 1;
-            // 
-            // groupBox24
-            // 
-            groupBox24.Controls.Add(textBox8);
-            groupBox24.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox24.ForeColor = Color.CornflowerBlue;
-            groupBox24.Location = new Point(606, 748);
-            groupBox24.Name = "groupBox24";
-            groupBox24.Size = new Size(238, 78);
-            groupBox24.TabIndex = 27;
-            groupBox24.TabStop = false;
-            groupBox24.Text = "Öğrenci Adı";
-            // 
-            // textBox8
-            // 
-            textBox8.Location = new Point(6, 38);
-            textBox8.Name = "textBox8";
-            textBox8.PlaceholderText = "Öğrenci Adı";
-            textBox8.Size = new Size(200, 23);
-            textBox8.TabIndex = 1;
-            // 
-            // groupBox21
-            // 
-            groupBox21.Controls.Add(textBox5);
-            groupBox21.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox21.ForeColor = Color.CornflowerBlue;
-            groupBox21.Location = new Point(1196, 703);
-            groupBox21.Name = "groupBox21";
-            groupBox21.Size = new Size(238, 78);
-            groupBox21.TabIndex = 21;
-            groupBox21.TabStop = false;
-            groupBox21.Text = "Öğrenci Adı";
-            // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(6, 38);
-            textBox5.Name = "textBox5";
-            textBox5.PlaceholderText = "Öğrenci Adı";
-            textBox5.Size = new Size(200, 23);
-            textBox5.TabIndex = 1;
-            // 
-            // groupBox19
-            // 
-            groupBox19.Controls.Add(textBox3);
-            groupBox19.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox19.ForeColor = Color.CornflowerBlue;
-            groupBox19.Location = new Point(1491, 439);
-            groupBox19.Name = "groupBox19";
-            groupBox19.Size = new Size(238, 78);
-            groupBox19.TabIndex = 19;
-            groupBox19.TabStop = false;
-            groupBox19.Text = "Öğrenci Adı";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(6, 38);
-            textBox3.Name = "textBox3";
-            textBox3.PlaceholderText = "Öğrenci Adı";
-            textBox3.Size = new Size(200, 23);
-            textBox3.TabIndex = 1;
-            // 
-            // groupBox18
-            // 
-            groupBox18.Controls.Add(textBox2);
-            groupBox18.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox18.ForeColor = Color.CornflowerBlue;
-            groupBox18.Location = new Point(1247, 439);
-            groupBox18.Name = "groupBox18";
-            groupBox18.Size = new Size(238, 78);
-            groupBox18.TabIndex = 18;
-            groupBox18.TabStop = false;
-            groupBox18.Text = "Personel Adress";
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(6, 38);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Öğrenci Adı";
-            textBox2.Size = new Size(200, 23);
-            textBox2.TabIndex = 1;
-            // 
             // groupBox17
             // 
             groupBox17.Controls.Add(pbxPersonelPicture);
             groupBox17.Controls.Add(groupBox25);
-            groupBox17.Controls.Add(textBox1);
             groupBox17.Controls.Add(groupBox22);
+            groupBox17.Controls.Add(groupBox18);
             groupBox17.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox17.ForeColor = Color.CornflowerBlue;
             groupBox17.Location = new Point(864, 6);
             groupBox17.Name = "groupBox17";
-            groupBox17.Size = new Size(988, 550);
+            groupBox17.Size = new Size(988, 930);
             groupBox17.TabIndex = 17;
             groupBox17.TabStop = false;
             groupBox17.Text = "Personel Bilgileri";
@@ -1087,102 +1004,277 @@ namespace BKS
             // 
             // groupBox25
             // 
-            groupBox25.Controls.Add(textBox9);
+            groupBox25.Controls.Add(txtPersonelIletişimAcilDurum);
+            groupBox25.Controls.Add(txtPersonelMail);
+            groupBox25.Controls.Add(txtPersonelTel);
+            groupBox25.Controls.Add(txtPersonelAdres);
             groupBox25.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox25.ForeColor = Color.CornflowerBlue;
             groupBox25.Location = new Point(6, 190);
             groupBox25.Name = "groupBox25";
-            groupBox25.Size = new Size(976, 162);
+            groupBox25.Size = new Size(493, 155);
             groupBox25.TabIndex = 26;
             groupBox25.TabStop = false;
-            groupBox25.Text = "Personel Telefon Numarası";
+            groupBox25.Text = "İletişim Bilgileri";
             // 
-            // textBox9
+            // txtPersonelIletişimAcilDurum
             // 
-            textBox9.Location = new Point(33, 51);
-            textBox9.Name = "textBox9";
-            textBox9.PlaceholderText = "Öğrenci Adı";
-            textBox9.Size = new Size(200, 23);
-            textBox9.TabIndex = 1;
+            txtPersonelIletişimAcilDurum.Location = new Point(6, 51);
+            txtPersonelIletişimAcilDurum.Name = "txtPersonelIletişimAcilDurum";
+            txtPersonelIletişimAcilDurum.PlaceholderText = "Acil Durumda Ulaşılacak Kişi";
+            txtPersonelIletişimAcilDurum.Size = new Size(481, 23);
+            txtPersonelIletişimAcilDurum.TabIndex = 7;
             // 
-            // textBox1
+            // txtPersonelMail
             // 
-            textBox1.Location = new Point(64, 372);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Öğrenci Adı";
-            textBox1.Size = new Size(200, 23);
-            textBox1.TabIndex = 1;
+            txtPersonelMail.Location = new Point(239, 22);
+            txtPersonelMail.Name = "txtPersonelMail";
+            txtPersonelMail.PlaceholderText = "Mail";
+            txtPersonelMail.Size = new Size(248, 23);
+            txtPersonelMail.TabIndex = 6;
+            // 
+            // txtPersonelTel
+            // 
+            txtPersonelTel.Location = new Point(6, 22);
+            txtPersonelTel.Name = "txtPersonelTel";
+            txtPersonelTel.PlaceholderText = "Telefon Numarası";
+            txtPersonelTel.Size = new Size(226, 23);
+            txtPersonelTel.TabIndex = 1;
+            // 
+            // txtPersonelAdres
+            // 
+            txtPersonelAdres.Location = new Point(6, 80);
+            txtPersonelAdres.Multiline = true;
+            txtPersonelAdres.Name = "txtPersonelAdres";
+            txtPersonelAdres.PlaceholderText = "Adres";
+            txtPersonelAdres.Size = new Size(481, 69);
+            txtPersonelAdres.TabIndex = 5;
             // 
             // groupBox22
             // 
-            groupBox22.Controls.Add(radioButton2);
-            groupBox22.Controls.Add(radioButton1);
-            groupBox22.Controls.Add(textBox11);
-            groupBox22.Controls.Add(textBox12);
-            groupBox22.Controls.Add(textBox4);
-            groupBox22.Controls.Add(textBox6);
+            groupBox22.Controls.Add(cbxPersonelUyruk);
+            groupBox22.Controls.Add(rbtPersonelEvli);
+            groupBox22.Controls.Add(label1);
+            groupBox22.Controls.Add(dateTimePicker1);
+            groupBox22.Controls.Add(rbtPersonelKadin);
+            groupBox22.Controls.Add(rbtPersonelErkek);
+            groupBox22.Controls.Add(txtPersonelKimlik);
+            groupBox22.Controls.Add(txtPersonelSoyad);
+            groupBox22.Controls.Add(txtPersonelAd);
             groupBox22.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             groupBox22.ForeColor = Color.CornflowerBlue;
             groupBox22.Location = new Point(164, 22);
             groupBox22.Name = "groupBox22";
-            groupBox22.Size = new Size(558, 162);
+            groupBox22.Size = new Size(818, 162);
             groupBox22.TabIndex = 20;
             groupBox22.TabStop = false;
             groupBox22.Text = "Kişisel Bilgiler";
             // 
-            // radioButton2
+            // cbxPersonelUyruk
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(497, 137);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(55, 19);
-            radioButton2.TabIndex = 7;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Kadın";
-            radioButton2.UseVisualStyleBackColor = true;
+            cbxPersonelUyruk.FormattingEnabled = true;
+            cbxPersonelUyruk.Location = new Point(349, 49);
+            cbxPersonelUyruk.Name = "cbxPersonelUyruk";
+            cbxPersonelUyruk.Size = new Size(295, 23);
+            cbxPersonelUyruk.TabIndex = 12;
             // 
-            // radioButton1
+            // rbtPersonelEvli
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(438, 137);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(53, 19);
-            radioButton1.TabIndex = 6;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Erkek";
-            radioButton1.UseVisualStyleBackColor = true;
+            rbtPersonelEvli.AutoSize = true;
+            rbtPersonelEvli.Location = new Point(728, 89);
+            rbtPersonelEvli.Name = "rbtPersonelEvli";
+            rbtPersonelEvli.Size = new Size(43, 19);
+            rbtPersonelEvli.TabIndex = 11;
+            rbtPersonelEvli.TabStop = true;
+            rbtPersonelEvli.Text = "Evli";
+            rbtPersonelEvli.UseVisualStyleBackColor = true;
             // 
-            // textBox11
+            // label1
             // 
-            textBox11.Location = new Point(6, 78);
-            textBox11.Name = "textBox11";
-            textBox11.PlaceholderText = "Adı";
-            textBox11.Size = new Size(147, 23);
-            textBox11.TabIndex = 5;
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 104);
+            label1.Name = "label1";
+            label1.Size = new Size(86, 15);
+            label1.TabIndex = 9;
+            label1.Text = "Doğum Tarihi :";
+            label1.Click += label1_Click;
             // 
-            // textBox12
+            // dateTimePicker1
             // 
-            textBox12.Location = new Point(6, 116);
-            textBox12.Name = "textBox12";
-            textBox12.PlaceholderText = "Adı";
-            textBox12.Size = new Size(147, 23);
-            textBox12.TabIndex = 4;
+            dateTimePicker1.Location = new Point(98, 98);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.TabIndex = 8;
+            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
-            // textBox4
+            // rbtPersonelKadin
             // 
-            textBox4.Location = new Point(174, 38);
-            textBox4.Name = "textBox4";
-            textBox4.PlaceholderText = "Soyadı";
-            textBox4.Size = new Size(147, 23);
-            textBox4.TabIndex = 2;
+            rbtPersonelKadin.AutoSize = true;
+            rbtPersonelKadin.Location = new Point(756, 64);
+            rbtPersonelKadin.Name = "rbtPersonelKadin";
+            rbtPersonelKadin.Size = new Size(55, 19);
+            rbtPersonelKadin.TabIndex = 7;
+            rbtPersonelKadin.TabStop = true;
+            rbtPersonelKadin.Text = "Kadın";
+            rbtPersonelKadin.UseVisualStyleBackColor = true;
             // 
-            // textBox6
+            // rbtPersonelErkek
             // 
-            textBox6.Location = new Point(6, 38);
-            textBox6.Name = "textBox6";
-            textBox6.PlaceholderText = "Adı";
-            textBox6.Size = new Size(147, 23);
-            textBox6.TabIndex = 1;
+            rbtPersonelErkek.AutoSize = true;
+            rbtPersonelErkek.Location = new Point(697, 64);
+            rbtPersonelErkek.Name = "rbtPersonelErkek";
+            rbtPersonelErkek.Size = new Size(53, 19);
+            rbtPersonelErkek.TabIndex = 6;
+            rbtPersonelErkek.TabStop = true;
+            rbtPersonelErkek.Text = "Erkek";
+            rbtPersonelErkek.UseVisualStyleBackColor = true;
+            rbtPersonelErkek.CheckedChanged += radioButton1_CheckedChanged;
+            // 
+            // txtPersonelKimlik
+            // 
+            txtPersonelKimlik.Location = new Point(349, 98);
+            txtPersonelKimlik.Name = "txtPersonelKimlik";
+            txtPersonelKimlik.Size = new Size(295, 23);
+            txtPersonelKimlik.TabIndex = 5;
+            // 
+            // txtPersonelSoyad
+            // 
+            txtPersonelSoyad.Location = new Point(141, 49);
+            txtPersonelSoyad.Name = "txtPersonelSoyad";
+            txtPersonelSoyad.PlaceholderText = "Soyadı";
+            txtPersonelSoyad.Size = new Size(129, 23);
+            txtPersonelSoyad.TabIndex = 2;
+            // 
+            // txtPersonelAd
+            // 
+            txtPersonelAd.Location = new Point(5, 49);
+            txtPersonelAd.Name = "txtPersonelAd";
+            txtPersonelAd.PlaceholderText = "Adı";
+            txtPersonelAd.Size = new Size(130, 23);
+            txtPersonelAd.TabIndex = 1;
+            // 
+            // groupBox18
+            // 
+            groupBox18.Controls.Add(txtPersonelKidemTazminat);
+            groupBox18.Controls.Add(txtPersonelAyrilmaNedeni);
+            groupBox18.Controls.Add(txtPersonelEmeklilik);
+            groupBox18.Controls.Add(txtPersonelSaglikSigorta);
+            groupBox18.Controls.Add(txtPersonelSGKSicilNum);
+            groupBox18.Controls.Add(txtPersonelYemekYol);
+            groupBox18.Controls.Add(txtPersonelPrimVeEk);
+            groupBox18.Controls.Add(label7);
+            groupBox18.Controls.Add(cbxPersonelSigorta);
+            groupBox18.Controls.Add(txtPersonelPersonelNo);
+            groupBox18.Controls.Add(label6);
+            groupBox18.Controls.Add(cbxPersonelCalismaSekli);
+            groupBox18.Controls.Add(txtPersonelUniBolum);
+            groupBox18.Controls.Add(label5);
+            groupBox18.Controls.Add(cbxPersonelUniversite);
+            groupBox18.Controls.Add(txtPersonelDepartman);
+            groupBox18.Controls.Add(txtPersonelYabanciDil);
+            groupBox18.Controls.Add(txtPersonelSertifika);
+            groupBox18.Controls.Add(groupBox20);
+            groupBox18.Controls.Add(cbxPersonelEgitimDurumu);
+            groupBox18.Controls.Add(label4);
+            groupBox18.Controls.Add(txtPersonelGorev);
+            groupBox18.Controls.Add(dateTimePicker3);
+            groupBox18.Controls.Add(cbxPersoneIIsAyrıldı);
+            groupBox18.Controls.Add(dateTimePicker2);
+            groupBox18.Controls.Add(label3);
+            groupBox18.Controls.Add(label2);
+            groupBox18.Controls.Add(txtPersonelMaas);
+            groupBox18.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox18.ForeColor = Color.CornflowerBlue;
+            groupBox18.Location = new Point(6, 351);
+            groupBox18.Name = "groupBox18";
+            groupBox18.Size = new Size(976, 384);
+            groupBox18.TabIndex = 18;
+            groupBox18.TabStop = false;
+            groupBox18.Text = "Personel Özlük Bilgileri";
+            groupBox18.Enter += groupBox18_Enter;
+            // 
+            // cbxPersonelEgitimDurumu
+            // 
+            cbxPersonelEgitimDurumu.FormattingEnabled = true;
+            cbxPersonelEgitimDurumu.Items.AddRange(new object[] { "Okuryazar Değil", "İlkokul Mezunu ", "Ortaokul Mezunu", "Lise Mezunu", "Önlisans (Devam Ediyor)", "Lisans (Devam Ediyor)", "Yüksek Lisans(Devam Ediyor)", "Doktora (Devam Ediyor)", "Önlisans Mezunu", "Lisans Mezunu", "Yüksek Lisans", "Doktora " });
+            cbxPersonelEgitimDurumu.Location = new Point(462, 16);
+            cbxPersonelEgitimDurumu.Name = "cbxPersonelEgitimDurumu";
+            cbxPersonelEgitimDurumu.Size = new Size(194, 23);
+            cbxPersonelEgitimDurumu.TabIndex = 14;
+            cbxPersonelEgitimDurumu.SelectedIndexChanged += comboBox1_SelectedIndexChanged_1;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(361, 19);
+            label4.Name = "label4";
+            label4.Size = new Size(95, 15);
+            label4.TabIndex = 13;
+            label4.Text = "Eğitim Durumu :";
+            label4.Click += label4_Click;
+            // 
+            // txtPersonelGorev
+            // 
+            txtPersonelGorev.Location = new Point(167, 65);
+            txtPersonelGorev.Name = "txtPersonelGorev";
+            txtPersonelGorev.PlaceholderText = "Görevi / Ünvanı\n\n";
+            txtPersonelGorev.Size = new Size(153, 23);
+            txtPersonelGorev.TabIndex = 12;
+            txtPersonelGorev.TextChanged += txtPersonelGorev_TextChanged;
+            // 
+            // dateTimePicker3
+            // 
+            dateTimePicker3.Location = new Point(122, 29);
+            dateTimePicker3.Name = "dateTimePicker3";
+            dateTimePicker3.Size = new Size(206, 23);
+            dateTimePicker3.TabIndex = 11;
+            // 
+            // cbxPersoneIIsAyrıldı
+            // 
+            cbxPersoneIIsAyrıldı.AutoSize = true;
+            cbxPersoneIIsAyrıldı.Location = new Point(367, 221);
+            cbxPersoneIIsAyrıldı.Name = "cbxPersoneIIsAyrıldı";
+            cbxPersoneIIsAyrıldı.Size = new Size(89, 19);
+            cbxPersoneIIsAyrıldı.TabIndex = 10;
+            cbxPersoneIIsAyrıldı.Text = "İşten Ayrıldı";
+            cbxPersoneIIsAyrıldı.UseVisualStyleBackColor = true;
+            // 
+            // dateTimePicker2
+            // 
+            dateTimePicker2.Location = new Point(469, 246);
+            dateTimePicker2.Name = "dateTimePicker2";
+            dateTimePicker2.Size = new Size(200, 23);
+            dateTimePicker2.TabIndex = 9;
+            dateTimePicker2.Visible = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(367, 252);
+            label3.Name = "label3";
+            label3.Size = new Size(96, 15);
+            label3.TabIndex = 3;
+            label3.Text = "İşten Çıkış tarihi :";
+            label3.Visible = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(9, 35);
+            label2.Name = "label2";
+            label2.Size = new Size(107, 15);
+            label2.TabIndex = 2;
+            label2.Text = "İşe Başlama Tarihi :";
+            label2.Click += label2_Click;
+            // 
+            // txtPersonelMaas
+            // 
+            txtPersonelMaas.Location = new Point(6, 219);
+            txtPersonelMaas.Name = "txtPersonelMaas";
+            txtPersonelMaas.PlaceholderText = "Maaş";
+            txtPersonelMaas.Size = new Size(151, 23);
+            txtPersonelMaas.TabIndex = 1;
+            txtPersonelMaas.TextChanged += txtPersonelMaas_TextChanged;
             // 
             // dgvPersonelYonetimi
             // 
@@ -1199,7 +1291,7 @@ namespace BKS
             dgvPersonelYonetimi.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dgvPersonelYonetimi.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgvPersonelYonetimi.ShowRowErrors = false;
-            dgvPersonelYonetimi.Size = new Size(852, 550);
+            dgvPersonelYonetimi.Size = new Size(852, 930);
             dgvPersonelYonetimi.TabIndex = 1;
             // 
             // sqlCommand1
@@ -1219,6 +1311,180 @@ namespace BKS
             materialLabel3.Size = new Size(69, 19);
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
+            // 
+            // groupBox20
+            // 
+            groupBox20.Controls.Add(textBox1);
+            groupBox20.Location = new Point(911, -6);
+            groupBox20.Name = "groupBox20";
+            groupBox20.Size = new Size(8, 8);
+            groupBox20.TabIndex = 15;
+            groupBox20.TabStop = false;
+            groupBox20.Text = "groupBox20";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(-96, -7);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Görevi";
+            textBox1.Size = new Size(200, 23);
+            textBox1.TabIndex = 13;
+            // 
+            // txtPersonelSertifika
+            // 
+            txtPersonelSertifika.Location = new Point(700, 16);
+            txtPersonelSertifika.Multiline = true;
+            txtPersonelSertifika.Name = "txtPersonelSertifika";
+            txtPersonelSertifika.PlaceholderText = "Sertifikalar ve Eğitimler";
+            txtPersonelSertifika.Size = new Size(269, 94);
+            txtPersonelSertifika.TabIndex = 16;
+            // 
+            // txtPersonelYabanciDil
+            // 
+            txtPersonelYabanciDil.Location = new Point(701, 116);
+            txtPersonelYabanciDil.Multiline = true;
+            txtPersonelYabanciDil.Name = "txtPersonelYabanciDil";
+            txtPersonelYabanciDil.PlaceholderText = "Yabancı Dil Bilgisi\n\n";
+            txtPersonelYabanciDil.Size = new Size(269, 94);
+            txtPersonelYabanciDil.TabIndex = 17;
+            // 
+            // txtPersonelDepartman
+            // 
+            txtPersonelDepartman.Location = new Point(9, 65);
+            txtPersonelDepartman.Name = "txtPersonelDepartman";
+            txtPersonelDepartman.PlaceholderText = "Departmanı";
+            txtPersonelDepartman.Size = new Size(151, 23);
+            txtPersonelDepartman.TabIndex = 18;
+            // 
+            // cbxPersonelUniversite
+            // 
+            cbxPersonelUniversite.FormattingEnabled = true;
+            cbxPersonelUniversite.Location = new Point(432, 62);
+            cbxPersonelUniversite.Name = "cbxPersonelUniversite";
+            cbxPersonelUniversite.Size = new Size(224, 23);
+            cbxPersonelUniversite.TabIndex = 19;
+            cbxPersonelUniversite.Visible = false;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(361, 65);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 15);
+            label5.TabIndex = 20;
+            label5.Text = "Üniversite :";
+            label5.Visible = false;
+            // 
+            // txtPersonelUniBolum
+            // 
+            txtPersonelUniBolum.Location = new Point(361, 104);
+            txtPersonelUniBolum.Name = "txtPersonelUniBolum";
+            txtPersonelUniBolum.PlaceholderText = "Bölümü";
+            txtPersonelUniBolum.Size = new Size(295, 23);
+            txtPersonelUniBolum.TabIndex = 23;
+            txtPersonelUniBolum.Visible = false;
+            // 
+            // cbxPersonelCalismaSekli
+            // 
+            cbxPersonelCalismaSekli.FormattingEnabled = true;
+            cbxPersonelCalismaSekli.Location = new Point(100, 104);
+            cbxPersonelCalismaSekli.Name = "cbxPersonelCalismaSekli";
+            cbxPersonelCalismaSekli.Size = new Size(220, 23);
+            cbxPersonelCalismaSekli.TabIndex = 24;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(9, 107);
+            label6.Name = "label6";
+            label6.Size = new Size(82, 15);
+            label6.TabIndex = 25;
+            label6.Text = "Çalışma Şekli :";
+            label6.Visible = false;
+            // 
+            // txtPersonelPersonelNo
+            // 
+            txtPersonelPersonelNo.Location = new Point(9, 141);
+            txtPersonelPersonelNo.Name = "txtPersonelPersonelNo";
+            txtPersonelPersonelNo.PlaceholderText = "Personel Numarası";
+            txtPersonelPersonelNo.Size = new Size(311, 23);
+            txtPersonelPersonelNo.TabIndex = 26;
+            // 
+            // cbxPersonelSigorta
+            // 
+            cbxPersonelSigorta.FormattingEnabled = true;
+            cbxPersonelSigorta.Location = new Point(100, 180);
+            cbxPersonelSigorta.Name = "cbxPersonelSigorta";
+            cbxPersonelSigorta.Size = new Size(220, 23);
+            cbxPersonelSigorta.TabIndex = 27;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(9, 183);
+            label7.Name = "label7";
+            label7.Size = new Size(85, 15);
+            label7.TabIndex = 28;
+            label7.Text = "Sigorta Bilgisi :";
+            label7.Visible = false;
+            label7.Click += label7_Click;
+            // 
+            // txtPersonelPrimVeEk
+            // 
+            txtPersonelPrimVeEk.Location = new Point(166, 219);
+            txtPersonelPrimVeEk.Name = "txtPersonelPrimVeEk";
+            txtPersonelPrimVeEk.PlaceholderText = "Prim ve Ek Ödemeler";
+            txtPersonelPrimVeEk.Size = new Size(151, 23);
+            txtPersonelPrimVeEk.TabIndex = 29;
+            // 
+            // txtPersonelYemekYol
+            // 
+            txtPersonelYemekYol.Location = new Point(78, 258);
+            txtPersonelYemekYol.Name = "txtPersonelYemekYol";
+            txtPersonelYemekYol.PlaceholderText = "Yemek ve Yol Yardımı";
+            txtPersonelYemekYol.Size = new Size(151, 23);
+            txtPersonelYemekYol.TabIndex = 30;
+            // 
+            // txtPersonelEmeklilik
+            // 
+            txtPersonelEmeklilik.Location = new Point(81, 342);
+            txtPersonelEmeklilik.Name = "txtPersonelEmeklilik";
+            txtPersonelEmeklilik.PlaceholderText = "Emeklilik Bilgileri\n\n";
+            txtPersonelEmeklilik.Size = new Size(151, 23);
+            txtPersonelEmeklilik.TabIndex = 33;
+            // 
+            // txtPersonelSaglikSigorta
+            // 
+            txtPersonelSaglikSigorta.Location = new Point(169, 303);
+            txtPersonelSaglikSigorta.Name = "txtPersonelSaglikSigorta";
+            txtPersonelSaglikSigorta.PlaceholderText = "Sağlık Sigortası Bilgileri\n\n";
+            txtPersonelSaglikSigorta.Size = new Size(151, 23);
+            txtPersonelSaglikSigorta.TabIndex = 32;
+            // 
+            // txtPersonelSGKSicilNum
+            // 
+            txtPersonelSGKSicilNum.Location = new Point(9, 303);
+            txtPersonelSGKSicilNum.Name = "txtPersonelSGKSicilNum";
+            txtPersonelSGKSicilNum.PlaceholderText = "SGK Sicil Numarası";
+            txtPersonelSGKSicilNum.Size = new Size(151, 23);
+            txtPersonelSGKSicilNum.TabIndex = 31;
+            // 
+            // txtPersonelAyrilmaNedeni
+            // 
+            txtPersonelAyrilmaNedeni.Location = new Point(367, 275);
+            txtPersonelAyrilmaNedeni.Multiline = true;
+            txtPersonelAyrilmaNedeni.Name = "txtPersonelAyrilmaNedeni";
+            txtPersonelAyrilmaNedeni.PlaceholderText = "Ayrılma Nedeni";
+            txtPersonelAyrilmaNedeni.Size = new Size(302, 51);
+            txtPersonelAyrilmaNedeni.TabIndex = 34;
+            // 
+            // txtPersonelKidemTazminat
+            // 
+            txtPersonelKidemTazminat.Location = new Point(367, 332);
+            txtPersonelKidemTazminat.Name = "txtPersonelKidemTazminat";
+            txtPersonelKidemTazminat.PlaceholderText = "Kıdem ve İhbar Tazminatı\n\n";
+            txtPersonelKidemTazminat.Size = new Size(302, 23);
+            txtPersonelKidemTazminat.TabIndex = 35;
             // 
             // Form2
             // 
@@ -1276,24 +1542,17 @@ namespace BKS
             tabPageOzelRaporlar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)salesGrid).EndInit();
             tabPagePersonelYonetimi.ResumeLayout(false);
-            groupBox23.ResumeLayout(false);
-            groupBox23.PerformLayout();
-            groupBox24.ResumeLayout(false);
-            groupBox24.PerformLayout();
-            groupBox21.ResumeLayout(false);
-            groupBox21.PerformLayout();
-            groupBox19.ResumeLayout(false);
-            groupBox19.PerformLayout();
-            groupBox18.ResumeLayout(false);
-            groupBox18.PerformLayout();
             groupBox17.ResumeLayout(false);
-            groupBox17.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbxPersonelPicture).EndInit();
             groupBox25.ResumeLayout(false);
             groupBox25.PerformLayout();
             groupBox22.ResumeLayout(false);
             groupBox22.PerformLayout();
+            groupBox18.ResumeLayout(false);
+            groupBox18.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).EndInit();
+            groupBox20.ResumeLayout(false);
+            groupBox20.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1350,29 +1609,53 @@ namespace BKS
         private ToolStripMenuItem excelİleAktarToolStripMenuItem;
         private GroupBox groupBox16;
         private CheckBox cbxUserId;
-   
-        private GroupBox groupBox23;
-        private TextBox textBox7;
-        private GroupBox groupBox24;
-        private TextBox textBox8;
         private GroupBox groupBox25;
-        private TextBox textBox9;
-        private GroupBox groupBox21;
-        private TextBox textBox5;
+        private TextBox txtPersonelTel;
         private GroupBox groupBox22;
-        private TextBox textBox6;
-        private GroupBox groupBox19;
-        private TextBox textBox3;
+        private TextBox txtPersonelAd;
         private GroupBox groupBox18;
-        private TextBox textBox2;
         private GroupBox groupBox17;
-        private TextBox textBox1;
+        private TextBox txtPersonelMaas;
         private DataGridView dgvPersonelYonetimi;
         private PictureBox pbxPersonelPicture;
-        private TextBox textBox11;
-        private TextBox textBox12;
-        private TextBox textBox4;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
+        private TextBox txtPersonelKimlik;
+        private TextBox txtPersonelSoyad;
+        private RadioButton rbtPersonelKadin;
+        private RadioButton rbtPersonelErkek;
+        private DateTimePicker dateTimePicker1;
+        private Label label1;
+        private RadioButton rbtPersonelEvli;
+        private TextBox txtPersonelMail;
+        private TextBox txtPersonelAdres;
+        private Label label3;
+        private Label label2;
+        private CheckBox cbxPersoneIIsAyrıldı;
+        private DateTimePicker dateTimePicker2;
+        private ComboBox cbxPersonelUyruk;
+        private TextBox txtPersonelGorev;
+        private DateTimePicker dateTimePicker3;
+        private TextBox txtPersonelIletişimAcilDurum;
+        private ComboBox cbxPersonelEgitimDurumu;
+        private Label label4;
+        private TextBox txtPersonelYabanciDil;
+        private TextBox txtPersonelSertifika;
+        private GroupBox groupBox20;
+        private TextBox textBox1;
+        private TextBox txtPersonelDepartman;
+        private TextBox txtPersonelUniBolum;
+        private Label label5;
+        private ComboBox cbxPersonelUniversite;
+        private Label label6;
+        private ComboBox cbxPersonelCalismaSekli;
+        private TextBox txtPersonelPersonelNo;
+        private Label label7;
+        private ComboBox cbxPersonelSigorta;
+        private TextBox txtPersonelYemekYol;
+        private TextBox txtPersonelPrimVeEk;
+        private TextBox txtPersonelEmeklilik;
+        private TextBox txtPersonelSaglikSigorta;
+        private TextBox txtPersonelSGKSicilNum;
+        private TextBox txtPersonelAyrilmaNedeni;
+        private TextBox txtPersonelKidemTazminat;
     }
 }

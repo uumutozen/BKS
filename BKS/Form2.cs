@@ -47,7 +47,7 @@ namespace BKS
             this.materialLabel3.Text = "Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId);
             LoadStockData(UserId);
             LoadCompanyModules(UserId);
-            
+
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             YasGrubuLoad();
@@ -304,7 +304,7 @@ namespace BKS
                 }
 
                 MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-           
+
                 LoadStockData(UserId);
             }
         }
@@ -1115,6 +1115,56 @@ namespace BKS
         }
 
         private void cmbogrsınıf_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPersonelMaas_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPersonelGorev_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox18_Enter(object sender, EventArgs e)
         {
 
         }
