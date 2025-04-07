@@ -6,7 +6,14 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject>BKS.Program</StartupObject>
+    <ApplicationIcon>helm_icon.ico</ApplicationIcon>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="helm_icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.7.0" />

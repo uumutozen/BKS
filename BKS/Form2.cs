@@ -16,6 +16,7 @@ using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 using Newtonsoft.Json;
 
+
 namespace BKS
 {
     public partial class Form2 : MaterialForm
@@ -35,7 +36,7 @@ namespace BKS
             LoadStockComboBox();
             LoadPaymentData();
 
-
+           
             form1.Close();
 
 
@@ -50,6 +51,7 @@ namespace BKS
 
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
+            dgvPersonelYonetimi.AllowUserToAddRows = false;
             YasGrubuLoad();
             SinifLoad(UserId);
             cbxUserId.Checked = false;
