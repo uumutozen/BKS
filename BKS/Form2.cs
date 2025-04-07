@@ -44,7 +44,7 @@ namespace BKS
         private void Form2_Load(object sender, EventArgs e)
         {
 
-            this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi";
+            this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi".ToUpper();
             this.materialLabel3.Text = "Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId);
             LoadStockData(UserId);
             LoadCompanyModules(UserId);
@@ -102,7 +102,7 @@ namespace BKS
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
-                dataGridViewStok.Columns["Id"].Visible = true;
+            
 
             }
         }
