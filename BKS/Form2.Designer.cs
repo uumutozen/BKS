@@ -122,6 +122,26 @@ namespace BKS
             txtPersonelSoyad = new TextBox();
             txtPersonelAd = new TextBox();
             groupBox18 = new GroupBox();
+            txtPersonelKidemTazminat = new TextBox();
+            txtPersonelAyrilmaNedeni = new TextBox();
+            txtPersonelEmeklilik = new TextBox();
+            txtPersonelSaglikSigorta = new TextBox();
+            txtPersonelSGKSicilNum = new TextBox();
+            txtPersonelYemekYol = new TextBox();
+            txtPersonelPrimVeEk = new TextBox();
+            label7 = new Label();
+            cbxPersonelSigorta = new ComboBox();
+            txtPersonelPersonelNo = new TextBox();
+            label6 = new Label();
+            cbxPersonelCalismaSekli = new ComboBox();
+            txtPersonelUniBolum = new TextBox();
+            label5 = new Label();
+            cbxPersonelUniversite = new ComboBox();
+            txtPersonelDepartman = new TextBox();
+            txtPersonelYabanciDil = new TextBox();
+            txtPersonelSertifika = new TextBox();
+            groupBox20 = new GroupBox();
+            textBox1 = new TextBox();
             cbxPersonelEgitimDurumu = new ComboBox();
             label4 = new Label();
             txtPersonelGorev = new TextBox();
@@ -134,26 +154,6 @@ namespace BKS
             dgvPersonelYonetimi = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            groupBox20 = new GroupBox();
-            textBox1 = new TextBox();
-            txtPersonelSertifika = new TextBox();
-            txtPersonelYabanciDil = new TextBox();
-            txtPersonelDepartman = new TextBox();
-            cbxPersonelUniversite = new ComboBox();
-            label5 = new Label();
-            txtPersonelUniBolum = new TextBox();
-            cbxPersonelCalismaSekli = new ComboBox();
-            label6 = new Label();
-            txtPersonelPersonelNo = new TextBox();
-            cbxPersonelSigorta = new ComboBox();
-            label7 = new Label();
-            txtPersonelPrimVeEk = new TextBox();
-            txtPersonelYemekYol = new TextBox();
-            txtPersonelEmeklilik = new TextBox();
-            txtPersonelSaglikSigorta = new TextBox();
-            txtPersonelSGKSicilNum = new TextBox();
-            txtPersonelAyrilmaNedeni = new TextBox();
-            txtPersonelKidemTazminat = new TextBox();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox16.SuspendLayout();
@@ -191,8 +191,8 @@ namespace BKS
             groupBox25.SuspendLayout();
             groupBox22.SuspendLayout();
             groupBox18.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).BeginInit();
             groupBox20.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).BeginInit();
             SuspendLayout();
             // 
             // tabControl
@@ -1193,6 +1193,180 @@ namespace BKS
             groupBox18.Text = "Personel Özlük Bilgileri";
             groupBox18.Enter += groupBox18_Enter;
             // 
+            // txtPersonelKidemTazminat
+            // 
+            txtPersonelKidemTazminat.Location = new Point(367, 332);
+            txtPersonelKidemTazminat.Name = "txtPersonelKidemTazminat";
+            txtPersonelKidemTazminat.PlaceholderText = "Kıdem ve İhbar Tazminatı\n\n";
+            txtPersonelKidemTazminat.Size = new Size(302, 23);
+            txtPersonelKidemTazminat.TabIndex = 35;
+            // 
+            // txtPersonelAyrilmaNedeni
+            // 
+            txtPersonelAyrilmaNedeni.Location = new Point(367, 275);
+            txtPersonelAyrilmaNedeni.Multiline = true;
+            txtPersonelAyrilmaNedeni.Name = "txtPersonelAyrilmaNedeni";
+            txtPersonelAyrilmaNedeni.PlaceholderText = "Ayrılma Nedeni";
+            txtPersonelAyrilmaNedeni.Size = new Size(302, 51);
+            txtPersonelAyrilmaNedeni.TabIndex = 34;
+            // 
+            // txtPersonelEmeklilik
+            // 
+            txtPersonelEmeklilik.Location = new Point(81, 342);
+            txtPersonelEmeklilik.Name = "txtPersonelEmeklilik";
+            txtPersonelEmeklilik.PlaceholderText = "Emeklilik Bilgileri\n\n";
+            txtPersonelEmeklilik.Size = new Size(151, 23);
+            txtPersonelEmeklilik.TabIndex = 33;
+            // 
+            // txtPersonelSaglikSigorta
+            // 
+            txtPersonelSaglikSigorta.Location = new Point(169, 303);
+            txtPersonelSaglikSigorta.Name = "txtPersonelSaglikSigorta";
+            txtPersonelSaglikSigorta.PlaceholderText = "Sağlık Sigortası Bilgileri\n\n";
+            txtPersonelSaglikSigorta.Size = new Size(151, 23);
+            txtPersonelSaglikSigorta.TabIndex = 32;
+            // 
+            // txtPersonelSGKSicilNum
+            // 
+            txtPersonelSGKSicilNum.Location = new Point(9, 303);
+            txtPersonelSGKSicilNum.Name = "txtPersonelSGKSicilNum";
+            txtPersonelSGKSicilNum.PlaceholderText = "SGK Sicil Numarası";
+            txtPersonelSGKSicilNum.Size = new Size(151, 23);
+            txtPersonelSGKSicilNum.TabIndex = 31;
+            // 
+            // txtPersonelYemekYol
+            // 
+            txtPersonelYemekYol.Location = new Point(78, 258);
+            txtPersonelYemekYol.Name = "txtPersonelYemekYol";
+            txtPersonelYemekYol.PlaceholderText = "Yemek ve Yol Yardımı";
+            txtPersonelYemekYol.Size = new Size(151, 23);
+            txtPersonelYemekYol.TabIndex = 30;
+            // 
+            // txtPersonelPrimVeEk
+            // 
+            txtPersonelPrimVeEk.Location = new Point(166, 219);
+            txtPersonelPrimVeEk.Name = "txtPersonelPrimVeEk";
+            txtPersonelPrimVeEk.PlaceholderText = "Prim ve Ek Ödemeler";
+            txtPersonelPrimVeEk.Size = new Size(151, 23);
+            txtPersonelPrimVeEk.TabIndex = 29;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(9, 183);
+            label7.Name = "label7";
+            label7.Size = new Size(85, 15);
+            label7.TabIndex = 28;
+            label7.Text = "Sigorta Bilgisi :";
+            label7.Visible = false;
+            label7.Click += label7_Click;
+            // 
+            // cbxPersonelSigorta
+            // 
+            cbxPersonelSigorta.FormattingEnabled = true;
+            cbxPersonelSigorta.Location = new Point(100, 180);
+            cbxPersonelSigorta.Name = "cbxPersonelSigorta";
+            cbxPersonelSigorta.Size = new Size(220, 23);
+            cbxPersonelSigorta.TabIndex = 27;
+            // 
+            // txtPersonelPersonelNo
+            // 
+            txtPersonelPersonelNo.Location = new Point(9, 141);
+            txtPersonelPersonelNo.Name = "txtPersonelPersonelNo";
+            txtPersonelPersonelNo.PlaceholderText = "Personel Numarası";
+            txtPersonelPersonelNo.Size = new Size(311, 23);
+            txtPersonelPersonelNo.TabIndex = 26;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(9, 107);
+            label6.Name = "label6";
+            label6.Size = new Size(82, 15);
+            label6.TabIndex = 25;
+            label6.Text = "Çalışma Şekli :";
+            label6.Visible = false;
+            // 
+            // cbxPersonelCalismaSekli
+            // 
+            cbxPersonelCalismaSekli.FormattingEnabled = true;
+            cbxPersonelCalismaSekli.Location = new Point(100, 104);
+            cbxPersonelCalismaSekli.Name = "cbxPersonelCalismaSekli";
+            cbxPersonelCalismaSekli.Size = new Size(220, 23);
+            cbxPersonelCalismaSekli.TabIndex = 24;
+            // 
+            // txtPersonelUniBolum
+            // 
+            txtPersonelUniBolum.Location = new Point(361, 104);
+            txtPersonelUniBolum.Name = "txtPersonelUniBolum";
+            txtPersonelUniBolum.PlaceholderText = "Bölümü";
+            txtPersonelUniBolum.Size = new Size(295, 23);
+            txtPersonelUniBolum.TabIndex = 23;
+            txtPersonelUniBolum.Visible = false;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(361, 65);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 15);
+            label5.TabIndex = 20;
+            label5.Text = "Üniversite :";
+            label5.Visible = false;
+            // 
+            // cbxPersonelUniversite
+            // 
+            cbxPersonelUniversite.FormattingEnabled = true;
+            cbxPersonelUniversite.Location = new Point(432, 62);
+            cbxPersonelUniversite.Name = "cbxPersonelUniversite";
+            cbxPersonelUniversite.Size = new Size(224, 23);
+            cbxPersonelUniversite.TabIndex = 19;
+            cbxPersonelUniversite.Visible = false;
+            // 
+            // txtPersonelDepartman
+            // 
+            txtPersonelDepartman.Location = new Point(9, 65);
+            txtPersonelDepartman.Name = "txtPersonelDepartman";
+            txtPersonelDepartman.PlaceholderText = "Departmanı";
+            txtPersonelDepartman.Size = new Size(151, 23);
+            txtPersonelDepartman.TabIndex = 18;
+            // 
+            // txtPersonelYabanciDil
+            // 
+            txtPersonelYabanciDil.Location = new Point(701, 116);
+            txtPersonelYabanciDil.Multiline = true;
+            txtPersonelYabanciDil.Name = "txtPersonelYabanciDil";
+            txtPersonelYabanciDil.PlaceholderText = "Yabancı Dil Bilgisi\n\n";
+            txtPersonelYabanciDil.Size = new Size(269, 94);
+            txtPersonelYabanciDil.TabIndex = 17;
+            // 
+            // txtPersonelSertifika
+            // 
+            txtPersonelSertifika.Location = new Point(700, 16);
+            txtPersonelSertifika.Multiline = true;
+            txtPersonelSertifika.Name = "txtPersonelSertifika";
+            txtPersonelSertifika.PlaceholderText = "Sertifikalar ve Eğitimler";
+            txtPersonelSertifika.Size = new Size(269, 94);
+            txtPersonelSertifika.TabIndex = 16;
+            // 
+            // groupBox20
+            // 
+            groupBox20.Controls.Add(textBox1);
+            groupBox20.Location = new Point(911, -6);
+            groupBox20.Name = "groupBox20";
+            groupBox20.Size = new Size(8, 8);
+            groupBox20.TabIndex = 15;
+            groupBox20.TabStop = false;
+            groupBox20.Text = "groupBox20";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(-96, -7);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "Görevi";
+            textBox1.Size = new Size(200, 23);
+            textBox1.TabIndex = 13;
+            // 
             // cbxPersonelEgitimDurumu
             // 
             cbxPersonelEgitimDurumu.FormattingEnabled = true;
@@ -1312,180 +1486,6 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
-            // groupBox20
-            // 
-            groupBox20.Controls.Add(textBox1);
-            groupBox20.Location = new Point(911, -6);
-            groupBox20.Name = "groupBox20";
-            groupBox20.Size = new Size(8, 8);
-            groupBox20.TabIndex = 15;
-            groupBox20.TabStop = false;
-            groupBox20.Text = "groupBox20";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(-96, -7);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Görevi";
-            textBox1.Size = new Size(200, 23);
-            textBox1.TabIndex = 13;
-            // 
-            // txtPersonelSertifika
-            // 
-            txtPersonelSertifika.Location = new Point(700, 16);
-            txtPersonelSertifika.Multiline = true;
-            txtPersonelSertifika.Name = "txtPersonelSertifika";
-            txtPersonelSertifika.PlaceholderText = "Sertifikalar ve Eğitimler";
-            txtPersonelSertifika.Size = new Size(269, 94);
-            txtPersonelSertifika.TabIndex = 16;
-            // 
-            // txtPersonelYabanciDil
-            // 
-            txtPersonelYabanciDil.Location = new Point(701, 116);
-            txtPersonelYabanciDil.Multiline = true;
-            txtPersonelYabanciDil.Name = "txtPersonelYabanciDil";
-            txtPersonelYabanciDil.PlaceholderText = "Yabancı Dil Bilgisi\n\n";
-            txtPersonelYabanciDil.Size = new Size(269, 94);
-            txtPersonelYabanciDil.TabIndex = 17;
-            // 
-            // txtPersonelDepartman
-            // 
-            txtPersonelDepartman.Location = new Point(9, 65);
-            txtPersonelDepartman.Name = "txtPersonelDepartman";
-            txtPersonelDepartman.PlaceholderText = "Departmanı";
-            txtPersonelDepartman.Size = new Size(151, 23);
-            txtPersonelDepartman.TabIndex = 18;
-            // 
-            // cbxPersonelUniversite
-            // 
-            cbxPersonelUniversite.FormattingEnabled = true;
-            cbxPersonelUniversite.Location = new Point(432, 62);
-            cbxPersonelUniversite.Name = "cbxPersonelUniversite";
-            cbxPersonelUniversite.Size = new Size(224, 23);
-            cbxPersonelUniversite.TabIndex = 19;
-            cbxPersonelUniversite.Visible = false;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(361, 65);
-            label5.Name = "label5";
-            label5.Size = new Size(65, 15);
-            label5.TabIndex = 20;
-            label5.Text = "Üniversite :";
-            label5.Visible = false;
-            // 
-            // txtPersonelUniBolum
-            // 
-            txtPersonelUniBolum.Location = new Point(361, 104);
-            txtPersonelUniBolum.Name = "txtPersonelUniBolum";
-            txtPersonelUniBolum.PlaceholderText = "Bölümü";
-            txtPersonelUniBolum.Size = new Size(295, 23);
-            txtPersonelUniBolum.TabIndex = 23;
-            txtPersonelUniBolum.Visible = false;
-            // 
-            // cbxPersonelCalismaSekli
-            // 
-            cbxPersonelCalismaSekli.FormattingEnabled = true;
-            cbxPersonelCalismaSekli.Location = new Point(100, 104);
-            cbxPersonelCalismaSekli.Name = "cbxPersonelCalismaSekli";
-            cbxPersonelCalismaSekli.Size = new Size(220, 23);
-            cbxPersonelCalismaSekli.TabIndex = 24;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(9, 107);
-            label6.Name = "label6";
-            label6.Size = new Size(82, 15);
-            label6.TabIndex = 25;
-            label6.Text = "Çalışma Şekli :";
-            label6.Visible = false;
-            // 
-            // txtPersonelPersonelNo
-            // 
-            txtPersonelPersonelNo.Location = new Point(9, 141);
-            txtPersonelPersonelNo.Name = "txtPersonelPersonelNo";
-            txtPersonelPersonelNo.PlaceholderText = "Personel Numarası";
-            txtPersonelPersonelNo.Size = new Size(311, 23);
-            txtPersonelPersonelNo.TabIndex = 26;
-            // 
-            // cbxPersonelSigorta
-            // 
-            cbxPersonelSigorta.FormattingEnabled = true;
-            cbxPersonelSigorta.Location = new Point(100, 180);
-            cbxPersonelSigorta.Name = "cbxPersonelSigorta";
-            cbxPersonelSigorta.Size = new Size(220, 23);
-            cbxPersonelSigorta.TabIndex = 27;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(9, 183);
-            label7.Name = "label7";
-            label7.Size = new Size(85, 15);
-            label7.TabIndex = 28;
-            label7.Text = "Sigorta Bilgisi :";
-            label7.Visible = false;
-            label7.Click += label7_Click;
-            // 
-            // txtPersonelPrimVeEk
-            // 
-            txtPersonelPrimVeEk.Location = new Point(166, 219);
-            txtPersonelPrimVeEk.Name = "txtPersonelPrimVeEk";
-            txtPersonelPrimVeEk.PlaceholderText = "Prim ve Ek Ödemeler";
-            txtPersonelPrimVeEk.Size = new Size(151, 23);
-            txtPersonelPrimVeEk.TabIndex = 29;
-            // 
-            // txtPersonelYemekYol
-            // 
-            txtPersonelYemekYol.Location = new Point(78, 258);
-            txtPersonelYemekYol.Name = "txtPersonelYemekYol";
-            txtPersonelYemekYol.PlaceholderText = "Yemek ve Yol Yardımı";
-            txtPersonelYemekYol.Size = new Size(151, 23);
-            txtPersonelYemekYol.TabIndex = 30;
-            // 
-            // txtPersonelEmeklilik
-            // 
-            txtPersonelEmeklilik.Location = new Point(81, 342);
-            txtPersonelEmeklilik.Name = "txtPersonelEmeklilik";
-            txtPersonelEmeklilik.PlaceholderText = "Emeklilik Bilgileri\n\n";
-            txtPersonelEmeklilik.Size = new Size(151, 23);
-            txtPersonelEmeklilik.TabIndex = 33;
-            // 
-            // txtPersonelSaglikSigorta
-            // 
-            txtPersonelSaglikSigorta.Location = new Point(169, 303);
-            txtPersonelSaglikSigorta.Name = "txtPersonelSaglikSigorta";
-            txtPersonelSaglikSigorta.PlaceholderText = "Sağlık Sigortası Bilgileri\n\n";
-            txtPersonelSaglikSigorta.Size = new Size(151, 23);
-            txtPersonelSaglikSigorta.TabIndex = 32;
-            // 
-            // txtPersonelSGKSicilNum
-            // 
-            txtPersonelSGKSicilNum.Location = new Point(9, 303);
-            txtPersonelSGKSicilNum.Name = "txtPersonelSGKSicilNum";
-            txtPersonelSGKSicilNum.PlaceholderText = "SGK Sicil Numarası";
-            txtPersonelSGKSicilNum.Size = new Size(151, 23);
-            txtPersonelSGKSicilNum.TabIndex = 31;
-            // 
-            // txtPersonelAyrilmaNedeni
-            // 
-            txtPersonelAyrilmaNedeni.Location = new Point(367, 275);
-            txtPersonelAyrilmaNedeni.Multiline = true;
-            txtPersonelAyrilmaNedeni.Name = "txtPersonelAyrilmaNedeni";
-            txtPersonelAyrilmaNedeni.PlaceholderText = "Ayrılma Nedeni";
-            txtPersonelAyrilmaNedeni.Size = new Size(302, 51);
-            txtPersonelAyrilmaNedeni.TabIndex = 34;
-            // 
-            // txtPersonelKidemTazminat
-            // 
-            txtPersonelKidemTazminat.Location = new Point(367, 332);
-            txtPersonelKidemTazminat.Name = "txtPersonelKidemTazminat";
-            txtPersonelKidemTazminat.PlaceholderText = "Kıdem ve İhbar Tazminatı\n\n";
-            txtPersonelKidemTazminat.Size = new Size(302, 23);
-            txtPersonelKidemTazminat.TabIndex = 35;
-            // 
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
@@ -1550,9 +1550,9 @@ namespace BKS
             groupBox22.PerformLayout();
             groupBox18.ResumeLayout(false);
             groupBox18.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).EndInit();
             groupBox20.ResumeLayout(false);
             groupBox20.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
