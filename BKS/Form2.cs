@@ -36,7 +36,7 @@ namespace BKS
             LoadStockComboBox();
             LoadPaymentData();
 
-           
+
             form1.Close();
 
 
@@ -102,7 +102,7 @@ namespace BKS
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
-            
+
 
             }
         }
@@ -1188,6 +1188,52 @@ namespace BKS
         private void groupBox18_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridViewStok_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                // Satırı al
+                DataGridViewRow row = dataGridViewStok.Rows[e.RowIndex];
+
+                // Öğrenci formunu oluştur
+                OgrenciForm ogrForm = new OgrenciForm();
+
+                // Satırdaki verileri forma aktar
+                ogrForm.txtOgrenciAd.Text = row.Cells["İsim"].Value?.ToString() ?? "";
+                ogrForm.textSoyad.Text = row.Cells["Soyisim"].Value?.ToString() ?? "";
+                ogrForm.txtBabaAd.Text = row.Cells["Baba Adı"].Value?.ToString() ?? "";
+                ogrForm.txtAnneAd.Text = row.Cells["Anne Adı"].Value?.ToString() ?? "";
+                ogrForm.cmbogrsınıf.Text = row.Cells["Sınıfı"].Value?.ToString() ?? "";
+                ogrForm.textOgrenciKod.Text = row.Cells["Öğrenci Kodu"].Value?.ToString() ?? "";
+                ogrForm.textOgrenciDetay.Text = row.Cells["Öğrenci Hakkında"].Value?.ToString() ?? "";
+                ogrForm.txtBabaTel.Text = row.Cells["Baba Telefon"].Value?.ToString() ?? "";
+                ogrForm.txtAnneTel.Text = row.Cells["Anne Telefon"].Value?.ToString() ?? "";
+                ogrForm.txtBabaEvAdres.Text = row.Cells["Baba Adresi"].Value?.ToString() ?? "";
+                ogrForm.txtAnneEvAdres.Text = row.Cells["Anne Adresi"].Value?.ToString() ?? "";
+
+                // Sayısal değerlerde null kontrolü ve varsayılan değer atama
+                ogrForm.numericPrice.Value =  0;
+
+                ogrForm.checkOdemeDurum.Checked = row.Cells["Ödeme Durumu"].Value?.ToString() == "True";
+                ogrForm.checkAktif.Checked = row.Cells["Aktif Öğrenci mi"].Value?.ToString() == "Evet";
+                ogrForm.checkEvet.Checked = row.Cells["Aile Ayrı Mı"].Value?.ToString() == "Evet";
+
+                // Tarih değerlerinde kontrol
+                if (row.Cells["Doğum Tarihi"].Value != null &&
+                   DateTime.TryParse(row.Cells["Doğum Tarihi"].Value.ToString(), out DateTime birthDate) &&
+                   birthDate >= dateDogum.MinDate)
+                {
+                    ogrForm.dateDogum.Value = birthDate;
+                }
+                else
+                {
+                    ogrForm.dateDogum.Value = DateTime.Now; // Geçersiz tarih varsa bugünün tarihi atanır
+                }
+                ogrForm.ShowDialog();
+
+            }
         }
 
         public Guid UserId { get; set; }
