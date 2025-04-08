@@ -768,6 +768,7 @@ namespace BKS
             dataGridViewStok.TabIndex = 0;
             dataGridViewStok.CellClick += dataGridViewStok_CellClick;
             dataGridViewStok.CellContentClick += dataGridViewStok_CellContentClick_1;
+            dataGridViewStok.CellDoubleClick += dataGridViewStok_CellDoubleClick;
             // 
             // contextMenuStrip1
             // 
