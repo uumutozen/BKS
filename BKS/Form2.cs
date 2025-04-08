@@ -1053,16 +1053,35 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("insert into Aysclasses (Id,ClassName,[Group],SchoolId,OgretmenAdi,OgretmenId) values (NEWID(),@ClassName,@YasGrup,(select CompanyId from CompanyUsers where UserId=@UserId),@OgretmenAdi,(select PersonelId from (select isim=FirstName+' '+LastName,PersonelId from personel)a where a.isim=@OgretmenAdi) )", conn);
+                SqlCommand cmd = new SqlCommand("AddAysClass", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@ClassName", sınıfadi);
                 cmd.Parameters.AddWithValue("@YasGrup", yasgrubu);
                 cmd.Parameters.AddWithValue("@OgretmenAdi", ogretmen);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
+
+                SqlParameter outputParam = new SqlParameter("@Result", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
+                cmd.Parameters.Add(outputParam);
+
                 cmd.ExecuteNonQuery();
+
+                int sonuc = (int)outputParam.Value;
+                if (sonuc == 1)
+                {
+                    MessageBox.Show("Sınıf başarıyla eklendi.");
+                }
+                else
+                {
+                    MessageBox.Show("Bu sınıf zaten mevcut.");
+                }
+
+                SinifLoad(UserId);
             }
 
-            MessageBox.Show("Sınıf Eklendi..");
-            SinifLoad(UserId);
         }
 
         private void cbxUserId_CheckedChanged(object sender, EventArgs e)
