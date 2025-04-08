@@ -285,6 +285,7 @@ namespace BKS
             btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
             btnOgrenciYonetimiSinifGuncelle.Text = "Güncelle";
             btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
+            btnOgrenciYonetimiSinifGuncelle.Click += btnOgrenciYonetimiSinifGuncelle_Click;
             // 
             // btnOgrenciYonetimiSinifSil
             // 

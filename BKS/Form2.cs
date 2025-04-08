@@ -41,8 +41,10 @@ namespace BKS
 
 
         }
+       
         private void Form2_Load(object sender, EventArgs e)
         {
+           
 
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi".ToUpper();
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
@@ -59,6 +61,8 @@ namespace BKS
             LoadTeacherComboBox(UserId);
             PersonelYonetimiLoad(UserId);
             LoadStudentClassComboBox(UserId);
+            
+
         }
         Form1 form1 = new Form1();
 
@@ -88,7 +92,7 @@ namespace BKS
         }
 
         // Stok Yönetimi
-        private void LoadStockData(Guid UserId)
+        public void LoadStockData(Guid UserId)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -395,7 +399,7 @@ namespace BKS
             }
         }
 
-        private void LoadStockComboBox()
+        public void LoadStockComboBox()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -1213,7 +1217,7 @@ namespace BKS
                 ogrForm.txtAnneEvAdres.Text = row.Cells["Anne Adresi"].Value?.ToString() ?? "";
 
                 // Sayısal değerlerde null kontrolü ve varsayılan değer atama
-                ogrForm.numericPrice.Value =  0;
+                ogrForm.numericPrice.Value = 0;
 
                 ogrForm.checkOdemeDurum.Checked = row.Cells["Ödeme Durumu"].Value?.ToString() == "True";
                 ogrForm.checkAktif.Checked = row.Cells["Aktif Öğrenci mi"].Value?.ToString() == "Evet";
@@ -1230,9 +1234,15 @@ namespace BKS
                 {
                     ogrForm.dateDogum.Value = DateTime.Now; // Geçersiz tarih varsa bugünün tarihi atanır
                 }
+                ogrForm.UserId = UserId;
                 ogrForm.ShowDialog();
 
             }
+        }
+
+        private void btnOgrenciYonetimiSinifGuncelle_Click(object sender, EventArgs e)
+        {
+
         }
 
         public Guid UserId { get; set; }
