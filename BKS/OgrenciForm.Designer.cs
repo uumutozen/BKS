@@ -172,8 +172,9 @@
             // numericPrice
             // 
             numericPrice.Location = new Point(15, 41);
+            numericPrice.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
             numericPrice.Name = "numericPrice";
-            numericPrice.Size = new Size(128, 23);
+            numericPrice.Size = new Size(155, 23);
             numericPrice.TabIndex = 11;
             // 
             // checkEvet
@@ -218,6 +219,7 @@
             groupBox1.Controls.Add(textOgrenciKod);
             groupBox1.Controls.Add(cmbogrsınıf);
             groupBox1.Controls.Add(dateDogum);
+            groupBox1.ForeColor = Color.CornflowerBlue;
             groupBox1.Location = new Point(6, 67);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(997, 187);
@@ -229,7 +231,7 @@
             // 
             pictureBox1.Location = new Point(6, 22);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(138, 159);
+            pictureBox1.Size = new Size(144, 159);
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
             // 
@@ -330,6 +332,7 @@
             btnOgrenciYonetimiSil.TabIndex = 29;
             btnOgrenciYonetimiSil.Text = "Sil";
             btnOgrenciYonetimiSil.UseVisualStyleBackColor = false;
+            btnOgrenciYonetimiSil.Click += btnOgrenciYonetimiSil_Click;
             // 
             // btnAddStock
             // 

@@ -15,9 +15,10 @@ namespace BKS
 {
     public partial class OgrenciForm : MaterialForm
     {
-        
-        public OgrenciForm()
+        private Form2 _form2;
+        public OgrenciForm(Form2 form2)
         {
+            _form2 = form2;
             InitializeComponent();
         }
 
@@ -28,10 +29,77 @@ namespace BKS
 
         private void btnGuncelle_Click(object sender, EventArgs e)
         {
+            string isim = txtOgrenciAd.Text;
+            string soyisim = textSoyad.Text;
+            string babaAdi = txtBabaAd.Text;
+            string anneAdi = txtAnneAd.Text;
+            string sinif = cmbogrsınıf.Text;
+            string ogrenciKod = textOgrenciKod.Text;
+            string ogrenciDetay = textOgrenciDetay.Text;
+            string babaTel = txtBabaTel.Text;
+            string anneTel = txtAnneTel.Text;
+            string babaAdres = txtBabaEvAdres.Text;
+            string anneAdres = txtAnneEvAdres.Text;
+            decimal fiyat = numericPrice.Value;
+            bool odemeDurumu = checkOdemeDurum.Checked;
+            bool aktifMi = checkAktif.Checked;
+            bool aileAyrimi = checkEvet.Checked;
+            DateTime dogumTarihi = dateDogum.Value;
 
+            // SQL Güncelleme Sorgusu
+            string query = @"
+            UPDATE AYSstudents SET 
+                Name = @isim,
+                Surname = @soyisim,
+                FatherName = @babaAdi,
+                MotherName = @anneAdi,
+                ClassName = @sinif,
+                StudentCode = @ogrenciKod,
+                StudentsDetails = @ogrenciDetay,
+                FatherPhoneNumber = @babaTel,
+                MotherPhonenumber = @anneTel,
+                FatherAddress = @babaAdres,
+                MotherAddress = @anneAdres,
+                MonthlyFee = @fiyat,
+                PaymentStatus = @odemeDurumu,
+                IsActive = @aktifMi,
+                IsMarried = @aileAyrimi,
+                BirthDate = @dogumTarihi
+            WHERE Id = @id";
+
+            using (SqlConnection con = new SqlConnection(_form2.connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    // Parametreleri Ekle
+                    cmd.Parameters.AddWithValue("@id", StudentId);
+                    cmd.Parameters.AddWithValue("@isim", isim);
+                    cmd.Parameters.AddWithValue("@soyisim", soyisim);
+                    cmd.Parameters.AddWithValue("@babaAdi", babaAdi);
+                    cmd.Parameters.AddWithValue("@anneAdi", anneAdi);
+                    cmd.Parameters.AddWithValue("@sinif", sinif);
+                    cmd.Parameters.AddWithValue("@ogrenciKod", ogrenciKod);
+                    cmd.Parameters.AddWithValue("@ogrenciDetay", ogrenciDetay);
+                    cmd.Parameters.AddWithValue("@babaTel", babaTel);
+                    cmd.Parameters.AddWithValue("@anneTel", anneTel);
+                    cmd.Parameters.AddWithValue("@babaAdres", babaAdres);
+                    cmd.Parameters.AddWithValue("@anneAdres", anneAdres);
+                    cmd.Parameters.AddWithValue("@fiyat", fiyat);
+                    cmd.Parameters.AddWithValue("@odemeDurumu", odemeDurumu);
+                    cmd.Parameters.AddWithValue("@aktifMi", aktifMi);
+                    cmd.Parameters.AddWithValue("@aileAyrimi", aileAyrimi);
+                    cmd.Parameters.AddWithValue("@dogumTarihi", dogumTarihi);
+
+                    cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                }
+            }
+
+            MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _form2.LoadStockData(UserId); // Güncellenmiş listeyi tekrar yükle
         }
         Form2 form2 = new Form2();
- 
+
         private void btnAddStock_Click(object sender, EventArgs e)
         {
             string ogrenciName = txtOgrenciAd.Text;
@@ -84,12 +152,37 @@ namespace BKS
                 cmd.ExecuteNonQuery();
             }
             MessageBox.Show("Öğrenci Başarıyla Eklendi...");
-        
-            form2.LoadStockData(UserId);
-            form2.LoadStockComboBox();
+
+            _form2.LoadStockData(UserId);
+            _form2.LoadStockComboBox();
 
         }
+
+        private void btnOgrenciYonetimiSil_Click(object sender, EventArgs e)
+        {
+            string query = @"
+            Update AysStudents set IsDeleted=1
+            WHERE Id = @id";
+
+            using (SqlConnection con = new SqlConnection(_form2.connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    // Parametreleri Ekle
+                    cmd.Parameters.AddWithValue("@id", StudentId);
+
+                    cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                }
+            }
+
+            MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _form2.DeleteAndLog("Aysstudents","Id",StudentId,UserId);
+            _form2.LoadStockData(UserId);
+        }
+
         public Guid UserId { get; set; }
+        public Guid StudentId { get; set; }
     }
     public class OgrUser
     {

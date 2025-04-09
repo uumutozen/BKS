@@ -55,7 +55,7 @@ namespace BKS
             dgvPersonelYonetimi.AllowUserToAddRows = false;
             YasGrubuLoad();
             SinifLoad(UserId);
-            cbxUserId.Checked = false;
+          
             dataGridViewStok.Columns["Id"].Visible = false;
             dataGridViewStok.Columns["MonthlyFee"].Visible = false;//önemli değiştirme
             LoadTeacherComboBox(UserId);
@@ -111,122 +111,12 @@ namespace BKS
         }
         private void dataGridViewStok_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridViewStok.Rows[e.RowIndex];
-
-                txtOgrenciAd.Text = row.Cells["İsim"].Value?.ToString() ?? "";
-                textSoyad.Text = row.Cells["Soyisim"].Value?.ToString() ?? "";
-                txtBabaAd.Text = row.Cells["Baba Adı"].Value?.ToString() ?? "";
-                txtAnneAd.Text = row.Cells["Anne Adı"].Value?.ToString() ?? "";
-                cmbogrsınıf.Text = row.Cells["Sınıfı"].Value?.ToString() ?? "";
-                textOgrenciKod.Text = row.Cells["Öğrenci Kodu"].Value?.ToString() ?? "";
-                textOgrenciDetay.Text = row.Cells["Öğrenci Hakkında"].Value?.ToString() ?? "";
-                txtBabaTel.Text = row.Cells["Baba Telefon"].Value?.ToString() ?? "";
-                txtAnneTel.Text = row.Cells["Anne Telefon"].Value?.ToString() ?? "";
-                txtBabaEvAdres.Text = row.Cells["Baba Adresi"].Value?.ToString() ?? "";
-                txtAnneEvAdres.Text = row.Cells["Anne Adresi"].Value?.ToString() ?? "";
-
-                // Sayısal değerlerde null kontrolü ve varsayılan değer atama
-                numericPrice.Value = row.Cells["MonthlyFee"].Value != null
-                    && decimal.TryParse(row.Cells["MonthlyFee"].Value.ToString(), out decimal price)
-                    ? price : 0;
-
-                checkOdemeDurum.Checked = row.Cells["Ödeme Durumu"].Value?.ToString() == "True";
-                checkAktif.Checked = row.Cells["Aktif Öğrenci mi"].Value?.ToString() == "Evet";
-                checkEvet.Checked = row.Cells["Aile Ayrı Mı"].Value?.ToString() == "Evet";
-
-                // Tarih değerlerinde kontrol
-                if (row.Cells["Doğum Tarihi"].Value != null &&
-                   DateTime.TryParse(row.Cells["Doğum Tarihi"].Value.ToString(), out DateTime birthDate) &&
-                   birthDate >= dateDogum.MinDate)
-                {
-                    dateDogum.Value = birthDate;
-                }
-                else
-                {
-                    dateDogum.Value = DateTime.Now; // Geçersiz tarih varsa bugünün tarihi atanır
-                }
-
-            }
+            
         }
 
         private void btnGuncelle_Click(object sender, EventArgs e)
         {
-            if (dataGridViewStok.CurrentRow != null)
-            {
-                Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
-
-                // Formdan alınan değerler
-                string isim = txtOgrenciAd.Text;
-                string soyisim = textSoyad.Text;
-                string babaAdi = txtBabaAd.Text;
-                string anneAdi = txtAnneAd.Text;
-                string sinif = cmbogrsınıf.Text;
-                string ogrenciKod = textOgrenciKod.Text;
-                string ogrenciDetay = textOgrenciDetay.Text;
-                string babaTel = txtBabaTel.Text;
-                string anneTel = txtAnneTel.Text;
-                string babaAdres = txtBabaEvAdres.Text;
-                string anneAdres = txtAnneEvAdres.Text;
-                decimal fiyat = numericPrice.Value;
-                bool odemeDurumu = checkOdemeDurum.Checked;
-                bool aktifMi = checkAktif.Checked;
-                bool aileAyrimi = checkEvet.Checked;
-                DateTime dogumTarihi = dateDogum.Value;
-
-                // SQL Güncelleme Sorgusu
-                string query = @"
-            UPDATE AYSstudents SET 
-                Name = @isim,
-                Surname = @soyisim,
-                FatherName = @babaAdi,
-                MotherName = @anneAdi,
-                ClassName = @sinif,
-                StudentCode = @ogrenciKod,
-                StudentsDetails = @ogrenciDetay,
-                FatherPhoneNumber = @babaTel,
-                MotherPhonenumber = @anneTel,
-                FatherAddress = @babaAdres,
-                MotherAddress = @anneAdres,
-                MonthlyFee = @fiyat,
-                PaymentStatus = @odemeDurumu,
-                IsActive = @aktifMi,
-                IsMarried = @aileAyrimi,
-                BirthDate = @dogumTarihi
-            WHERE Id = @id";
-
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        // Parametreleri Ekle
-                        cmd.Parameters.AddWithValue("@id", id);
-                        cmd.Parameters.AddWithValue("@isim", isim);
-                        cmd.Parameters.AddWithValue("@soyisim", soyisim);
-                        cmd.Parameters.AddWithValue("@babaAdi", babaAdi);
-                        cmd.Parameters.AddWithValue("@anneAdi", anneAdi);
-                        cmd.Parameters.AddWithValue("@sinif", sinif);
-                        cmd.Parameters.AddWithValue("@ogrenciKod", ogrenciKod);
-                        cmd.Parameters.AddWithValue("@ogrenciDetay", ogrenciDetay);
-                        cmd.Parameters.AddWithValue("@babaTel", babaTel);
-                        cmd.Parameters.AddWithValue("@anneTel", anneTel);
-                        cmd.Parameters.AddWithValue("@babaAdres", babaAdres);
-                        cmd.Parameters.AddWithValue("@anneAdres", anneAdres);
-                        cmd.Parameters.AddWithValue("@fiyat", fiyat);
-                        cmd.Parameters.AddWithValue("@odemeDurumu", odemeDurumu);
-                        cmd.Parameters.AddWithValue("@aktifMi", aktifMi);
-                        cmd.Parameters.AddWithValue("@aileAyrimi", aileAyrimi);
-                        cmd.Parameters.AddWithValue("@dogumTarihi", dogumTarihi);
-
-                        cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
-                    }
-                }
-
-                MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadStockData(UserId); // Güncellenmiş listeyi tekrar yükle
-            }
+            
         }
         public string GetLastLoginTime(Guid UserId)
         {
@@ -330,7 +220,7 @@ namespace BKS
                 }
             }
         }
-        public void DeleteAndLog(string tableName, string primaryKeyColumn, int id)
+        public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id,Guid UserId)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -345,11 +235,11 @@ namespace BKS
                     selectCmd.Parameters.AddWithValue("@Id", id);
                     using (SqlDataReader reader = selectCmd.ExecuteReader())
                     {
-                        if (reader.Read())
+                        DataTable dt = new DataTable();
+                        dt.Load(reader); // Bu satır zaten tüm veriyi alır
+                        if (dt.Rows.Count > 0)
                         {
-                            DataTable dt = new DataTable();
-                            dt.Load(reader);
-                            deletedDataJson = JsonConvert.SerializeObject(dt);
+                            deletedDataJson = JsonConvert.SerializeObject(dt, Formatting.Indented);
                         }
                     }
                 }
@@ -357,24 +247,26 @@ namespace BKS
                 // Eğer silinecek veri bulunduysa log'a kaydet
                 if (!string.IsNullOrEmpty(deletedDataJson))
                 {
-                    string logQuery = "INSERT INTO DeleteLog (TableName, DeletedData, DeletedAt) VALUES (@TableName, @DeletedData, @DeletedAt)";
+                    string logQuery = "INSERT INTO DeleteLog (TableName, DeletedData, DeletedAt,DeleteUserId) VALUES (@TableName, @DeletedData, @DeletedAt,@DeleteUserId)";
                     using (SqlCommand logCmd = new SqlCommand(logQuery, conn))
                     {
                         logCmd.Parameters.AddWithValue("@TableName", tableName);
                         logCmd.Parameters.AddWithValue("@DeletedData", deletedDataJson);
                         logCmd.Parameters.AddWithValue("@DeletedAt", DateTime.Now);
+                        logCmd.Parameters.AddWithValue("@DeleteUserId", UserId);
                         logCmd.ExecuteNonQuery();
                     }
                 }
 
                 // Şimdi asıl kaydı sil
-                string deleteQuery = $"DELETE FROM {tableName} WHERE {primaryKeyColumn} = @Id";
-                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, conn))
-                {
-                    deleteCmd.Parameters.AddWithValue("@Id", id);
-                    deleteCmd.ExecuteNonQuery();
-                }
+                //string deleteQuery = $"DELETE FROM {tableName} WHERE {primaryKeyColumn} = @Id";
+                //using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, conn))
+                //{
+                //    deleteCmd.Parameters.AddWithValue("@Id", id);
+                //    deleteCmd.ExecuteNonQuery();
+                //}
             }
+
         }
         private void HideTabPage(TabPage tabPage)
         {
@@ -419,43 +311,43 @@ namespace BKS
         }
         private void LoadStudentClassComboBox(Guid UserId)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
+            //using (SqlConnection conn = new SqlConnection(connectionString))
+            //{
 
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
-                SqlDataReader reader = cmd.ExecuteReader();
-                cmbogrsınıf.Items.Clear();
-                while (reader.Read())
-                {
-                    cmbogrsınıf.Items.Add(new ComboBoxItem
-                    {
-                        Text = reader["ClassName"].ToString(),
-                        Value = reader["Group"].ToString()
-                    });
-                }
-            }
+            //    conn.Open();
+            //    SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
+            //    cmd.Parameters.AddWithValue("@UserId", UserId);
+            //    SqlDataReader reader = cmd.ExecuteReader();
+            //    cmbogrsınıf.Items.Clear();
+            //    while (reader.Read())
+            //    {
+            //        cmbogrsınıf.Items.Add(new ComboBoxItem
+            //        {
+            //            Text = reader["ClassName"].ToString(),
+            //            Value = reader["Group"].ToString()
+            //        });
+            //    }
+            //}
         }
         private void LoadTeacherComboBox(Guid UserId)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
+            //    using (SqlConnection conn = new SqlConnection(connectionString))
+            //    {
 
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("select isim=(FirstName+' '+LastName), PersonelId from personel where CompanyId=(Select CompanyId from CompanyUsers where UserId=@UserId) and IsTeacher=1", conn);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
-                SqlDataReader reader = cmd.ExecuteReader();
-                cmbogrsınıf.Items.Clear();
-                while (reader.Read())
-                {
-                    cbxOgrenciYonetimiOgretmen.Items.Add(new ComboBoxItem
-                    {
-                        Text = reader["isim"].ToString(),
-                        Value = reader["PersonelId"].ToString()
-                    });
-                }
-            }
+            //        conn.Open();
+            //        SqlCommand cmd = new SqlCommand("select isim=(FirstName+' '+LastName), PersonelId from personel where CompanyId=(Select CompanyId from CompanyUsers where UserId=@UserId) and IsTeacher=1", conn);
+            //        cmd.Parameters.AddWithValue("@UserId", UserId);
+            //        SqlDataReader reader = cmd.ExecuteReader();
+            //        cmbogrsınıf.Items.Clear();
+            //        while (reader.Read())
+            //        {
+            //            cbxOgrenciYonetimiOgretmen.Items.Add(new ComboBoxItem
+            //            {
+            //                Text = reader["isim"].ToString(),
+            //                Value = reader["PersonelId"].ToString()
+            //            });
+            //        }
+            //    }
         }
         private void LoadSalesData()
         {
@@ -651,59 +543,6 @@ namespace BKS
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
-            string ogrenciName = txtOgrenciAd.Text;
-            string ogrenciSurname = textSoyad.Text;
-            string Fathername = txtBabaAd.Text;
-            string MotherName = txtAnneAd.Text;
-            string classing = cmbogrsınıf.Text;
-            string studentcode = textOgrenciKod.Text;
-            string ogrenciDetails = textOgrenciDetay.Text;
-            string FatherPhoneNumber = txtBabaTel.Text;
-            string MotherPhoneNumber = txtAnneTel.Text;
-            string FatherAddress = txtBabaEvAdres.Text;
-            string MotherAddress = txtAnneEvAdres.Text;
-            decimal odenentutar = numericPrice.Value;
-            bool IsMarried = checkEvet.Checked == true ? checkEvet.Checked : false;
-            bool odemedurum = checkOdemeDurum.Checked;
-            bool aktiflik = checkAktif.Checked;
-            DateTime dateTime = dateDogum.Value;
-            if (ogrenciName == null || ogrenciName == "" || ogrenciSurname == null || ogrenciSurname == "" || classing == null || classing == "")
-            {
-                MessageBox.Show("Sütunları boş bırakamazsınız...", "HATA", MessageBoxButtons.OK);
-                return;
-            }
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName,SchoolId)VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName,(select CompanyId from CompanyUsers where UserId=@UserId) )", conn);
-
-                cmd.Parameters.AddWithValue("@Id", Guid.NewGuid()); // Örnek olarak yeni bir GUID oluşturuluyor
-                cmd.Parameters.AddWithValue("@Name", ogrenciName);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
-                cmd.Parameters.AddWithValue("@Surname", ogrenciSurname);
-                cmd.Parameters.AddWithValue("@FatherName", Fathername);
-                cmd.Parameters.AddWithValue("@BirthDate", dateTime); // Tarih formatı
-                cmd.Parameters.AddWithValue("@StudentCode", studentcode);
-                cmd.Parameters.AddWithValue("@PaymentStatus", odemedurum);
-                cmd.Parameters.AddWithValue("@MonthlyFee", odenentutar);
-                cmd.Parameters.AddWithValue("@IsActive", aktiflik);
-                cmd.Parameters.AddWithValue("@ClassName", classing);
-                cmd.Parameters.AddWithValue("@MotherName", MotherName);
-                cmd.Parameters.AddWithValue("@FatherAddress", FatherAddress);
-                cmd.Parameters.AddWithValue("@MotherAddress", MotherAddress);
-                cmd.Parameters.AddWithValue("@FatherPhoneNumber", FatherPhoneNumber);
-                cmd.Parameters.AddWithValue("@StudentsDetails", ogrenciDetails);
-                cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
-                cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
-
-
-
-                cmd.ExecuteNonQuery();
-            }
-
-            MessageBox.Show("Öğrenci Başarıyla Eklendi...");
-            LoadStockData(UserId);
-            LoadStockComboBox();
         }
 
         // Satış Yönetimi
@@ -1089,14 +928,7 @@ namespace BKS
 
         private void cbxUserId_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbxUserId.Checked)
-            {
-                dataGridViewStok.Columns["Id"].Visible = true;
-            }
-            else
-            {
-                dataGridViewStok.Columns["Id"].Visible = false;
-            }
+           
 
         }
 
@@ -1200,8 +1032,8 @@ namespace BKS
                 // Satırı al
                 DataGridViewRow row = dataGridViewStok.Rows[e.RowIndex];
 
-                // Öğrenci formunu oluştur
-                OgrenciForm ogrForm = new OgrenciForm();
+                Form2 form2 = new Form2();
+                OgrenciForm ogrForm = new OgrenciForm(form2);
 
                 // Satırdaki verileri forma aktar
                 ogrForm.txtOgrenciAd.Text = row.Cells["İsim"].Value?.ToString() ?? "";
@@ -1217,7 +1049,9 @@ namespace BKS
                 ogrForm.txtAnneEvAdres.Text = row.Cells["Anne Adresi"].Value?.ToString() ?? "";
 
                 // Sayısal değerlerde null kontrolü ve varsayılan değer atama
-                ogrForm.numericPrice.Value = 0;
+                ogrForm.numericPrice.Value = row.Cells["MonthlyFee"].Value != null
+                    && decimal.TryParse(row.Cells["MonthlyFee"].Value.ToString(), out decimal price)
+                    ? price : 0;
 
                 ogrForm.checkOdemeDurum.Checked = row.Cells["Ödeme Durumu"].Value?.ToString() == "True";
                 ogrForm.checkAktif.Checked = row.Cells["Aktif Öğrenci mi"].Value?.ToString() == "Evet";
@@ -1226,7 +1060,7 @@ namespace BKS
                 // Tarih değerlerinde kontrol
                 if (row.Cells["Doğum Tarihi"].Value != null &&
                    DateTime.TryParse(row.Cells["Doğum Tarihi"].Value.ToString(), out DateTime birthDate) &&
-                   birthDate >= dateDogum.MinDate)
+                   birthDate >= ogrForm.dateDogum.MinDate)
                 {
                     ogrForm.dateDogum.Value = birthDate;
                 }
@@ -1235,6 +1069,7 @@ namespace BKS
                     ogrForm.dateDogum.Value = DateTime.Now; // Geçersiz tarih varsa bugünün tarihi atanır
                 }
                 ogrForm.UserId = UserId;
+                ogrForm.StudentId = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value;
                 ogrForm.ShowDialog();
 
             }
@@ -1246,6 +1081,7 @@ namespace BKS
         }
 
         public Guid UserId { get; set; }
+
         public string Photo { get; set; }
     }
 
