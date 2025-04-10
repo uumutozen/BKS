@@ -220,7 +220,7 @@ namespace BKS
                 }
             }
         }
-        public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id,Guid UserId)
+        public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id,Guid UserId,string actions,string actionName)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -247,13 +247,15 @@ namespace BKS
                 // Eğer silinecek veri bulunduysa log'a kaydet
                 if (!string.IsNullOrEmpty(deletedDataJson))
                 {
-                    string logQuery = "INSERT INTO DeleteLog (TableName, DeletedData, DeletedAt,DeleteUserId) VALUES (@TableName, @DeletedData, @DeletedAt,@DeleteUserId)";
+                    string logQuery = "INSERT INTO DeleteLog (TableName, DeletedData, DeletedAt,DeleteUserId,Actions,ActionName) VALUES (@TableName, @DeletedData, @DeletedAt,@DeleteUserId,@Actions,@ActionName)";
                     using (SqlCommand logCmd = new SqlCommand(logQuery, conn))
                     {
-                        logCmd.Parameters.AddWithValue("@TableName", tableName);
+                        logCmd.Parameters.AddWithValue("@TableName", tableName.ToUpper());
                         logCmd.Parameters.AddWithValue("@DeletedData", deletedDataJson);
                         logCmd.Parameters.AddWithValue("@DeletedAt", DateTime.Now);
                         logCmd.Parameters.AddWithValue("@DeleteUserId", UserId);
+                        logCmd.Parameters.AddWithValue("@Actions", actions);
+                        logCmd.Parameters.AddWithValue("@ActionName", actionName.ToUpper());
                         logCmd.ExecuteNonQuery();
                     }
                 }
