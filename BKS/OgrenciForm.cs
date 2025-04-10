@@ -31,8 +31,7 @@ namespace BKS
         }
         private void LoadStudentClassComboBox(Guid UserId)
         {
-            Form2 form2 = new Form2();
-            OgrenciForm ogrForm = new OgrenciForm(form2);
+           
             using (SqlConnection conn = new SqlConnection(_form2.connectionString))
             {
 
@@ -40,10 +39,10 @@ namespace BKS
                 SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 SqlDataReader reader = cmd.ExecuteReader();
-                ogrForm.cmbogrsınıf.Items.Clear();
+                cmbogrsınıf.Items.Clear();
                 while (reader.Read())
                 {
-                    ogrForm.cmbogrsınıf.Items.Add(new ComboBoxItem
+                    cmbogrsınıf.Items.Add(new ComboBoxItem
                     {
                         Text = reader["ClassName"].ToString(),
                         Value = reader["Group"].ToString()
@@ -128,6 +127,7 @@ namespace BKS
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
+            // Kullanıcıdan alınan veriler:
             string ogrenciName = txtOgrenciAd.Text;
             string ogrenciSurname = textSoyad.Text;
             string Fathername = txtBabaAd.Text;
@@ -140,27 +140,50 @@ namespace BKS
             string FatherAddress = txtBabaEvAdres.Text;
             string MotherAddress = txtAnneEvAdres.Text;
             decimal odenentutar = numericPrice.Value;
-            bool IsMarried = checkEvet.Checked == true ? checkEvet.Checked : false;
+            bool IsMarried = checkEvet.Checked;
             bool odemedurum = checkOdemeDurum.Checked;
             bool aktiflik = checkAktif.Checked;
             DateTime dateTime = dateDogum.Value;
             Guid StudentIdGuid = Guid.NewGuid();
-            if (ogrenciName == null || ogrenciName == "" || ogrenciSurname == null || ogrenciSurname == "" || classing == null || classing == "")
+
+            // Zorunlu alan kontrolü:
+            if (string.IsNullOrEmpty(ogrenciName) ||
+                string.IsNullOrEmpty(ogrenciSurname) ||
+                string.IsNullOrEmpty(classing))
             {
                 MessageBox.Show("Sütunları boş bırakamazsınız...", "HATA", MessageBoxButtons.OK);
                 return;
             }
+
+            // Veritabanı bağlantısı ve INSERT sorgusu:
             using (SqlConnection conn = new SqlConnection(form2.connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName,SchoolId,photobinary)VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName,(select CompanyId from CompanyUsers where UserId=@UserId),@Photo )", conn);
 
-                cmd.Parameters.AddWithValue("@Id", StudentIdGuid); // Örnek olarak yeni bir GUID oluşturuluyor
+                SqlCommand cmd = new SqlCommand(@"
+            INSERT INTO Aysstudents (
+                Id, Name, Surname, FatherName, BirthDate, StudentCode, 
+                ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, 
+                FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, 
+                IsMarried, StudentsDetails, MotherName, SchoolId, photobinary
+            )
+            VALUES (
+                @Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, 
+                (SELECT Id FROM AYSClasses WHERE ClassName = @ClassName), 
+                @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, 
+                @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, 
+                @IsMarried, @StudentsDetails, @MotherName, 
+                (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId),
+                @Photo
+            )", conn);
+
+                // Parametrelerin eklenmesi:
+                cmd.Parameters.AddWithValue("@Id", StudentIdGuid);
                 cmd.Parameters.AddWithValue("@Name", ogrenciName);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
+                cmd.Parameters.AddWithValue("@UserId", UserId); // UserId'nin tanımlı olduğunu varsayıyoruz
                 cmd.Parameters.AddWithValue("@Surname", ogrenciSurname);
                 cmd.Parameters.AddWithValue("@FatherName", Fathername);
-                cmd.Parameters.AddWithValue("@BirthDate", dateTime); // Tarih formatı
+                cmd.Parameters.AddWithValue("@BirthDate", dateTime);
                 cmd.Parameters.AddWithValue("@StudentCode", studentcode);
                 cmd.Parameters.AddWithValue("@PaymentStatus", odemedurum);
                 cmd.Parameters.AddWithValue("@MonthlyFee", odenentutar);
@@ -173,17 +196,20 @@ namespace BKS
                 cmd.Parameters.AddWithValue("@StudentsDetails", ogrenciDetails);
                 cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
                 cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
-                cmd.Parameters.AddWithValue("@Photo", Photo);
 
+                // Photo parametresi: Eğer Photo null ise DBNull.Value gönder, değilse byte[] verisini.
+                SqlParameter photoParam = new SqlParameter("@Photo", SqlDbType.VarBinary, -1);
+                photoParam.Value = Photo != null ? (object)Photo : DBNull.Value;
+                cmd.Parameters.Add(photoParam);
 
-
+                // Sorguyu çalıştır:
                 cmd.ExecuteNonQuery();
             }
+
             MessageBox.Show("Öğrenci Başarıyla Eklendi...");
             _form2.DeleteAndLog("Aysstudents", "Id", StudentIdGuid, UserId, "1", "INSERT");
             _form2.LoadStockData(UserId);
             _form2.LoadStockComboBox();
-
         }
 
         private void btnOgrenciYonetimiSil_Click(object sender, EventArgs e)
@@ -232,9 +258,9 @@ namespace BKS
             }
         }
 
-     
 
-        public byte[] Photo { get; set; }
+
+        public byte[] Photo { get; set; } 
         public Guid UserId { get; set; }
         public Guid StudentId { get; set; }
     }
