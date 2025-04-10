@@ -58,6 +58,7 @@ namespace BKS
           
             dataGridViewStok.Columns["Id"].Visible = false;
             dataGridViewStok.Columns["MonthlyFee"].Visible = false;//önemli değiştirme
+            dataGridViewStok.Columns["FotoId"].Visible = false;
             LoadTeacherComboBox(UserId);
             PersonelYonetimiLoad(UserId);
             LoadStudentClassComboBox(UserId);
@@ -313,23 +314,25 @@ namespace BKS
         }
         private void LoadStudentClassComboBox(Guid UserId)
         {
-            //using (SqlConnection conn = new SqlConnection(connectionString))
-            //{
+            Form2 form2 = new Form2();
+            OgrenciForm ogrForm = new OgrenciForm(form2);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
 
-            //    conn.Open();
-            //    SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
-            //    cmd.Parameters.AddWithValue("@UserId", UserId);
-            //    SqlDataReader reader = cmd.ExecuteReader();
-            //    cmbogrsınıf.Items.Clear();
-            //    while (reader.Read())
-            //    {
-            //        cmbogrsınıf.Items.Add(new ComboBoxItem
-            //        {
-            //            Text = reader["ClassName"].ToString(),
-            //            Value = reader["Group"].ToString()
-            //        });
-            //    }
-            //}
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                ogrForm.cmbogrsınıf.Items.Clear();
+                while (reader.Read())
+                {
+                    ogrForm.cmbogrsınıf.Items.Add(new ComboBoxItem
+                    {
+                        Text = reader["ClassName"].ToString(),
+                        Value = reader["Group"].ToString()
+                    });
+                }
+            }
         }
         private void LoadTeacherComboBox(Guid UserId)
         {
@@ -1049,7 +1052,19 @@ namespace BKS
                 ogrForm.txtAnneTel.Text = row.Cells["Anne Telefon"].Value?.ToString() ?? "";
                 ogrForm.txtBabaEvAdres.Text = row.Cells["Baba Adresi"].Value?.ToString() ?? "";
                 ogrForm.txtAnneEvAdres.Text = row.Cells["Anne Adresi"].Value?.ToString() ?? "";
-
+                var imageData = row.Cells["FotoId"].Value as byte[];
+                if (imageData != null)
+                {
+                    using (var ms = new MemoryStream(imageData))
+                    {
+                        ogrForm.pictureBox1.Image = Image.FromStream(ms);
+                        ogrForm.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                    }
+                }
+                else
+                {
+                    ogrForm.pictureBox1.Image = null; // Veya varsayılan bir resim
+                }
                 // Sayısal değerlerde null kontrolü ve varsayılan değer atama
                 ogrForm.numericPrice.Value = row.Cells["MonthlyFee"].Value != null
                     && decimal.TryParse(row.Cells["MonthlyFee"].Value.ToString(), out decimal price)
@@ -1072,6 +1087,7 @@ namespace BKS
                 }
                 ogrForm.UserId = UserId;
                 ogrForm.StudentId = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value;
+                
                 ogrForm.ShowDialog();
 
             }
@@ -1080,6 +1096,13 @@ namespace BKS
         private void btnOgrenciYonetimiSinifGuncelle_Click(object sender, EventArgs e)
         {
 
+        }
+        private void yeniKayitEkle(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            OgrenciForm ogrForm = new OgrenciForm(form2);
+            ogrForm.UserId = UserId;
+            ogrForm.ShowDialog();
         }
 
         public Guid UserId { get; set; }

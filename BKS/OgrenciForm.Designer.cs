@@ -234,6 +234,7 @@
             pictureBox1.Size = new Size(144, 159);
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // groupBox2
             // 
@@ -364,6 +365,7 @@
             Controls.Add(groupBox1);
             Name = "OgrenciForm";
             Text = "Öğrenci Bilgi Formu";
+            Load += OgrenciForm_Load;
             ((System.ComponentModel.ISupportInitialize)numericPrice).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -381,7 +383,7 @@
         #endregion
 
         private GroupBox groupBox1;
-        private PictureBox pictureBox1;
+        public PictureBox pictureBox1;
         private GroupBox groupBox2;
         private GroupBox groupBox10;
         private GroupBox groupBox7;

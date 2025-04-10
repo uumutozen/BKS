@@ -21,12 +21,36 @@ namespace BKS
             _form2 = form2;
             InitializeComponent();
         }
-
+        private void OgrenciForm_Load(object sender, EventArgs e)
+        {
+            LoadStudentClassComboBox(UserId);
+        }
         private void txtOgrenciAd_TextChanged(object sender, EventArgs e)
         {
 
         }
+        private void LoadStudentClassComboBox(Guid UserId)
+        {
+            Form2 form2 = new Form2();
+            OgrenciForm ogrForm = new OgrenciForm(form2);
+            using (SqlConnection conn = new SqlConnection(_form2.connectionString))
+            {
 
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                ogrForm.cmbogrsınıf.Items.Clear();
+                while (reader.Read())
+                {
+                    ogrForm.cmbogrsınıf.Items.Add(new ComboBoxItem
+                    {
+                        Text = reader["ClassName"].ToString(),
+                        Value = reader["Group"].ToString()
+                    });
+                }
+            }
+        }
         private void btnGuncelle_Click(object sender, EventArgs e)
         {
             string isim = txtOgrenciAd.Text;
@@ -64,7 +88,8 @@ namespace BKS
                 PaymentStatus = @odemeDurumu,
                 IsActive = @aktifMi,
                 IsMarried = @aileAyrimi,
-                BirthDate = @dogumTarihi
+                BirthDate = @dogumTarihi,
+                photobinary=@Photo
             WHERE Id = @id";
 
             using (SqlConnection con = new SqlConnection(_form2.connectionString))
@@ -90,12 +115,13 @@ namespace BKS
                     cmd.Parameters.AddWithValue("@aktifMi", aktifMi);
                     cmd.Parameters.AddWithValue("@aileAyrimi", aileAyrimi);
                     cmd.Parameters.AddWithValue("@dogumTarihi", dogumTarihi);
-
+                    cmd.Parameters.AddWithValue("@Photo", Photo);
                     cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
                 }
             }
 
             MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "1", "UPDATE");
             _form2.LoadStockData(UserId); // Güncellenmiş listeyi tekrar yükle
         }
         Form2 form2 = new Form2();
@@ -118,6 +144,7 @@ namespace BKS
             bool odemedurum = checkOdemeDurum.Checked;
             bool aktiflik = checkAktif.Checked;
             DateTime dateTime = dateDogum.Value;
+            Guid StudentIdGuid = Guid.NewGuid();
             if (ogrenciName == null || ogrenciName == "" || ogrenciSurname == null || ogrenciSurname == "" || classing == null || classing == "")
             {
                 MessageBox.Show("Sütunları boş bırakamazsınız...", "HATA", MessageBoxButtons.OK);
@@ -126,9 +153,9 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(form2.connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName,SchoolId)VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName,(select CompanyId from CompanyUsers where UserId=@UserId) )", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName,SchoolId,photobinary)VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (select Id from AYSClasses where ClassName =@ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName,(select CompanyId from CompanyUsers where UserId=@UserId),@Photo )", conn);
 
-                cmd.Parameters.AddWithValue("@Id", Guid.NewGuid()); // Örnek olarak yeni bir GUID oluşturuluyor
+                cmd.Parameters.AddWithValue("@Id", StudentIdGuid); // Örnek olarak yeni bir GUID oluşturuluyor
                 cmd.Parameters.AddWithValue("@Name", ogrenciName);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@Surname", ogrenciSurname);
@@ -146,13 +173,14 @@ namespace BKS
                 cmd.Parameters.AddWithValue("@StudentsDetails", ogrenciDetails);
                 cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
                 cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
+                cmd.Parameters.AddWithValue("@Photo", Photo);
 
 
 
                 cmd.ExecuteNonQuery();
             }
             MessageBox.Show("Öğrenci Başarıyla Eklendi...");
-
+            _form2.DeleteAndLog("Aysstudents", "Id", StudentIdGuid, UserId, "1", "INSERT");
             _form2.LoadStockData(UserId);
             _form2.LoadStockComboBox();
 
@@ -177,10 +205,36 @@ namespace BKS
             }
 
             MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            _form2.DeleteAndLog("Aysstudents","Id",StudentId,UserId,"1","DELETE");
+            _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "1", "DELETE");
             _form2.LoadStockData(UserId);
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Fotoğraf |*.png;*.jpeg";
+            openFileDialog.Title = "Bir Fotoğraf Seçin";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                pictureBox1.Image = System.Drawing.Image.FromFile(openFileDialog.FileName);
+
+                if (pictureBox1.Image != null)
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
+                        Photo = ms.ToArray();
+                    }
+                }
+            }
+        }
+
+     
+
+        public byte[] Photo { get; set; }
         public Guid UserId { get; set; }
         public Guid StudentId { get; set; }
     }

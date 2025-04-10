@@ -52,6 +52,7 @@ namespace BKS
             contextMenuStrip1 = new ContextMenuStrip(components);
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
+            yeniKayıtEkleToolStripMenuItem = new ToolStripMenuItem();
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -351,9 +352,9 @@ namespace BKS
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, yeniKayıtEkleToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(163, 48);
+            contextMenuStrip1.Size = new Size(163, 70);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // ödemeDetaylarıToolStripMenuItem
@@ -369,6 +370,13 @@ namespace BKS
             excelİleAktarToolStripMenuItem.Size = new Size(162, 22);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
+            // 
+            // yeniKayıtEkleToolStripMenuItem
+            // 
+            yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(162, 22);
+            yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
+            yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
             // 
             // tabPageSatis
             // 
@@ -1185,5 +1193,6 @@ namespace BKS
         private TextBox txtPersonelSGKSicilNum;
         private TextBox txtPersonelAyrilmaNedeni;
         private TextBox txtPersonelKidemTazminat;
+        private ToolStripMenuItem yeniKayıtEkleToolStripMenuItem;
     }
 }
