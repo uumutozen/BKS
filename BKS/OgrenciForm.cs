@@ -114,7 +114,9 @@ namespace BKS
                     cmd.Parameters.AddWithValue("@aktifMi", aktifMi);
                     cmd.Parameters.AddWithValue("@aileAyrimi", aileAyrimi);
                     cmd.Parameters.AddWithValue("@dogumTarihi", dogumTarihi);
-                    cmd.Parameters.AddWithValue("@Photo", Photo);
+                    SqlParameter photoParam = new SqlParameter("@Photo", SqlDbType.VarBinary, -1);
+                    photoParam.Value = Photo != null ? (object)Photo : DBNull.Value;
+                    cmd.Parameters.Add(photoParam);
                     cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
                 }
             }
