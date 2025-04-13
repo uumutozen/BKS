@@ -336,23 +336,23 @@ namespace BKS
         }
         private void LoadTeacherComboBox(Guid UserId)
         {
-            //    using (SqlConnection conn = new SqlConnection(connectionString))
-            //    {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
 
-            //        conn.Open();
-            //        SqlCommand cmd = new SqlCommand("select isim=(FirstName+' '+LastName), PersonelId from personel where CompanyId=(Select CompanyId from CompanyUsers where UserId=@UserId) and IsTeacher=1", conn);
-            //        cmd.Parameters.AddWithValue("@UserId", UserId);
-            //        SqlDataReader reader = cmd.ExecuteReader();
-            //        cmbogrsınıf.Items.Clear();
-            //        while (reader.Read())
-            //        {
-            //            cbxOgrenciYonetimiOgretmen.Items.Add(new ComboBoxItem
-            //            {
-            //                Text = reader["isim"].ToString(),
-            //                Value = reader["PersonelId"].ToString()
-            //            });
-            //        }
-            //    }
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("select isim=(FirstName+' '+LastName), PersonelId from personel where CompanyId=(Select CompanyId from CompanyUsers where UserId=@UserId) and IsTeacher=1", conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                cbxOgrenciYonetimiOgretmen.Items.Clear();
+                while (reader.Read())
+                {
+                    cbxOgrenciYonetimiOgretmen.Items.Add(new ComboBoxItem
+                    {
+                        Text = reader["isim"].ToString(),
+                        Value = reader["PersonelId"].ToString()
+                    });
+                }
+            }
         }
         private void LoadSalesData()
         {
