@@ -15,6 +15,7 @@ namespace BKS
 {
     public partial class OgrenciForm : MaterialForm
     {
+        public event EventHandler RefreshData;
         private Form2 _form2;
         public OgrenciForm(Form2 form2)
         {
@@ -36,7 +37,7 @@ namespace BKS
             {
 
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select CompanyId from CompanyUsers where UserId=@UserId)", conn);
+                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select top 1 CompanyId from CompanyUsers where UserId=@UserId)", conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 SqlDataReader reader = cmd.ExecuteReader();
                 cmbogrsınıf.Items.Clear();
@@ -123,9 +124,10 @@ namespace BKS
 
             MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "1", "UPDATE");
+            this.Close();
             _form2.LoadStockData(UserId); // Güncellenmiş listeyi tekrar yükle
         }
-        Form2 form2 = new Form2();
+    
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
@@ -158,7 +160,7 @@ namespace BKS
             }
 
             // Veritabanı bağlantısı ve INSERT sorgusu:
-            using (SqlConnection conn = new SqlConnection(form2.connectionString))
+            using (SqlConnection conn = new SqlConnection(_form2.connectionString))
             {
                 conn.Open();
 
@@ -179,10 +181,9 @@ namespace BKS
                 @Photo
             )", conn);
 
-                // Parametrelerin eklenmesi:
                 cmd.Parameters.AddWithValue("@Id", StudentIdGuid);
                 cmd.Parameters.AddWithValue("@Name", ogrenciName);
-                cmd.Parameters.AddWithValue("@UserId", UserId); // UserId'nin tanımlı olduğunu varsayıyoruz
+                cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@Surname", ogrenciSurname);
                 cmd.Parameters.AddWithValue("@FatherName", Fathername);
                 cmd.Parameters.AddWithValue("@BirthDate", dateTime);
@@ -199,20 +200,25 @@ namespace BKS
                 cmd.Parameters.AddWithValue("@MotherPhoneNumber", MotherPhoneNumber);
                 cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
 
-                // Photo parametresi: Eğer Photo null ise DBNull.Value gönder, değilse byte[] verisini.
                 SqlParameter photoParam = new SqlParameter("@Photo", SqlDbType.VarBinary, -1);
                 photoParam.Value = Photo != null ? (object)Photo : DBNull.Value;
                 cmd.Parameters.Add(photoParam);
 
-                // Sorguyu çalıştır:
                 cmd.ExecuteNonQuery();
             }
 
-            MessageBox.Show("Öğrenci Başarıyla Eklendi...");
+            MessageBox.Show("Öğrenci başarıyla eklendi.");
             _form2.DeleteAndLog("Aysstudents", "Id", StudentIdGuid, UserId, "1", "INSERT");
+            RefreshData.Invoke(this, new EventArgs());
+            // Ana formdaki listeyi güncelle
             _form2.LoadStockData(UserId);
+         
             _form2.LoadStockComboBox();
+
+            // Bu formu kapat
+            this.Close();
         }
+
 
         private void btnOgrenciYonetimiSil_Click(object sender, EventArgs e)
         {
@@ -234,7 +240,9 @@ namespace BKS
 
             MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "1", "DELETE");
+            this.Close();
             _form2.LoadStockData(UserId);
+          
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

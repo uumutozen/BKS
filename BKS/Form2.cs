@@ -20,7 +20,10 @@ using Newtonsoft.Json;
 namespace BKS
 {
     public partial class Form2 : MaterialForm
+
     {
+
+
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
 
         public Form2()
@@ -41,10 +44,10 @@ namespace BKS
 
 
         }
-       
+
         private void Form2_Load(object sender, EventArgs e)
         {
-           
+
 
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi".ToUpper();
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
@@ -55,14 +58,14 @@ namespace BKS
             dgvPersonelYonetimi.AllowUserToAddRows = false;
             YasGrubuLoad();
             SinifLoad(UserId);
-          
+
             dataGridViewStok.Columns["Id"].Visible = false;
             dataGridViewStok.Columns["MonthlyFee"].Visible = false;//önemli değiştirme
             dataGridViewStok.Columns["FotoId"].Visible = false;
             LoadTeacherComboBox(UserId);
             PersonelYonetimiLoad(UserId);
             LoadStudentClassComboBox(UserId);
-            
+
 
         }
         Form1 form1 = new Form1();
@@ -106,18 +109,33 @@ namespace BKS
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
+                dataGridViewStok.Refresh();
 
+            }
+        }
+        public DataTable LoadStockDataRefresh(Guid UserId)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "exec GetStudent @UserId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
 
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                return dt;
             }
         }
         private void dataGridViewStok_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
         private void btnGuncelle_Click(object sender, EventArgs e)
         {
-            
+
         }
         public string GetLastLoginTime(Guid UserId)
         {
@@ -221,7 +239,7 @@ namespace BKS
                 }
             }
         }
-        public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id,Guid UserId,string actions,string actionName)
+        public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id, Guid UserId, string actions, string actionName)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -933,7 +951,7 @@ namespace BKS
 
         private void cbxUserId_CheckedChanged(object sender, EventArgs e)
         {
-           
+
 
         }
 
@@ -1087,8 +1105,8 @@ namespace BKS
                 }
                 ogrForm.UserId = UserId;
                 ogrForm.StudentId = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value;
-                
-                ogrForm.ShowDialog();
+                ogrForm.RefreshData += DataStokRefresh;
+                ogrForm.Show();
 
             }
         }
@@ -1097,12 +1115,47 @@ namespace BKS
         {
 
         }
+        private void DataStokRefresh(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "exec GetStudent @UserId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                dataGridViewStok.DataSource = dt;
+               
+
+            }
+        }
         private void yeniKayitEkle(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
             OgrenciForm ogrForm = new OgrenciForm(form2);
             ogrForm.UserId = UserId;
             ogrForm.ShowDialog();
+        }
+
+        private void yenileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "exec GetStudent @UserId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                dataGridViewStok.DataSource = dt;
+
+
+            }
         }
 
         public Guid UserId { get; set; }

@@ -10,7 +10,7 @@ namespace BKS
         private System.Windows.Forms.TabPage tabPageSatis;
         private System.Windows.Forms.TabPage tabPageGelirGider;
         private System.Windows.Forms.TabPage tabPagePersonelYonetimi;
-        private System.Windows.Forms.DataGridView dataGridViewStok;
+        public System.Windows.Forms.DataGridView dataGridViewStok;
 
         private System.Windows.Forms.ComboBox comboBoxStok;
         private System.Windows.Forms.NumericUpDown numericQuantitySold;
@@ -120,6 +120,7 @@ namespace BKS
             dgvPersonelYonetimi = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
+            yenileToolStripMenuItem = new ToolStripMenuItem();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
@@ -352,29 +353,29 @@ namespace BKS
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, yeniKayıtEkleToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, yeniKayıtEkleToolStripMenuItem, yenileToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(163, 70);
+            contextMenuStrip1.Size = new Size(181, 114);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // ödemeDetaylarıToolStripMenuItem
             // 
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(180, 22);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
             // excelİleAktarToolStripMenuItem
             // 
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(162, 22);
+            excelİleAktarToolStripMenuItem.Size = new Size(180, 22);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
             // yeniKayıtEkleToolStripMenuItem
             // 
             yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
-            yeniKayıtEkleToolStripMenuItem.Size = new Size(162, 22);
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(180, 22);
             yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
             yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
             // 
@@ -1066,12 +1067,19 @@ namespace BKS
             materialLabel3.Depth = 0;
             materialLabel3.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             materialLabel3.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            materialLabel3.Location = new Point(1493, 42);
+            materialLabel3.Location = new Point(1362, 42);
             materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel3.Name = "materialLabel3";
             materialLabel3.Size = new Size(69, 19);
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
+            // 
+            // yenileToolStripMenuItem
+            // 
+            yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
+            yenileToolStripMenuItem.Size = new Size(180, 22);
+            yenileToolStripMenuItem.Text = "Yenile";
+            yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
             // Form2
             // 
@@ -1194,5 +1202,6 @@ namespace BKS
         private TextBox txtPersonelAyrilmaNedeni;
         private TextBox txtPersonelKidemTazminat;
         private ToolStripMenuItem yeniKayıtEkleToolStripMenuItem;
+        private ToolStripMenuItem yenileToolStripMenuItem;
     }
 }
