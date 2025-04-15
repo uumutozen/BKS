@@ -124,8 +124,10 @@ namespace BKS
 
             MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "1", "UPDATE");
+            RefreshData.Invoke(this, new EventArgs());
+            _form2.dataGridViewStok.DataSource = _form2.LoadStockDataRefresh(UserId);
             this.Close();
-            _form2.LoadStockData(UserId); // Güncellenmiş listeyi tekrar yükle
+            // Güncellenmiş listeyi tekrar yükle
         }
     
 
@@ -211,12 +213,12 @@ namespace BKS
             _form2.DeleteAndLog("Aysstudents", "Id", StudentIdGuid, UserId, "1", "INSERT");
             RefreshData.Invoke(this, new EventArgs());
             // Ana formdaki listeyi güncelle
-            _form2.LoadStockData(UserId);
-         
-            _form2.LoadStockComboBox();
+            _form2.dataGridViewStok.DataSource = _form2.LoadStockDataRefresh(UserId);
+
 
             // Bu formu kapat
             this.Close();
+           
         }
 
 
@@ -240,9 +242,11 @@ namespace BKS
 
             MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "1", "DELETE");
+            RefreshData.Invoke(this, new EventArgs());
+            _form2.dataGridViewStok.DataSource = _form2.LoadStockDataRefresh(UserId);
             this.Close();
-            _form2.LoadStockData(UserId);
-          
+      
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
