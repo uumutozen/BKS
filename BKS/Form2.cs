@@ -1154,7 +1154,6 @@ namespace BKS
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
 
-
             }
         }
 
