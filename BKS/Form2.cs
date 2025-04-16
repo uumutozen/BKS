@@ -1137,7 +1137,8 @@ namespace BKS
             Form2 form2 = new Form2();
             OgrenciForm ogrForm = new OgrenciForm(form2);
             ogrForm.UserId = UserId;
-            ogrForm.ShowDialog();
+            ogrForm.RefreshData += DataStokRefresh;
+            ogrForm.Show();
         }
 
         private void yenileToolStripMenuItem_Click(object sender, EventArgs e)
