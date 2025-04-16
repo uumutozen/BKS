@@ -434,47 +434,109 @@ namespace BKS
         }
 
 
-
         private void ShowPaymentDetails(Guid studentId)
         {
-
-
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-
                 try
                 {
-
                     conn.Open();
-                    string query = "SELECT p.Amount, p.PaymentDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId and p.Isdeleted=0 and p.SchoolId =(Select CompanyId from CompanyUsers where UserId =@UserId)";
+
+                    string query = "SELECT p.Id, p.Amount, p.PaymentDate, p.IsApproved, p.ApprovedDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId AND p.Isdeleted = 0 AND p.SchoolId = (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId)";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@StudentId", studentId);
                     cmd.Parameters.AddWithValue("@UserId", UserId);
+
                     DataTable paymentDetails = new DataTable();
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(paymentDetails);
 
-                    // Yeni bir form aç ve detayları göster
+                    // Yeni form
                     Form paymentForm = new Form
                     {
                         Text = "Ödeme Detayları",
-                        Size = new Size(800, 600)
+                        Size = new Size(900, 600)
                     };
 
-                    // Ödeme detaylarını göstermek için DataGridView
+                    // DataGridView
                     DataGridView paymentGrid = new DataGridView
                     {
                         DataSource = paymentDetails,
-                        Dock = DockStyle.Fill,
-                        Height = 400
+                        Dock = DockStyle.Top,
+                        Height = 400,
+                        ReadOnly = true,
+                        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                        MultiSelect = false,
+                        AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
                     };
 
-                    // Yeni ödeme ekleme paneli
-                    Panel addPaymentPanel = new Panel
+                    // Sağ tıklama menüsü
+                    ContextMenuStrip contextMenu = new ContextMenuStrip();
+                    ToolStripMenuItem generatePlanItem = new ToolStripMenuItem("Aylık Ödeme Planı Oluştur");
+                    contextMenu.Items.Add(generatePlanItem);
+                    paymentGrid.ContextMenuStrip = contextMenu;
+
+                    generatePlanItem.Click += (s, e) =>
                     {
-                        Dock = DockStyle.Bottom,
-                        Height = 100
+                        Form planForm = new Form
+                        {
+                            Text = "Aylık Ödeme Planı",
+                            Size = new Size(300, 200)
+                        };
+
+                        Label lblTutar = new Label { Text = "Aylık Tutar:", Location = new Point(10, 20), AutoSize = true };
+                        TextBox txtTutar = new TextBox { Location = new Point(100, 20), Width = 150 };
+
+                        Label lblAySayisi = new Label { Text = "Ay Sayısı:", Location = new Point(10, 60), AutoSize = true };
+                        NumericUpDown nudAy = new NumericUpDown { Location = new Point(100, 60), Width = 150, Minimum = 1, Maximum = 24 };
+
+                        Button btnOlustur = new Button { Text = "Oluştur", Location = new Point(100, 100), Width = 150 };
+
+                        btnOlustur.Click += (ss, ee) =>
+                        {
+                            if (decimal.TryParse(txtTutar.Text, out decimal tutar))
+                            {
+                                int aySayisi = (int)nudAy.Value;
+                                using (SqlConnection connn = new SqlConnection(connectionString))
+                                {
+                                    connn.Open();
+                                    for (int i = 0; i < aySayisi; i++)
+                                    {
+                                        DateTime paymentDate = DateTime.Now.AddMonths(i);
+                                        string insertQuery = "INSERT INTO AYSFeePayments (Id, StudentId, Amount, PaymentDate, SchoolId) VALUES (@Id, @StudentId, @Amount, @PaymentDate, (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId))";
+                                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, connn))
+                                        {
+                                            insertCmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                                            insertCmd.Parameters.AddWithValue("@StudentId", studentId);
+                                            insertCmd.Parameters.AddWithValue("@Amount", tutar);
+                                            insertCmd.Parameters.AddWithValue("@PaymentDate", paymentDate);
+                                            insertCmd.Parameters.AddWithValue("@UserId", UserId);
+                                            insertCmd.ExecuteNonQuery();
+                                        }
+                                    }
+
+                                    paymentGrid.DataSource = OdemeLoad(UserId, studentId);
+                                    MessageBox.Show("Aylık ödeme planı başarıyla oluşturuldu.");
+                                    planForm.Close();
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Geçerli bir tutar giriniz.");
+                            }
+                        };
+
+                        planForm.Controls.Add(lblTutar);
+                        planForm.Controls.Add(txtTutar);
+                        planForm.Controls.Add(lblAySayisi);
+                        planForm.Controls.Add(nudAy);
+                        planForm.Controls.Add(btnOlustur);
+
+                        planForm.ShowDialog();
                     };
+
+                    // Ödeme ekleme paneli
+                    Panel addPaymentPanel = new Panel { Dock = DockStyle.Bottom, Height = 100 };
 
                     Label lblAmount = new Label { Text = "Tutar:", AutoSize = true, Location = new Point(20, 20) };
                     TextBox txtAmount = new TextBox { Location = new Point(100, 20), Width = 150 };
@@ -494,14 +556,11 @@ namespace BKS
                         using (SqlConnection connn = new SqlConnection(connectionString))
                         {
                             connn.Open();
-                            // Ödeme ekleme işlemi
                             if (decimal.TryParse(txtAmount.Text, out decimal amount))
                             {
-                                string insertQuery = "INSERT INTO AYSFeePayments (Id, StudentId, Amount, PaymentDate,SchoolId) VALUES (@Id, @StudentId, @Amount, @PaymentDate,(Select CompanyId from CompanyUsers WHERE UserId=@UserId ))";
+                                string insertQuery = "INSERT INTO AYSFeePayments (Id, StudentId, Amount, PaymentDate, SchoolId) VALUES (@Id, @StudentId, @Amount, @PaymentDate, (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId))";
                                 using (SqlCommand insertCmd = new SqlCommand(insertQuery, connn))
                                 {
-
-
                                     insertCmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
                                     insertCmd.Parameters.AddWithValue("@StudentId", studentId);
                                     insertCmd.Parameters.AddWithValue("@Amount", amount);
@@ -509,27 +568,17 @@ namespace BKS
                                     insertCmd.Parameters.AddWithValue("@UserId", UserId);
                                     insertCmd.ExecuteNonQuery();
 
-                                    // Grid'i güncelle
-
-
-                                    MessageBox.Show("Ödeme başarıyla eklendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show("Ödeme başarıyla eklendi.");
                                     paymentGrid.DataSource = OdemeLoad(UserId, studentId);
-                                    LoadStockData(UserId);
-
                                 }
-
                             }
-
                             else
                             {
-                                MessageBox.Show("Lütfen geçerli bir tutar giriniz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Geçerli bir tutar giriniz.");
                             }
-
                         }
-
                     };
 
-                    // FlowLayoutPanel ile düzen
                     FlowLayoutPanel flowPanel = new FlowLayoutPanel
                     {
                         Dock = DockStyle.Fill,
@@ -542,27 +591,55 @@ namespace BKS
                     flowPanel.Controls.Add(lblDate);
                     flowPanel.Controls.Add(dtpDate);
                     flowPanel.Controls.Add(btnAddPayment);
-
                     addPaymentPanel.Controls.Add(flowPanel);
 
-                    // Form kontrollerini ekle
+                    // Ödeme onayla butonu
+                    Button btnOnayla = new Button
+                    {
+                        Text = "Ödemeyi Onayla",
+                        Dock = DockStyle.Bottom,
+                        Height = 40
+                    };
+
+                    btnOnayla.Click += (s, e) =>
+                    {
+                        if (paymentGrid.SelectedRows.Count > 0)
+                        {
+                            DataGridViewRow selectedRow = paymentGrid.SelectedRows[0];
+                            Guid paymentId = (Guid)selectedRow.Cells["Id"].Value;
+
+                            using (SqlConnection connn = new SqlConnection(connectionString))
+                            {
+                                connn.Open();
+                                string updateQuery = "UPDATE AYSFeePayments SET IsApproved = 1, ApprovedDate = @Now WHERE Id = @Id";
+                                SqlCommand cmd = new SqlCommand(updateQuery, connn);
+                                cmd.Parameters.AddWithValue("@Id", paymentId);
+                                cmd.Parameters.AddWithValue("@Now", DateTime.Now);
+                                cmd.ExecuteNonQuery();
+
+                                MessageBox.Show("Ödeme onaylandı.");
+                                paymentGrid.DataSource = OdemeLoad(UserId, studentId);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Lütfen onaylamak için bir ödeme seçin.");
+                        }
+                    };
+
                     paymentForm.Controls.Add(paymentGrid);
                     paymentForm.Controls.Add(addPaymentPanel);
+                    paymentForm.Controls.Add(btnOnayla);
+
                     paymentForm.Show();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        conn.Close();
-                    }
+                    MessageBox.Show($"Bir hata oluştu: {ex.Message}", "Hata");
                 }
             }
         }
+
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
@@ -797,7 +874,7 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT p.Amount, p.PaymentDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId and p.Isdeleted=0 and p.SchoolId =(Select CompanyId from CompanyUsers where UserId =@UserId)";
+                string query = "SELECT p.Id, p.Amount, p.PaymentDate, p.IsApproved, p.ApprovedDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId AND p.Isdeleted = 0 AND p.SchoolId = (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@StudentId", StudentId);
