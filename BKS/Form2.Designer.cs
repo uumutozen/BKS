@@ -53,6 +53,7 @@ namespace BKS
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             yeniKayıtEkleToolStripMenuItem = new ToolStripMenuItem();
+            yenileToolStripMenuItem = new ToolStripMenuItem();
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -120,7 +121,7 @@ namespace BKS
             dgvPersonelYonetimi = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
-            yenileToolStripMenuItem = new ToolStripMenuItem();
+            timer1 = new System.Windows.Forms.Timer(components);
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
@@ -355,29 +356,36 @@ namespace BKS
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, yeniKayıtEkleToolStripMenuItem, yenileToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(181, 114);
+            contextMenuStrip1.Size = new Size(163, 92);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // ödemeDetaylarıToolStripMenuItem
             // 
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(180, 22);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
             // excelİleAktarToolStripMenuItem
             // 
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(180, 22);
+            excelİleAktarToolStripMenuItem.Size = new Size(162, 22);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
             // yeniKayıtEkleToolStripMenuItem
             // 
             yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
-            yeniKayıtEkleToolStripMenuItem.Size = new Size(180, 22);
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(162, 22);
             yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
             yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
+            // 
+            // yenileToolStripMenuItem
+            // 
+            yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
+            yenileToolStripMenuItem.Size = new Size(162, 22);
+            yenileToolStripMenuItem.Text = "Yenile";
+            yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
             // tabPageSatis
             // 
@@ -1074,13 +1082,6 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
-            // yenileToolStripMenuItem
-            // 
-            yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
-            yenileToolStripMenuItem.Size = new Size(180, 22);
-            yenileToolStripMenuItem.Text = "Yenile";
-            yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
-            // 
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
@@ -1203,5 +1204,6 @@ namespace BKS
         private TextBox txtPersonelKidemTazminat;
         private ToolStripMenuItem yeniKayıtEkleToolStripMenuItem;
         private ToolStripMenuItem yenileToolStripMenuItem;
+        private System.Windows.Forms.Timer timer1;
     }
 }

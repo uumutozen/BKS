@@ -66,6 +66,10 @@ namespace BKS
             PersonelYonetimiLoad(UserId);
             LoadStudentClassComboBox(UserId);
 
+            //timer1.Interval = 5000; // 5 saniye
+            //timer1.Tick += Timer1_Tick;
+            //timer1.Start();
+
 
         }
         Form1 form1 = new Form1();
@@ -114,6 +118,11 @@ namespace BKS
 
             }
         }
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            LoadStockData(UserId);
+        }
+
         public DataTable LoadStockDataRefresh(Guid UserId)
         {
             string ogrenciadi = string.IsNullOrEmpty(txtOgrenciYonetimiAra.Text) ? null : txtOgrenciYonetimiAra.Text;
@@ -470,14 +479,22 @@ namespace BKS
                         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                         MultiSelect = false,
                         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-                    };
+                    
 
+                    };
+                    paymentGrid.DataBindingComplete += (s, e) =>
+                    {
+                        if (paymentGrid.Columns.Contains("Id"))
+                        {
+                            paymentGrid.Columns["Id"].Visible = false;
+                        }
+                    };
                     // Sağ tıklama menüsü
                     ContextMenuStrip contextMenu = new ContextMenuStrip();
                     ToolStripMenuItem generatePlanItem = new ToolStripMenuItem("Aylık Ödeme Planı Oluştur");
                     contextMenu.Items.Add(generatePlanItem);
                     paymentGrid.ContextMenuStrip = contextMenu;
-
+                  
                     generatePlanItem.Click += (s, e) =>
                     {
                         Form planForm = new Form
@@ -572,6 +589,7 @@ namespace BKS
 
                                     MessageBox.Show("Ödeme başarıyla eklendi.");
                                     paymentGrid.DataSource = OdemeLoad(UserId, studentId);
+                            
                                 }
                             }
                             else
