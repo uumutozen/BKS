@@ -489,6 +489,16 @@ namespace BKS
                             paymentGrid.Columns["Id"].Visible = false;
                         }
                     };
+                    paymentGrid.RowPrePaint += (s, e) =>
+                    {
+                        var grid = s as DataGridView;
+                        var row = grid.Rows[e.RowIndex];
+                        if (row.Cells["IsApproved"].Value != DBNull.Value &&
+                            Convert.ToBoolean(row.Cells["IsApproved"].Value))
+                        {
+                            row.DefaultCellStyle.BackColor = Color.LightGreen;
+                        }
+                    };
                     // Sağ tıklama menüsü
                     ContextMenuStrip contextMenu = new ContextMenuStrip();
                     ToolStripMenuItem generatePlanItem = new ToolStripMenuItem("Aylık Ödeme Planı Oluştur");
