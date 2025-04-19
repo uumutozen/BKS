@@ -123,7 +123,7 @@ namespace BKS
             }
 
             MessageBox.Show("Öğrenci bilgileri başarıyla güncellendi!", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "1", "UPDATE");
+            _form2.DeleteAndLog("Aysstudents", "Id", StudentId, UserId, "2", "UPDATE");
             RefreshData.Invoke(this, new EventArgs());
             _form2.dataGridViewStok.DataSource = _form2.LoadStockDataRefresh(UserId);
             this.Close();
@@ -210,7 +210,7 @@ namespace BKS
             }
 
             MessageBox.Show("Öğrenci başarıyla eklendi.");
-            _form2.DeleteAndLog("Aysstudents", "Id", StudentIdGuid, UserId, "1", "INSERT");
+            _form2.DeleteAndLog("Aysstudents", "Id", StudentIdGuid, UserId, "0", "INSERT");
             RefreshData.Invoke(this, new EventArgs());
             // Ana formdaki listeyi güncelle
             _form2.dataGridViewStok.DataSource = _form2.LoadStockDataRefresh(UserId);

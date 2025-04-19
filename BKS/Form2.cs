@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 using Newtonsoft.Json;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace BKS
@@ -44,7 +45,7 @@ namespace BKS
 
 
         }
-
+     
         private void Form2_Load(object sender, EventArgs e)
         {
 
@@ -64,13 +65,28 @@ namespace BKS
             dataGridViewStok.Columns["FotoId"].Visible = false;
             LoadTeacherComboBox(UserId);
             PersonelYonetimiLoad(UserId);
-            LoadStudentClassComboBox(UserId);
 
+            Image img = Image.FromFile("delete.jpg"); // resim dosya yolu
+            ResizeAndSetButtonImage(btnOgrenciYonetimiSinifSil, img);
             //timer1.Interval = 5000; // 5 saniye
             //timer1.Tick += Timer1_Tick;
             //timer1.Start();
 
 
+        }
+        private void ResizeAndSetButtonImage(Button button, Image image)
+        {
+            // Butonun boyutlarına göre yeni resim boyutunu ayarla (biraz margin bırakmak için -10 yaptık)
+            int width = button.Width- 10;
+            int height = button.Height -10;
+
+            // Yeni boyutlandırılmış resmi oluştur
+            Image resized = new Bitmap(image, new Size(width, height));
+
+            // Butona resmi ata
+            button.Image = resized;
+            button.ImageAlign = ContentAlignment.MiddleCenter;
+            button.TextImageRelation = TextImageRelation.Overlay; // Resim üstünde yazı
         }
         Form1 form1 = new Form1();
 
@@ -453,7 +469,7 @@ namespace BKS
                 {
                     conn.Open();
 
-                    string query = "SELECT p.Id, p.Amount, p.PaymentDate, p.IsApproved, p.ApprovedDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId AND p.Isdeleted = 0 AND p.SchoolId = (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId) order by p.PaymentDate";
+                    string query = "select p.Id, 'Ödeme Tutarı'=p.Amount, 'Ödeme Tarihi'=p.PaymentDate, p.IsApproved,'Ödendi Mi?'=case when p.IsApproved=1 then 'Ödendi'else 'Ödenecek'end, 'Ödenen Tarihi'=p.ApprovedDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId AND p.Isdeleted = 0 AND p.SchoolId = (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId) order by p.PaymentDate";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@StudentId", studentId);
                     cmd.Parameters.AddWithValue("@UserId", UserId);
@@ -487,6 +503,7 @@ namespace BKS
                         if (paymentGrid.Columns.Contains("Id"))
                         {
                             paymentGrid.Columns["Id"].Visible = false;
+                            paymentGrid.Columns["IsApproved"].Visible = false;
                         }
                     };
                     paymentGrid.RowPrePaint += (s, e) =>
@@ -497,6 +514,11 @@ namespace BKS
                             Convert.ToBoolean(row.Cells["IsApproved"].Value))
                         {
                             row.DefaultCellStyle.BackColor = Color.LightGreen;
+                        }
+                        if (row.Cells["IsApproved"].Value != DBNull.Value &&
+                           !Convert.ToBoolean(row.Cells["IsApproved"].Value))
+                        {
+                            row.DefaultCellStyle.BackColor = Color.FromArgb(191, 81, 79); 
                         }
                     };
                     // Sağ tıklama menüsü
@@ -904,7 +926,7 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT p.Id, p.Amount, p.PaymentDate, p.IsApproved, p.ApprovedDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId AND p.Isdeleted = 0 AND p.SchoolId = (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId) order by p.PaymentDate";
+                string query = "select p.Id, 'Ödeme Tutarı'=p.Amount, 'Ödeme Tarihi'=p.PaymentDate,p.IsApproved, 'Ödendi Mi?'=case when p.IsApproved=1 then 'Ödendi'else 'Ödenecek'end, 'Ödenen Tarihi'=p.ApprovedDate FROM AYSFeePayments p WHERE p.StudentId = @StudentId AND p.Isdeleted = 0 AND p.SchoolId = (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId) order by p.PaymentDate";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@StudentId", StudentId);
@@ -918,8 +940,11 @@ namespace BKS
         {
 
         }
+   
+        private void Delete(object sender, DataGridViewCellEventArgs e)
+        {
 
-
+        }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
@@ -1016,10 +1041,14 @@ namespace BKS
 
         private void btnOgrenciYonetimiSinifKaydet_Click(object sender, EventArgs e)
         {
-            string sınıfadi = txtOgrenciYonetimiSınıfAdı.Text;
+            string sınıfadi = txtOgrenciYonetimiSınıfAdı.Text.Trim();
             string yasgrubu = cbxOgrenciYonetimiYasGrubu.Text;
             string ogretmen = cbxOgrenciYonetimiOgretmen.Text;
-
+            if (string.IsNullOrEmpty(sınıfadi) || sınıfadi == "" || string.IsNullOrEmpty(yasgrubu) || string.IsNullOrEmpty(ogretmen))
+            {
+                MessageBox.Show("Sınıfı Boş Geçemezsiniz...");
+                return;
+            }
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -1042,11 +1071,11 @@ namespace BKS
                 int sonuc = (int)outputParam.Value;
                 if (sonuc == 1)
                 {
-                    MessageBox.Show("Sınıf başarıyla eklendi.");
+                    MessageBox.Show("Sınıf Başarıyla Eklendi.");
                 }
                 else
                 {
-                    MessageBox.Show("Bu sınıf zaten mevcut.");
+                    MessageBox.Show("Bu Sınıf Zaten Mevcut.");
                 }
 
                 SinifLoad(UserId);
@@ -1056,8 +1085,7 @@ namespace BKS
 
         private void cbxUserId_CheckedChanged(object sender, EventArgs e)
         {
-
-
+        
         }
 
         private void pbxPersonelPicture_Click(object sender, EventArgs e)
@@ -1264,6 +1292,41 @@ namespace BKS
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
 
+            }
+        }
+        private void DeleteStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            if (dataGridViewStok.CurrentRow != null)
+            {
+
+
+                Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
+                DialogResult result =  MessageBox.Show("Bu Öğrenciyi Silmek İstiyor musunuz?","Sil",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+                if (result ==DialogResult.Yes)
+                {
+
+                string query = @"
+            Update AysStudents set IsDeleted=1
+            WHERE Id = @id";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        // Parametreleri Ekle
+                        cmd.Parameters.AddWithValue("@id", id);
+
+                        cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                    }
+                }
+
+                MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
+                LoadStockData(UserId);
+                
+            }
             }
         }
 

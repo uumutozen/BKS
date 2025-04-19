@@ -97,7 +97,7 @@ namespace BKS
                             int userCount = (int)command.ExecuteScalar();
                             if (userCount > 0)
                             {
-                                MessageBox.Show("Giriþ baþarýlý!", "Baþarýlý", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("Giriþ Baþarýlý!", "Baþarýlý", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                                 this.Hide();  // Form1’i gizle
                                 form2.ShowDialog(); // Form2'yi aç, diðer iþlemleri blokla
@@ -107,14 +107,14 @@ namespace BKS
                             }
                             else
                             {
-                                MessageBox.Show("Kullanýcý adý veya þifre hatalý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Kullanýcý Adý veya Þifre Hatalý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Bir hata oluþtu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Bir Hata Oluþtu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
             }

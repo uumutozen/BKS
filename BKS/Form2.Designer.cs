@@ -34,6 +34,7 @@ namespace BKS
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             tabControl = new TabControl();
             tabPageStok = new TabPage();
             btnOgrenciYonetimiSinifGuncelle = new Button();
@@ -50,10 +51,11 @@ namespace BKS
             txtOgrenciYonetimiAra = new TextBox();
             dataGridViewStok = new DataGridView();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            yeniKayıtEkleToolStripMenuItem = new ToolStripMenuItem();
+            kayıtSilToolStripMenuItem = new ToolStripMenuItem();
+            yenileToolStripMenuItem = new ToolStripMenuItem();
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
-            yeniKayıtEkleToolStripMenuItem = new ToolStripMenuItem();
-            yenileToolStripMenuItem = new ToolStripMenuItem();
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -61,15 +63,6 @@ namespace BKS
             comboBoxStok = new ComboBox();
             dataOgrVw = new DataGridView();
             btnMakeSale = new Button();
-            tabPageGelirGider = new TabPage();
-            dataGridOdeme = new DataGridView();
-            txtDescription = new TextBox();
-            numericAmount = new NumericUpDown();
-            radioIncome = new RadioButton();
-            radioExpense = new RadioButton();
-            btnAddIncomeExpense = new Button();
-            tabPageOzelRaporlar = new TabPage();
-            salesGrid = new DataGridView();
             tabPagePersonelYonetimi = new TabPage();
             groupBox17 = new GroupBox();
             pbxPersonelPicture = new PictureBox();
@@ -119,6 +112,15 @@ namespace BKS
             label2 = new Label();
             txtPersonelMaas = new TextBox();
             dgvPersonelYonetimi = new DataGridView();
+            tabPageGelirGider = new TabPage();
+            dataGridOdeme = new DataGridView();
+            txtDescription = new TextBox();
+            numericAmount = new NumericUpDown();
+            radioIncome = new RadioButton();
+            radioExpense = new RadioButton();
+            btnAddIncomeExpense = new Button();
+            tabPageOzelRaporlar = new TabPage();
+            salesGrid = new DataGridView();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
@@ -135,11 +137,6 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).BeginInit();
             groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataOgrVw).BeginInit();
-            tabPageGelirGider.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridOdeme).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericAmount).BeginInit();
-            tabPageOzelRaporlar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
             tabPagePersonelYonetimi.SuspendLayout();
             groupBox17.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbxPersonelPicture).BeginInit();
@@ -148,15 +145,20 @@ namespace BKS
             groupBox18.SuspendLayout();
             groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).BeginInit();
+            tabPageGelirGider.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridOdeme).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericAmount).BeginInit();
+            tabPageOzelRaporlar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
             SuspendLayout();
             // 
             // tabControl
             // 
             tabControl.Controls.Add(tabPageStok);
             tabControl.Controls.Add(tabPageSatis);
+            tabControl.Controls.Add(tabPagePersonelYonetimi);
             tabControl.Controls.Add(tabPageGelirGider);
             tabControl.Controls.Add(tabPageOzelRaporlar);
-            tabControl.Controls.Add(tabPagePersonelYonetimi);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabControl.Location = new Point(3, 64);
@@ -204,7 +206,7 @@ namespace BKS
             // 
             // btnOgrenciYonetimiSinifSil
             // 
-            btnOgrenciYonetimiSinifSil.BackColor = SystemColors.MenuHighlight;
+            btnOgrenciYonetimiSinifSil.BackColor = Color.White;
             btnOgrenciYonetimiSinifSil.Cursor = Cursors.Hand;
             btnOgrenciYonetimiSinifSil.FlatAppearance.BorderSize = 0;
             btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
@@ -214,7 +216,6 @@ namespace BKS
             btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
             btnOgrenciYonetimiSinifSil.Size = new Size(114, 43);
             btnOgrenciYonetimiSinifSil.TabIndex = 35;
-            btnOgrenciYonetimiSinifSil.Text = "Sil";
             btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
             // 
             // btnOgrenciYonetimiSinifKaydet
@@ -354,38 +355,50 @@ namespace BKS
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, yeniKayıtEkleToolStripMenuItem, yenileToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { yeniKayıtEkleToolStripMenuItem, kayıtSilToolStripMenuItem, yenileToolStripMenuItem, ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(163, 92);
+            contextMenuStrip1.Size = new Size(171, 154);
             contextMenuStrip1.Text = "Ödeme Detayları";
+            // 
+            // yeniKayıtEkleToolStripMenuItem
+            // 
+            yeniKayıtEkleToolStripMenuItem.Image = (Image)resources.GetObject("yeniKayıtEkleToolStripMenuItem.Image");
+            yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(170, 30);
+            yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
+            yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
+            // 
+            // kayıtSilToolStripMenuItem
+            // 
+            kayıtSilToolStripMenuItem.Image = (Image)resources.GetObject("kayıtSilToolStripMenuItem.Image");
+            kayıtSilToolStripMenuItem.Name = "kayıtSilToolStripMenuItem";
+            kayıtSilToolStripMenuItem.Size = new Size(170, 30);
+            kayıtSilToolStripMenuItem.Text = "Seçili Kayıdı Sil";
+            kayıtSilToolStripMenuItem.Click += DeleteStripMenuItem_Click;
+            // 
+            // yenileToolStripMenuItem
+            // 
+            yenileToolStripMenuItem.Image = (Image)resources.GetObject("yenileToolStripMenuItem.Image");
+            yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
+            yenileToolStripMenuItem.Size = new Size(170, 30);
+            yenileToolStripMenuItem.Text = "Yenile";
+            yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
             // ödemeDetaylarıToolStripMenuItem
             // 
+            ödemeDetaylarıToolStripMenuItem.Image = (Image)resources.GetObject("ödemeDetaylarıToolStripMenuItem.Image");
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(162, 22);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(170, 30);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
             // excelİleAktarToolStripMenuItem
             // 
+            excelİleAktarToolStripMenuItem.Image = (Image)resources.GetObject("excelİleAktarToolStripMenuItem.Image");
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(162, 22);
+            excelİleAktarToolStripMenuItem.Size = new Size(170, 30);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
-            // 
-            // yeniKayıtEkleToolStripMenuItem
-            // 
-            yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
-            yeniKayıtEkleToolStripMenuItem.Size = new Size(162, 22);
-            yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
-            yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
-            // 
-            // yenileToolStripMenuItem
-            // 
-            yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
-            yenileToolStripMenuItem.Size = new Size(162, 22);
-            yenileToolStripMenuItem.Text = "Yenile";
-            yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
             // tabPageSatis
             // 
@@ -465,101 +478,6 @@ namespace BKS
             btnMakeSale.Text = "Ödeme Girişi";
             btnMakeSale.UseVisualStyleBackColor = false;
             btnMakeSale.Click += btnMakeSale_Click;
-            // 
-            // tabPageGelirGider
-            // 
-            tabPageGelirGider.BackColor = Color.White;
-            tabPageGelirGider.Controls.Add(dataGridOdeme);
-            tabPageGelirGider.Controls.Add(txtDescription);
-            tabPageGelirGider.Controls.Add(numericAmount);
-            tabPageGelirGider.Controls.Add(radioIncome);
-            tabPageGelirGider.Controls.Add(radioExpense);
-            tabPageGelirGider.Controls.Add(btnAddIncomeExpense);
-            tabPageGelirGider.Location = new Point(4, 24);
-            tabPageGelirGider.Name = "tabPageGelirGider";
-            tabPageGelirGider.Size = new Size(1858, 942);
-            tabPageGelirGider.TabIndex = 2;
-            tabPageGelirGider.Text = "Gelir-Gider Yönetimi";
-            // 
-            // dataGridOdeme
-            // 
-            dataGridOdeme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridOdeme.Location = new Point(20, 75);
-            dataGridOdeme.Name = "dataGridOdeme";
-            dataGridOdeme.RowHeadersWidth = 62;
-            dataGridOdeme.Size = new Size(801, 493);
-            dataGridOdeme.TabIndex = 5;
-            // 
-            // txtDescription
-            // 
-            txtDescription.Location = new Point(20, 20);
-            txtDescription.Name = "txtDescription";
-            txtDescription.PlaceholderText = "Açıklama";
-            txtDescription.Size = new Size(300, 23);
-            txtDescription.TabIndex = 0;
-            // 
-            // numericAmount
-            // 
-            numericAmount.DecimalPlaces = 2;
-            numericAmount.Location = new Point(350, 20);
-            numericAmount.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            numericAmount.Name = "numericAmount";
-            numericAmount.Size = new Size(120, 23);
-            numericAmount.TabIndex = 1;
-            // 
-            // radioIncome
-            // 
-            radioIncome.Location = new Point(500, 20);
-            radioIncome.Name = "radioIncome";
-            radioIncome.Size = new Size(104, 24);
-            radioIncome.TabIndex = 2;
-            radioIncome.Text = "Gelir";
-            // 
-            // radioExpense
-            // 
-            radioExpense.Location = new Point(610, 20);
-            radioExpense.Name = "radioExpense";
-            radioExpense.Size = new Size(104, 24);
-            radioExpense.TabIndex = 3;
-            radioExpense.Text = "Gider";
-            // 
-            // btnAddIncomeExpense
-            // 
-            btnAddIncomeExpense.BackColor = SystemColors.MenuHighlight;
-            btnAddIncomeExpense.FlatStyle = FlatStyle.Flat;
-            btnAddIncomeExpense.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            btnAddIncomeExpense.ForeColor = Color.Transparent;
-            btnAddIncomeExpense.Location = new Point(720, 10);
-            btnAddIncomeExpense.Name = "btnAddIncomeExpense";
-            btnAddIncomeExpense.Size = new Size(101, 41);
-            btnAddIncomeExpense.TabIndex = 4;
-            btnAddIncomeExpense.Text = "Ekle";
-            btnAddIncomeExpense.UseVisualStyleBackColor = false;
-            btnAddIncomeExpense.Click += btnAddIncomeExpense_Click;
-            // 
-            // tabPageOzelRaporlar
-            // 
-            tabPageOzelRaporlar.BackColor = Color.White;
-            tabPageOzelRaporlar.Controls.Add(salesGrid);
-            tabPageOzelRaporlar.Location = new Point(4, 24);
-            tabPageOzelRaporlar.Name = "tabPageOzelRaporlar";
-            tabPageOzelRaporlar.Padding = new Padding(3);
-            tabPageOzelRaporlar.Size = new Size(1858, 942);
-            tabPageOzelRaporlar.TabIndex = 3;
-            tabPageOzelRaporlar.Text = "Özel Raporlar";
-            tabPageOzelRaporlar.Click += tabPage1_Click;
-            // 
-            // salesGrid
-            // 
-            salesGrid.AllowDrop = true;
-            salesGrid.AllowUserToOrderColumns = true;
-            salesGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            salesGrid.Location = new Point(6, 6);
-            salesGrid.Name = "salesGrid";
-            salesGrid.RowHeadersWidth = 62;
-            salesGrid.Size = new Size(1224, 557);
-            salesGrid.TabIndex = 0;
-            salesGrid.CellContentClick += salesGrid_CellContentClick;
             // 
             // tabPagePersonelYonetimi
             // 
@@ -1064,6 +982,101 @@ namespace BKS
             dgvPersonelYonetimi.Size = new Size(852, 930);
             dgvPersonelYonetimi.TabIndex = 1;
             // 
+            // tabPageGelirGider
+            // 
+            tabPageGelirGider.BackColor = Color.White;
+            tabPageGelirGider.Controls.Add(dataGridOdeme);
+            tabPageGelirGider.Controls.Add(txtDescription);
+            tabPageGelirGider.Controls.Add(numericAmount);
+            tabPageGelirGider.Controls.Add(radioIncome);
+            tabPageGelirGider.Controls.Add(radioExpense);
+            tabPageGelirGider.Controls.Add(btnAddIncomeExpense);
+            tabPageGelirGider.Location = new Point(4, 24);
+            tabPageGelirGider.Name = "tabPageGelirGider";
+            tabPageGelirGider.Size = new Size(1858, 942);
+            tabPageGelirGider.TabIndex = 2;
+            tabPageGelirGider.Text = "Gelir-Gider Yönetimi";
+            // 
+            // dataGridOdeme
+            // 
+            dataGridOdeme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridOdeme.Location = new Point(20, 75);
+            dataGridOdeme.Name = "dataGridOdeme";
+            dataGridOdeme.RowHeadersWidth = 62;
+            dataGridOdeme.Size = new Size(801, 493);
+            dataGridOdeme.TabIndex = 5;
+            // 
+            // txtDescription
+            // 
+            txtDescription.Location = new Point(20, 20);
+            txtDescription.Name = "txtDescription";
+            txtDescription.PlaceholderText = "Açıklama";
+            txtDescription.Size = new Size(300, 23);
+            txtDescription.TabIndex = 0;
+            // 
+            // numericAmount
+            // 
+            numericAmount.DecimalPlaces = 2;
+            numericAmount.Location = new Point(350, 20);
+            numericAmount.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            numericAmount.Name = "numericAmount";
+            numericAmount.Size = new Size(120, 23);
+            numericAmount.TabIndex = 1;
+            // 
+            // radioIncome
+            // 
+            radioIncome.Location = new Point(500, 20);
+            radioIncome.Name = "radioIncome";
+            radioIncome.Size = new Size(104, 24);
+            radioIncome.TabIndex = 2;
+            radioIncome.Text = "Gelir";
+            // 
+            // radioExpense
+            // 
+            radioExpense.Location = new Point(610, 20);
+            radioExpense.Name = "radioExpense";
+            radioExpense.Size = new Size(104, 24);
+            radioExpense.TabIndex = 3;
+            radioExpense.Text = "Gider";
+            // 
+            // btnAddIncomeExpense
+            // 
+            btnAddIncomeExpense.BackColor = SystemColors.MenuHighlight;
+            btnAddIncomeExpense.FlatStyle = FlatStyle.Flat;
+            btnAddIncomeExpense.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            btnAddIncomeExpense.ForeColor = Color.Transparent;
+            btnAddIncomeExpense.Location = new Point(720, 10);
+            btnAddIncomeExpense.Name = "btnAddIncomeExpense";
+            btnAddIncomeExpense.Size = new Size(101, 41);
+            btnAddIncomeExpense.TabIndex = 4;
+            btnAddIncomeExpense.Text = "Ekle";
+            btnAddIncomeExpense.UseVisualStyleBackColor = false;
+            btnAddIncomeExpense.Click += btnAddIncomeExpense_Click;
+            // 
+            // tabPageOzelRaporlar
+            // 
+            tabPageOzelRaporlar.BackColor = Color.White;
+            tabPageOzelRaporlar.Controls.Add(salesGrid);
+            tabPageOzelRaporlar.Location = new Point(4, 24);
+            tabPageOzelRaporlar.Name = "tabPageOzelRaporlar";
+            tabPageOzelRaporlar.Padding = new Padding(3);
+            tabPageOzelRaporlar.Size = new Size(1858, 942);
+            tabPageOzelRaporlar.TabIndex = 3;
+            tabPageOzelRaporlar.Text = "Özel Raporlar";
+            tabPageOzelRaporlar.Click += tabPage1_Click;
+            // 
+            // salesGrid
+            // 
+            salesGrid.AllowDrop = true;
+            salesGrid.AllowUserToOrderColumns = true;
+            salesGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            salesGrid.Location = new Point(6, 6);
+            salesGrid.Name = "salesGrid";
+            salesGrid.RowHeadersWidth = 62;
+            salesGrid.Size = new Size(1224, 557);
+            salesGrid.TabIndex = 0;
+            salesGrid.CellContentClick += salesGrid_CellContentClick;
+            // 
             // sqlCommand1
             // 
             sqlCommand1.CommandTimeout = 30;
@@ -1109,12 +1122,6 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).EndInit();
             groupBox8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataOgrVw).EndInit();
-            tabPageGelirGider.ResumeLayout(false);
-            tabPageGelirGider.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridOdeme).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericAmount).EndInit();
-            tabPageOzelRaporlar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)salesGrid).EndInit();
             tabPagePersonelYonetimi.ResumeLayout(false);
             groupBox17.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbxPersonelPicture).EndInit();
@@ -1127,6 +1134,12 @@ namespace BKS
             groupBox20.ResumeLayout(false);
             groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).EndInit();
+            tabPageGelirGider.ResumeLayout(false);
+            tabPageGelirGider.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridOdeme).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericAmount).EndInit();
+            tabPageOzelRaporlar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)salesGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1205,5 +1218,6 @@ namespace BKS
         private ToolStripMenuItem yeniKayıtEkleToolStripMenuItem;
         private ToolStripMenuItem yenileToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private ToolStripMenuItem kayıtSilToolStripMenuItem;
     }
 }
