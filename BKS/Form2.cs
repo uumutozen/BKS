@@ -65,7 +65,9 @@ namespace BKS
             dataGridViewStok.Columns["FotoId"].Visible = false;
             LoadTeacherComboBox(UserId);
             PersonelYonetimiLoad(UserId);
-
+            dataGridViewStok.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewStok.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+        
             Image img = Image.FromFile("delete.jpg"); // resim dosya yolu
             ResizeAndSetButtonImage(btnOgrenciYonetimiSinifSil, img);
             //timer1.Interval = 5000; // 5 saniye
@@ -773,7 +775,7 @@ namespace BKS
             try
             {
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                if (dataGridViewStok.Rows.Count > 0) // DataGridView'de veri var mı kontrol et
+                if (dataGridViewStok.Rows.Count == 0 || dataGridViewStok.Rows.Count > 0) // DataGridView'de veri var mı kontrol et
                 {
                     // Excel dosyası seçme penceresi açılıyor
                     OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -911,7 +913,7 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "select Sınıf=ClassName,YasGrup=[Group],OgretmenAdi from aysclasses where SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId)";
+                string query = "select Sınıf=ClassName,'Yaş Grubu'=[Group],'Öğretmen Adı'=OgretmenAdi from aysclasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
 

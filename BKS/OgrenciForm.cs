@@ -37,7 +37,7 @@ namespace BKS
             {
 
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where SchoolId=(Select top 1 CompanyId from CompanyUsers where UserId=@UserId)", conn);
+                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(Select top 1 CompanyId from CompanyUsers where UserId=@UserId)", conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 SqlDataReader reader = cmd.ExecuteReader();
                 cmbogrsınıf.Items.Clear();

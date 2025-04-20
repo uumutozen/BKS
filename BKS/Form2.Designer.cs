@@ -10,7 +10,6 @@ namespace BKS
         private System.Windows.Forms.TabPage tabPageSatis;
         private System.Windows.Forms.TabPage tabPageGelirGider;
         private System.Windows.Forms.TabPage tabPagePersonelYonetimi;
-        public System.Windows.Forms.DataGridView dataGridViewStok;
 
         private System.Windows.Forms.ComboBox comboBoxStok;
         private System.Windows.Forms.NumericUpDown numericQuantitySold;
@@ -338,10 +337,12 @@ namespace BKS
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
             dataGridViewStok.GridColor = Color.DodgerBlue;
             dataGridViewStok.Location = new Point(3, 53);
+            dataGridViewStok.MultiSelect = false;
             dataGridViewStok.Name = "dataGridViewStok";
+            dataGridViewStok.ReadOnly = true;
             dataGridViewStok.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewStok.RowHeadersVisible = false;
-            dataGridViewStok.RowHeadersWidth = 62;
+            dataGridViewStok.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dataGridViewStok.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
             dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
@@ -1219,5 +1220,6 @@ namespace BKS
         private ToolStripMenuItem yenileToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private ToolStripMenuItem kayıtSilToolStripMenuItem;
+        public DataGridView dataGridViewStok;
     }
 }
