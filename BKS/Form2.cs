@@ -68,8 +68,8 @@ namespace BKS
             dataGridViewStok.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewStok.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         
-            Image img = Image.FromFile("delete.jpg"); // resim dosya yolu
-            ResizeAndSetButtonImage(btnOgrenciYonetimiSinifSil, img);
+            //Image img = Image.FromFile("delete.jpg"); // resim dosya yolu
+            //ResizeAndSetButtonImage(btnOgrenciYonetimiSinifSil, img);
             //timer1.Interval = 5000; // 5 saniye
             //timer1.Tick += Timer1_Tick;
             //timer1.Start();
