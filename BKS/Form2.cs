@@ -23,8 +23,6 @@ namespace BKS
     public partial class Form2 : MaterialForm
 
     {
-
-
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
 
         public Form2()
@@ -45,7 +43,8 @@ namespace BKS
 
 
         }
-     
+        [System.ComponentModel.Browsable(false)]
+        public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
         private void Form2_Load(object sender, EventArgs e)
         {
 
@@ -67,7 +66,8 @@ namespace BKS
             PersonelYonetimiLoad(UserId);
             dataGridViewStok.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewStok.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-        
+           
+         
             //Image img = Image.FromFile("delete.jpg"); // resim dosya yolu
             //ResizeAndSetButtonImage(btnOgrenciYonetimiSinifSil, img);
             //timer1.Interval = 5000; // 5 saniye
@@ -91,7 +91,7 @@ namespace BKS
             button.TextImageRelation = TextImageRelation.Overlay; // Resim üstünde yazı
         }
         Form1 form1 = new Form1();
-
+       
         private void LoadCompanyModules(Guid UserId)
         {
             List<string> activeModules = new List<string>();

@@ -9,7 +9,12 @@
     <StartupObject>BKS.Program</StartupObject>
     <ApplicationIcon>helm_icon.ico</ApplicationIcon>
     <SignAssembly>False</SignAssembly>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Remove="app1.manifest" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="helm_icon.ico" />

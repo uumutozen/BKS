@@ -23,6 +23,12 @@ namespace BKS
             manager.ColorScheme = new ColorScheme(Primary.Blue500, Primary.Blue700, Primary.Blue300, Accent.LightBlue200, TextShade.WHITE);
         }
 
+        [System.ComponentModel.Browsable(false)]
+        public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
+        private static extern bool SetProcessDPIAware();
+
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             string username = userName.Text.Trim();

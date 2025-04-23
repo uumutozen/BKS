@@ -336,6 +336,7 @@ namespace BKS
             dataGridViewStok.ColumnHeadersHeight = 34;
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
             dataGridViewStok.GridColor = Color.DodgerBlue;
+            dataGridViewStok.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewStok.Location = new Point(3, 53);
             dataGridViewStok.MultiSelect = false;
             dataGridViewStok.Name = "dataGridViewStok";
@@ -1099,6 +1100,8 @@ namespace BKS
             // Form2
             // 
             AutoValidate = AutoValidate.EnablePreventFocusChange;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1872, 1037);
             Controls.Add(materialLabel3);
             Controls.Add(tabControl);
