@@ -657,28 +657,53 @@ namespace BKS
 
                     btnOnayla.Click += (s, e) =>
                     {
-                        if (paymentGrid.SelectedRows.Count > 0)
+                        try
                         {
-                            DataGridViewRow selectedRow = paymentGrid.SelectedRows[0];
-                            Guid paymentId = (Guid)selectedRow.Cells["Id"].Value;
-
-                            using (SqlConnection connn = new SqlConnection(connectionString))
+                            if (paymentGrid.SelectedRows.Count > 0)
                             {
-                                connn.Open();
-                                string updateQuery = "UPDATE AYSFeePayments SET IsApproved = 1, ApprovedDate = @Now WHERE Id = @Id";
-                                SqlCommand cmd = new SqlCommand(updateQuery, connn);
-                                cmd.Parameters.AddWithValue("@Id", paymentId);
-                                cmd.Parameters.AddWithValue("@Now", DateTime.Now);
-                                cmd.ExecuteNonQuery();
+                                try
+                                {
+                                    DataGridViewRow selectedRow = paymentGrid.SelectedRows[0];
+                                    
+                                    if (selectedRow.IsNewRow || selectedRow.Cells[0].Value == null)
+                                    {
+                                        MessageBox.Show("Lütfen geçerli bir satır seçin.");
+                                        return;
+                                    }
 
-                                MessageBox.Show("Ödeme onaylandı.");
-                                paymentGrid.DataSource = OdemeLoad(UserId, studentId);
+                                    // Buradan sonra satır güvenli şekilde kullanılabilir
+                                    Guid paymentId = (Guid)selectedRow.Cells["Id"].Value;
+                                    using (SqlConnection connn = new SqlConnection(connectionString))
+                                    {
+                                        connn.Open();
+                                        string updateQuery = "UPDATE AYSFeePayments SET IsApproved = 1, ApprovedDate = @Now WHERE Id = @Id";
+                                        SqlCommand cmd = new SqlCommand(updateQuery, connn);
+                                        cmd.Parameters.AddWithValue("@Id", paymentId);
+                                        cmd.Parameters.AddWithValue("@Now", DateTime.Now);
+                                        cmd.ExecuteNonQuery();
+
+                                        MessageBox.Show("Ödeme onaylandı.");
+                                        paymentGrid.DataSource = OdemeLoad(UserId, studentId);
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                    MessageBox.Show("Hata Boş Satır Seçmeyiniz");
+                                }
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("Lütfen onaylamak için bir ödeme seçin.");
                             }
                         }
-                        else
+                        catch (Exception)
                         {
-                            MessageBox.Show("Lütfen onaylamak için bir ödeme seçin.");
+
+                            MessageBox.Show("Hata Boş Satır Seçmeyiniz");
                         }
+                        
                     };
 
                     paymentForm.Controls.Add(paymentGrid);

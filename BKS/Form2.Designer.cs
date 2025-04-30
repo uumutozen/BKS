@@ -123,6 +123,8 @@ namespace BKS
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
+            groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
@@ -179,6 +181,8 @@ namespace BKS
             tabPageStok.Controls.Add(btnOgrenciYonetimiAra);
             tabPageStok.Controls.Add(txtOgrenciYonetimiAra);
             tabPageStok.Controls.Add(dataGridViewStok);
+            tabPageStok.Controls.Add(groupBox1);
+            tabPageStok.Controls.Add(groupBox2);
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
@@ -300,7 +304,7 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             DgvOgrenciYonetimiSiniflar.ColumnHeadersHeight = 34;
             DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
-            DgvOgrenciYonetimiSiniflar.Location = new Point(3, 621);
+            DgvOgrenciYonetimiSiniflar.Location = new Point(9, 631);
             DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
             DgvOgrenciYonetimiSiniflar.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             DgvOgrenciYonetimiSiniflar.RowHeadersVisible = false;
@@ -309,12 +313,12 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
             DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
-            DgvOgrenciYonetimiSiniflar.Size = new Size(852, 312);
+            DgvOgrenciYonetimiSiniflar.Size = new Size(846, 302);
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
             // 
             // btnOgrenciYonetimiAra
             // 
-            btnOgrenciYonetimiAra.Location = new Point(230, 14);
+            btnOgrenciYonetimiAra.Location = new Point(212, 3);
             btnOgrenciYonetimiAra.Name = "btnOgrenciYonetimiAra";
             btnOgrenciYonetimiAra.Size = new Size(99, 23);
             btnOgrenciYonetimiAra.TabIndex = 29;
@@ -324,19 +328,19 @@ namespace BKS
             // 
             // txtOgrenciYonetimiAra
             // 
-            txtOgrenciYonetimiAra.Location = new Point(17, 15);
+            txtOgrenciYonetimiAra.Location = new Point(9, 4);
             txtOgrenciYonetimiAra.Name = "txtOgrenciYonetimiAra";
             txtOgrenciYonetimiAra.Size = new Size(197, 23);
             txtOgrenciYonetimiAra.TabIndex = 28;
             // 
             // dataGridViewStok
             // 
+            dataGridViewStok.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewStok.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridViewStok.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewStok.ColumnHeadersHeight = 34;
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
             dataGridViewStok.GridColor = Color.DodgerBlue;
-            dataGridViewStok.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewStok.Location = new Point(3, 53);
             dataGridViewStok.MultiSelect = false;
             dataGridViewStok.Name = "dataGridViewStok";
@@ -1097,11 +1101,33 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
+            // groupBox1
+            // 
+            groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox1.ForeColor = Color.CornflowerBlue;
+            groupBox1.Location = new Point(3, 609);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(858, 333);
+            groupBox1.TabIndex = 33;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Sınıf Listesi";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox2.ForeColor = Color.CornflowerBlue;
+            groupBox2.Location = new Point(3, 33);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(1852, 570);
+            groupBox2.TabIndex = 33;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Öğrenci Listesi";
+            // 
             // Form2
             // 
-            AutoValidate = AutoValidate.EnablePreventFocusChange;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoValidate = AutoValidate.EnablePreventFocusChange;
             ClientSize = new Size(1872, 1037);
             Controls.Add(materialLabel3);
             Controls.Add(tabControl);
@@ -1224,5 +1250,7 @@ namespace BKS
         private System.Windows.Forms.Timer timer1;
         private ToolStripMenuItem kayıtSilToolStripMenuItem;
         public DataGridView dataGridViewStok;
+        private GroupBox groupBox1;
+        private GroupBox groupBox2;
     }
 }
