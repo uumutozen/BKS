@@ -72,43 +72,46 @@
             // 
             // txtOgrenciAd
             // 
+            txtOgrenciAd.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             txtOgrenciAd.ForeColor = SystemColors.WindowFrame;
             txtOgrenciAd.Location = new Point(171, 25);
             txtOgrenciAd.Name = "txtOgrenciAd";
+            txtOgrenciAd.PlaceholderText = "Öğrenci Adı";
             txtOgrenciAd.Size = new Size(259, 23);
             txtOgrenciAd.TabIndex = 0;
-            txtOgrenciAd.Text = "Öğrenci Adı";
             txtOgrenciAd.TextChanged += txtOgrenciAd_TextChanged;
             // 
             // textSoyad
             // 
+            textSoyad.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             textSoyad.ForeColor = SystemColors.WindowFrame;
             textSoyad.Location = new Point(171, 54);
             textSoyad.Name = "textSoyad";
+            textSoyad.PlaceholderText = "Öğrenci Soyadı";
             textSoyad.Size = new Size(259, 23);
             textSoyad.TabIndex = 1;
-            textSoyad.Text = "Öğrenci Soyadı";
             // 
             // txtBabaAd
             // 
             txtBabaAd.ForeColor = SystemColors.WindowFrame;
             txtBabaAd.Location = new Point(6, 38);
             txtBabaAd.Name = "txtBabaAd";
+            txtBabaAd.PlaceholderText = "Adı Soyadı";
             txtBabaAd.Size = new Size(200, 23);
             txtBabaAd.TabIndex = 2;
-            txtBabaAd.Text = "Adı Soyadı";
             // 
             // txtAnneAd
             // 
             txtAnneAd.ForeColor = SystemColors.WindowFrame;
             txtAnneAd.Location = new Point(6, 38);
             txtAnneAd.Name = "txtAnneAd";
+            txtAnneAd.PlaceholderText = "Adı Soyadı";
             txtAnneAd.Size = new Size(206, 23);
             txtAnneAd.TabIndex = 3;
-            txtAnneAd.Text = "Adı Soyadı";
             // 
             // cmbogrsınıf
             // 
+            cmbogrsınıf.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             cmbogrsınıf.ForeColor = SystemColors.WindowFrame;
             cmbogrsınıf.Location = new Point(171, 112);
             cmbogrsınıf.Name = "cmbogrsınıf";
@@ -118,12 +121,13 @@
             // 
             // textOgrenciKod
             // 
+            textOgrenciKod.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             textOgrenciKod.ForeColor = SystemColors.WindowFrame;
             textOgrenciKod.Location = new Point(171, 141);
             textOgrenciKod.Name = "textOgrenciKod";
+            textOgrenciKod.PlaceholderText = "Öğrenci Numarası";
             textOgrenciKod.Size = new Size(259, 23);
             textOgrenciKod.TabIndex = 5;
-            textOgrenciKod.Text = "Öğrenci Numarası";
             // 
             // textOgrenciDetay
             // 
