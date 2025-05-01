@@ -55,6 +55,8 @@ namespace BKS
             yenileToolStripMenuItem = new ToolStripMenuItem();
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
+            groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -123,8 +125,6 @@ namespace BKS
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
-            groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
@@ -406,6 +406,28 @@ namespace BKS
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
+            // groupBox1
+            // 
+            groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox1.ForeColor = Color.CornflowerBlue;
+            groupBox1.Location = new Point(3, 609);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(858, 333);
+            groupBox1.TabIndex = 33;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Sınıf Listesi";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox2.ForeColor = Color.CornflowerBlue;
+            groupBox2.Location = new Point(3, 33);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(1852, 570);
+            groupBox2.TabIndex = 33;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Öğrenci Listesi";
+            // 
             // tabPageSatis
             // 
             tabPageSatis.BackColor = Color.White;
@@ -435,7 +457,7 @@ namespace BKS
             // numericQuantitySold
             // 
             numericQuantitySold.Location = new Point(6, 36);
-            numericQuantitySold.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numericQuantitySold.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numericQuantitySold.Name = "numericQuantitySold";
             numericQuantitySold.Size = new Size(131, 23);
             numericQuantitySold.TabIndex = 1;
@@ -1100,28 +1122,6 @@ namespace BKS
             materialLabel3.Size = new Size(69, 19);
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
-            // 
-            // groupBox1
-            // 
-            groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox1.ForeColor = Color.CornflowerBlue;
-            groupBox1.Location = new Point(3, 609);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(858, 333);
-            groupBox1.TabIndex = 33;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Sınıf Listesi";
-            // 
-            // groupBox2
-            // 
-            groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox2.ForeColor = Color.CornflowerBlue;
-            groupBox2.Location = new Point(3, 33);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1852, 570);
-            groupBox2.TabIndex = 33;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Öğrenci Listesi";
             // 
             // Form2
             // 

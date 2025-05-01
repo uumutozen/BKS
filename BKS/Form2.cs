@@ -16,6 +16,7 @@ using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 
 
 namespace BKS
@@ -742,9 +743,12 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("insert into AYSFeePayments (Id,PaymentDate,Amount,StudentId) values (NEWID(),GETDATE(),@Amount,@StudentId)", conn);
-                cmd.Parameters.AddWithValue("@Amount", quantitySold);
+                SqlCommand cmd = new SqlCommand("INSERT INTO AYSFeePayments (Id, StudentId, Amount, PaymentDate, SchoolId) VALUES (@Id, @StudentId, @Amount, @PaymentDate, (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId))", conn);
+                cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
                 cmd.Parameters.AddWithValue("@StudentId", productId);
+                cmd.Parameters.AddWithValue("@Amount", quantitySold);
+                cmd.Parameters.AddWithValue("@PaymentDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
                 int rowsAffected = cmd.ExecuteNonQuery();
 
                 if (rowsAffected > 0)
