@@ -306,6 +306,7 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
             DgvOgrenciYonetimiSiniflar.Location = new Point(9, 631);
             DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
+            DgvOgrenciYonetimiSiniflar.ReadOnly = true;
             DgvOgrenciYonetimiSiniflar.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             DgvOgrenciYonetimiSiniflar.RowHeadersVisible = false;
             DgvOgrenciYonetimiSiniflar.RowHeadersWidth = 62;
