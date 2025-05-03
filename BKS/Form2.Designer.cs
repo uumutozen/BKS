@@ -54,12 +54,12 @@ namespace BKS
             yenileToolStripMenuItem = new ToolStripMenuItem();
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
-<<<<<<< HEAD
+
             btnOgrenciYonetimiSinifGuncelle = new Button();
-=======
+
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
->>>>>>> 3aab57310e6fe6dc76dab7fe4ebc5fe1047c7dc1
+
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -183,12 +183,12 @@ namespace BKS
             tabPageStok.Controls.Add(btnOgrenciYonetimiAra);
             tabPageStok.Controls.Add(txtOgrenciYonetimiAra);
             tabPageStok.Controls.Add(dataGridViewStok);
-<<<<<<< HEAD
+
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
-=======
+
             tabPageStok.Controls.Add(groupBox1);
             tabPageStok.Controls.Add(groupBox2);
->>>>>>> 3aab57310e6fe6dc76dab7fe4ebc5fe1047c7dc1
+
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
@@ -399,7 +399,7 @@ namespace BKS
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
-<<<<<<< HEAD
+
             // btnOgrenciYonetimiSinifGuncelle
             // 
             btnOgrenciYonetimiSinifGuncelle.BackColor = Color.Transparent;
@@ -415,7 +415,6 @@ namespace BKS
             btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
             btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
             btnOgrenciYonetimiSinifGuncelle.Click += btnOgrenciYonetimiSinifGuncelle_Click;
-=======
             // groupBox1
             // 
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
@@ -437,7 +436,7 @@ namespace BKS
             groupBox2.TabIndex = 33;
             groupBox2.TabStop = false;
             groupBox2.Text = "Öğrenci Listesi";
->>>>>>> 3aab57310e6fe6dc76dab7fe4ebc5fe1047c7dc1
+
             // 
             // tabPageSatis
             // 
