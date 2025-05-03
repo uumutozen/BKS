@@ -36,7 +36,6 @@ namespace BKS
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             tabControl = new TabControl();
             tabPageStok = new TabPage();
-            btnOgrenciYonetimiSinifGuncelle = new Button();
             btnOgrenciYonetimiSinifSil = new Button();
             btnOgrenciYonetimiSinifKaydet = new Button();
             groupBox13 = new GroupBox();
@@ -55,6 +54,7 @@ namespace BKS
             yenileToolStripMenuItem = new ToolStripMenuItem();
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
+            btnOgrenciYonetimiSinifGuncelle = new Button();
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -169,7 +169,6 @@ namespace BKS
             // tabPageStok
             // 
             tabPageStok.BackColor = Color.White;
-            tabPageStok.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifSil);
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifKaydet);
             tabPageStok.Controls.Add(groupBox13);
@@ -179,6 +178,7 @@ namespace BKS
             tabPageStok.Controls.Add(btnOgrenciYonetimiAra);
             tabPageStok.Controls.Add(txtOgrenciYonetimiAra);
             tabPageStok.Controls.Add(dataGridViewStok);
+            tabPageStok.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
@@ -187,49 +187,35 @@ namespace BKS
             tabPageStok.Text = "Öğrenci Yönetimi";
             tabPageStok.Click += tabPageStok_Click;
             // 
-            // btnOgrenciYonetimiSinifGuncelle
-            // 
-            btnOgrenciYonetimiSinifGuncelle.BackColor = SystemColors.MenuHighlight;
-            btnOgrenciYonetimiSinifGuncelle.Cursor = Cursors.Hand;
-            btnOgrenciYonetimiSinifGuncelle.FlatAppearance.BorderSize = 0;
-            btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
-            btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifGuncelle.Location = new Point(1719, 890);
-            btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
-            btnOgrenciYonetimiSinifGuncelle.Size = new Size(114, 43);
-            btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
-            btnOgrenciYonetimiSinifGuncelle.Text = "Güncelle";
-            btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
-            btnOgrenciYonetimiSinifGuncelle.Click += btnOgrenciYonetimiSinifGuncelle_Click;
-            // 
             // btnOgrenciYonetimiSinifSil
             // 
-            btnOgrenciYonetimiSinifSil.BackColor = Color.White;
+            btnOgrenciYonetimiSinifSil.BackColor = Color.Transparent;
             btnOgrenciYonetimiSinifSil.Cursor = Cursors.Hand;
             btnOgrenciYonetimiSinifSil.FlatAppearance.BorderSize = 0;
             btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifSil.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifSil.Location = new Point(1479, 890);
+            btnOgrenciYonetimiSinifSil.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifSil.Image");
+            btnOgrenciYonetimiSinifSil.Location = new Point(1543, 856);
             btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
-            btnOgrenciYonetimiSinifSil.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifSil.Size = new Size(72, 77);
             btnOgrenciYonetimiSinifSil.TabIndex = 35;
             btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
             // 
             // btnOgrenciYonetimiSinifKaydet
             // 
-            btnOgrenciYonetimiSinifKaydet.BackColor = SystemColors.MenuHighlight;
-            btnOgrenciYonetimiSinifKaydet.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifKaydet.BackColor = Color.Transparent;
+            btnOgrenciYonetimiSinifKaydet.Cursor = Cursors.NoMove2D;
             btnOgrenciYonetimiSinifKaydet.FlatAppearance.BorderSize = 0;
             btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnOgrenciYonetimiSinifKaydet.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifKaydet.Location = new Point(1599, 890);
+            btnOgrenciYonetimiSinifKaydet.ForeColor = Color.Black;
+            btnOgrenciYonetimiSinifKaydet.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifKaydet.Image");
+            btnOgrenciYonetimiSinifKaydet.Location = new Point(1637, 856);
             btnOgrenciYonetimiSinifKaydet.Name = "btnOgrenciYonetimiSinifKaydet";
-            btnOgrenciYonetimiSinifKaydet.Size = new Size(114, 43);
+            btnOgrenciYonetimiSinifKaydet.Size = new Size(72, 77);
             btnOgrenciYonetimiSinifKaydet.TabIndex = 34;
-            btnOgrenciYonetimiSinifKaydet.Text = "Kaydet";
+            btnOgrenciYonetimiSinifKaydet.TextAlign = ContentAlignment.MiddleRight;
             btnOgrenciYonetimiSinifKaydet.UseVisualStyleBackColor = false;
             btnOgrenciYonetimiSinifKaydet.Click += btnOgrenciYonetimiSinifKaydet_Click;
             // 
@@ -331,12 +317,12 @@ namespace BKS
             // 
             // dataGridViewStok
             // 
+            dataGridViewStok.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewStok.BackgroundColor = SystemColors.ButtonHighlight;
             dataGridViewStok.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewStok.ColumnHeadersHeight = 34;
             dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
             dataGridViewStok.GridColor = Color.DodgerBlue;
-            dataGridViewStok.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewStok.Location = new Point(3, 53);
             dataGridViewStok.MultiSelect = false;
             dataGridViewStok.Name = "dataGridViewStok";
@@ -401,6 +387,22 @@ namespace BKS
             excelİleAktarToolStripMenuItem.Size = new Size(170, 30);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
+            // 
+            // btnOgrenciYonetimiSinifGuncelle
+            // 
+            btnOgrenciYonetimiSinifGuncelle.BackColor = Color.Transparent;
+            btnOgrenciYonetimiSinifGuncelle.Cursor = Cursors.Hand;
+            btnOgrenciYonetimiSinifGuncelle.FlatAppearance.BorderSize = 0;
+            btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
+            btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifGuncelle.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifGuncelle.Image");
+            btnOgrenciYonetimiSinifGuncelle.Location = new Point(1732, 856);
+            btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
+            btnOgrenciYonetimiSinifGuncelle.Size = new Size(72, 77);
+            btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
+            btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
+            btnOgrenciYonetimiSinifGuncelle.Click += btnOgrenciYonetimiSinifGuncelle_Click;
             // 
             // tabPageSatis
             // 
@@ -1099,9 +1101,9 @@ namespace BKS
             // 
             // Form2
             // 
-            AutoValidate = AutoValidate.EnablePreventFocusChange;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoValidate = AutoValidate.EnablePreventFocusChange;
             ClientSize = new Size(1872, 1037);
             Controls.Add(materialLabel3);
             Controls.Add(tabControl);
