@@ -83,8 +83,19 @@ namespace BKS
 
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://randevu.aslancan.com.tr/"); // ← Burayı API adresinle değiştir
-                var response = await client.PostAsJsonAsync("api/Login", loginRequest);
+                client.BaseAddress = new Uri("https://randevu.aslancan.com.tr/"); // API adresi
+                HttpResponseMessage response;
+
+                try
+                {
+                    response = await client.PostAsJsonAsync("api/Login", loginRequest);
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show("Sunucuya bağlanılamadı. Lütfen internet bağlantınızı veya sunucuyu kontrol edin.\nHata: " + ex.Message,
+                                    "Sunucu Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -103,14 +114,35 @@ namespace BKS
                     }
                     else
                     {
-                        MessageBox.Show(loginResponse.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(loginResponse.Message ?? "Bilinmeyen bir hata oluştu.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Kullanıcı Adı Şifre Hatalı", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    switch (response.StatusCode)
+                    {
+                        case System.Net.HttpStatusCode.Unauthorized:
+                        case System.Net.HttpStatusCode.Forbidden:
+                            MessageBox.Show("Kullanıcı adı veya şifre hatalı.", "Yetkisiz", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+
+                        case System.Net.HttpStatusCode.BadRequest:
+                            var error = await response.Content.ReadAsStringAsync();
+                            MessageBox.Show("Geçersiz istek: " + error, "İstek Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+
+                        case System.Net.HttpStatusCode.InternalServerError:
+                        case System.Net.HttpStatusCode.ServiceUnavailable:
+                            MessageBox.Show("Sunucu şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.", "Sunucu Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+
+                        default:
+                            MessageBox.Show($"Hata oluştu: {response.StatusCode}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
                 }
             }
+
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
