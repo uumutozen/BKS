@@ -1,8 +1,9 @@
-using System;
+ï»¿using System;
 using System.Data.SqlClient;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using BKS;
+using System.Net.Http.Json;
 
 namespace BKS
 {
@@ -16,7 +17,7 @@ namespace BKS
             InitializeComponent();
             loginHistoryService = new LoginHistoryService(connectionString);
 
-            // Material Skin theme ayarları
+            // Material Skin theme ayarlarÄ±
             var manager = MaterialSkinManager.Instance;
             manager.AddFormToManage(this);
             manager.Theme = MaterialSkinManager.Themes.LIGHT;
@@ -34,13 +35,13 @@ namespace BKS
             string username = userName.Text.Trim();
             if (!string.IsNullOrEmpty(username))
             {
-                // Son giriş bilgisini yükle
+                // Son giriÅŸ bilgisini yÃ¼kle
 
             }
         }
         private Guid GetUserIdFromDatabase(string username, string password)
         {
-            Guid userId = Guid.NewGuid(); // Varsayılan olarak -1 döndür
+            Guid userId = Guid.NewGuid(); // VarsayÄ±lan olarak -1 dÃ¶ndÃ¼r
 
             string query = "SELECT UserId FROM CompanyUsers ce  \r\njoin Companies c on c.CompanyId= ce.CompanyId\r\nWHERE ce.IsActive=1 and c.IsActive=1 and Email = @Username AND Password = @Password";
 
@@ -63,73 +64,64 @@ namespace BKS
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Bağlantı hatası: " + ex.Message);
+                    MessageBox.Show("BaÄŸlantÄ± hatasÄ±: " + ex.Message);
                 }
             }
             return userId;
         }
-        private void bttnLgn_Click(object sender, EventArgs e)
+        private async void bttnLgn_Click(object sender, EventArgs e)
         {
-            // Kullanıcı adı ve şifre girişleri
+            // KullanÄ±cÄ± adÄ± ve ÅŸifre giriÅŸleri
             string username = userName.Text.Trim();
             string password = passWord.Text.Trim();
 
-            // SQL sorgusu
-
-            string sorgu = "exec ValidateAndUpdateLogin @Email, @Password";
-
-            Form2 form2 = new Form2();
-            form2.UserId = GetUserIdFromDatabase(username, password);
-            Form1 form1 = new Form1();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var loginRequest = new
             {
-                try
+                Email = username,
+                Password = password
+            };
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://randevu.aslancan.com.tr/"); // â† BurayÄ± API adresinle deÄŸiÅŸtir
+                var response = await client.PostAsJsonAsync("api/Login", loginRequest);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    connection.Open();
-                    using (SqlCommand datecom = new SqlCommand(sorgu, connection))
+                    var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
+
+                    if (loginResponse.Success)
                     {
-                        datecom.Parameters.AddWithValue("@Email", username);
-                        datecom.Parameters.AddWithValue("@Password", password);
-
-                        using (SqlCommand command = new SqlCommand(sorgu, connection))
+                        MessageBox.Show("GiriÅŸ BaÅŸarÄ±lÄ±!", "BaÅŸarÄ±lÄ±", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Form2 form2 = new Form2
                         {
-
-                            // Parametreleri ekle
-                            command.Parameters.AddWithValue("@Email", username);
-                            command.Parameters.AddWithValue("@Password", password);
-
-                            // Sonucu kontrol et
-                            int userCount = (int)command.ExecuteScalar();
-                            if (userCount > 0)
-                            {
-                                MessageBox.Show("Giriş Başarılı!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                this.Hide();  // Form1’i gizle
-                                form2.ShowDialog(); // Form2'yi aç, diğer işlemleri blokla
-                                form2.UserId = GetUserIdFromDatabase(username, password);
-                                Environment.Exit(0); // Form2 kapandıktan sonra tüm programı kapat
-
-                            }
-                            else
-                            {
-                                MessageBox.Show("Kullanıcı Adı veya Şifre Hatalı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
+                            UserId = Guid.Parse(loginResponse.UserId)
+                        };
+                        this.Hide();
+                        form2.ShowDialog();
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        MessageBox.Show(loginResponse.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Bir Hata Oluştu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("KullanÄ±cÄ± AdÄ± Åifre HatalÄ±", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
             }
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Environment.Exit(0); // Tüm programı kapatır.
+            Environment.Exit(0); // TÃ¼m programÄ± kapatÄ±r.
         }
-
+        public class LoginResponse
+        {
+            public bool Success { get; set; }
+            public string UserId { get; set; }
+            public string Message { get; set; }
+        }
         public class LoginHistoryService
         {
             private readonly string _connectionString;
