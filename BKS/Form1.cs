@@ -103,7 +103,7 @@ namespace BKS
 
                     if (loginResponse.Success)
                     {
-                        MessageBox.Show("Giriş Başarılı!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(loginResponse.Message, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Form2 form2 = new Form2
                         {
                             UserId = Guid.Parse(loginResponse.UserId)
