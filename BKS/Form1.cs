@@ -1,8 +1,9 @@
-using System;
+ï»¿using System;
 using System.Data.SqlClient;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using BKS;
+using System.Net.Http.Json;
 
 namespace BKS
 {
@@ -16,7 +17,7 @@ namespace BKS
             InitializeComponent();
             loginHistoryService = new LoginHistoryService(connectionString);
 
-            // Material Skin theme ayarlarý
+            // Material Skin theme ayarlarÄ±
             var manager = MaterialSkinManager.Instance;
             manager.AddFormToManage(this);
             manager.Theme = MaterialSkinManager.Themes.LIGHT;
@@ -34,13 +35,13 @@ namespace BKS
             string username = userName.Text.Trim();
             if (!string.IsNullOrEmpty(username))
             {
-                // Son giriþ bilgisini yükle
+                // Son giriÅŸ bilgisini yÃ¼kle
 
             }
         }
         private Guid GetUserIdFromDatabase(string username, string password)
         {
-            Guid userId = Guid.NewGuid(); // Varsayýlan olarak -1 döndür
+            Guid userId = Guid.NewGuid(); // VarsayÄ±lan olarak -1 dÃ¶ndÃ¼r
 
             string query = "SELECT UserId FROM CompanyUsers ce  \r\njoin Companies c on c.CompanyId= ce.CompanyId\r\nWHERE ce.IsActive=1 and c.IsActive=1 and Email = @Username AND Password = @Password";
 
@@ -63,73 +64,96 @@ namespace BKS
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Baðlantý hatasý: " + ex.Message);
+                    MessageBox.Show("BaÄŸlantÄ± hatasÄ±: " + ex.Message);
                 }
             }
             return userId;
         }
-        private void bttnLgn_Click(object sender, EventArgs e)
+        private async void bttnLgn_Click(object sender, EventArgs e)
         {
-            // Kullanýcý adý ve þifre giriþleri
+            // KullanÄ±cÄ± adÄ± ve ÅŸifre giriÅŸleri
             string username = userName.Text.Trim();
             string password = passWord.Text.Trim();
 
-            // SQL sorgusu
-
-            string sorgu = "exec ValidateAndUpdateLogin @Email, @Password";
-
-            Form2 form2 = new Form2();
-            form2.UserId = GetUserIdFromDatabase(username, password);
-            Form1 form1 = new Form1();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var loginRequest = new
             {
+                Email = username,
+                Password = password
+            };
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://randevu.aslancan.com.tr/"); // API adresi
+                HttpResponseMessage response;
+
                 try
                 {
-                    connection.Open();
-                    using (SqlCommand datecom = new SqlCommand(sorgu, connection))
+                    response = await client.PostAsJsonAsync("api/Login", loginRequest);
+                }
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show("Sunucuya baÄŸlanÄ±lamadÄ±. LÃ¼tfen internet baÄŸlantÄ±nÄ±zÄ± veya sunucuyu kontrol edin.\nHata: " + ex.Message,
+                                    "Sunucu HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
+
+                    if (loginResponse.Success)
                     {
-                        datecom.Parameters.AddWithValue("@Email", username);
-                        datecom.Parameters.AddWithValue("@Password", password);
-
-                        using (SqlCommand command = new SqlCommand(sorgu, connection))
+                        MessageBox.Show("GiriÅŸ BaÅŸarÄ±lÄ±!", "BaÅŸarÄ±lÄ±", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Form2 form2 = new Form2
                         {
-
-                            // Parametreleri ekle
-                            command.Parameters.AddWithValue("@Email", username);
-                            command.Parameters.AddWithValue("@Password", password);
-
-                            // Sonucu kontrol et
-                            int userCount = (int)command.ExecuteScalar();
-                            if (userCount > 0)
-                            {
-                                MessageBox.Show("Giriþ Baþarýlý!", "Baþarýlý", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                                this.Hide();  // Form1’i gizle
-                                form2.ShowDialog(); // Form2'yi aç, diðer iþlemleri blokla
-                                form2.UserId = GetUserIdFromDatabase(username, password);
-                                Environment.Exit(0); // Form2 kapandýktan sonra tüm programý kapat
-
-                            }
-                            else
-                            {
-                                MessageBox.Show("Kullanýcý Adý veya Þifre Hatalý!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
+                            UserId = Guid.Parse(loginResponse.UserId)
+                        };
+                        this.Hide();
+                        form2.ShowDialog();
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        MessageBox.Show(loginResponse.Message ?? "Bilinmeyen bir hata oluÅŸtu.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Bir Hata Oluþtu: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    switch (response.StatusCode)
+                    {
+                        case System.Net.HttpStatusCode.Unauthorized:
+                        case System.Net.HttpStatusCode.Forbidden:
+                            MessageBox.Show("KullanÄ±cÄ± adÄ± veya ÅŸifre hatalÄ±.", "Yetkisiz", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
 
+                        case System.Net.HttpStatusCode.BadRequest:
+                            var error = await response.Content.ReadAsStringAsync();
+                            MessageBox.Show("GeÃ§ersiz istek: " + error, "Ä°stek HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            break;
+
+                        case System.Net.HttpStatusCode.InternalServerError:
+                        case System.Net.HttpStatusCode.ServiceUnavailable:
+                            MessageBox.Show("Sunucu ÅŸu anda kullanÄ±lamÄ±yor. LÃ¼tfen daha sonra tekrar deneyin.", "Sunucu HatasÄ±", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+
+                        default:
+                            MessageBox.Show($"Hata oluÅŸtu: {response.StatusCode}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            break;
+                    }
+                }
             }
+
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Environment.Exit(0); // Tüm programý kapatýr.
+            Environment.Exit(0); // TÃ¼m programÄ± kapatÄ±r.
         }
-
+        public class LoginResponse
+        {
+            public bool Success { get; set; }
+            public string UserId { get; set; }
+            public string Message { get; set; }
+        }
         public class LoginHistoryService
         {
             private readonly string _connectionString;

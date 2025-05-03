@@ -54,7 +54,12 @@ namespace BKS
             yenileToolStripMenuItem = new ToolStripMenuItem();
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
+<<<<<<< HEAD
             btnOgrenciYonetimiSinifGuncelle = new Button();
+=======
+            groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
+>>>>>>> 3aab57310e6fe6dc76dab7fe4ebc5fe1047c7dc1
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -178,7 +183,12 @@ namespace BKS
             tabPageStok.Controls.Add(btnOgrenciYonetimiAra);
             tabPageStok.Controls.Add(txtOgrenciYonetimiAra);
             tabPageStok.Controls.Add(dataGridViewStok);
+<<<<<<< HEAD
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
+=======
+            tabPageStok.Controls.Add(groupBox1);
+            tabPageStok.Controls.Add(groupBox2);
+>>>>>>> 3aab57310e6fe6dc76dab7fe4ebc5fe1047c7dc1
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
@@ -286,8 +296,9 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             DgvOgrenciYonetimiSiniflar.ColumnHeadersHeight = 34;
             DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
-            DgvOgrenciYonetimiSiniflar.Location = new Point(3, 621);
+            DgvOgrenciYonetimiSiniflar.Location = new Point(9, 631);
             DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
+            DgvOgrenciYonetimiSiniflar.ReadOnly = true;
             DgvOgrenciYonetimiSiniflar.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             DgvOgrenciYonetimiSiniflar.RowHeadersVisible = false;
             DgvOgrenciYonetimiSiniflar.RowHeadersWidth = 62;
@@ -295,12 +306,12 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             DgvOgrenciYonetimiSiniflar.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
             DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
-            DgvOgrenciYonetimiSiniflar.Size = new Size(852, 312);
+            DgvOgrenciYonetimiSiniflar.Size = new Size(846, 302);
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
             // 
             // btnOgrenciYonetimiAra
             // 
-            btnOgrenciYonetimiAra.Location = new Point(230, 14);
+            btnOgrenciYonetimiAra.Location = new Point(212, 3);
             btnOgrenciYonetimiAra.Name = "btnOgrenciYonetimiAra";
             btnOgrenciYonetimiAra.Size = new Size(99, 23);
             btnOgrenciYonetimiAra.TabIndex = 29;
@@ -310,7 +321,7 @@ namespace BKS
             // 
             // txtOgrenciYonetimiAra
             // 
-            txtOgrenciYonetimiAra.Location = new Point(17, 15);
+            txtOgrenciYonetimiAra.Location = new Point(9, 4);
             txtOgrenciYonetimiAra.Name = "txtOgrenciYonetimiAra";
             txtOgrenciYonetimiAra.Size = new Size(197, 23);
             txtOgrenciYonetimiAra.TabIndex = 28;
@@ -388,6 +399,7 @@ namespace BKS
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
+<<<<<<< HEAD
             // btnOgrenciYonetimiSinifGuncelle
             // 
             btnOgrenciYonetimiSinifGuncelle.BackColor = Color.Transparent;
@@ -403,6 +415,29 @@ namespace BKS
             btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
             btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
             btnOgrenciYonetimiSinifGuncelle.Click += btnOgrenciYonetimiSinifGuncelle_Click;
+=======
+            // groupBox1
+            // 
+            groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox1.ForeColor = Color.CornflowerBlue;
+            groupBox1.Location = new Point(3, 609);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(858, 333);
+            groupBox1.TabIndex = 33;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Sınıf Listesi";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            groupBox2.ForeColor = Color.CornflowerBlue;
+            groupBox2.Location = new Point(3, 33);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(1852, 570);
+            groupBox2.TabIndex = 33;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Öğrenci Listesi";
+>>>>>>> 3aab57310e6fe6dc76dab7fe4ebc5fe1047c7dc1
             // 
             // tabPageSatis
             // 
@@ -433,7 +468,7 @@ namespace BKS
             // numericQuantitySold
             // 
             numericQuantitySold.Location = new Point(6, 36);
-            numericQuantitySold.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            numericQuantitySold.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numericQuantitySold.Name = "numericQuantitySold";
             numericQuantitySold.Size = new Size(131, 23);
             numericQuantitySold.TabIndex = 1;
@@ -1226,5 +1261,7 @@ namespace BKS
         private System.Windows.Forms.Timer timer1;
         private ToolStripMenuItem kayıtSilToolStripMenuItem;
         public DataGridView dataGridViewStok;
+        private GroupBox groupBox1;
+        private GroupBox groupBox2;
     }
 }
