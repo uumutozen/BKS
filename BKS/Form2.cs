@@ -53,7 +53,7 @@ namespace BKS
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi".ToUpper();
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
             LoadStockData(UserId);
-            LoadCompanyModules(UserId);
+            LoadCompanyModules(UserId,Role);
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             dgvPersonelYonetimi.AllowUserToAddRows = false;
@@ -67,8 +67,8 @@ namespace BKS
             PersonelYonetimiLoad(UserId);
             dataGridViewStok.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewStok.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-
+           
+         
             //Image img = Image.FromFile("delete.jpg"); // resim dosya yolu
             //ResizeAndSetButtonImage(btnOgrenciYonetimiSinifSil, img);
             //timer1.Interval = 5000; // 5 saniye
@@ -80,8 +80,8 @@ namespace BKS
         private void ResizeAndSetButtonImage(Button button, Image image)
         {
             // Butonun boyutlarına göre yeni resim boyutunu ayarla (biraz margin bırakmak için -10 yaptık)
-            int width = button.Width - 10;
-            int height = button.Height - 10;
+            int width = button.Width- 10;
+            int height = button.Height -10;
 
             // Yeni boyutlandırılmış resmi oluştur
             Image resized = new Bitmap(image, new Size(width, height));
@@ -92,31 +92,65 @@ namespace BKS
             button.TextImageRelation = TextImageRelation.Overlay; // Resim üstünde yazı
         }
         Form1 form1 = new Form1();
-
-        private void LoadCompanyModules(Guid UserId)
+        
+        
+        private void LoadCompanyModules(Guid UserId,string Role)
         {
             List<string> activeModules = new List<string>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // Kullanıcının rolü admin mi kontrol et
+            string role = GetUserRole(UserId,Role);
+
+            if (role == "ADMİN")
             {
-                conn.Open();
-                string query = "select m.ModuleName from CompanyUsers cu  join Companies c on c.CompanyId=cu.CompanyId join CompanyModules cm on cm.CompanyId=c.CompanyId join Modules m on m.ModuleId = cm.ModuleId where cu.UserId=@UserId";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                // Admin ise tüm modüller otomatik olarak eklensin (örnek modül adları)
+                activeModules = new List<string>
+        {
+            "tabPageStok",
+            "tabPageSatis",
+            "tabPageGelirGider",
+            "tabPagePersonelYonetimi"
+           
+            // Tüm modüllerin adlarını buraya ekleyin
+        };
+            }
+            else
+            {
+                // Admin değilse veritabanından yetkili olduğu modülleri çek
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@UserId", UserId);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    conn.Open();
+                    string query = @"SELECT m.ModuleName 
+                             FROM CompanyUsers cu  
+                             JOIN Companies c ON c.CompanyId = cu.CompanyId 
+                             JOIN CompanyModules cm ON cm.CompanyId = c.CompanyId 
+                             JOIN Modules m ON m.ModuleId = cm.ModuleId 
+                             WHERE cu.UserId = @UserId";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@UserId", UserId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            activeModules.Add(reader["ModuleName"].ToString());
+                            while (reader.Read())
+                            {
+                                activeModules.Add(reader["ModuleName"].ToString());
+                            }
                         }
                     }
                 }
             }
 
-
             SetTabAccess(activeModules);
         }
+
+        private string GetUserRole(Guid userId,string Role)
+        {
+            string role = Role;
+            if (role == null)
+                return "Bilinmiyor";
+            return role.ToUpper();
+        }
+
 
         // Stok Yönetimi
         public void LoadStockData(Guid UserId)
@@ -498,7 +532,7 @@ namespace BKS
                         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                         MultiSelect = false,
                         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-
+                    
 
                     };
                     paymentGrid.DataBindingComplete += (s, e) =>
@@ -521,7 +555,7 @@ namespace BKS
                         if (row.Cells["IsApproved"].Value != DBNull.Value &&
                            !Convert.ToBoolean(row.Cells["IsApproved"].Value))
                         {
-                            row.DefaultCellStyle.BackColor = Color.FromArgb(191, 81, 79);
+                            row.DefaultCellStyle.BackColor = Color.FromArgb(191, 81, 79); 
                         }
                     };
                     // Sağ tıklama menüsü
@@ -529,7 +563,7 @@ namespace BKS
                     ToolStripMenuItem generatePlanItem = new ToolStripMenuItem("Aylık Ödeme Planı Oluştur");
                     contextMenu.Items.Add(generatePlanItem);
                     paymentGrid.ContextMenuStrip = contextMenu;
-
+                  
                     generatePlanItem.Click += (s, e) =>
                     {
                         Form planForm = new Form
@@ -624,7 +658,7 @@ namespace BKS
 
                                     MessageBox.Show("Ödeme başarıyla eklendi.");
                                     paymentGrid.DataSource = OdemeLoad(UserId, studentId);
-
+                            
                                 }
                             }
                             else
@@ -665,7 +699,7 @@ namespace BKS
                                 try
                                 {
                                     DataGridViewRow selectedRow = paymentGrid.SelectedRows[0];
-
+                                    
                                     if (selectedRow.IsNewRow || selectedRow.Cells[0].Value == null)
                                     {
                                         MessageBox.Show("Lütfen geçerli bir satır seçin.");
@@ -704,7 +738,7 @@ namespace BKS
 
                             MessageBox.Show("Hata Boş Satır Seçmeyiniz");
                         }
-
+                        
                     };
 
                     paymentForm.Controls.Add(paymentGrid);
@@ -942,7 +976,7 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "select Sınıf=ClassName,'Yaş Grubu'=[Group],'Öğretmen Adı'=OgretmenAdi from aysclasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId) and IsNull(IsDeleted,0) = 0";
+                string query = "select Sınıf=ClassName,'Yaş Grubu'=[Group],'Öğretmen Adı'=OgretmenAdi from aysclasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
 
@@ -971,7 +1005,7 @@ namespace BKS
         {
 
         }
-
+   
         private void Delete(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -1116,7 +1150,7 @@ namespace BKS
 
         private void cbxUserId_CheckedChanged(object sender, EventArgs e)
         {
-
+        
         }
 
         private void pbxPersonelPicture_Click(object sender, EventArgs e)
@@ -1326,7 +1360,7 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP)
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
-
+               
 
             }
         }
@@ -1359,76 +1393,42 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP)
         }
         private void DeleteStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            
             if (dataGridViewStok.CurrentRow != null)
             {
 
 
                 Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
-                DialogResult result = MessageBox.Show("Bu Öğrenciyi Silmek İstiyor musunuz?", "Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result == DialogResult.Yes)
+                DialogResult result =  MessageBox.Show("Bu Öğrenciyi Silmek İstiyor musunuz?","Sil",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+                if (result ==DialogResult.Yes)
                 {
 
-                    string query = @"
+                string query = @"
             Update AysStudents set IsDeleted=1
             WHERE Id = @id";
 
-                    using (SqlConnection con = new SqlConnection(connectionString))
-                    {
-                        con.Open();
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            // Parametreleri Ekle
-                            cmd.Parameters.AddWithValue("@id", id);
-
-                            cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
-                        }
-                    }
-
-                    MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
-                    LoadStockData(UserId);
-
-                }
-            }
-        }
-
-        private void btnOgrenciYonetimiSinifSil_Click(object sender, EventArgs e)
-        {
-
-
-            if (DgvOgrenciYonetimiSiniflar.CurrentRow == null)
-            {
-                MessageBox.Show("Lütfen silinecek öğrenciyi seçin.");
-                return;
-            }
-            DialogResult result = MessageBox.Show("Bu öğrenciyi silmek istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result != DialogResult.Yes)
-                return;
-            string ClassId = (string)DgvOgrenciYonetimiSiniflar.CurrentRow.Cells["Sınıf"].Value;
-            string query = @"
-            Update Aysclasses set IsDeleted=1
-            WHERE ClassName = @id";
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    // Parametreleri Ekle
-                    cmd.Parameters.AddWithValue("@id", ClassId);
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        // Parametreleri Ekle
+                        cmd.Parameters.AddWithValue("@id", id);
 
-                    cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                        cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                    }
                 }
+
+                MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
+                LoadStockData(UserId);
                 
             }
-            SinifLoad(UserId);
-            
+            }
         }
 
-
-
         public Guid UserId { get; set; }
-
+        public string Role { get; set; }
         public string Photo { get; set; }
     }
 

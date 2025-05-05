@@ -106,7 +106,8 @@ namespace BKS
                         MessageBox.Show(loginResponse.Message, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Form2 form2 = new Form2
                         {
-                            UserId = Guid.Parse(loginResponse.UserId)
+                            UserId = Guid.Parse(loginResponse.UserId),
+                            Role = loginResponse.Role
                         };
                         this.Hide();
                         form2.ShowDialog();
@@ -152,6 +153,7 @@ namespace BKS
         {
             public bool Success { get; set; }
             public string UserId { get; set; }
+            public string Role {  get; set; } 
             public string Message { get; set; }
         }
         public class LoginHistoryService
