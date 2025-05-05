@@ -1277,8 +1277,40 @@ namespace BKS
 
         private void btnOgrenciYonetimiSinifGuncelle_Click(object sender, EventArgs e)
         {
+            
+            string SinifAdi = txtOgrenciYonetimiSınıfAdı.Text;
+            string YasGrubu = cbxOgrenciYonetimiYasGrubu.Text;
+            string OgretmenAdi = cbxOgrenciYonetimiOgretmen.Text;
+            string ClassId= (string)DgvOgrenciYonetimiSiniflar.CurrentRow.Cells["Sınıf"].Value;
+            string query = @"
+                                   UPDATE AYSclasses SET 
+    ClassName = @SinifAdi,
+    [Group] = @YasGrubu,
+    OgretmenAdi = @OgretmenAdi,
+    OgretmenId = (select a.PersonelId from personel join(select PersonelId,ogretmenadi=FirstName+' '+LastName from personel p)a on a.ogretmenadi=@OgretmenAdi where CompanyId=@UserId)
+WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP)
+";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    // Parametreleri Ekle
+                    cmd.Parameters.AddWithValue("@SinifAdiP", ClassId);
+                    cmd.Parameters.AddWithValue("@SinifAdi", SinifAdi);
+                    cmd.Parameters.AddWithValue("@YasGrubu", YasGrubu);
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@OgretmenAdi", OgretmenAdi);
+                  
+                    cmd.ExecuteNonQuery(); 
+                }
+                SinifLoad(UserId);
+
+            }
 
         }
+
+
         private void DataStokRefresh(object sender, EventArgs e)
         {
             string ogrenciadi = string.IsNullOrEmpty(txtOgrenciYonetimiAra.Text) ? null : txtOgrenciYonetimiAra.Text;
