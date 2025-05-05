@@ -205,7 +205,7 @@ namespace BKS
             btnOgrenciYonetimiSinifSil.Size = new Size(72, 77);
             btnOgrenciYonetimiSinifSil.TabIndex = 35;
             btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
-            btnOgrenciYonetimiSinifSil.Click += btnOgrenciYonetimiSinifSil_Click;
+    
             // 
             // btnOgrenciYonetimiSinifKaydet
             // 
