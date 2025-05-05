@@ -53,7 +53,7 @@ namespace BKS
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi".ToUpper();
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
             LoadStockData(UserId);
-            LoadCompanyModules(UserId);
+            LoadCompanyModules(UserId,Role);
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             dgvPersonelYonetimi.AllowUserToAddRows = false;
@@ -92,31 +92,65 @@ namespace BKS
             button.TextImageRelation = TextImageRelation.Overlay; // Resim üstünde yazı
         }
         Form1 form1 = new Form1();
-       
-        private void LoadCompanyModules(Guid UserId)
+        
+        
+        private void LoadCompanyModules(Guid UserId,string Role)
         {
             List<string> activeModules = new List<string>();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            // Kullanıcının rolü admin mi kontrol et
+            string role = GetUserRole(UserId,Role);
+
+            if (role == "ADMİN")
             {
-                conn.Open();
-                string query = "select m.ModuleName from CompanyUsers cu  join Companies c on c.CompanyId=cu.CompanyId join CompanyModules cm on cm.CompanyId=c.CompanyId join Modules m on m.ModuleId = cm.ModuleId where cu.UserId=@UserId";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                // Admin ise tüm modüller otomatik olarak eklensin (örnek modül adları)
+                activeModules = new List<string>
+        {
+            "tabPageStok",
+            "tabPageSatis",
+            "tabPageGelirGider",
+            "tabPagePersonelYonetimi"
+           
+            // Tüm modüllerin adlarını buraya ekleyin
+        };
+            }
+            else
+            {
+                // Admin değilse veritabanından yetkili olduğu modülleri çek
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@UserId", UserId);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    conn.Open();
+                    string query = @"SELECT m.ModuleName 
+                             FROM CompanyUsers cu  
+                             JOIN Companies c ON c.CompanyId = cu.CompanyId 
+                             JOIN CompanyModules cm ON cm.CompanyId = c.CompanyId 
+                             JOIN Modules m ON m.ModuleId = cm.ModuleId 
+                             WHERE cu.UserId = @UserId";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@UserId", UserId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            activeModules.Add(reader["ModuleName"].ToString());
+                            while (reader.Read())
+                            {
+                                activeModules.Add(reader["ModuleName"].ToString());
+                            }
                         }
                     }
                 }
             }
 
-
             SetTabAccess(activeModules);
         }
+
+        private string GetUserRole(Guid userId,string Role)
+        {
+            string role = Role;
+            if (role == null)
+                return "Bilinmiyor";
+            return role.ToUpper();
+        }
+
 
         // Stok Yönetimi
         public void LoadStockData(Guid UserId)
@@ -1362,7 +1396,7 @@ namespace BKS
         }
 
         public Guid UserId { get; set; }
-
+        public string Role { get; set; }
         public string Photo { get; set; }
     }
 
