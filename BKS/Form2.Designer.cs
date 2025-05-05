@@ -54,12 +54,9 @@ namespace BKS
             yenileToolStripMenuItem = new ToolStripMenuItem();
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
-
             btnOgrenciYonetimiSinifGuncelle = new Button();
-
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
-
             tabPageSatis = new TabPage();
             groupBox9 = new GroupBox();
             numericQuantitySold = new NumericUpDown();
@@ -183,12 +180,9 @@ namespace BKS
             tabPageStok.Controls.Add(btnOgrenciYonetimiAra);
             tabPageStok.Controls.Add(txtOgrenciYonetimiAra);
             tabPageStok.Controls.Add(dataGridViewStok);
-
             tabPageStok.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
-
             tabPageStok.Controls.Add(groupBox1);
             tabPageStok.Controls.Add(groupBox2);
-
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
@@ -211,11 +205,11 @@ namespace BKS
             btnOgrenciYonetimiSinifSil.Size = new Size(72, 77);
             btnOgrenciYonetimiSinifSil.TabIndex = 35;
             btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
+            btnOgrenciYonetimiSinifSil.Click += btnOgrenciYonetimiSinifSil_Click;
             // 
             // btnOgrenciYonetimiSinifKaydet
             // 
             btnOgrenciYonetimiSinifKaydet.BackColor = Color.Transparent;
-            btnOgrenciYonetimiSinifKaydet.Cursor = Cursors.NoMove2D;
             btnOgrenciYonetimiSinifKaydet.FlatAppearance.BorderSize = 0;
             btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -399,7 +393,6 @@ namespace BKS
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
-
             // btnOgrenciYonetimiSinifGuncelle
             // 
             btnOgrenciYonetimiSinifGuncelle.BackColor = Color.Transparent;
@@ -415,6 +408,7 @@ namespace BKS
             btnOgrenciYonetimiSinifGuncelle.TabIndex = 36;
             btnOgrenciYonetimiSinifGuncelle.UseVisualStyleBackColor = false;
             btnOgrenciYonetimiSinifGuncelle.Click += btnOgrenciYonetimiSinifGuncelle_Click;
+            // 
             // groupBox1
             // 
             groupBox1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
@@ -436,7 +430,6 @@ namespace BKS
             groupBox2.TabIndex = 33;
             groupBox2.TabStop = false;
             groupBox2.Text = "Öğrenci Listesi";
-
             // 
             // tabPageSatis
             // 
