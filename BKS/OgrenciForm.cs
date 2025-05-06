@@ -37,7 +37,7 @@ namespace BKS
             {
 
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(Select top 1 CompanyId from CompanyUsers where UserId=@UserId)", conn);
+                SqlCommand cmd = new SqlCommand("select ClassName,[Group] from AYSClasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(Select top 1 CompanyId from CompanyUsers where UserId=@UserId) and IsDeleted =0", conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 SqlDataReader reader = cmd.ExecuteReader();
                 cmbogrsınıf.Items.Clear();
@@ -77,10 +77,10 @@ namespace BKS
                 Surname = @soyisim,
                 FatherName = @babaAdi,
                 MotherName = @anneAdi,
-                ClassName = @sinif,
                 StudentCode = @ogrenciKod,
                 StudentsDetails = @ogrenciDetay,
                 FatherPhoneNumber = @babaTel,
+	            ClassId=(select top 1 Id from aysclasses where ClassName=@ClassName),
                 MotherPhonenumber = @anneTel,
                 FatherAddress = @babaAdres,
                 MotherAddress = @anneAdres,
@@ -103,9 +103,10 @@ namespace BKS
                     cmd.Parameters.AddWithValue("@soyisim", soyisim);
                     cmd.Parameters.AddWithValue("@babaAdi", babaAdi);
                     cmd.Parameters.AddWithValue("@anneAdi", anneAdi);
-                    cmd.Parameters.AddWithValue("@sinif", sinif);
+              
                     cmd.Parameters.AddWithValue("@ogrenciKod", ogrenciKod);
                     cmd.Parameters.AddWithValue("@ogrenciDetay", ogrenciDetay);
+                    cmd.Parameters.AddWithValue("@ClassName", sinif);
                     cmd.Parameters.AddWithValue("@babaTel", babaTel);
                     cmd.Parameters.AddWithValue("@anneTel", anneTel);
                     cmd.Parameters.AddWithValue("@babaAdres", babaAdres);
