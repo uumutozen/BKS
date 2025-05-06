@@ -109,7 +109,8 @@ namespace BKS
             "tabPageStok",
             "tabPageSatis",
             "tabPageGelirGider",
-            "tabPagePersonelYonetimi"
+            "tabPagePersonelYonetimi",
+            "tabPageOzelRaporlar"
            
             // Tüm modüllerin adlarını buraya ekleyin
         };
