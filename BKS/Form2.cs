@@ -17,6 +17,7 @@ using LicenseContext = OfficeOpenXml.LicenseContext;
 using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
+using System.Net;
 
 
 namespace BKS
@@ -46,14 +47,14 @@ namespace BKS
         }
         [System.ComponentModel.Browsable(false)]
         public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
-        private void Form2_Load(object sender, EventArgs e)
+        private  void Form2_Load(object sender, EventArgs e)
         {
 
 
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi".ToUpper();
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
             LoadStockData(UserId);
-            LoadCompanyModules(UserId, Role);
+            LoadModulesFromApi(UserId, Role);
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             dgvPersonelYonetimi.AllowUserToAddRows = false;
@@ -94,64 +95,32 @@ namespace BKS
         Form1 form1 = new Form1();
 
 
-        private void LoadCompanyModules(Guid UserId, string Role)
+        public class ModuleResponse
         {
-            List<string> activeModules = new List<string>();
+            public List<string> modules { get; set; }
+            public string role { get; set; }
+        }
 
-            // Kullanıcının rolü admin mi kontrol et
-            string role = GetUserRole(UserId, Role);
-
-            if (role == "ADMİN")
-            {
-                // Admin ise tüm modüller otomatik olarak eklensin (örnek modül adları)
-                activeModules = new List<string>
+        private void LoadModulesFromApi(Guid userId, string role)
         {
-            "tabPageStok",
-            "tabPageSatis",
-            "tabPageGelirGider",
-            "tabPagePersonelYonetimi",
-            "tabPageOzelRaporlar"
-           
-            // Tüm modüllerin adlarını buraya ekleyin
-        };
-            }
-            else
+            try
             {
-                // Admin değilse veritabanından yetkili olduğu modülleri çek
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                string url = $"https://randevu.aslancan.com.tr/api/modules/{userId}?role={role}";
+
+                using (WebClient client = new WebClient())
                 {
-                    conn.Open();
-                    string query = @"SELECT m.ModuleName 
-                             FROM CompanyUsers cu  
-                             JOIN Companies c ON c.CompanyId = cu.CompanyId 
-                             JOIN CompanyModules cm ON cm.CompanyId = c.CompanyId 
-                             JOIN Modules m ON m.ModuleId = cm.ModuleId 
-                             WHERE cu.UserId = @UserId";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@UserId", UserId);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                activeModules.Add(reader["ModuleName"].ToString());
-                            }
-                        }
-                    }
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                    string json = client.DownloadString(url);
+
+                    var result = JsonConvert.DeserializeObject<ModuleResponse>(json);
+                    SetTabAccess(result.modules, result.role);
                 }
             }
-
-            SetTabAccess(activeModules);
+            catch (WebException ex)
+            {
+                MessageBox.Show("Modüller yüklenemedi!\n" + ex.Message);
+            }
         }
-
-        private string GetUserRole(Guid userId, string Role)
-        {
-            string role = Role;
-            if (role == null)
-                return "Bilinmiyor";
-            return role.ToUpper();
-        }
-
 
         // Stok Yönetimi
         public void LoadStockData(Guid UserId)
@@ -287,15 +256,26 @@ namespace BKS
                 LoadStockData(UserId);
             }
         }
-        //
-        private void SetTabAccess(List<string> activeModules)
+        private void SetTabAccess(List<string> activeModules, string role)
         {
+            // Admin ise tüm tab'leri açık bırak
+            if (role == "ADMİN")
+            {
+                foreach (TabPage tab in tabControl.TabPages)
+                {
+                    tab.Enabled = true;
+                    ShowTabPage(tab); // Gizlenmiş olabilir, yeniden göster
+                }
+                return;
+            }
+
+            // Admin değilse yetkilere göre aç/kapat
             foreach (TabPage tab in tabControl.TabPages)
             {
                 if (activeModules.Contains(tab.Name))
                 {
                     tab.Enabled = true;
-                    // Aktif modüller
+                    ShowTabPage(tab);
                 }
                 else
                 {
@@ -353,6 +333,12 @@ namespace BKS
                 //}
             }
 
+        }
+  
+        private void ShowTabPage(TabPage tabPage)
+        {
+            if (!tabControl.TabPages.Contains(tabPage))
+                tabControl.TabPages.Add(tabPage);
         }
         private void HideTabPage(TabPage tabPage)
         {
