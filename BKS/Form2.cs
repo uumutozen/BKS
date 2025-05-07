@@ -39,8 +39,6 @@ namespace BKS
 
             LoadStockComboBox();
             LoadPaymentData();
-
-
             form1.Close();
 
 
