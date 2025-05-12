@@ -871,8 +871,8 @@ namespace BKS
                                     // Burada kullanıcı id'sini doğru şekilde ayarlayın
 
                                     // SQL sorgusu
-                                    string sqlQuery = "INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, ClassName, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName, SchoolId) " +
-                                                      "VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (SELECT top 1 Id FROM AYSClasses WHERE ClassName = @ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @ClassName, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName, (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId))";
+                                    string sqlQuery = "INSERT INTO Aysstudents (Id, Name, Surname, FatherName, BirthDate, StudentCode, ClassId, PaymentStatus, MonthlyFee, IsActive, FatherAddress, MotherAddress, FatherPhoneNumber, MotherPhoneNumber, IsMarried, StudentsDetails, MotherName, SchoolId) " +
+                                                      "VALUES (@Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, (SELECT top 1 Id FROM AYSClasses WHERE ClassName = @ClassName), @PaymentStatus, @MonthlyFee, @IsActive, @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, @IsMarried, @StudentsDetails, @MotherName, (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId))";
 
                                     using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                                     {
@@ -887,7 +887,6 @@ namespace BKS
                                         cmd.Parameters.AddWithValue("@PaymentStatus", odemedurum);
                                         cmd.Parameters.AddWithValue("@MonthlyFee", odenentutar);
                                         cmd.Parameters.AddWithValue("@IsActive", aktiflik);
-                                        cmd.Parameters.AddWithValue("@ClassName", classing);
                                         cmd.Parameters.AddWithValue("@MotherName", MotherName);
                                         cmd.Parameters.AddWithValue("@FatherAddress", FatherAddress);
                                         cmd.Parameters.AddWithValue("@MotherAddress", MotherAddress);
