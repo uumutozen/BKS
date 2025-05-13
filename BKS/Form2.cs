@@ -117,6 +117,7 @@ namespace BKS
             catch (WebException ex)
             {
                 MessageBox.Show("Modüller yüklenemedi!\n" + ex.Message);
+                SetTabAccess(null,null);
             }
         }
 
@@ -256,8 +257,18 @@ namespace BKS
         }
         private void SetTabAccess(List<string> activeModules, string role)
         {
+            // Eğer role null/boş ya da activeModules null/boşsa tüm tab'ları gizle
+            if (string.IsNullOrWhiteSpace(role) || activeModules == null || activeModules.Count == 0)
+            {
+                foreach (TabPage tab in tabControl.TabPages.Cast<TabPage>().ToList())
+                {
+                    HideTabPage(tab);
+                }
+                return;
+            }
+
             // Admin ise tüm tab'leri açık bırak
-            if (role == "ADMİN")
+            if (role.ToUpper() == "ADMİN") // Türkçe karaktere karşı hassasiyet için ToUpper
             {
                 foreach (TabPage tab in tabControl.TabPages)
                 {
@@ -268,7 +279,7 @@ namespace BKS
             }
 
             // Admin değilse yetkilere göre aç/kapat
-            foreach (TabPage tab in tabControl.TabPages)
+            foreach (TabPage tab in tabControl.TabPages.Cast<TabPage>().ToList())
             {
                 if (activeModules.Contains(tab.Name))
                 {
@@ -282,6 +293,7 @@ namespace BKS
                 }
             }
         }
+
         public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id, Guid UserId, string actions, string actionName)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
