@@ -205,7 +205,6 @@ namespace BKS
             btnOgrenciYonetimiSinifSil.Size = new Size(72, 77);
             btnOgrenciYonetimiSinifSil.TabIndex = 35;
             btnOgrenciYonetimiSinifSil.UseVisualStyleBackColor = false;
-    
             // 
             // btnOgrenciYonetimiSinifKaydet
             // 
@@ -237,6 +236,7 @@ namespace BKS
             // 
             // cbxOgrenciYonetimiOgretmen
             // 
+            cbxOgrenciYonetimiOgretmen.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxOgrenciYonetimiOgretmen.FormattingEnabled = true;
             cbxOgrenciYonetimiOgretmen.Location = new Point(6, 38);
             cbxOgrenciYonetimiOgretmen.Name = "cbxOgrenciYonetimiOgretmen";
@@ -278,8 +278,9 @@ namespace BKS
             // 
             // cbxOgrenciYonetimiYasGrubu
             // 
+            cbxOgrenciYonetimiYasGrubu.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxOgrenciYonetimiYasGrubu.FormattingEnabled = true;
-            cbxOgrenciYonetimiYasGrubu.Location = new Point(6, 38);
+            cbxOgrenciYonetimiYasGrubu.Location = new Point(15, 38);
             cbxOgrenciYonetimiYasGrubu.Name = "cbxOgrenciYonetimiYasGrubu";
             cbxOgrenciYonetimiYasGrubu.Size = new Size(200, 23);
             cbxOgrenciYonetimiYasGrubu.TabIndex = 0;
