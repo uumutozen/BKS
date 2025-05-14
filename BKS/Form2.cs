@@ -321,7 +321,7 @@ namespace BKS
                 // Eğer silinecek veri bulunduysa log'a kaydet
                 if (!string.IsNullOrEmpty(deletedDataJson))
                 {
-                    string logQuery = "INSERT INTO DeleteLog (TableName, DeletedData, DeletedAt,DeleteUserId,Actions,ActionName) VALUES (@TableName, @DeletedData, @DeletedAt,@DeleteUserId,@Actions,@ActionName)";
+                    string logQuery = "INSERT INTO DeleteLog (TableName, DeletedData, DeletedAt,DeleteUserId,Actions,ActionName,CompanyId) VALUES (@TableName, @DeletedData, @DeletedAt,@DeleteUserId,@Actions,@ActionName,(select top 1 CompanyId from CompanyUsers where UserId=@DeleteUserId))";
                     using (SqlCommand logCmd = new SqlCommand(logQuery, conn))
                     {
                         logCmd.Parameters.AddWithValue("@TableName", tableName.ToUpper());
@@ -1142,6 +1142,36 @@ namespace BKS
                 SinifLoad(UserId);
             }
 
+        }
+        private void loglarıGörüntüleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form logForm = new Form
+            {
+                Text = "Loglar",
+                Width = 800,
+                Height = 600
+            };
+
+            DataGridView dgv = new DataGridView { Dock = DockStyle.Fill };
+            logForm.Controls.Add(dgv);
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Komutunuzu oluşturun
+                SqlCommand cmd = new SqlCommand("select * from deleteandlogs where SirketId=(select top 1 CompanyId from CompanyUsers where UserId=@UserId) order by Silinmezamani desc", conn);
+
+                // @UserId parametresini ekleyin
+                cmd.Parameters.AddWithValue("@UserId", UserId); // currentUserId'yi uygun şekilde almanız gerekebilir
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dgv.DataSource = dt;
+            }
+
+            logForm.Show();
         }
 
         private void cbxUserId_CheckedChanged(object sender, EventArgs e)

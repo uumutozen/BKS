@@ -12,35 +12,35 @@ namespace BKS
         /// <summary>
         /// Connection string'i şifreler.
         /// </summary>
-        public static string Encrypt(string plainText)
+        public static string Encrypt(string plainText, string password)
         {
             if (string.IsNullOrEmpty(plainText))
                 throw new ArgumentNullException(nameof(plainText));
 
+            byte[] entropy = Encoding.UTF8.GetBytes(password ?? "");
             byte[] encryptedData = ProtectedData.Protect(
                 Encoding.UTF8.GetBytes(plainText),
-                null,
+                entropy,
                 DataProtectionScope.LocalMachine
             );
 
             return Convert.ToBase64String(encryptedData);
         }
 
-        /// <summary>
-        /// Şifreli connection string'i çözer.
-        /// </summary>
-        public static string Decrypt(string encryptedText)
+        public static string Decrypt(string encryptedText, string password)
         {
             if (string.IsNullOrEmpty(encryptedText))
                 throw new ArgumentNullException(nameof(encryptedText));
 
+            byte[] entropy = Encoding.UTF8.GetBytes(password ?? "");
             byte[] decryptedData = ProtectedData.Unprotect(
                 Convert.FromBase64String(encryptedText),
-                null,
+                entropy,
                 DataProtectionScope.LocalMachine
             );
 
             return Encoding.UTF8.GetString(decryptedData);
         }
+
     }
 }

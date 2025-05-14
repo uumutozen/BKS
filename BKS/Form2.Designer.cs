@@ -54,6 +54,7 @@ namespace BKS
             yenileToolStripMenuItem = new ToolStripMenuItem();
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
+            geçmişHareketToolStripMenuItem = new ToolStripMenuItem();
             btnOgrenciYonetimiSinifGuncelle = new Button();
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
@@ -349,16 +350,16 @@ namespace BKS
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { yeniKayıtEkleToolStripMenuItem, kayıtSilToolStripMenuItem, yenileToolStripMenuItem, ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { yeniKayıtEkleToolStripMenuItem, kayıtSilToolStripMenuItem, yenileToolStripMenuItem, ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, geçmişHareketToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(171, 154);
+            contextMenuStrip1.Size = new Size(179, 184);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // yeniKayıtEkleToolStripMenuItem
             // 
             yeniKayıtEkleToolStripMenuItem.Image = (Image)resources.GetObject("yeniKayıtEkleToolStripMenuItem.Image");
             yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
-            yeniKayıtEkleToolStripMenuItem.Size = new Size(170, 30);
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(178, 30);
             yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
             yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
             // 
@@ -366,7 +367,7 @@ namespace BKS
             // 
             kayıtSilToolStripMenuItem.Image = (Image)resources.GetObject("kayıtSilToolStripMenuItem.Image");
             kayıtSilToolStripMenuItem.Name = "kayıtSilToolStripMenuItem";
-            kayıtSilToolStripMenuItem.Size = new Size(170, 30);
+            kayıtSilToolStripMenuItem.Size = new Size(178, 30);
             kayıtSilToolStripMenuItem.Text = "Seçili Kayıdı Sil";
             kayıtSilToolStripMenuItem.Click += DeleteStripMenuItem_Click;
             // 
@@ -374,7 +375,7 @@ namespace BKS
             // 
             yenileToolStripMenuItem.Image = (Image)resources.GetObject("yenileToolStripMenuItem.Image");
             yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
-            yenileToolStripMenuItem.Size = new Size(170, 30);
+            yenileToolStripMenuItem.Size = new Size(178, 30);
             yenileToolStripMenuItem.Text = "Yenile";
             yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
@@ -382,7 +383,7 @@ namespace BKS
             // 
             ödemeDetaylarıToolStripMenuItem.Image = (Image)resources.GetObject("ödemeDetaylarıToolStripMenuItem.Image");
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(170, 30);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(178, 30);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
@@ -390,9 +391,17 @@ namespace BKS
             // 
             excelİleAktarToolStripMenuItem.Image = (Image)resources.GetObject("excelİleAktarToolStripMenuItem.Image");
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(170, 30);
+            excelİleAktarToolStripMenuItem.Size = new Size(178, 30);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
+            // 
+            // geçmişHareketToolStripMenuItem
+            // 
+            geçmişHareketToolStripMenuItem.Image = (Image)resources.GetObject("geçmişHareketToolStripMenuItem.Image");
+            geçmişHareketToolStripMenuItem.Name = "geçmişHareketToolStripMenuItem";
+            geçmişHareketToolStripMenuItem.Size = new Size(178, 30);
+            geçmişHareketToolStripMenuItem.Text = "Geçmiş Hareketler";
+            geçmişHareketToolStripMenuItem.Click += loglarıGörüntüleToolStripMenuItem_Click;
             // 
             // btnOgrenciYonetimiSinifGuncelle
             // 
@@ -631,7 +640,6 @@ namespace BKS
             rbtPersonelEvli.Name = "rbtPersonelEvli";
             rbtPersonelEvli.Size = new Size(43, 19);
             rbtPersonelEvli.TabIndex = 11;
-            rbtPersonelEvli.TabStop = true;
             rbtPersonelEvli.Text = "Evli";
             rbtPersonelEvli.UseVisualStyleBackColor = true;
             // 
@@ -660,7 +668,6 @@ namespace BKS
             rbtPersonelKadin.Name = "rbtPersonelKadin";
             rbtPersonelKadin.Size = new Size(55, 19);
             rbtPersonelKadin.TabIndex = 7;
-            rbtPersonelKadin.TabStop = true;
             rbtPersonelKadin.Text = "Kadın";
             rbtPersonelKadin.UseVisualStyleBackColor = true;
             // 
@@ -671,7 +678,6 @@ namespace BKS
             rbtPersonelErkek.Name = "rbtPersonelErkek";
             rbtPersonelErkek.Size = new Size(53, 19);
             rbtPersonelErkek.TabIndex = 6;
-            rbtPersonelErkek.TabStop = true;
             rbtPersonelErkek.Text = "Erkek";
             rbtPersonelErkek.UseVisualStyleBackColor = true;
             rbtPersonelErkek.CheckedChanged += radioButton1_CheckedChanged;
@@ -1256,5 +1262,6 @@ namespace BKS
         public DataGridView dataGridViewStok;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
+        private ToolStripMenuItem geçmişHareketToolStripMenuItem;
     }
 }
