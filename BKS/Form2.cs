@@ -1160,7 +1160,7 @@ namespace BKS
                 conn.Open();
 
                 // Komutunuzu oluşturun
-                SqlCommand cmd = new SqlCommand("select * from deleteandlogs where SirketId=(select top 1 CompanyId from CompanyUsers where UserId=@UserId) order by Silinmezamani desc", conn);
+                SqlCommand cmd = new SqlCommand("select * from deleteandlogs where SirketId=(select top 1 CompanyId from CompanyUsers where UserId=@UserId) order by SilinmeZamani desc", conn);
 
                 // @UserId parametresini ekleyin
                 cmd.Parameters.AddWithValue("@UserId", UserId); // currentUserId'yi uygun şekilde almanız gerekebilir
