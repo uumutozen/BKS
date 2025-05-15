@@ -45,7 +45,7 @@ namespace BKS
         }
         [System.ComponentModel.Browsable(false)]
         public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
-        private  void Form2_Load(object sender, EventArgs e)
+        private void Form2_Load(object sender, EventArgs e)
         {
 
 
@@ -117,7 +117,7 @@ namespace BKS
             catch (WebException ex)
             {
                 MessageBox.Show("Modüller yüklenemedi!\n" + ex.Message);
-                SetTabAccess(null,null);
+                SetTabAccess(null, null);
             }
         }
 
@@ -344,7 +344,7 @@ namespace BKS
             }
 
         }
-  
+
         private void ShowTabPage(TabPage tabPage)
         {
             if (!tabControl.TabPages.Contains(tabPage))
@@ -1373,7 +1373,7 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
             }
 
         }
-    
+
 
         private void DataStokRefresh(object sender, EventArgs e)
         {
@@ -1390,7 +1390,7 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 dataGridViewStok.DataSource = dt;
-               
+
 
             }
         }
@@ -1423,38 +1423,43 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
         }
         private void DeleteStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             if (dataGridViewStok.CurrentRow != null)
             {
 
 
                 Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
-                DialogResult result =  MessageBox.Show("Bu Öğrenciyi Silmek İstiyor musunuz?","Sil",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
-                if (result ==DialogResult.Yes)
+                DialogResult result = MessageBox.Show("Bu Öğrenciyi Silmek İstiyor musunuz?", "Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
                 {
 
-                string query = @"
+                    string query = @"
             Update AysStudents set IsDeleted=1
             WHERE Id = @id";
 
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (SqlConnection con = new SqlConnection(connectionString))
                     {
-                        // Parametreleri Ekle
-                        cmd.Parameters.AddWithValue("@id", id);
+                        con.Open();
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            // Parametreleri Ekle
+                            cmd.Parameters.AddWithValue("@id", id);
 
-                        cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                            cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                        }
                     }
-                }
 
-                MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
-                LoadStockData(UserId);
-                
+                    MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
+                    LoadStockData(UserId);
+
+                }
             }
-            }
+        }
+
+        private void btnOgrenciYonetimiSinifSil_Click(object sender, EventArgs e)
+        {
+
         }
 
         public Guid UserId { get; set; }
