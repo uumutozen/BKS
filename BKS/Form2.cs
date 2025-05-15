@@ -1145,34 +1145,64 @@ namespace BKS
         }
         private void loglarıGörüntüleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form logForm = new Form
+            ToolStripItem menuItem = sender as ToolStripItem;
+            if (menuItem == null) return;
+
+            ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+            if (owner == null) return;
+
+            Control sourceControl = owner.SourceControl;
+            if (sourceControl is DataGridView sourceDgv)
             {
-                Text = "Loglar",
-                Width = 800,
-                Height = 600
-            };
+                int modulCode = 0;
 
-            DataGridView dgv = new DataGridView { Dock = DockStyle.Fill };
-            logForm.Controls.Add(dgv);
+                // Örneğin, dgv'nin Tag özelliğine modulCode eklediysen:
+                if (sourceDgv.Tag != null)
+                {
+                    modulCode =Convert.ToInt32(sourceDgv.Tag);
+                }
+                else
+                {
+                    // Alternatif olarak dgv'ye özel bir isimle kontrol edebilirsin
+                    if (sourceDgv.Name == "dataGridViewStok")
+                        modulCode = 4010;
+                
+                }
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
+                // Şimdi SQL sorgunu bu modulCode’a göre filtreleyebilirsin
+                Form logForm = new Form
+                {
+                    Text = "Loglar",
+                    Width = 800,
+                    Height = 600
+                };
 
-                // Komutunuzu oluşturun
-                SqlCommand cmd = new SqlCommand("select * from deleteandlogs where SirketId=(select top 1 CompanyId from CompanyUsers where UserId=@UserId) order by SilinmeZamani desc", conn);
+                DataGridView dgv = new DataGridView { Dock = DockStyle.Fill };
+                logForm.Controls.Add(dgv);
 
-                // @UserId parametresini ekleyin
-                cmd.Parameters.AddWithValue("@UserId", UserId); // currentUserId'yi uygun şekilde almanız gerekebilir
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgv.DataSource = dt;
+                    SqlCommand cmd = new SqlCommand(@"
+                SELECT * FROM deleteandlogs 
+                WHERE SirketId = (SELECT TOP 1 CompanyId FROM CompanyUsers WHERE UserId = @UserId)
+                AND ModulKod = @ModulCode
+                ORDER BY SilinmeZamani DESC", conn);
+
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@ModulCode", modulCode);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgv.DataSource = dt;
+                }
+
+                logForm.Show();
             }
-
-            logForm.Show();
         }
+
 
         private void cbxUserId_CheckedChanged(object sender, EventArgs e)
         {

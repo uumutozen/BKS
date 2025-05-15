@@ -305,6 +305,7 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
             DgvOgrenciYonetimiSiniflar.Size = new Size(846, 302);
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
+            
             // 
             // btnOgrenciYonetimiAra
             // 
@@ -344,6 +345,7 @@ namespace BKS
             dataGridViewStok.ShowRowErrors = false;
             dataGridViewStok.Size = new Size(1852, 550);
             dataGridViewStok.TabIndex = 0;
+            dataGridViewStok.Tag = 4010;
             dataGridViewStok.CellClick += dataGridViewStok_CellClick;
             dataGridViewStok.CellContentClick += dataGridViewStok_CellContentClick_1;
             dataGridViewStok.CellDoubleClick += dataGridViewStok_CellDoubleClick;
@@ -1020,6 +1022,9 @@ namespace BKS
             dgvPersonelYonetimi.ShowRowErrors = false;
             dgvPersonelYonetimi.Size = new Size(852, 930);
             dgvPersonelYonetimi.TabIndex = 1;
+            dgvPersonelYonetimi.ContextMenuStrip = contextMenuStrip1;
+            dgvPersonelYonetimi.Tag = 4020;
+
             // 
             // tabPageGelirGider
             // 
