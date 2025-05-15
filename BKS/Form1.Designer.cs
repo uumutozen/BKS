@@ -47,6 +47,7 @@ namespace BKS
             bttnLgn.AutoSize = false;
             bttnLgn.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             bttnLgn.BackColor = SystemColors.ActiveCaption;
+            bttnLgn.BackgroundImage = (Image)resources.GetObject("bttnLgn.BackgroundImage");
             bttnLgn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             bttnLgn.Depth = 0;
             bttnLgn.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
