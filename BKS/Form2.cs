@@ -25,6 +25,7 @@ namespace BKS
     public partial class Form2 : MaterialForm
 
     {
+       
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
 
         public Form2()
@@ -972,7 +973,7 @@ namespace BKS
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "select Sınıf=ClassName,'Yaş Grubu'=[Group],'Öğretmen Adı'=OgretmenAdi from aysclasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId) and IsDeleted=0";
+                string query = "select Id,Sınıf=ClassName,'Yaş Grubu'=[Group],'Öğretmen Adı'=OgretmenAdi from aysclasses where (OgretmenAdi is not null and OgretmenAdi !=' ' and ClassName !=' ' and ClassName is not null) and SchoolId=(select CompanyId from CompanyUsers where UserId=@UserId) and IsDeleted=0";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
 
@@ -1487,11 +1488,50 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
             }
         }
 
+
+
         private void btnOgrenciYonetimiSinifSil_Click(object sender, EventArgs e)
         {
+            if (DgvOgrenciYonetimiSiniflar.CurrentRow == null)
+            {
+                MessageBox.Show("Lütfen önce silinecek sınıfı seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-        }
+            var selectedRow = DgvOgrenciYonetimiSiniflar.CurrentRow;
 
+            var cellValue = selectedRow.Cells["Id"].Value;
+            if (cellValue != null)
+                sinifid = Guid.Parse(cellValue.ToString());
+
+            if (sinifid == Guid.Empty)
+            {
+                MessageBox.Show("Geçersiz sınıf bilgisi.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string query = @"
+Update AYSClasses set IsDeleted=1
+WHERE Id = @id";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@id", sinifid);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            MessageBox.Show("Sınıf Silindi. Eski kayıtlar için loglara bakın.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            DeleteAndLog("AYSClasses", "Id", sinifid, UserId, "1", "DELETE");
+            SinifLoad(UserId);
+                  }
+
+
+
+        public Guid sinifid { get; set; }
         public Guid UserId { get; set; }
         public string Role { get; set; }
         public string Photo { get; set; }
