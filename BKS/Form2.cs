@@ -1173,11 +1173,22 @@ namespace BKS
                 // Şimdi SQL sorgunu bu modulCode’a göre filtreleyebilirsin
                 Form logForm = new Form
                 {
-                    Text = "Loglar",
+                 
                     Width = 800,
                     Height = 600
                 };
-
+                if (modulCode==4010)
+                {
+                    logForm.Text = "Öğrenci Yönetimi Log";
+                }
+                else if (modulCode == 4020)
+                {
+                    logForm.Text = "Personel Yönetimi Log";
+                }
+                else
+                {
+                    logForm.Text = "Loglar";
+                }
                 DataGridView dgv = new DataGridView { Dock = DockStyle.Fill };
                 logForm.Controls.Add(dgv);
 
