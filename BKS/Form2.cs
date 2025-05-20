@@ -252,7 +252,7 @@ namespace BKS
                 }
 
                 MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
                 LoadStockData(UserId);
             }
         }
