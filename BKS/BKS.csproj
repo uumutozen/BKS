@@ -10,6 +10,7 @@
     <ApplicationIcon>helm_icon.ico</ApplicationIcon>
     <SignAssembly>False</SignAssembly>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PackageIcon>HelmSofware.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,13 @@
 
   <ItemGroup>
     <Content Include="helm_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\HelmSofware.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
