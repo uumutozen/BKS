@@ -305,7 +305,8 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.ShowRowErrors = false;
             DgvOgrenciYonetimiSiniflar.Size = new Size(846, 302);
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
-            
+            DgvOgrenciYonetimiSiniflar.Tag = 4030;
+            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = contextMenuStrip1;
             // 
             // btnOgrenciYonetimiAra
             // 
