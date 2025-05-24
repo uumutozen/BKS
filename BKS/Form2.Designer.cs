@@ -45,9 +45,6 @@ namespace BKS
             groupBox15 = new GroupBox();
             cbxOgrenciYonetimiYasGrubu = new ComboBox();
             DgvOgrenciYonetimiSiniflar = new DataGridView();
-            btnOgrenciYonetimiAra = new Button();
-            txtOgrenciYonetimiAra = new TextBox();
-            dataGridViewStok = new DataGridView();
             contextMenuStrip1 = new ContextMenuStrip(components);
             yeniKayıtEkleToolStripMenuItem = new ToolStripMenuItem();
             kayıtSilToolStripMenuItem = new ToolStripMenuItem();
@@ -55,6 +52,9 @@ namespace BKS
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             geçmişHareketToolStripMenuItem = new ToolStripMenuItem();
+            btnOgrenciYonetimiAra = new Button();
+            txtOgrenciYonetimiAra = new TextBox();
+            dataGridViewStok = new DataGridView();
             btnOgrenciYonetimiSinifGuncelle = new Button();
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
@@ -67,6 +67,9 @@ namespace BKS
             btnMakeSale = new Button();
             tabPagePersonelYonetimi = new TabPage();
             groupBox17 = new GroupBox();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
             pbxPersonelPicture = new PictureBox();
             groupBox25 = new GroupBox();
             txtPersonelIletişimAcilDurum = new TextBox();
@@ -74,12 +77,17 @@ namespace BKS
             txtPersonelTel = new TextBox();
             txtPersonelAdres = new TextBox();
             groupBox22 = new GroupBox();
-            cbxPersonelUyruk = new ComboBox();
+            panel2 = new Panel();
+            rbtPersonelBekar = new RadioButton();
+            label8 = new Label();
             rbtPersonelEvli = new RadioButton();
+            panel1 = new Panel();
+            label9 = new Label();
+            rbtPersonelErkek = new RadioButton();
+            rbtPersonelKadin = new RadioButton();
+            cbxPersonelUyruk = new ComboBox();
             label1 = new Label();
             dateTimePicker1 = new DateTimePicker();
-            rbtPersonelKadin = new RadioButton();
-            rbtPersonelErkek = new RadioButton();
             txtPersonelKimlik = new TextBox();
             txtPersonelSoyad = new TextBox();
             txtPersonelAd = new TextBox();
@@ -132,8 +140,8 @@ namespace BKS
             groupBox14.SuspendLayout();
             groupBox15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewStok).BeginInit();
             contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStok).BeginInit();
             tabPageSatis.SuspendLayout();
             groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).BeginInit();
@@ -144,6 +152,8 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)pbxPersonelPicture).BeginInit();
             groupBox25.SuspendLayout();
             groupBox22.SuspendLayout();
+            panel2.SuspendLayout();
+            panel1.SuspendLayout();
             groupBox18.SuspendLayout();
             groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).BeginInit();
@@ -292,6 +302,7 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.BackgroundColor = SystemColors.ButtonHighlight;
             DgvOgrenciYonetimiSiniflar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             DgvOgrenciYonetimiSiniflar.ColumnHeadersHeight = 34;
+            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = contextMenuStrip1;
             DgvOgrenciYonetimiSiniflar.GridColor = Color.DodgerBlue;
             DgvOgrenciYonetimiSiniflar.Location = new Point(9, 631);
             DgvOgrenciYonetimiSiniflar.Name = "DgvOgrenciYonetimiSiniflar";
@@ -306,50 +317,6 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.Size = new Size(846, 302);
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
             DgvOgrenciYonetimiSiniflar.Tag = 4030;
-            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = contextMenuStrip1;
-            // 
-            // btnOgrenciYonetimiAra
-            // 
-            btnOgrenciYonetimiAra.Location = new Point(212, 3);
-            btnOgrenciYonetimiAra.Name = "btnOgrenciYonetimiAra";
-            btnOgrenciYonetimiAra.Size = new Size(99, 23);
-            btnOgrenciYonetimiAra.TabIndex = 29;
-            btnOgrenciYonetimiAra.Text = "Öğrenci Ara";
-            btnOgrenciYonetimiAra.UseVisualStyleBackColor = true;
-            btnOgrenciYonetimiAra.Click += btnOgrenciYonetimiAra_Click;
-            // 
-            // txtOgrenciYonetimiAra
-            // 
-            txtOgrenciYonetimiAra.Location = new Point(9, 4);
-            txtOgrenciYonetimiAra.Name = "txtOgrenciYonetimiAra";
-            txtOgrenciYonetimiAra.Size = new Size(197, 23);
-            txtOgrenciYonetimiAra.TabIndex = 28;
-            // 
-            // dataGridViewStok
-            // 
-            dataGridViewStok.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridViewStok.BackgroundColor = SystemColors.ButtonHighlight;
-            dataGridViewStok.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewStok.ColumnHeadersHeight = 34;
-            dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
-            dataGridViewStok.GridColor = Color.DodgerBlue;
-            dataGridViewStok.Location = new Point(3, 53);
-            dataGridViewStok.MultiSelect = false;
-            dataGridViewStok.Name = "dataGridViewStok";
-            dataGridViewStok.ReadOnly = true;
-            dataGridViewStok.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewStok.RowHeadersVisible = false;
-            dataGridViewStok.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dataGridViewStok.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
-            dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
-            dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dataGridViewStok.ShowRowErrors = false;
-            dataGridViewStok.Size = new Size(1852, 550);
-            dataGridViewStok.TabIndex = 0;
-            dataGridViewStok.Tag = 4010;
-            dataGridViewStok.CellClick += dataGridViewStok_CellClick;
-            dataGridViewStok.CellContentClick += dataGridViewStok_CellContentClick_1;
-            dataGridViewStok.CellDoubleClick += dataGridViewStok_CellDoubleClick;
             // 
             // contextMenuStrip1
             // 
@@ -406,6 +373,49 @@ namespace BKS
             geçmişHareketToolStripMenuItem.Size = new Size(178, 30);
             geçmişHareketToolStripMenuItem.Text = "Geçmiş Hareketler";
             geçmişHareketToolStripMenuItem.Click += loglarıGörüntüleToolStripMenuItem_Click;
+            // 
+            // btnOgrenciYonetimiAra
+            // 
+            btnOgrenciYonetimiAra.Location = new Point(212, 3);
+            btnOgrenciYonetimiAra.Name = "btnOgrenciYonetimiAra";
+            btnOgrenciYonetimiAra.Size = new Size(99, 23);
+            btnOgrenciYonetimiAra.TabIndex = 29;
+            btnOgrenciYonetimiAra.Text = "Öğrenci Ara";
+            btnOgrenciYonetimiAra.UseVisualStyleBackColor = true;
+            btnOgrenciYonetimiAra.Click += btnOgrenciYonetimiAra_Click;
+            // 
+            // txtOgrenciYonetimiAra
+            // 
+            txtOgrenciYonetimiAra.Location = new Point(9, 4);
+            txtOgrenciYonetimiAra.Name = "txtOgrenciYonetimiAra";
+            txtOgrenciYonetimiAra.Size = new Size(197, 23);
+            txtOgrenciYonetimiAra.TabIndex = 28;
+            // 
+            // dataGridViewStok
+            // 
+            dataGridViewStok.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridViewStok.BackgroundColor = SystemColors.ButtonHighlight;
+            dataGridViewStok.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewStok.ColumnHeadersHeight = 34;
+            dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
+            dataGridViewStok.GridColor = Color.DodgerBlue;
+            dataGridViewStok.Location = new Point(3, 53);
+            dataGridViewStok.MultiSelect = false;
+            dataGridViewStok.Name = "dataGridViewStok";
+            dataGridViewStok.ReadOnly = true;
+            dataGridViewStok.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewStok.RowHeadersVisible = false;
+            dataGridViewStok.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewStok.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+            dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dataGridViewStok.ShowRowErrors = false;
+            dataGridViewStok.Size = new Size(1852, 550);
+            dataGridViewStok.TabIndex = 0;
+            dataGridViewStok.Tag = 4010;
+            dataGridViewStok.CellClick += dataGridViewStok_CellClick;
+            dataGridViewStok.CellContentClick += dataGridViewStok_CellContentClick_1;
+            dataGridViewStok.CellDoubleClick += dataGridViewStok_CellDoubleClick;
             // 
             // btnOgrenciYonetimiSinifGuncelle
             // 
@@ -539,6 +549,9 @@ namespace BKS
             // 
             // groupBox17
             // 
+            groupBox17.Controls.Add(button1);
+            groupBox17.Controls.Add(button2);
+            groupBox17.Controls.Add(button3);
             groupBox17.Controls.Add(pbxPersonelPicture);
             groupBox17.Controls.Add(groupBox25);
             groupBox17.Controls.Add(groupBox22);
@@ -551,6 +564,51 @@ namespace BKS
             groupBox17.TabIndex = 17;
             groupBox17.TabStop = false;
             groupBox17.Text = "Personel Bilgileri";
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.Transparent;
+            button1.Cursor = Cursors.Hand;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button1.ForeColor = Color.White;
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.Location = new Point(717, 832);
+            button1.Name = "button1";
+            button1.Size = new Size(72, 77);
+            button1.TabIndex = 38;
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.Transparent;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button2.ForeColor = Color.Black;
+            button2.Image = (Image)resources.GetObject("button2.Image");
+            button2.Location = new Point(811, 832);
+            button2.Name = "button2";
+            button2.Size = new Size(72, 77);
+            button2.TabIndex = 37;
+            button2.TextAlign = ContentAlignment.MiddleRight;
+            button2.UseVisualStyleBackColor = false;
+            // 
+            // button3
+            // 
+            button3.BackColor = Color.Transparent;
+            button3.Cursor = Cursors.Hand;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            button3.ForeColor = Color.White;
+            button3.Image = (Image)resources.GetObject("button3.Image");
+            button3.Location = new Point(906, 832);
+            button3.Name = "button3";
+            button3.Size = new Size(72, 77);
+            button3.TabIndex = 39;
+            button3.UseVisualStyleBackColor = false;
             // 
             // pbxPersonelPicture
             // 
@@ -611,12 +669,11 @@ namespace BKS
             // 
             // groupBox22
             // 
+            groupBox22.Controls.Add(panel2);
+            groupBox22.Controls.Add(panel1);
             groupBox22.Controls.Add(cbxPersonelUyruk);
-            groupBox22.Controls.Add(rbtPersonelEvli);
             groupBox22.Controls.Add(label1);
             groupBox22.Controls.Add(dateTimePicker1);
-            groupBox22.Controls.Add(rbtPersonelKadin);
-            groupBox22.Controls.Add(rbtPersonelErkek);
             groupBox22.Controls.Add(txtPersonelKimlik);
             groupBox22.Controls.Add(txtPersonelSoyad);
             groupBox22.Controls.Add(txtPersonelAd);
@@ -629,6 +686,90 @@ namespace BKS
             groupBox22.TabStop = false;
             groupBox22.Text = "Kişisel Bilgiler";
             // 
+            // panel2
+            // 
+            panel2.Controls.Add(rbtPersonelBekar);
+            panel2.Controls.Add(label8);
+            panel2.Controls.Add(rbtPersonelEvli);
+            panel2.Location = new Point(681, 98);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(129, 51);
+            panel2.TabIndex = 31;
+            // 
+            // rbtPersonelBekar
+            // 
+            rbtPersonelBekar.AutoSize = true;
+            rbtPersonelBekar.ForeColor = Color.Black;
+            rbtPersonelBekar.Location = new Point(68, 26);
+            rbtPersonelBekar.Name = "rbtPersonelBekar";
+            rbtPersonelBekar.Size = new Size(54, 19);
+            rbtPersonelBekar.TabIndex = 31;
+            rbtPersonelBekar.TabStop = true;
+            rbtPersonelBekar.Text = "Bekar";
+            rbtPersonelBekar.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(36, 8);
+            label8.Name = "label8";
+            label8.Size = new Size(68, 15);
+            label8.TabIndex = 13;
+            label8.Text = "Medeni Hal";
+            // 
+            // rbtPersonelEvli
+            // 
+            rbtPersonelEvli.AutoSize = true;
+            rbtPersonelEvli.ForeColor = Color.Black;
+            rbtPersonelEvli.Location = new Point(8, 26);
+            rbtPersonelEvli.Name = "rbtPersonelEvli";
+            rbtPersonelEvli.Size = new Size(43, 19);
+            rbtPersonelEvli.TabIndex = 11;
+            rbtPersonelEvli.Text = "Evli";
+            rbtPersonelEvli.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(label9);
+            panel1.Controls.Add(rbtPersonelErkek);
+            panel1.Controls.Add(rbtPersonelKadin);
+            panel1.Location = new Point(682, 21);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(130, 51);
+            panel1.TabIndex = 30;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(35, 8);
+            label9.Name = "label9";
+            label9.Size = new Size(48, 15);
+            label9.TabIndex = 14;
+            label9.Text = "Cinsiyet";
+            // 
+            // rbtPersonelErkek
+            // 
+            rbtPersonelErkek.AutoSize = true;
+            rbtPersonelErkek.ForeColor = Color.Black;
+            rbtPersonelErkek.Location = new Point(5, 26);
+            rbtPersonelErkek.Name = "rbtPersonelErkek";
+            rbtPersonelErkek.Size = new Size(53, 19);
+            rbtPersonelErkek.TabIndex = 6;
+            rbtPersonelErkek.Text = "Erkek";
+            rbtPersonelErkek.UseVisualStyleBackColor = true;
+            rbtPersonelErkek.CheckedChanged += radioButton1_CheckedChanged;
+            // 
+            // rbtPersonelKadin
+            // 
+            rbtPersonelKadin.AutoSize = true;
+            rbtPersonelKadin.ForeColor = Color.Black;
+            rbtPersonelKadin.Location = new Point(66, 26);
+            rbtPersonelKadin.Name = "rbtPersonelKadin";
+            rbtPersonelKadin.Size = new Size(55, 19);
+            rbtPersonelKadin.TabIndex = 7;
+            rbtPersonelKadin.Text = "Kadın";
+            rbtPersonelKadin.UseVisualStyleBackColor = true;
+            // 
             // cbxPersonelUyruk
             // 
             cbxPersonelUyruk.FormattingEnabled = true;
@@ -636,16 +777,6 @@ namespace BKS
             cbxPersonelUyruk.Name = "cbxPersonelUyruk";
             cbxPersonelUyruk.Size = new Size(295, 23);
             cbxPersonelUyruk.TabIndex = 12;
-            // 
-            // rbtPersonelEvli
-            // 
-            rbtPersonelEvli.AutoSize = true;
-            rbtPersonelEvli.Location = new Point(728, 89);
-            rbtPersonelEvli.Name = "rbtPersonelEvli";
-            rbtPersonelEvli.Size = new Size(43, 19);
-            rbtPersonelEvli.TabIndex = 11;
-            rbtPersonelEvli.Text = "Evli";
-            rbtPersonelEvli.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -664,27 +795,6 @@ namespace BKS
             dateTimePicker1.Size = new Size(200, 23);
             dateTimePicker1.TabIndex = 8;
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
-            // 
-            // rbtPersonelKadin
-            // 
-            rbtPersonelKadin.AutoSize = true;
-            rbtPersonelKadin.Location = new Point(756, 64);
-            rbtPersonelKadin.Name = "rbtPersonelKadin";
-            rbtPersonelKadin.Size = new Size(55, 19);
-            rbtPersonelKadin.TabIndex = 7;
-            rbtPersonelKadin.Text = "Kadın";
-            rbtPersonelKadin.UseVisualStyleBackColor = true;
-            // 
-            // rbtPersonelErkek
-            // 
-            rbtPersonelErkek.AutoSize = true;
-            rbtPersonelErkek.Location = new Point(697, 64);
-            rbtPersonelErkek.Name = "rbtPersonelErkek";
-            rbtPersonelErkek.Size = new Size(53, 19);
-            rbtPersonelErkek.TabIndex = 6;
-            rbtPersonelErkek.Text = "Erkek";
-            rbtPersonelErkek.UseVisualStyleBackColor = true;
-            rbtPersonelErkek.CheckedChanged += radioButton1_CheckedChanged;
             // 
             // txtPersonelKimlik
             // 
@@ -792,7 +902,7 @@ namespace BKS
             // 
             // txtPersonelYemekYol
             // 
-            txtPersonelYemekYol.Location = new Point(78, 258);
+            txtPersonelYemekYol.Location = new Point(81, 252);
             txtPersonelYemekYol.Name = "txtPersonelYemekYol";
             txtPersonelYemekYol.PlaceholderText = "Yemek ve Yol Yardımı";
             txtPersonelYemekYol.Size = new Size(151, 23);
@@ -1011,6 +1121,7 @@ namespace BKS
             dgvPersonelYonetimi.BackgroundColor = SystemColors.ButtonHighlight;
             dgvPersonelYonetimi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dgvPersonelYonetimi.ColumnHeadersHeight = 34;
+            dgvPersonelYonetimi.ContextMenuStrip = contextMenuStrip1;
             dgvPersonelYonetimi.GridColor = Color.DodgerBlue;
             dgvPersonelYonetimi.Location = new Point(6, 6);
             dgvPersonelYonetimi.Name = "dgvPersonelYonetimi";
@@ -1023,9 +1134,7 @@ namespace BKS
             dgvPersonelYonetimi.ShowRowErrors = false;
             dgvPersonelYonetimi.Size = new Size(852, 930);
             dgvPersonelYonetimi.TabIndex = 1;
-            dgvPersonelYonetimi.ContextMenuStrip = contextMenuStrip1;
             dgvPersonelYonetimi.Tag = 4020;
-
             // 
             // tabPageGelirGider
             // 
@@ -1162,8 +1271,8 @@ namespace BKS
             groupBox14.PerformLayout();
             groupBox15.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DgvOgrenciYonetimiSiniflar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewStok).EndInit();
             contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStok).EndInit();
             tabPageSatis.ResumeLayout(false);
             groupBox9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)numericQuantitySold).EndInit();
@@ -1176,6 +1285,10 @@ namespace BKS
             groupBox25.PerformLayout();
             groupBox22.ResumeLayout(false);
             groupBox22.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             groupBox18.ResumeLayout(false);
             groupBox18.PerformLayout();
             groupBox20.ResumeLayout(false);
@@ -1270,5 +1383,13 @@ namespace BKS
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private ToolStripMenuItem geçmişHareketToolStripMenuItem;
+        private Panel panel2;
+        private RadioButton rbtPersonelBekar;
+        private Label label8;
+        private Panel panel1;
+        private Label label9;
+        private Button button1;
+        private Button button2;
+        private Button button3;
     }
 }
