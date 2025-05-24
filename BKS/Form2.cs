@@ -865,6 +865,12 @@ namespace BKS
                             {
                                 conn.Open(); // Veritabanına bağlantıyı aç
 
+                                if (worksheet.Cells[row, 1].Text == "") 
+                                {
+                                    MessageBox.Show("Excel veri aktarılamadı", "Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                        
+                                }
                                 // Excel verilerini veritabanına aktar
                                 while (worksheet.Cells[row, 1].Text != "") // 1. kolon boş değilse, veri var demektir
                                 {
