@@ -528,7 +528,7 @@ namespace BKS
                         Height = 400,
                         ReadOnly = true,
                         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                        MultiSelect = false,
+                        MultiSelect = true,
                         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
 
 
@@ -696,39 +696,43 @@ namespace BKS
                             {
                                 try
                                 {
-                                    DataGridViewRow selectedRow = paymentGrid.SelectedRows[0];
-
-                                    if (selectedRow.IsNewRow || selectedRow.Cells[0].Value == null)
-                                    {
-                                        MessageBox.Show("Lütfen geçerli bir satır seçin.");
-                                        return;
-                                    }
-
-                                    // Buradan sonra satır güvenli şekilde kullanılabilir
-                                    Guid paymentId = (Guid)selectedRow.Cells["Id"].Value;
                                     using (SqlConnection connn = new SqlConnection(connectionString))
                                     {
                                         connn.Open();
-                                        string updateQuery = "UPDATE AYSFeePayments SET IsApproved = 1, ApprovedDate = @Now WHERE Id = @Id";
-                                        SqlCommand cmd = new SqlCommand(updateQuery, connn);
-                                        cmd.Parameters.AddWithValue("@Id", paymentId);
-                                        cmd.Parameters.AddWithValue("@Now", DateTime.Now);
-                                        cmd.ExecuteNonQuery();
 
-                                        MessageBox.Show("Ödeme onaylandı.");
-                                        paymentGrid.DataSource = OdemeLoad(UserId, studentId);
+                                        foreach (DataGridViewRow selectedRow in paymentGrid.SelectedRows)
+                                        {
+                                            if (selectedRow.IsNewRow || selectedRow.Cells[0].Value == null)
+                                                continue;
+
+                                            Guid paymentId = (Guid)selectedRow.Cells["Id"].Value;
+                                            string updateQuery = "UPDATE AYSFeePayments SET IsApproved = 1, ApprovedDate = @Now WHERE Id = @Id";
+                                            SqlCommand cmd = new SqlCommand(updateQuery, connn);
+                                            cmd.Parameters.AddWithValue("@Id", paymentId);
+                                            cmd.Parameters.AddWithValue("@Now", DateTime.Now);
+                                            cmd.ExecuteNonQuery();
+                                        }
                                     }
+
+                                    if (paymentGrid.SelectedRows.Count == 1)
+                                    {
+                                        MessageBox.Show("Ödeme onaylandı.");
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Ödemeler onaylandı.");
+                                    }
+
+                                    paymentGrid.DataSource = OdemeLoad(UserId, studentId);
                                 }
                                 catch (Exception)
                                 {
-
-                                    MessageBox.Show("Hata Boş Satır Seçmeyiniz");
+                                    MessageBox.Show("Hata oluştu. Lütfen boş veya geçersiz satır seçmeyin.");
                                 }
-
                             }
                             else
                             {
-                                MessageBox.Show("Lütfen onaylamak için bir ödeme seçin.");
+                                MessageBox.Show("Lütfen onaylamak için en az bir ödeme seçin.");
                             }
                         }
                         catch (Exception)
@@ -861,6 +865,12 @@ namespace BKS
                             {
                                 conn.Open(); // Veritabanına bağlantıyı aç
 
+                                if (worksheet.Cells[row, 1].Text == "") 
+                                {
+                                    MessageBox.Show("Excel veri aktarılamadı", "Başarısız", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                        
+                                }
                                 // Excel verilerini veritabanına aktar
                                 while (worksheet.Cells[row, 1].Text != "") // 1. kolon boş değilse, veri var demektir
                                 {
