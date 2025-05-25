@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnPersonelSil.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADoAAAA+CAYAAAB6Kgg+AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         vAAADrwBlbxySQAAEZdJREFUaEOlmemTXsV1xucvSQza910aMdo3hBYWG9sIjGO77HxxJZVKZTGCmHK5
@@ -199,7 +199,7 @@
         slwHYHOOXk0LHix1aSjt/wC/syZaTmwNOQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="button2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnPersonelKaydet.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADoAAAA+CAYAAAB6Kgg+AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         vAAADrwBlbxySQAAE/dJREFUaEOlmvm/VtV1xt8/pNEokyKTCiJexnuZJxEUI8QBRQ2xVYNzG2vaT9q0
@@ -290,7 +290,7 @@
         LMx6pB4ufrQe5myqh/Opz9lYD5c/Xg//DS/a4JqcX4KqAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="button3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnPersonelGuncelle.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADoAAAA+CAIAAAD1SJ9pAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         vAAADrwBlbxySQAAEmRJREFUaEOdWIl3V1WS/v0l9iKrQmTfIUDYF5VVNlcUpdWjrfaoQ/ecbqWnW8/M
@@ -381,7 +381,7 @@
   <data name="btnOgrenciYonetimiSinifSil.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADoAAAA+CAYAAAB6Kgg+AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vQAADr0BR/uQrQAAEZdJREFUaEOlmemTXsV1xucvSQza910aMdo3hBYWG9sIjGO77HxxJZVKZTGCmHK5
+        vAAADrwBlbxySQAAEZdJREFUaEOlmemTXsV1xucvSQza910aMdo3hBYWG9sIjGO77HxxJZVKZTGCmHK5
         8imV2JVQCUgsEqsMBGGDEAgECOOKIZQojJ2ADAKEbEBKJCEhJM3c9548v3P73On3zn1H48qHp7r79OnT
         5+lzum/3+/Z96Wmz0fDlZyp8JZXg2ha90cDYG5+z8uv7K1C/4Vkrr9tnJX1f3efwetv4sSD36fpnzb75
         fCUDW9TuQ8hEoRwDxkIo74+x1zbG1bJMju1Erl7A0Ef2tee6Zf9fMG/ft18o3TiGtcIuDJI4F33Xp8nD
@@ -462,7 +462,7 @@
   <data name="btnOgrenciYonetimiSinifKaydet.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADoAAAA+CAYAAAB6Kgg+AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vQAADr0BR/uQrQAAE/dJREFUaEOlmvm/VtV1xt8/pNEokyKTCiJexnuZJxEUI8QBRQ2xVYNzG2vaT9q0
+        vAAADrwBlbxySQAAE/dJREFUaEOlmvm/VtV1xt8/pNEokyKTCiJexnuZJxEUI8QBRQ2xVYNzG2vaT9q0
         NUZMrYACDszggKgIKGiQqIgDjpHEIXEWcAYB73vO7vdZZ69z9z33vTZtf3jY09p7P89aa++zX6A29+kQ
         5jwVwsXb2nD570O45tkQrgLX7cjDtTsCyMN1z6ntoG39HVH0t82rltdQXlPpL/bxvnT92Be5eH8bhwJ/
         uz0YfpLoELxdk0g1rnwmhJ8h2g0uiRNVXoLNT71egfpLyA6U/bFdIvZpT6Fdf2pPvVw/bVNvVzaA8xe0
@@ -2700,6 +2700,6 @@
     <value>304, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>25</value>
+    <value>32</value>
   </metadata>
 </root>

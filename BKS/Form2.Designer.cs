@@ -67,9 +67,9 @@ namespace BKS
             btnMakeSale = new Button();
             tabPagePersonelYonetimi = new TabPage();
             groupBox17 = new GroupBox();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btnPersonelSil = new Button();
+            btnPersonelKaydet = new Button();
+            btnPersonelGuncelle = new Button();
             pbxPersonelPicture = new PictureBox();
             groupBox25 = new GroupBox();
             txtPersonelIletişimAcilDurum = new TextBox();
@@ -77,6 +77,8 @@ namespace BKS
             txtPersonelTel = new TextBox();
             txtPersonelAdres = new TextBox();
             groupBox22 = new GroupBox();
+            lblKimlikNum = new Label();
+            label3 = new Label();
             panel2 = new Panel();
             rbtPersonelBekar = new RadioButton();
             label8 = new Label();
@@ -87,7 +89,7 @@ namespace BKS
             rbtPersonelKadin = new RadioButton();
             cbxPersonelUyruk = new ComboBox();
             label1 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            dtpPersonelDG = new DateTimePicker();
             txtPersonelKimlik = new TextBox();
             txtPersonelSoyad = new TextBox();
             txtPersonelAd = new TextBox();
@@ -115,10 +117,10 @@ namespace BKS
             cbxPersonelEgitimDurumu = new ComboBox();
             label4 = new Label();
             txtPersonelGorev = new TextBox();
-            dateTimePicker3 = new DateTimePicker();
+            dtpPersonelIseBaslamaTarihi = new DateTimePicker();
             cbxPersoneIIsAyrıldı = new CheckBox();
-            dateTimePicker2 = new DateTimePicker();
-            label3 = new Label();
+            dtpPersonelCıkısTarihi = new DateTimePicker();
+            lblIstenCıkısTarihi = new Label();
             label2 = new Label();
             txtPersonelMaas = new TextBox();
             dgvPersonelYonetimi = new DataGridView();
@@ -549,9 +551,9 @@ namespace BKS
             // 
             // groupBox17
             // 
-            groupBox17.Controls.Add(button1);
-            groupBox17.Controls.Add(button2);
-            groupBox17.Controls.Add(button3);
+            groupBox17.Controls.Add(btnPersonelSil);
+            groupBox17.Controls.Add(btnPersonelKaydet);
+            groupBox17.Controls.Add(btnPersonelGuncelle);
             groupBox17.Controls.Add(pbxPersonelPicture);
             groupBox17.Controls.Add(groupBox25);
             groupBox17.Controls.Add(groupBox22);
@@ -565,50 +567,51 @@ namespace BKS
             groupBox17.TabStop = false;
             groupBox17.Text = "Personel Bilgileri";
             // 
-            // button1
+            // btnPersonelSil
             // 
-            button1.BackColor = Color.Transparent;
-            button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(717, 832);
-            button1.Name = "button1";
-            button1.Size = new Size(72, 77);
-            button1.TabIndex = 38;
-            button1.UseVisualStyleBackColor = false;
+            btnPersonelSil.BackColor = Color.Transparent;
+            btnPersonelSil.Cursor = Cursors.Hand;
+            btnPersonelSil.FlatAppearance.BorderSize = 0;
+            btnPersonelSil.FlatStyle = FlatStyle.Flat;
+            btnPersonelSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnPersonelSil.ForeColor = Color.White;
+            btnPersonelSil.Image = (Image)resources.GetObject("btnPersonelSil.Image");
+            btnPersonelSil.Location = new Point(717, 832);
+            btnPersonelSil.Name = "btnPersonelSil";
+            btnPersonelSil.Size = new Size(72, 77);
+            btnPersonelSil.TabIndex = 38;
+            btnPersonelSil.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnPersonelKaydet
             // 
-            button2.BackColor = Color.Transparent;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button2.ForeColor = Color.Black;
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.Location = new Point(811, 832);
-            button2.Name = "button2";
-            button2.Size = new Size(72, 77);
-            button2.TabIndex = 37;
-            button2.TextAlign = ContentAlignment.MiddleRight;
-            button2.UseVisualStyleBackColor = false;
+            btnPersonelKaydet.BackColor = Color.Transparent;
+            btnPersonelKaydet.FlatAppearance.BorderSize = 0;
+            btnPersonelKaydet.FlatStyle = FlatStyle.Flat;
+            btnPersonelKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnPersonelKaydet.ForeColor = Color.Black;
+            btnPersonelKaydet.Image = (Image)resources.GetObject("btnPersonelKaydet.Image");
+            btnPersonelKaydet.Location = new Point(811, 832);
+            btnPersonelKaydet.Name = "btnPersonelKaydet";
+            btnPersonelKaydet.Size = new Size(72, 77);
+            btnPersonelKaydet.TabIndex = 37;
+            btnPersonelKaydet.TextAlign = ContentAlignment.MiddleRight;
+            btnPersonelKaydet.UseVisualStyleBackColor = false;
+            btnPersonelKaydet.Click += btnPersonelKaydet_Click;
             // 
-            // button3
+            // btnPersonelGuncelle
             // 
-            button3.BackColor = Color.Transparent;
-            button3.Cursor = Cursors.Hand;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button3.ForeColor = Color.White;
-            button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(906, 832);
-            button3.Name = "button3";
-            button3.Size = new Size(72, 77);
-            button3.TabIndex = 39;
-            button3.UseVisualStyleBackColor = false;
+            btnPersonelGuncelle.BackColor = Color.Transparent;
+            btnPersonelGuncelle.Cursor = Cursors.Hand;
+            btnPersonelGuncelle.FlatAppearance.BorderSize = 0;
+            btnPersonelGuncelle.FlatStyle = FlatStyle.Flat;
+            btnPersonelGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnPersonelGuncelle.ForeColor = Color.White;
+            btnPersonelGuncelle.Image = (Image)resources.GetObject("btnPersonelGuncelle.Image");
+            btnPersonelGuncelle.Location = new Point(906, 832);
+            btnPersonelGuncelle.Name = "btnPersonelGuncelle";
+            btnPersonelGuncelle.Size = new Size(72, 77);
+            btnPersonelGuncelle.TabIndex = 39;
+            btnPersonelGuncelle.UseVisualStyleBackColor = false;
             // 
             // pbxPersonelPicture
             // 
@@ -669,11 +672,13 @@ namespace BKS
             // 
             // groupBox22
             // 
+            groupBox22.Controls.Add(lblKimlikNum);
+            groupBox22.Controls.Add(label3);
             groupBox22.Controls.Add(panel2);
             groupBox22.Controls.Add(panel1);
             groupBox22.Controls.Add(cbxPersonelUyruk);
             groupBox22.Controls.Add(label1);
-            groupBox22.Controls.Add(dateTimePicker1);
+            groupBox22.Controls.Add(dtpPersonelDG);
             groupBox22.Controls.Add(txtPersonelKimlik);
             groupBox22.Controls.Add(txtPersonelSoyad);
             groupBox22.Controls.Add(txtPersonelAd);
@@ -685,6 +690,24 @@ namespace BKS
             groupBox22.TabIndex = 20;
             groupBox22.TabStop = false;
             groupBox22.Text = "Kişisel Bilgiler";
+            // 
+            // lblKimlikNum
+            // 
+            lblKimlikNum.AutoSize = true;
+            lblKimlikNum.Location = new Point(347, 106);
+            lblKimlikNum.Name = "lblKimlikNum";
+            lblKimlikNum.Size = new Size(100, 15);
+            lblKimlikNum.TabIndex = 33;
+            lblKimlikNum.Text = "Kimlik Numarası :";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(347, 51);
+            label3.Name = "label3";
+            label3.Size = new Size(52, 15);
+            label3.TabIndex = 32;
+            label3.Text = "Uyruğu :";
             // 
             // panel2
             // 
@@ -773,10 +796,12 @@ namespace BKS
             // cbxPersonelUyruk
             // 
             cbxPersonelUyruk.FormattingEnabled = true;
-            cbxPersonelUyruk.Location = new Point(349, 49);
+            cbxPersonelUyruk.Items.AddRange(new object[] { "T.C", "Yabancı" });
+            cbxPersonelUyruk.Location = new Point(405, 49);
             cbxPersonelUyruk.Name = "cbxPersonelUyruk";
-            cbxPersonelUyruk.Size = new Size(295, 23);
+            cbxPersonelUyruk.Size = new Size(220, 23);
             cbxPersonelUyruk.TabIndex = 12;
+            cbxPersonelUyruk.SelectedIndexChanged += cbxPersonelUyruk_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -788,20 +813,21 @@ namespace BKS
             label1.Text = "Doğum Tarihi :";
             label1.Click += label1_Click;
             // 
-            // dateTimePicker1
+            // dtpPersonelDG
             // 
-            dateTimePicker1.Location = new Point(98, 98);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 8;
-            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
+            dtpPersonelDG.Location = new Point(98, 98);
+            dtpPersonelDG.Name = "dtpPersonelDG";
+            dtpPersonelDG.Size = new Size(200, 23);
+            dtpPersonelDG.TabIndex = 8;
+            dtpPersonelDG.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // txtPersonelKimlik
             // 
-            txtPersonelKimlik.Location = new Point(349, 98);
+            txtPersonelKimlik.Location = new Point(467, 101);
             txtPersonelKimlik.Name = "txtPersonelKimlik";
-            txtPersonelKimlik.Size = new Size(295, 23);
+            txtPersonelKimlik.Size = new Size(158, 23);
             txtPersonelKimlik.TabIndex = 5;
+            txtPersonelKimlik.TextChanged += txtPersonelKimlik_TextChanged;
             // 
             // txtPersonelSoyad
             // 
@@ -843,10 +869,10 @@ namespace BKS
             groupBox18.Controls.Add(cbxPersonelEgitimDurumu);
             groupBox18.Controls.Add(label4);
             groupBox18.Controls.Add(txtPersonelGorev);
-            groupBox18.Controls.Add(dateTimePicker3);
+            groupBox18.Controls.Add(dtpPersonelIseBaslamaTarihi);
             groupBox18.Controls.Add(cbxPersoneIIsAyrıldı);
-            groupBox18.Controls.Add(dateTimePicker2);
-            groupBox18.Controls.Add(label3);
+            groupBox18.Controls.Add(dtpPersonelCıkısTarihi);
+            groupBox18.Controls.Add(lblIstenCıkısTarihi);
             groupBox18.Controls.Add(label2);
             groupBox18.Controls.Add(txtPersonelMaas);
             groupBox18.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
@@ -1062,12 +1088,12 @@ namespace BKS
             txtPersonelGorev.TabIndex = 12;
             txtPersonelGorev.TextChanged += txtPersonelGorev_TextChanged;
             // 
-            // dateTimePicker3
+            // dtpPersonelIseBaslamaTarihi
             // 
-            dateTimePicker3.Location = new Point(122, 29);
-            dateTimePicker3.Name = "dateTimePicker3";
-            dateTimePicker3.Size = new Size(206, 23);
-            dateTimePicker3.TabIndex = 11;
+            dtpPersonelIseBaslamaTarihi.Location = new Point(122, 29);
+            dtpPersonelIseBaslamaTarihi.Name = "dtpPersonelIseBaslamaTarihi";
+            dtpPersonelIseBaslamaTarihi.Size = new Size(206, 23);
+            dtpPersonelIseBaslamaTarihi.TabIndex = 11;
             // 
             // cbxPersoneIIsAyrıldı
             // 
@@ -1078,24 +1104,23 @@ namespace BKS
             cbxPersoneIIsAyrıldı.TabIndex = 10;
             cbxPersoneIIsAyrıldı.Text = "İşten Ayrıldı";
             cbxPersoneIIsAyrıldı.UseVisualStyleBackColor = true;
+            cbxPersoneIIsAyrıldı.CheckedChanged += cbxPersoneIIsAyrıldı_CheckedChanged;
             // 
-            // dateTimePicker2
+            // dtpPersonelCıkısTarihi
             // 
-            dateTimePicker2.Location = new Point(469, 246);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(200, 23);
-            dateTimePicker2.TabIndex = 9;
-            dateTimePicker2.Visible = false;
+            dtpPersonelCıkısTarihi.Location = new Point(469, 246);
+            dtpPersonelCıkısTarihi.Name = "dtpPersonelCıkısTarihi";
+            dtpPersonelCıkısTarihi.Size = new Size(200, 23);
+            dtpPersonelCıkısTarihi.TabIndex = 9;
             // 
-            // label3
+            // lblIstenCıkısTarihi
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(367, 252);
-            label3.Name = "label3";
-            label3.Size = new Size(96, 15);
-            label3.TabIndex = 3;
-            label3.Text = "İşten Çıkış tarihi :";
-            label3.Visible = false;
+            lblIstenCıkısTarihi.AutoSize = true;
+            lblIstenCıkısTarihi.Location = new Point(367, 252);
+            lblIstenCıkısTarihi.Name = "lblIstenCıkısTarihi";
+            lblIstenCıkısTarihi.Size = new Size(96, 15);
+            lblIstenCıkısTarihi.TabIndex = 3;
+            lblIstenCıkısTarihi.Text = "İşten Çıkış tarihi :";
             // 
             // label2
             // 
@@ -1340,18 +1365,18 @@ namespace BKS
         private TextBox txtPersonelSoyad;
         private RadioButton rbtPersonelKadin;
         private RadioButton rbtPersonelErkek;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker dtpPersonelDG;
         private Label label1;
         private RadioButton rbtPersonelEvli;
         private TextBox txtPersonelMail;
         private TextBox txtPersonelAdres;
-        private Label label3;
+        private Label lblIstenCıkısTarihi;
         private Label label2;
         private CheckBox cbxPersoneIIsAyrıldı;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker dtpPersonelCıkısTarihi;
         private ComboBox cbxPersonelUyruk;
         private TextBox txtPersonelGorev;
-        private DateTimePicker dateTimePicker3;
+        private DateTimePicker dtpPersonelIseBaslamaTarihi;
         private TextBox txtPersonelIletişimAcilDurum;
         private ComboBox cbxPersonelEgitimDurumu;
         private Label label4;
@@ -1388,8 +1413,10 @@ namespace BKS
         private Label label8;
         private Panel panel1;
         private Label label9;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button btnPersonelSil;
+        private Button btnPersonelKaydet;
+        private Button btnPersonelGuncelle;
+        private Label lblKimlikNum;
+        private Label label3;
     }
 }
