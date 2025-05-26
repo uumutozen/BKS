@@ -911,7 +911,7 @@ namespace BKS
                                         cmd.Parameters.AddWithValue("@BirthDate", dateTime); // Tarih formatı
                                         cmd.Parameters.AddWithValue("@StudentCode", studentcode);
                                         cmd.Parameters.AddWithValue("@PaymentStatus", odemedurum);
-                                        md.Parameters.AddWithValue("@ClassName", classing);
+                                        cmd.Parameters.AddWithValue("@ClassName", classing);
                                         cmd.Parameters.AddWithValue("@MonthlyFee", odenentutar);
                                         cmd.Parameters.AddWithValue("@IsActive", aktiflik);
                                         cmd.Parameters.AddWithValue("@MotherName", MotherName);
