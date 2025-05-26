@@ -1535,9 +1535,9 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
                 return;
             }
 
-            string query = @"
-Update AYSClasses set IsDeleted=1
-WHERE Id = @id";
+                            string query = @"
+                Update AYSClasses set IsDeleted=1
+                WHERE Id = @id";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -1650,8 +1650,8 @@ WHERE Id = @id";
 
 
                 cmd.ExecuteNonQuery();
+                PersonelYonetimiLoad(UserId);
 
-                
                 // Verileri yenileme / temizlik işlemi burada yapılabilir
             }
         }
