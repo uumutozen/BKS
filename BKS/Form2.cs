@@ -1571,7 +1571,7 @@ WHERE Id = @id";
             string Uyruk = cbxPersonelUyruk.Text.Trim();
             string Kimlik = txtPersonelKimlik.Text.Trim();
             string Cinsiyet = rbtPersonelErkek.Checked ? "Erkek" : rbtPersonelKadin.Checked ? "Kadın" : "";
-            bool MedeniDurum = rbtPersonelEvli.Checked ? true : rbtPersonelBekar.Checked ? false :false;
+            bool MedeniDurum = rbtPersonelEvli.Checked ? true : rbtPersonelBekar.Checked ? false : false;
             string Telefon = txtPersonelTel.Text.Trim();
             string Mail = txtPersonelMail.Text.Trim();
             string AcilDurumIletisim = txtPersonelIletişimAcilDurum.Text.Trim();
@@ -1624,7 +1624,7 @@ WHERE Id = @id";
                 cmd.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
                 cmd.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
                 cmd.Parameters.AddWithValue("@IsTeacher", false); // Öğretmen değilse false
-              
+
                 cmd.Parameters.AddWithValue("@IsMaried", MedeniDurum);
                 cmd.Parameters.AddWithValue("@Education", EgitimDurumu);
                 cmd.Parameters.AddWithValue("@IsQuitWork", IsAyrildi);
@@ -1650,7 +1650,7 @@ WHERE Id = @id";
 
                 cmd.ExecuteNonQuery();
 
-                
+
                 // Verileri yenileme / temizlik işlemi burada yapılabilir
             }
         }
@@ -1688,6 +1688,194 @@ WHERE Id = @id";
         private void txtPersonelKimlik_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnPersonelGuncelle_Click(object sender, EventArgs e)
+        {
+            Guid id = (Guid)dgvPersonelYonetimi.SelectedRows[0].Cells["PersonelId"].Value;
+            string Adi = txtPersonelAd.Text.Trim();
+            string Soyadi = txtPersonelSoyad.Text.Trim();
+            DateTime DogumTarihi = dtpPersonelDG.Value;
+            string Uyruk = cbxPersonelUyruk.Text.Trim();
+            string Kimlik = txtPersonelKimlik.Text.Trim();
+            string Cinsiyet = rbtPersonelErkek.Checked ? "Erkek" : rbtPersonelKadin.Checked ? "Kadın" : "";
+            bool MedeniDurum = rbtPersonelEvli.Checked;
+            string Telefon = txtPersonelTel.Text.Trim();
+            string Mail = txtPersonelMail.Text.Trim();
+            string AcilDurumIletisim = txtPersonelIletişimAcilDurum.Text.Trim();
+            string Adres = txtPersonelAdres.Text.Trim();
+            DateTime IseBaslamaTarihi = dtpPersonelIseBaslamaTarihi.Value;
+            string Departman = txtPersonelDepartman.Text.Trim();
+            string Gorev = txtPersonelGorev.Text.Trim();
+            string PersonelNo = txtPersonelPersonelNo.Text.Trim();
+            decimal Maas = decimal.TryParse(txtPersonelMaas.Text.Trim(), out decimal maasVal) ? maasVal : 0;
+            decimal PrimVeEk = decimal.TryParse(txtPersonelPrimVeEk.Text.Trim(), out decimal primVal) ? primVal : 0;
+            decimal YemekYol = decimal.TryParse(txtPersonelYemekYol.Text.Trim(), out decimal yemekVal) ? yemekVal : 0;
+            string SGKSicilNumarasi = txtPersonelSGKSicilNum.Text.Trim();
+            string SaglikSigortasi = txtPersonelSaglikSigorta.Text.Trim();
+            string Emeklilik = txtPersonelEmeklilik.Text.Trim();
+            string EgitimDurumu = cbxPersonelEgitimDurumu.Text.Trim();
+            string Universite = cbxPersonelUniversite.Text.Trim();
+            string UniBolum = txtPersonelUniBolum.Text.Trim();
+            string Sertifika = txtPersonelSertifika.Text.Trim();
+            string YabanciDil = txtPersonelYabanciDil.Text.Trim();
+            bool IsAyrildi = cbxPersoneIIsAyrıldı.Checked;
+            DateTime? CikisTarihi = IsAyrildi ? dtpPersonelCıkısTarihi.Value : (DateTime?)null;
+            string AyrilmaNedeni = txtPersonelAyrilmaNedeni.Text.Trim();
+            decimal KidemTazminat = decimal.TryParse(txtPersonelKidemTazminat.Text.Trim(), out decimal kidemVal) ? kidemVal : 0;
+
+            string query = @"
+        UPDATE Personel SET 
+            FirstName = @Adi,
+            LastName = @Soyadi,
+            BirthDate = @DogumTarihi,
+            Uyruk = @Uyruk,
+            IdentityNumber = @Kimlik,
+            Gender = @Cinsiyet,
+            IsMaried = @MedeniDurum,
+            Phone = @Telefon,
+            Email = @Mail,
+            EmergenyFamilies = @AcilDurumIletisim,
+            Address = @Adres,
+            HireDate = @IseBaslamaTarihi,
+            Department = @Departman,
+            JobTitle = @Gorev,
+            Salary = @Maas,
+            AdditionalPayment = @PrimVeEk,
+            FoodandTransportFee = @YemekYol,
+            SgkSicil = @SGKSicil,
+            SaglikSigortasiBilgileri = @SaglikSigortasi,
+            EmeklilikBilgileri = @Emeklilik,
+            Education = @EgitimDurumu,
+            UniversityDepartment = @UniBolum,
+            SertifikaAndEducation = @Sertifika,
+            ForeignLanguage = @YabanciDil,
+            IsQuitWork = @IsAyrildi,
+            QuitWorkDate = @CikisTarihi,
+            QuitWorkReason = @AyrilmaNedeni,
+            Compensation = @KidemTazminat,
+            UpdatedAt = GETDATE()
+        WHERE PersonelId = @id";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Adi", Adi);
+                    cmd.Parameters.AddWithValue("@Soyadi", Soyadi);
+                    cmd.Parameters.AddWithValue("@DogumTarihi", DogumTarihi);
+                    cmd.Parameters.AddWithValue("@Uyruk", Uyruk);
+                    cmd.Parameters.AddWithValue("@Kimlik", Kimlik);
+                    cmd.Parameters.AddWithValue("@Cinsiyet", Cinsiyet);
+                    cmd.Parameters.AddWithValue("@MedeniDurum", MedeniDurum);
+                    cmd.Parameters.AddWithValue("@Telefon", Telefon);
+                    cmd.Parameters.AddWithValue("@Mail", Mail);
+                    cmd.Parameters.AddWithValue("@AcilDurumIletisim", AcilDurumIletisim);
+                    cmd.Parameters.AddWithValue("@Adres", Adres);
+                    cmd.Parameters.AddWithValue("@IseBaslamaTarihi", IseBaslamaTarihi);
+                    cmd.Parameters.AddWithValue("@Departman", Departman);
+                    cmd.Parameters.AddWithValue("@Gorev", Gorev);
+                    cmd.Parameters.AddWithValue("@Maas", Maas);
+                    cmd.Parameters.AddWithValue("@PrimVeEk", PrimVeEk);
+                    cmd.Parameters.AddWithValue("@YemekYol", YemekYol);
+                    cmd.Parameters.AddWithValue("@SGKSicil", SGKSicilNumarasi);
+                    cmd.Parameters.AddWithValue("@SaglikSigortasi", SaglikSigortasi);
+                    cmd.Parameters.AddWithValue("@Emeklilik", Emeklilik);
+                    cmd.Parameters.AddWithValue("@EgitimDurumu", EgitimDurumu);
+                    cmd.Parameters.AddWithValue("@UniBolum", UniBolum);
+                    cmd.Parameters.AddWithValue("@Sertifika", Sertifika);
+                    cmd.Parameters.AddWithValue("@YabanciDil", YabanciDil);
+                    cmd.Parameters.AddWithValue("@IsAyrildi", IsAyrildi);
+                    cmd.Parameters.AddWithValue("@CikisTarihi", (object?)CikisTarihi ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@AyrilmaNedeni", AyrilmaNedeni);
+                    cmd.Parameters.AddWithValue("@KidemTazminat", KidemTazminat);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                
+            }
+
+            MessageBox.Show("Personel bilgileri başarıyla güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            PersonelYonetimiLoad(UserId);
+        }
+
+
+        private void DgvOgrenciYonetimiSiniflar_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            // Satır seçili mi ve geçerli bir satır mı kontrolü
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = DgvOgrenciYonetimiSiniflar.Rows[e.RowIndex];
+
+                DgvOgrenciYonetimiSiniflar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                DgvOgrenciYonetimiSiniflar.MultiSelect = false; // Sadece bir satır seçilebilsin
+                // Örnek olarak sağdaki kutular:
+                txtOgrenciYonetimiSınıfAdı.Text = row.Cells["Sınıf"].Value?.ToString();
+                cbxOgrenciYonetimiYasGrubu.Text = row.Cells["Yaş Grubu"].Value?.ToString();
+                cbxOgrenciYonetimiOgretmen.Text = row.Cells["Öğretmen Adı"].Value?.ToString();
+            }
+
+        }
+
+        private void dgvPersonelYonetimi_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvPersonelYonetimi.Rows[e.RowIndex];
+
+                dgvPersonelYonetimi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvPersonelYonetimi.MultiSelect = false;
+
+                txtPersonelAd.Text = row.Cells["Adı"].Value?.ToString();
+                txtPersonelSoyad.Text = row.Cells["Soyadı"].Value?.ToString();
+                dtpPersonelDG.Value = Convert.ToDateTime(row.Cells["Doğum Tarihi"].Value);
+                cbxPersonelUyruk.Text = row.Cells["Uyruk"].Value?.ToString();
+                txtPersonelKimlik.Text = row.Cells["Kimlik No"].Value?.ToString();
+
+                string cinsiyet = row.Cells["Cinsiyet"].Value?.ToString();
+                rbtPersonelErkek.Checked = cinsiyet == "Erkek";
+                rbtPersonelKadin.Checked = cinsiyet == "Kadın";
+
+                string medeniDurum = row.Cells["Evli mi?"].Value?.ToString();
+                rbtPersonelEvli.Checked = medeniDurum == "Evet";
+                rbtPersonelBekar.Checked = medeniDurum == "Hayır";
+
+                txtPersonelTel.Text = row.Cells["Telefon"].Value?.ToString();
+                txtPersonelMail.Text = row.Cells["E-posta"].Value?.ToString();
+                txtPersonelIletişimAcilDurum.Text = row.Cells["Acil Yakınlar"].Value?.ToString();
+                txtPersonelAdres.Text = row.Cells["Adres"].Value?.ToString();
+                txtPersonelDepartman.Text = row.Cells["Departman"].Value?.ToString();
+                txtPersonelGorev.Text = row.Cells["İş Ünvanı"].Value?.ToString();
+                cbxPersonelCalismaSekli.Text = row.Cells["Aktif mi?"].Value?.ToString() == "Evet" ? "Aktif" : "Pasif";
+                txtPersonelPersonelNo.Text = row.Cells["Personel Numarası"].Value?.ToString();
+                cbxPersonelSigorta.Text = row.Cells["SGK Sicil No"].Value?.ToString();
+
+                txtPersonelMaas.Text = row.Cells["Maaş"].Value?.ToString();
+                txtPersonelPrimVeEk.Text = row.Cells["Ek Ödeme"].Value?.ToString();
+                txtPersonelYemekYol.Text = row.Cells["Yemek ve Ulaşım Ücreti"].Value?.ToString();
+
+                txtPersonelSGKSicilNum.Text = row.Cells["SGK Sicil No"].Value?.ToString();
+                txtPersonelSaglikSigorta.Text = row.Cells["Sağlık Sigortası Bilgileri"].Value?.ToString();
+                txtPersonelEmeklilik.Text = row.Cells["Emeklilik Bilgileri"].Value?.ToString();
+
+                cbxPersonelEgitimDurumu.Text = row.Cells["Eğitim Durumu"].Value?.ToString();
+                cbxPersonelUniversite.Text = row.Cells["Üniversite Bölümü"].Value?.ToString(); // Eğer üniversite adı farklı bir hücredeyse ayrı sütun gerek
+                txtPersonelUniBolum.Text = row.Cells["Üniversite Bölümü"].Value?.ToString(); // Veya burada bölümü göster
+                txtPersonelSertifika.Text = row.Cells["Sertifika ve Eğitim Bilgileri"].Value?.ToString();
+                txtPersonelYabanciDil.Text = row.Cells["Yabancı Dil"].Value?.ToString();
+
+                cbxPersoneIIsAyrıldı.Checked = row.Cells["İşten Ayrıldı mı?"].Value?.ToString() == "Evet";
+
+                if (cbxPersoneIIsAyrıldı.Checked && row.Cells["İşten Ayrılma Tarihi"].Value != DBNull.Value)
+                    dtpPersonelCıkısTarihi.Value = Convert.ToDateTime(row.Cells["İşten Ayrılma Tarihi"].Value);
+
+                txtPersonelAyrilmaNedeni.Text = row.Cells["İşten Ayrılma Nedeni"].Value?.ToString();
+                txtPersonelKidemTazminat.Text = row.Cells["Kıdem Tazminatı"].Value?.ToString();
+
+                dtpPersonelIseBaslamaTarihi.Value = Convert.ToDateTime(row.Cells["İşe Başlama Tarihi"].Value);
+            }
         }
 
         public Guid sinifid { get; set; }

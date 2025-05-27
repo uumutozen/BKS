@@ -319,6 +319,7 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.Size = new Size(846, 302);
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
             DgvOgrenciYonetimiSiniflar.Tag = 4030;
+            DgvOgrenciYonetimiSiniflar.CellContentClick += DgvOgrenciYonetimiSiniflar_CellContentClick;
             // 
             // contextMenuStrip1
             // 
@@ -612,6 +613,7 @@ namespace BKS
             btnPersonelGuncelle.Size = new Size(72, 77);
             btnPersonelGuncelle.TabIndex = 39;
             btnPersonelGuncelle.UseVisualStyleBackColor = false;
+            btnPersonelGuncelle.Click += btnPersonelGuncelle_Click;
             // 
             // pbxPersonelPicture
             // 
@@ -1160,6 +1162,7 @@ namespace BKS
             dgvPersonelYonetimi.Size = new Size(852, 930);
             dgvPersonelYonetimi.TabIndex = 1;
             dgvPersonelYonetimi.Tag = 4020;
+            dgvPersonelYonetimi.CellContentClick += dgvPersonelYonetimi_CellContentClick;
             // 
             // tabPageGelirGider
             // 
