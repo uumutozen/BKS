@@ -1793,7 +1793,7 @@ WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();
                 }
-                
+
             }
 
             MessageBox.Show("Personel bilgileri başarıyla güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1875,6 +1875,33 @@ WHERE Id = @id";
                 txtPersonelKidemTazminat.Text = row.Cells["Kıdem Tazminatı"].Value?.ToString();
 
                 dtpPersonelIseBaslamaTarihi.Value = Convert.ToDateTime(row.Cells["İşe Başlama Tarihi"].Value);
+            }
+        }
+
+        private void btnPersonelSil_Click(object sender, EventArgs e)
+        {
+            {
+                Guid id = (Guid)dgvPersonelYonetimi.SelectedRows[0].Cells["PersonelId"].Value;
+                
+                string query = @"
+        UPDATE Personel SET IsActive = 0
+        WHERE PersonelId = @id";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                }
+
+                MessageBox.Show("Personel bilgileri başarıyla Silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
+                PersonelYonetimiLoad(UserId);
             }
         }
 

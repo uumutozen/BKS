@@ -582,6 +582,7 @@ namespace BKS
             btnPersonelSil.Size = new Size(72, 77);
             btnPersonelSil.TabIndex = 38;
             btnPersonelSil.UseVisualStyleBackColor = false;
+            btnPersonelSil.Click += btnPersonelSil_Click;
             // 
             // btnPersonelKaydet
             // 
