@@ -27,7 +27,7 @@ namespace BKS
     {
 
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
-
+        private DataGridView aktifDGV;
         public Form2()
         {
 
@@ -77,6 +77,9 @@ namespace BKS
             //timer1.Interval = 5000; // 5 saniye
             //timer1.Tick += Timer1_Tick;
             //timer1.Start();
+            dataGridViewStok.MouseDown += DataGridView_MouseDown;
+            dgvPersonelYonetimi.MouseDown += DataGridView_MouseDown;
+            DgvOgrenciYonetimiSiniflar.MouseDown += DataGridView_MouseDown;
 
 
         }
@@ -838,6 +841,10 @@ namespace BKS
 
             return companyName;
         }
+        private void DataGridView_MouseDown(object sender, MouseEventArgs e)
+        {
+            aktifDGV = sender as DataGridView;
+        }
         private void excelAktarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -868,7 +875,11 @@ namespace BKS
                     {
                         conn.Open();
 
-                        string tag = dataGridViewStok.Tag?.ToString();
+                        string tag = "";
+                        if (aktifDGV != null)
+                        {
+                            tag = aktifDGV.Tag?.ToString();
+                        }
 
                         while (worksheet.Cells[row, 1].Text != "")
                         {
@@ -927,45 +938,91 @@ namespace BKS
                             }
                             else if (tag == "4020")
                             {
-                                // Personel aktarımı
-                                string firstName = worksheet.Cells[row, 1].Text;
-                                string lastName = worksheet.Cells[row, 2].Text;
-                                string email = worksheet.Cells[row, 3].Text;
-                                string phone = worksheet.Cells[row, 4].Text;
-                                string address = worksheet.Cells[row, 5].Text;
-                                string city = worksheet.Cells[row, 6].Text;
-                                string country = worksheet.Cells[row, 7].Text;
-                                DateTime birthDate = DateTime.Parse(worksheet.Cells[row, 8].Text);
-                                string gender = worksheet.Cells[row, 9].Text;
-                                string identity = worksheet.Cells[row, 10].Text;
-                                string jobTitle = worksheet.Cells[row, 11].Text;
-                                string department = worksheet.Cells[row, 12].Text;
+                               
+                                    Guid personelId = Guid.NewGuid();
+                                    string firstName = worksheet.Cells[row, 1].Text;
+                                    string lastName = worksheet.Cells[row, 2].Text;
+                                    string email = worksheet.Cells[row, 3].Text;
+                                    string phone = worksheet.Cells[row, 4].Text;
+                                    string address = worksheet.Cells[row, 5].Text;
+                                    string city = worksheet.Cells[row, 6].Text;
+                                    string country = worksheet.Cells[row, 7].Text;
+                                    DateTime birthDate = DateTime.Parse(worksheet.Cells[row, 8].Text);
+                                    string gender = worksheet.Cells[row, 9].Text;
+                                    string identityNumber = worksheet.Cells[row, 10].Text;
+                                    string jobTitle = worksheet.Cells[row, 11].Text;
+                                    string department = worksheet.Cells[row, 12].Text;
+                                    DateTime hireDate = DateTime.Parse(worksheet.Cells[row, 13].Text);
+                                    decimal salary = decimal.Parse(worksheet.Cells[row, 14].Text);
+                                    bool isActive = true;
+                                    DateTime createdAt = DateTime.Now;
+                                    DateTime updatedAt = DateTime.Now;
+                                    bool isTeacher = worksheet.Cells[row, 15].Text == "1";
+                                    byte[] photo = File.ReadAllBytes("default.jpg"); // veya Excel'den alınan base64 varsa decode et
+                                    string isMaried = worksheet.Cells[row, 16].Text;
+                                    string education = worksheet.Cells[row, 17].Text;
+                                    bool isQuitWork = worksheet.Cells[row, 18].Text == "1";
+                                    DateTime? quitWorkDate = string.IsNullOrEmpty(worksheet.Cells[row, 19].Text) ? (DateTime?)null : DateTime.Parse(worksheet.Cells[row, 19].Text);
+                                    string quitWorkReason = worksheet.Cells[row, 20].Text;
+                                    decimal compensation = decimal.TryParse(worksheet.Cells[row, 21].Text, out var comp) ? comp : 0;
+                                    decimal additionalPayment = decimal.TryParse(worksheet.Cells[row, 22].Text, out var ap) ? ap : 0;
+                                    decimal foodTransport = decimal.TryParse(worksheet.Cells[row, 23].Text, out var ft) ? ft : 0;
+                                    string sgkSicil = worksheet.Cells[row, 24].Text;
+                                    string saglikSigorta = worksheet.Cells[row, 25].Text;
+                                    string emeklilik = worksheet.Cells[row, 26].Text;
+                                    string personelNo = worksheet.Cells[row, 27].Text;
+                                    string uniDept = worksheet.Cells[row, 28].Text;
+                                    string sertifikalar = worksheet.Cells[row, 29].Text;
+                                    string language = worksheet.Cells[row, 30].Text;
+                                    string emergency = worksheet.Cells[row, 31].Text;
+                                    string uyruk = worksheet.Cells[row, 32].Text;
 
-                                string sqlPersonel = @"INSERT INTO Personel 
-                            (PersonelId, CompanyId, FirstName, LastName, Email, Phone, Address, City, Country, 
-                            BirthDate, Gender, IdentityNumber, JobTitle, Department, CreatedAt, IsActive)
-                            VALUES 
-                            (@Id, (SELECT TOP 1 CompanyId FROM CompanyUsers WHERE UserId = @CompanyId), @FirstName, @LastName, @Email, @Phone, @Address, @City, @Country, 
-                            @BirthDate, @Gender, @IdentityNumber, @JobTitle, @Department, GETDATE(), 1)";
+                                    using (SqlCommand cmd = new SqlCommand("[asl2e6ancomtr_aslan].[AddPersonel]", conn))
+                                    {
+                                        cmd.CommandType = CommandType.StoredProcedure;
+                                        cmd.Parameters.AddWithValue("@Id", personelId);
+                                        cmd.Parameters.AddWithValue("@userid", UserId);
+                                        cmd.Parameters.AddWithValue("@FirstName", firstName);
+                                        cmd.Parameters.AddWithValue("@LastName", lastName);
+                                        cmd.Parameters.AddWithValue("@Email", email);
+                                        cmd.Parameters.AddWithValue("@Phone", phone);
+                                        cmd.Parameters.AddWithValue("@Address", address);
+                                        cmd.Parameters.AddWithValue("@City", city);
+                                        cmd.Parameters.AddWithValue("@Country", country);
+                                        cmd.Parameters.AddWithValue("@Birthdate", birthDate);
+                                        cmd.Parameters.AddWithValue("@Gender", gender);
+                                        cmd.Parameters.AddWithValue("@IdentityNumber", identityNumber);
+                                        cmd.Parameters.AddWithValue("@JobTitle", jobTitle);
+                                        cmd.Parameters.AddWithValue("@Department", department);
+                                        cmd.Parameters.AddWithValue("@HireDate", hireDate);
+                                        cmd.Parameters.AddWithValue("@Salary", salary);
+                                        cmd.Parameters.AddWithValue("@IsActive", isActive);
+                                        cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
+                                        cmd.Parameters.AddWithValue("@UpdatedAt", updatedAt);
+                                        cmd.Parameters.AddWithValue("@IsTeacher", isTeacher);
+                                        cmd.Parameters.AddWithValue("@photo", photo);
+                                        cmd.Parameters.AddWithValue("@IsMaried", isMaried);
+                                        cmd.Parameters.AddWithValue("@Education", education);
+                                        cmd.Parameters.AddWithValue("@IsQuitWork", isQuitWork);
+                                        cmd.Parameters.AddWithValue("@QuitWorkDate", (object?)quitWorkDate ?? DBNull.Value);
+                                        cmd.Parameters.AddWithValue("@QuitWorkReason", quitWorkReason);
+                                        cmd.Parameters.AddWithValue("@Compensation", compensation);
+                                        cmd.Parameters.AddWithValue("@AdditionalPayment", additionalPayment);
+                                        cmd.Parameters.AddWithValue("@FoodandTransportFee", foodTransport);
+                                        cmd.Parameters.AddWithValue("@SgkSicil", sgkSicil);
+                                        cmd.Parameters.AddWithValue("@SaglikSigortasiBilgileri", saglikSigorta);
+                                        cmd.Parameters.AddWithValue("@EmeklilikBilgileri", emeklilik);
+                                        cmd.Parameters.AddWithValue("@PersonelNumarasi", personelNo);
+                                        cmd.Parameters.AddWithValue("@UniversityDepartment", uniDept);
+                                        cmd.Parameters.AddWithValue("@SertifikaAndEducation", sertifikalar);
+                                        cmd.Parameters.AddWithValue("@ForeignLanguage", language);
+                                        cmd.Parameters.AddWithValue("@EmergenyFamilies", emergency);
+                                        cmd.Parameters.AddWithValue("@Uyruk", uyruk);
 
-                                using (SqlCommand cmd = new SqlCommand(sqlPersonel, conn))
-                                {
-                                    cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
-                                    cmd.Parameters.AddWithValue("@CompanyId", UserId); // Kullanıcıdan şirket ID'si alınmalı
-                                    cmd.Parameters.AddWithValue("@FirstName", firstName);
-                                    cmd.Parameters.AddWithValue("@LastName", lastName);
-                                    cmd.Parameters.AddWithValue("@Email", email);
-                                    cmd.Parameters.AddWithValue("@Phone", phone);
-                                    cmd.Parameters.AddWithValue("@Address", address);
-                                    cmd.Parameters.AddWithValue("@City", city);
-                                    cmd.Parameters.AddWithValue("@Country", country);
-                                    cmd.Parameters.AddWithValue("@BirthDate", birthDate);
-                                    cmd.Parameters.AddWithValue("@Gender", gender);
-                                    cmd.Parameters.AddWithValue("@IdentityNumber", identity);
-                                    cmd.Parameters.AddWithValue("@JobTitle", jobTitle);
-                                    cmd.Parameters.AddWithValue("@Department", department);
-                                    cmd.ExecuteNonQuery();
-                                }
+                                        cmd.ExecuteNonQuery();
+                                    }
+                                
+
                             }
 
                             row++;
