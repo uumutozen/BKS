@@ -886,6 +886,7 @@ namespace BKS
                             if (tag == "4010")
                             {
                                 // Öğrenci aktarımı (AYSStudents)
+                                Guid OgrenciId = Guid.NewGuid();
                                 string ogrenciName = worksheet.Cells[row, 1].Text;
                                 string ogrenciSurname = worksheet.Cells[row, 2].Text;
                                 string Fathername = worksheet.Cells[row, 3].Text;
@@ -915,7 +916,7 @@ namespace BKS
 
                                 using (SqlCommand cmd = new SqlCommand(sqlQuery, conn))
                                 {
-                                    cmd.Parameters.AddWithValue("@Id", Guid.NewGuid());
+                                    cmd.Parameters.AddWithValue("@Id",OgrenciId );
                                     cmd.Parameters.AddWithValue("@Name", ogrenciName);
                                     cmd.Parameters.AddWithValue("@UserId", UserId);
                                     cmd.Parameters.AddWithValue("@Surname", ogrenciSurname);
@@ -934,6 +935,8 @@ namespace BKS
                                     cmd.Parameters.AddWithValue("@IsMarried", IsMarried);
                                     cmd.Parameters.AddWithValue("@ClassName", classing);
                                     cmd.ExecuteNonQuery();
+                                    LoadStockData(UserId);
+                                    DeleteAndLog("AYSSTUDENTS", "Id", OgrenciId, UserId, "0", "INSERT");
                                 }
                             }
                             else if (tag == "4020")
@@ -958,7 +961,7 @@ namespace BKS
                                     DateTime createdAt = DateTime.Now;
                                     DateTime updatedAt = DateTime.Now;
                                     bool isTeacher = worksheet.Cells[row, 15].Text == "1";
-                                    byte[] photo = File.ReadAllBytes("default.jpg"); // veya Excel'den alınan base64 varsa decode et
+                                    byte[] photo = null; // veya Excel'den alınan base64 varsa decode et
                                     string isMaried = worksheet.Cells[row, 16].Text;
                                     string education = worksheet.Cells[row, 17].Text;
                                     bool isQuitWork = worksheet.Cells[row, 18].Text == "1";
@@ -1000,8 +1003,10 @@ namespace BKS
                                         cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
                                         cmd.Parameters.AddWithValue("@UpdatedAt", updatedAt);
                                         cmd.Parameters.AddWithValue("@IsTeacher", isTeacher);
-                                        cmd.Parameters.AddWithValue("@photo", photo);
-                                        cmd.Parameters.AddWithValue("@IsMaried", isMaried);
+                                    SqlParameter photoParam = new SqlParameter("@photo", SqlDbType.VarBinary, -1);
+                                    photoParam.Value = Photo != null ? (object)Photo : DBNull.Value;
+                                    cmd.Parameters.Add(photoParam);
+                                    cmd.Parameters.AddWithValue("@IsMaried", isMaried);
                                         cmd.Parameters.AddWithValue("@Education", education);
                                         cmd.Parameters.AddWithValue("@IsQuitWork", isQuitWork);
                                         cmd.Parameters.AddWithValue("@QuitWorkDate", (object?)quitWorkDate ?? DBNull.Value);
@@ -1018,8 +1023,9 @@ namespace BKS
                                         cmd.Parameters.AddWithValue("@ForeignLanguage", language);
                                         cmd.Parameters.AddWithValue("@EmergenyFamilies", emergency);
                                         cmd.Parameters.AddWithValue("@Uyruk", uyruk);
-
                                         cmd.ExecuteNonQuery();
+                                    PersonelYonetimiLoad(UserId);
+                                    DeleteAndLog("PERSONEL","PersonelId",personelId,UserId,"0","INSERT");
                                     }
                                 
 
