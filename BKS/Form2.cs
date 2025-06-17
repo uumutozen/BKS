@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using System.Net;
+using Microsoft.VisualBasic.ApplicationServices;
 
 
 namespace BKS
@@ -39,7 +40,6 @@ namespace BKS
             }
 
             LoadStockComboBox();
-            LoadPaymentData();
             form1.Close();
 
 
@@ -59,7 +59,7 @@ namespace BKS
             dgvPersonelYonetimi.AllowUserToAddRows = false;
             YasGrubuLoad();
             SinifLoad(UserId);
-
+            LoadPaymentData(UserId);
             dataGridViewStok.Columns["Id"].Visible = false;
             dataGridViewStok.Columns["MonthlyFee"].Visible = false;//önemli değiştirme
             dataGridViewStok.Columns["FotoId"].Visible = false;
@@ -368,17 +368,32 @@ namespace BKS
         {
             Application.Exit(); // Form2 kapatıldığında tüm uygulamayı sonlandır
         }
-        private void LoadPaymentData()
+        private void LoadPaymentData(Guid UserId)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT OgrenciAdi=(select Name from AYSStudents a where a.Id=StudentId),PaymentDate,Amount FROM AYSFeePayments order by StudentId", conn);
+                string query = @"
+            SELECT 
+                OgrenciAdi = (SELECT Name FROM AYSStudents a WHERE a.Id = StudentId),
+                PaymentDate,
+                Amount
+            FROM AYSFeePayments
+            WHERE SchoolId = (SELECT CompanyId FROM CompanyUsers WHERE UserId = @UserId)
+            ORDER BY StudentId";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", UserId);
+
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
                 dataOgrVw.DataSource = dt;
             }
         }
+
+
 
         public void LoadStockComboBox()
         {
@@ -1064,7 +1079,7 @@ namespace BKS
             }
 
             MessageBox.Show("Gelir/Gider kaydı başarıyla eklendi!");
-            LoadPaymentData();
+            LoadPaymentData(UserId);
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
@@ -1637,8 +1652,8 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
             }
 
             string query = @"
-Update AYSClasses set IsDeleted=1
-WHERE Id = @id";
+                Update AYSClasses set IsDeleted=1
+                WHERE Id = @id";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -1657,103 +1672,160 @@ WHERE Id = @id";
 
         private void btnPersonelKaydet_Click(object sender, EventArgs e)
         {
-            // Boş alan kontrolleri (örnek: ad soyad zorunlu olsun)
+            // Boş alan kontrolleri
             if (string.IsNullOrWhiteSpace(txtPersonelAd.Text) || string.IsNullOrWhiteSpace(txtPersonelSoyad.Text))
             {
                 MessageBox.Show("Lütfen Ad ve Soyad alanlarını doldurunuz.");
                 return;
             }
+            if (string.IsNullOrWhiteSpace(txtPersonelKimlik.Text))
+            {
+                MessageBox.Show("Lütfen kimlik numarası giriniz.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtPersonelMail.Text))
+            {
+                MessageBox.Show("Lütfen e-posta adresi giriniz.");
+                return;
+            }
+            if (!rbtPersonelErkek.Checked && !rbtPersonelKadin.Checked)
+            {
+                MessageBox.Show("Lütfen cinsiyet seçiniz.");
+                return;
+            }
+            if (!rbtPersonelEvli.Checked && !rbtPersonelBekar.Checked)
+            {
+                MessageBox.Show("Lütfen medeni durum seçiniz.");
+                return;
+            }
+            if (!rbtPersonelEgitimGorevlisiEvet.Checked && !rbtPersonelEgitimGorevlisiHayir.Checked)
+            {
+                MessageBox.Show("Lütfen eğitim görevlisi olup olmadığını seçiniz.");
+                return;
+            }
 
-            // Değerleri alma
-            Guid PersonelId = Guid.NewGuid();
-            Guid userid = UserId;
-            string Adi = txtPersonelAd.Text.Trim();
-            string Soyadi = txtPersonelSoyad.Text.Trim();
-            DateTime DogumTarihi = dtpPersonelDG.Value;
-            string Uyruk = cbxPersonelUyruk.Text.Trim();
             string Kimlik = txtPersonelKimlik.Text.Trim();
-            string Cinsiyet = rbtPersonelErkek.Checked ? "Erkek" : rbtPersonelKadin.Checked ? "Kadın" : "";
-            bool MedeniDurum = rbtPersonelEvli.Checked ? true : rbtPersonelBekar.Checked ? false : false;
-            string Telefon = txtPersonelTel.Text.Trim();
             string Mail = txtPersonelMail.Text.Trim();
-            string AcilDurumIletisim = txtPersonelIletişimAcilDurum.Text.Trim();
-            string Adres = txtPersonelAdres.Text.Trim();
-            DateTime IseBaslamaTarihi = dtpPersonelIseBaslamaTarihi.Value;
-            string Departman = txtPersonelDepartman.Text.Trim();
-            string Gorev = txtPersonelGorev.Text.Trim();
-            string CalismaSekli = cbxPersonelCalismaSekli.Text.Trim();
-            string PersonelNo = txtPersonelPersonelNo.Text.Trim();
-            string SigortaDurumu = cbxPersonelSigorta.Text.Trim();
-            decimal Maas = decimal.TryParse(txtPersonelMaas.Text.Trim(), out decimal maasVal) ? maasVal : 0;
-            decimal PrimVeEk = decimal.TryParse(txtPersonelPrimVeEk.Text.Trim(), out decimal primVal) ? primVal : 0;
-            decimal YemekYol = decimal.TryParse(txtPersonelYemekYol.Text.Trim(), out decimal yemekVal) ? yemekVal : 0;
-            string SGKSicilNumarasi = txtPersonelSGKSicilNum.Text.Trim();
-            string SaglikSigortasi = txtPersonelSaglikSigorta.Text.Trim();
-            string Emeklilik = txtPersonelEmeklilik.Text.Trim();
-            string EgitimDurumu = cbxPersonelEgitimDurumu.Text.Trim();
-            string Universite = cbxPersonelUniversite.Text.Trim();
-            string UniBolum = txtPersonelUniBolum.Text.Trim();
-            string Sertifika = txtPersonelSertifika.Text.Trim();
-            string YabanciDil = txtPersonelYabanciDil.Text.Trim();
-            bool IsAyrildi = cbxPersoneIIsAyrıldı.Checked;
-            DateTime? CikisTarihi = IsAyrildi ? dtpPersonelCıkısTarihi.Value : (DateTime?)null;
-            string AyrilmaNedeni = txtPersonelAyrilmaNedeni.Text.Trim();
-            decimal KidemTazminat = decimal.TryParse(txtPersonelKidemTazminat.Text.Trim(), out decimal kidemVal) ? kidemVal : 0;
 
+            // Kayıtlı kimlik veya e-mail var mı kontrolü (SQL ile)
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("AddPersonel", conn); // prosedür adını kendinize göre değiştirin
-                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@Id", PersonelId);
-                cmd.Parameters.AddWithValue("@userid", UserId);
-                cmd.Parameters.AddWithValue("@FirstName", Adi);
-                cmd.Parameters.AddWithValue("@LastName", Soyadi);
-                cmd.Parameters.AddWithValue("@Email", Mail);
-                cmd.Parameters.AddWithValue("@Phone", Telefon);
-                cmd.Parameters.AddWithValue("@Address", Adres);
-                cmd.Parameters.AddWithValue("@City", ""); // Şehir yoksa boş gönder
-                cmd.Parameters.AddWithValue("@Country", ""); // Ülke yoksa boş gönder
-                cmd.Parameters.AddWithValue("@Birthdate", DogumTarihi);
-                cmd.Parameters.AddWithValue("@Gender", Cinsiyet);
-                cmd.Parameters.AddWithValue("@IdentityNumber", Kimlik);
-                cmd.Parameters.AddWithValue("@JobTitle", Gorev);
-                cmd.Parameters.AddWithValue("@Department", Departman);
-                cmd.Parameters.AddWithValue("@HireDate", IseBaslamaTarihi);
-                cmd.Parameters.AddWithValue("@Salary", Maas);
-                cmd.Parameters.AddWithValue("@IsActive", true); // Yeni personel aktif olur varsayımı
-                cmd.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
-                cmd.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
-                cmd.Parameters.AddWithValue("@IsTeacher", false); // Öğretmen değilse false
+                // Kimlik Numarası kontrolü
+                using (SqlCommand checkKimlik = new SqlCommand("SELECT COUNT(*) FROM Personel WHERE IdentityNumber = @kimlik", conn))
+                {
+                    checkKimlik.Parameters.AddWithValue("@kimlik", Kimlik);
+                    int kimlikVar = (int)checkKimlik.ExecuteScalar();
+                    if (kimlikVar > 0)
+                    {
+                        MessageBox.Show("Bu kimlik numarası zaten kayıtlı.");
+                        return;
+                    }
+                }
 
-                cmd.Parameters.AddWithValue("@IsMaried", MedeniDurum);
-                cmd.Parameters.AddWithValue("@Education", EgitimDurumu);
-                cmd.Parameters.AddWithValue("@IsQuitWork", IsAyrildi);
-                cmd.Parameters.AddWithValue("@QuitWorkDate", (object?)CikisTarihi ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@QuitWorkReason", AyrilmaNedeni);
-                cmd.Parameters.AddWithValue("@Compensation", KidemTazminat);
-                cmd.Parameters.AddWithValue("@AdditionalPayment", PrimVeEk);
-                cmd.Parameters.AddWithValue("@FoodandTransportFee", YemekYol);
-                cmd.Parameters.AddWithValue("@SgkSicil", SGKSicilNumarasi);
-                cmd.Parameters.AddWithValue("@SaglikSigortasiBilgileri", SaglikSigortasi);
-                cmd.Parameters.AddWithValue("@EmeklilikBilgileri", Emeklilik);
-                cmd.Parameters.AddWithValue("@PersonelNumarasi", PersonelNo);
-                cmd.Parameters.AddWithValue("@UniversityDepartment", UniBolum);
-                cmd.Parameters.AddWithValue("@SertifikaAndEducation", Sertifika);
-                cmd.Parameters.AddWithValue("@ForeignLanguage", YabanciDil);
-                cmd.Parameters.AddWithValue("@EmergenyFamilies", AcilDurumIletisim);
-                cmd.Parameters.AddWithValue("@Uyruk", Uyruk);
-                SqlParameter photoParam = new SqlParameter("@photo", SqlDbType.VarBinary, -1);
-                photoParam.Value = Photo != null ? (object)Photo : DBNull.Value;
-                cmd.Parameters.Add(photoParam);
+                // Email kontrolü
+                using (SqlCommand checkMail = new SqlCommand("SELECT COUNT(*) FROM Personel WHERE Email = @mail", conn))
+                {
+                    checkMail.Parameters.AddWithValue("@mail", Mail);
+                    int mailVar = (int)checkMail.ExecuteScalar();
+                    if (mailVar > 0)
+                    {
+                        MessageBox.Show("Bu e-posta adresi zaten kayıtlı.");
+                        return;
+                    }
+                }
 
+                // Kayıt ekleme işlemi
+                try
+                {
+                    Guid PersonelId = Guid.NewGuid();
+                    Guid userid = UserId;
+                    string Adi = txtPersonelAd.Text.Trim();
+                    string Soyadi = txtPersonelSoyad.Text.Trim();
+                    DateTime DogumTarihi = dtpPersonelDG.Value;
+                    string Uyruk = cbxPersonelUyruk.Text.Trim();
+                    string Cinsiyet = rbtPersonelErkek.Checked ? "Erkek" : rbtPersonelKadin.Checked ? "Kadın" : "";
+                    bool MedeniDurum = rbtPersonelEvli.Checked ? true : false;
+                    string Telefon = txtPersonelTel.Text.Trim();
+                    string AcilDurumIletisim = txtPersonelIletişimAcilDurum.Text.Trim();
+                    string Adres = txtPersonelAdres.Text.Trim();
+                    DateTime IseBaslamaTarihi = dtpPersonelIseBaslamaTarihi.Value;
+                    string Departman = txtPersonelDepartman.Text.Trim();
+                    string Gorev = txtPersonelGorev.Text.Trim();
+                    string CalismaSekli = cbxPersonelCalismaSekli.Text.Trim();
+                    string PersonelNo = txtPersonelPersonelNo.Text.Trim();
+                    string SigortaDurumu = cbxPersonelSigorta.Text.Trim();
+                    decimal Maas = decimal.TryParse(txtPersonelMaas.Text.Trim(), out decimal maasVal) ? maasVal : 0;
+                    decimal PrimVeEk = decimal.TryParse(txtPersonelPrimVeEk.Text.Trim(), out decimal primVal) ? primVal : 0;
+                    decimal YemekYol = decimal.TryParse(txtPersonelYemekYol.Text.Trim(), out decimal yemekVal) ? yemekVal : 0;
+                    string SGKSicilNumarasi = txtPersonelSGKSicilNum.Text.Trim();
+                    string SaglikSigortasi = txtPersonelSaglikSigorta.Text.Trim();
+                    string Emeklilik = txtPersonelEmeklilik.Text.Trim();
+                    bool EğitimGörevlisiMi = rbtPersonelEgitimGorevlisiEvet.Checked ? true : false;
+                    string EgitimDurumu = cbxPersonelEgitimDurumu.Text.Trim();
+                    string Universite = cbxPersonelUniversite.Text.Trim();
+                    string UniBolum = txtPersonelUniBolum.Text.Trim();
+                    string Sertifika = txtPersonelSertifika.Text.Trim();
+                    string YabanciDil = txtPersonelYabanciDil.Text.Trim();
+                    bool IsAyrildi = cbxPersoneIIsAyrıldı.Checked;
+                    DateTime? CikisTarihi = IsAyrildi ? dtpPersonelCıkısTarihi.Value : (DateTime?)null;
+                    string AyrilmaNedeni = txtPersonelAyrilmaNedeni.Text.Trim();
+                    decimal KidemTazminat = decimal.TryParse(txtPersonelKidemTazminat.Text.Trim(), out decimal kidemVal) ? kidemVal : 0;
 
+                    SqlCommand cmd = new SqlCommand("AddPersonel", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", PersonelId);
+                    cmd.Parameters.AddWithValue("@userid", userid);
+                    cmd.Parameters.AddWithValue("@FirstName", Adi);
+                    cmd.Parameters.AddWithValue("@LastName", Soyadi);
+                    cmd.Parameters.AddWithValue("@Email", Mail);
+                    cmd.Parameters.AddWithValue("@Phone", Telefon);
+                    cmd.Parameters.AddWithValue("@Address", Adres);
+                    cmd.Parameters.AddWithValue("@City", "");
+                    cmd.Parameters.AddWithValue("@Country", "");
+                    cmd.Parameters.AddWithValue("@Birthdate", DogumTarihi);
+                    cmd.Parameters.AddWithValue("@Gender", Cinsiyet);
+                    cmd.Parameters.AddWithValue("@IdentityNumber", Kimlik);
+                    cmd.Parameters.AddWithValue("@JobTitle", Gorev);
+                    cmd.Parameters.AddWithValue("@Department", Departman);
+                    cmd.Parameters.AddWithValue("@HireDate", IseBaslamaTarihi);
+                    cmd.Parameters.AddWithValue("@Salary", Maas);
+                    cmd.Parameters.AddWithValue("@IsActive", true);
+                    cmd.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@UpdatedAt", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@IsTeacher", EğitimGörevlisiMi);
+                    cmd.Parameters.AddWithValue("@IsMaried", MedeniDurum);
+                    cmd.Parameters.AddWithValue("@Education", EgitimDurumu);
+                    cmd.Parameters.AddWithValue("@IsQuitWork", IsAyrildi);
+                    cmd.Parameters.AddWithValue("@QuitWorkDate", (object?)CikisTarihi ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@QuitWorkReason", AyrilmaNedeni);
+                    cmd.Parameters.AddWithValue("@Compensation", KidemTazminat);
+                    cmd.Parameters.AddWithValue("@AdditionalPayment", PrimVeEk);
+                    cmd.Parameters.AddWithValue("@FoodandTransportFee", YemekYol);
+                    cmd.Parameters.AddWithValue("@SgkSicil", SGKSicilNumarasi);
+                    cmd.Parameters.AddWithValue("@SaglikSigortasiBilgileri", SaglikSigortasi);
+                    cmd.Parameters.AddWithValue("@EmeklilikBilgileri", Emeklilik);
+                    cmd.Parameters.AddWithValue("@PersonelNumarasi", PersonelNo);
+                    cmd.Parameters.AddWithValue("@UniversityDepartment", UniBolum);
+                    cmd.Parameters.AddWithValue("@SertifikaAndEducation", Sertifika);
+                    cmd.Parameters.AddWithValue("@ForeignLanguage", YabanciDil);
+                    cmd.Parameters.AddWithValue("@EmergenyFamilies", AcilDurumIletisim);
+                    cmd.Parameters.AddWithValue("@Uyruk", Uyruk);
+                    SqlParameter photoParam = new SqlParameter("@photo", SqlDbType.VarBinary, -1);
+                    photoParam.Value = Photo != null ? (object)Photo : DBNull.Value;
+                    cmd.Parameters.Add(photoParam);
 
-                cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Personel başarıyla kaydedildi.");
 
-
-                // Verileri yenileme / temizlik işlemi burada yapılabilir
+                    // Kayıt sonrası formları temizleyebilir veya Personel listesini yenileyebilirsin
+                    PersonelYonetimiLoad(userid);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Kayıt sırasında bir hata oluştu: " + ex.Message);
+                }
             }
         }
 
@@ -1794,6 +1866,16 @@ WHERE Id = @id";
 
         private void btnPersonelGuncelle_Click(object sender, EventArgs e)
         {
+            // Öncelikle bir satır seçili mi kontrolü yap!
+            if (dgvPersonelYonetimi.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Lütfen önce güncellenecek personeli seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Emin misiniz? diye de sorabilirsin (isteğe bağlı)
+            if (MessageBox.Show("Seçili personeli güncellemek istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
             Guid id = (Guid)dgvPersonelYonetimi.SelectedRows[0].Cells["PersonelId"].Value;
             string Adi = txtPersonelAd.Text.Trim();
             string Soyadi = txtPersonelSoyad.Text.Trim();
@@ -1801,6 +1883,7 @@ WHERE Id = @id";
             string Uyruk = cbxPersonelUyruk.Text.Trim();
             string Kimlik = txtPersonelKimlik.Text.Trim();
             string Cinsiyet = rbtPersonelErkek.Checked ? "Erkek" : rbtPersonelKadin.Checked ? "Kadın" : "";
+            bool? EgitimGorevlisi = rbtPersonelEgitimGorevlisiEvet.Checked ? true : rbtPersonelEgitimGorevlisiHayir.Checked ? false : (bool?)null;
             bool MedeniDurum = rbtPersonelEvli.Checked;
             string Telefon = txtPersonelTel.Text.Trim();
             string Mail = txtPersonelMail.Text.Trim();
@@ -1835,6 +1918,7 @@ WHERE Id = @id";
             IdentityNumber = @Kimlik,
             Gender = @Cinsiyet,
             IsMaried = @MedeniDurum,
+            IsTeacher = @EgitimGorevlisi,
             Phone = @Telefon,
             Email = @Mail,
             EmergenyFamilies = @AcilDurumIletisim,
@@ -1873,6 +1957,7 @@ WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@MedeniDurum", MedeniDurum);
                     cmd.Parameters.AddWithValue("@Telefon", Telefon);
                     cmd.Parameters.AddWithValue("@Mail", Mail);
+                    cmd.Parameters.AddWithValue("@EgitimGorevlisi", EgitimGorevlisi);
                     cmd.Parameters.AddWithValue("@AcilDurumIletisim", AcilDurumIletisim);
                     cmd.Parameters.AddWithValue("@Adres", Adres);
                     cmd.Parameters.AddWithValue("@IseBaslamaTarihi", IseBaslamaTarihi);
@@ -1944,6 +2029,10 @@ WHERE Id = @id";
                 rbtPersonelEvli.Checked = medeniDurum == "Evet";
                 rbtPersonelBekar.Checked = medeniDurum == "Hayır";
 
+                string EgitimGorevlisi = row.Cells["Öğretmen mi?"].Value?.ToString();
+                rbtPersonelEgitimGorevlisiEvet.Checked = EgitimGorevlisi == "Evet";
+                rbtPersonelEgitimGorevlisiHayir.Checked = EgitimGorevlisi == "Hayır";
+
                 txtPersonelTel.Text = row.Cells["Telefon"].Value?.ToString();
                 txtPersonelMail.Text = row.Cells["E-posta"].Value?.ToString();
                 txtPersonelIletişimAcilDurum.Text = row.Cells["Acil Yakınlar"].Value?.ToString();
@@ -1982,29 +2071,36 @@ WHERE Id = @id";
 
         private void btnPersonelSil_Click(object sender, EventArgs e)
         {
+            // Öncelikle bir satır seçili mi kontrolü yap!
+            if (dgvPersonelYonetimi.SelectedRows.Count == 0)
             {
-                Guid id = (Guid)dgvPersonelYonetimi.SelectedRows[0].Cells["PersonelId"].Value;
-                
-                string query = @"
-        UPDATE Personel SET IsActive = 0
-        WHERE PersonelId = @id";
-
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    con.Open();
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        
-                        cmd.Parameters.AddWithValue("@id", id);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                }
-
-                MessageBox.Show("Personel bilgileri başarıyla Silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
-                PersonelYonetimiLoad(UserId);
+                MessageBox.Show("Lütfen önce silinecek personeli seçiniz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            // Emin misiniz? diye de sorabilirsin (isteğe bağlı)
+            if (MessageBox.Show("Seçili personeli silmek istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            Guid id = (Guid)dgvPersonelYonetimi.SelectedRows[0].Cells["PersonelId"].Value;
+
+            string query = @"
+UPDATE Personel SET IsActive = 0
+WHERE PersonelId = @id";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            MessageBox.Show("Personel bilgileri başarıyla silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
+            PersonelYonetimiLoad(UserId);
         }
 
         public Guid sinifid { get; set; }

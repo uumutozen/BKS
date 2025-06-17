@@ -94,6 +94,10 @@ namespace BKS
             txtPersonelSoyad = new TextBox();
             txtPersonelAd = new TextBox();
             groupBox18 = new GroupBox();
+            panel3 = new Panel();
+            label10 = new Label();
+            rbtPersonelEgitimGorevlisiEvet = new RadioButton();
+            rbtPersonelEgitimGorevlisiHayir = new RadioButton();
             txtPersonelKidemTazminat = new TextBox();
             txtPersonelAyrilmaNedeni = new TextBox();
             txtPersonelEmeklilik = new TextBox();
@@ -157,6 +161,7 @@ namespace BKS
             panel2.SuspendLayout();
             panel1.SuspendLayout();
             groupBox18.SuspendLayout();
+            panel3.SuspendLayout();
             groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).BeginInit();
             tabPageGelirGider.SuspendLayout();
@@ -850,6 +855,7 @@ namespace BKS
             // 
             // groupBox18
             // 
+            groupBox18.Controls.Add(panel3);
             groupBox18.Controls.Add(txtPersonelKidemTazminat);
             groupBox18.Controls.Add(txtPersonelAyrilmaNedeni);
             groupBox18.Controls.Add(txtPersonelEmeklilik);
@@ -887,6 +893,47 @@ namespace BKS
             groupBox18.TabStop = false;
             groupBox18.Text = "Personel Özlük Bilgileri";
             groupBox18.Enter += groupBox18_Enter;
+            // 
+            // panel3
+            // 
+            panel3.Controls.Add(label10);
+            panel3.Controls.Add(rbtPersonelEgitimGorevlisiEvet);
+            panel3.Controls.Add(rbtPersonelEgitimGorevlisiHayir);
+            panel3.Location = new Point(432, 16);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(130, 51);
+            panel3.TabIndex = 36;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(20, 8);
+            label10.Name = "label10";
+            label10.Size = new Size(89, 15);
+            label10.TabIndex = 14;
+            label10.Text = "Eğitim Görevlisi";
+            // 
+            // rbtPersonelEgitimGorevlisiEvet
+            // 
+            rbtPersonelEgitimGorevlisiEvet.AutoSize = true;
+            rbtPersonelEgitimGorevlisiEvet.ForeColor = Color.Black;
+            rbtPersonelEgitimGorevlisiEvet.Location = new Point(5, 26);
+            rbtPersonelEgitimGorevlisiEvet.Name = "rbtPersonelEgitimGorevlisiEvet";
+            rbtPersonelEgitimGorevlisiEvet.Size = new Size(47, 19);
+            rbtPersonelEgitimGorevlisiEvet.TabIndex = 6;
+            rbtPersonelEgitimGorevlisiEvet.Text = "Evet";
+            rbtPersonelEgitimGorevlisiEvet.UseVisualStyleBackColor = true;
+            // 
+            // rbtPersonelEgitimGorevlisiHayir
+            // 
+            rbtPersonelEgitimGorevlisiHayir.AutoSize = true;
+            rbtPersonelEgitimGorevlisiHayir.ForeColor = Color.Black;
+            rbtPersonelEgitimGorevlisiHayir.Location = new Point(66, 26);
+            rbtPersonelEgitimGorevlisiHayir.Name = "rbtPersonelEgitimGorevlisiHayir";
+            rbtPersonelEgitimGorevlisiHayir.Size = new Size(53, 19);
+            rbtPersonelEgitimGorevlisiHayir.TabIndex = 7;
+            rbtPersonelEgitimGorevlisiHayir.Text = "Hayır";
+            rbtPersonelEgitimGorevlisiHayir.UseVisualStyleBackColor = true;
             // 
             // txtPersonelKidemTazminat
             // 
@@ -992,7 +1039,7 @@ namespace BKS
             // 
             // txtPersonelUniBolum
             // 
-            txtPersonelUniBolum.Location = new Point(361, 104);
+            txtPersonelUniBolum.Location = new Point(361, 180);
             txtPersonelUniBolum.Name = "txtPersonelUniBolum";
             txtPersonelUniBolum.PlaceholderText = "Bölümü";
             txtPersonelUniBolum.Size = new Size(295, 23);
@@ -1002,7 +1049,7 @@ namespace BKS
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(361, 65);
+            label5.Location = new Point(361, 141);
             label5.Name = "label5";
             label5.Size = new Size(65, 15);
             label5.TabIndex = 20;
@@ -1012,7 +1059,7 @@ namespace BKS
             // cbxPersonelUniversite
             // 
             cbxPersonelUniversite.FormattingEnabled = true;
-            cbxPersonelUniversite.Location = new Point(432, 62);
+            cbxPersonelUniversite.Location = new Point(432, 138);
             cbxPersonelUniversite.Name = "cbxPersonelUniversite";
             cbxPersonelUniversite.Size = new Size(224, 23);
             cbxPersonelUniversite.TabIndex = 19;
@@ -1066,7 +1113,7 @@ namespace BKS
             // 
             cbxPersonelEgitimDurumu.FormattingEnabled = true;
             cbxPersonelEgitimDurumu.Items.AddRange(new object[] { "Okuryazar Değil", "İlkokul Mezunu ", "Ortaokul Mezunu", "Lise Mezunu", "Önlisans (Devam Ediyor)", "Lisans (Devam Ediyor)", "Yüksek Lisans(Devam Ediyor)", "Doktora (Devam Ediyor)", "Önlisans Mezunu", "Lisans Mezunu", "Yüksek Lisans", "Doktora " });
-            cbxPersonelEgitimDurumu.Location = new Point(462, 16);
+            cbxPersonelEgitimDurumu.Location = new Point(462, 92);
             cbxPersonelEgitimDurumu.Name = "cbxPersonelEgitimDurumu";
             cbxPersonelEgitimDurumu.Size = new Size(194, 23);
             cbxPersonelEgitimDurumu.TabIndex = 14;
@@ -1075,7 +1122,7 @@ namespace BKS
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(361, 19);
+            label4.Location = new Point(361, 95);
             label4.Name = "label4";
             label4.Size = new Size(95, 15);
             label4.TabIndex = 13;
@@ -1320,6 +1367,8 @@ namespace BKS
             panel1.PerformLayout();
             groupBox18.ResumeLayout(false);
             groupBox18.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             groupBox20.ResumeLayout(false);
             groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPersonelYonetimi).EndInit();
@@ -1422,5 +1471,9 @@ namespace BKS
         private Button btnPersonelGuncelle;
         private Label lblKimlikNum;
         private Label label3;
+        private Panel panel3;
+        private Label label10;
+        private RadioButton rbtPersonelEgitimGorevlisiEvet;
+        private RadioButton rbtPersonelEgitimGorevlisiHayir;
     }
 }

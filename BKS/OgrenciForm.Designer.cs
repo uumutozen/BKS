@@ -111,13 +111,13 @@
             // 
             // cmbogrsınıf
             // 
+            cmbogrsınıf.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbogrsınıf.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             cmbogrsınıf.ForeColor = SystemColors.WindowFrame;
             cmbogrsınıf.Location = new Point(171, 112);
             cmbogrsınıf.Name = "cmbogrsınıf";
             cmbogrsınıf.Size = new Size(259, 23);
             cmbogrsınıf.TabIndex = 4;
-            cmbogrsınıf.Text = "Sınıfı";
             // 
             // textOgrenciKod
             // 
