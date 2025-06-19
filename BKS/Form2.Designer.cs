@@ -20,7 +20,11 @@ namespace BKS
         private System.Windows.Forms.RadioButton radioIncome;
         private System.Windows.Forms.RadioButton radioExpense;
         private System.Windows.Forms.Button btnAddIncomeExpense;
-
+        private TabPage tabPageOgrenciOnKayit;
+        private TextBox txtOnKayitAd, txtOnKayitSoyad, txtOnKayitVeliTel, txtOnKayitNot;
+        private DateTimePicker dtpOnKayitDogumTarihi;
+        private Button btnOnKayitEkle, btnKesinKayitYap;
+        private DataGridView dgvOnKayitlar;
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -140,6 +144,7 @@ namespace BKS
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
+            tabPage1 = new TabPage();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
@@ -170,6 +175,44 @@ namespace BKS
             tabPageOzelRaporlar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
             SuspendLayout();
+            tabPageOgrenciOnKayit = new TabPage();
+            tabPageOgrenciOnKayit.Text = "Öğrenci Ön Kayıts";
+            tabPageOgrenciOnKayit.BackColor = Color.White;
+
+            txtOnKayitAd = new TextBox { Location = new Point(20, 20), Width = 200, PlaceholderText = "Ad" };
+            txtOnKayitSoyad = new TextBox { Location = new Point(20, 60), Width = 200, PlaceholderText = "Soyad" };
+            dtpOnKayitDogumTarihi = new DateTimePicker { Location = new Point(20, 100), Width = 200 };
+            txtOnKayitVeliTel = new TextBox { Location = new Point(20, 140), Width = 200, PlaceholderText = "Veli Telefon" };
+            txtOnKayitNot = new TextBox { Location = new Point(20, 180), Width = 200, Height = 60, Multiline = true, PlaceholderText = "Notlar" };
+
+            btnOnKayitEkle = new Button { Location = new Point(20, 260), Text = "Ön Kayıt Ekle", Width = 200 };
+            btnKesinKayitYap = new Button { Location = new Point(20, 300), Text = "Kesin Kayda Aktar", Width = 200 };
+
+            dgvOnKayitlar = new DataGridView
+            {
+                Location = new Point(250, 20),
+                Size = new Size(1000, 300),
+                ReadOnly = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            };
+
+            // Event bağlama
+            btnOnKayitEkle.Click += btnOnKayitEkle_Click;
+            btnKesinKayitYap.Click += btnKesinKayitYap_Click;
+
+            // Eklemeler
+            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitAd);
+            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitSoyad);
+            tabPageOgrenciOnKayit.Controls.Add(dtpOnKayitDogumTarihi);
+            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitVeliTel);
+            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitNot);
+            tabPageOgrenciOnKayit.Controls.Add(btnOnKayitEkle);
+            tabPageOgrenciOnKayit.Controls.Add(btnKesinKayitYap);
+            tabPageOgrenciOnKayit.Controls.Add(dgvOnKayitlar);
+
+            // TabControl'e ekle
+            tabControl.Controls.Add(tabPageOgrenciOnKayit);
             // 
             // tabControl
             // 
@@ -178,6 +221,7 @@ namespace BKS
             tabControl.Controls.Add(tabPagePersonelYonetimi);
             tabControl.Controls.Add(tabPageGelirGider);
             tabControl.Controls.Add(tabPageOzelRaporlar);
+            tabControl.Controls.Add(tabPage1);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabControl.Location = new Point(3, 64);
@@ -1325,6 +1369,17 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
+            // tabPage1
+            // 
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1858, 942);
+            tabPage1.TabIndex = 5;
+            tabPage1.Text = "Öğrenci Ön Kayıt";
+            tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Click += tabPage1_Click_1;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1475,5 +1530,6 @@ namespace BKS
         private Label label10;
         private RadioButton rbtPersonelEgitimGorevlisiEvet;
         private RadioButton rbtPersonelEgitimGorevlisiHayir;
+        private TabPage tabPage1;
     }
 }
