@@ -2172,6 +2172,12 @@ WHERE PersonelId = @id";
                 dgvOnKayitlar.DataSource = table;
             }
         }
+
+        private void btnOnKayitEkle_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
         public Guid sinifid { get; set; }
         public Guid UserId { get; set; }
         public string Role { get; set; }
