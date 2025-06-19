@@ -144,7 +144,6 @@ namespace BKS
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
-            tabPage1 = new TabPage();
             tabControl.SuspendLayout();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
@@ -176,7 +175,7 @@ namespace BKS
             ((System.ComponentModel.ISupportInitialize)salesGrid).BeginInit();
             SuspendLayout();
             tabPageOgrenciOnKayit = new TabPage();
-            tabPageOgrenciOnKayit.Text = "Öğrenci Ön Kayıts";
+            tabPageOgrenciOnKayit.Text = "Öğrenci Ön Kayıt";
             tabPageOgrenciOnKayit.BackColor = Color.White;
 
             txtOnKayitAd = new TextBox { Location = new Point(20, 20), Width = 200, PlaceholderText = "Ad" };
@@ -221,7 +220,6 @@ namespace BKS
             tabControl.Controls.Add(tabPagePersonelYonetimi);
             tabControl.Controls.Add(tabPageGelirGider);
             tabControl.Controls.Add(tabPageOzelRaporlar);
-            tabControl.Controls.Add(tabPage1);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabControl.Location = new Point(3, 64);
@@ -261,7 +259,6 @@ namespace BKS
             btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifSil.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifSil.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifSil.Image");
             btnOgrenciYonetimiSinifSil.Location = new Point(1543, 856);
             btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
             btnOgrenciYonetimiSinifSil.Size = new Size(72, 77);
@@ -276,7 +273,6 @@ namespace BKS
             btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifKaydet.ForeColor = Color.Black;
-            btnOgrenciYonetimiSinifKaydet.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifKaydet.Image");
             btnOgrenciYonetimiSinifKaydet.Location = new Point(1637, 856);
             btnOgrenciYonetimiSinifKaydet.Name = "btnOgrenciYonetimiSinifKaydet";
             btnOgrenciYonetimiSinifKaydet.Size = new Size(72, 77);
@@ -477,7 +473,6 @@ namespace BKS
             btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifGuncelle.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifGuncelle.Image");
             btnOgrenciYonetimiSinifGuncelle.Location = new Point(1732, 856);
             btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
             btnOgrenciYonetimiSinifGuncelle.Size = new Size(72, 77);
@@ -625,7 +620,6 @@ namespace BKS
             btnPersonelSil.FlatStyle = FlatStyle.Flat;
             btnPersonelSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelSil.ForeColor = Color.White;
-            btnPersonelSil.Image = (Image)resources.GetObject("btnPersonelSil.Image");
             btnPersonelSil.Location = new Point(717, 832);
             btnPersonelSil.Name = "btnPersonelSil";
             btnPersonelSil.Size = new Size(72, 77);
@@ -640,7 +634,6 @@ namespace BKS
             btnPersonelKaydet.FlatStyle = FlatStyle.Flat;
             btnPersonelKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelKaydet.ForeColor = Color.Black;
-            btnPersonelKaydet.Image = (Image)resources.GetObject("btnPersonelKaydet.Image");
             btnPersonelKaydet.Location = new Point(811, 832);
             btnPersonelKaydet.Name = "btnPersonelKaydet";
             btnPersonelKaydet.Size = new Size(72, 77);
@@ -657,7 +650,6 @@ namespace BKS
             btnPersonelGuncelle.FlatStyle = FlatStyle.Flat;
             btnPersonelGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelGuncelle.ForeColor = Color.White;
-            btnPersonelGuncelle.Image = (Image)resources.GetObject("btnPersonelGuncelle.Image");
             btnPersonelGuncelle.Location = new Point(906, 832);
             btnPersonelGuncelle.Name = "btnPersonelGuncelle";
             btnPersonelGuncelle.Size = new Size(72, 77);
@@ -1369,17 +1361,6 @@ namespace BKS
             materialLabel3.TabIndex = 28;
             materialLabel3.Text = "Son Giriş:";
             // 
-            // tabPage1
-            // 
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1858, 942);
-            tabPage1.TabIndex = 5;
-            tabPage1.Text = "Öğrenci Ön Kayıt";
-            tabPage1.UseVisualStyleBackColor = true;
-            tabPage1.Click += tabPage1_Click_1;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1530,6 +1511,5 @@ namespace BKS
         private Label label10;
         private RadioButton rbtPersonelEgitimGorevlisiEvet;
         private RadioButton rbtPersonelEgitimGorevlisiHayir;
-        private TabPage tabPage1;
     }
 }
