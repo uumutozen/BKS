@@ -54,6 +54,7 @@ namespace BKS
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
             LoadStockData(UserId);
             LoadModulesFromApi(UserId, Role);
+            LoadOnKayitlar();
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             dgvPersonelYonetimi.AllowUserToAddRows = false;
