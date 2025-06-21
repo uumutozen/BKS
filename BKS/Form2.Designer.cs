@@ -345,6 +345,7 @@ namespace BKS
             btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifSil.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifSil.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifSil.Image");
             btnOgrenciYonetimiSinifSil.Location = new Point(1543, 856);
             btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
             btnOgrenciYonetimiSinifSil.Size = new Size(72, 77);
@@ -359,6 +360,7 @@ namespace BKS
             btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifKaydet.ForeColor = Color.Black;
+            btnOgrenciYonetimiSinifKaydet.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifKaydet.Image");
             btnOgrenciYonetimiSinifKaydet.Location = new Point(1637, 856);
             btnOgrenciYonetimiSinifKaydet.Name = "btnOgrenciYonetimiSinifKaydet";
             btnOgrenciYonetimiSinifKaydet.Size = new Size(72, 77);
@@ -559,6 +561,7 @@ namespace BKS
             btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
+            btnOgrenciYonetimiSinifGuncelle.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifGuncelle.Image");
             btnOgrenciYonetimiSinifGuncelle.Location = new Point(1732, 856);
             btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
             btnOgrenciYonetimiSinifGuncelle.Size = new Size(72, 77);
@@ -706,6 +709,7 @@ namespace BKS
             btnPersonelSil.FlatStyle = FlatStyle.Flat;
             btnPersonelSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelSil.ForeColor = Color.White;
+            btnPersonelSil.Image = (Image)resources.GetObject("btnPersonelSil.Image");
             btnPersonelSil.Location = new Point(717, 832);
             btnPersonelSil.Name = "btnPersonelSil";
             btnPersonelSil.Size = new Size(72, 77);
@@ -720,6 +724,7 @@ namespace BKS
             btnPersonelKaydet.FlatStyle = FlatStyle.Flat;
             btnPersonelKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelKaydet.ForeColor = Color.Black;
+            btnPersonelKaydet.Image = (Image)resources.GetObject("btnPersonelKaydet.Image");
             btnPersonelKaydet.Location = new Point(811, 832);
             btnPersonelKaydet.Name = "btnPersonelKaydet";
             btnPersonelKaydet.Size = new Size(72, 77);
@@ -736,6 +741,7 @@ namespace BKS
             btnPersonelGuncelle.FlatStyle = FlatStyle.Flat;
             btnPersonelGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelGuncelle.ForeColor = Color.White;
+            btnPersonelGuncelle.Image = (Image)resources.GetObject("btnPersonelGuncelle.Image");
             btnPersonelGuncelle.Location = new Point(906, 832);
             btnPersonelGuncelle.Name = "btnPersonelGuncelle";
             btnPersonelGuncelle.Size = new Size(72, 77);
