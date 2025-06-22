@@ -1486,6 +1486,7 @@ namespace BKS
             Controls.Add(materialLabel3);
             Controls.Add(tabControl);
             Font = new Font("Times New Roman", 9F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form2";
             Text = "Anaokulu Yönetimi Sistemi";
             WindowState = FormWindowState.Maximized;

@@ -80,7 +80,7 @@ namespace BKS
                 StudentCode = @ogrenciKod,
                 StudentsDetails = @ogrenciDetay,
                 FatherPhoneNumber = @babaTel,
-	            ClassId=(select top 1 Id from aysclasses where ClassName=@ClassName),
+	            ClassId=(SELECT top 1 Id FROM AYSClasses WHERE ClassName = @ClassName and Isdeleted=0 and SchoolId=dbo.GetSirketIdByUserId(@UserId)select top 1 Id from aysclasses where ClassName=@ClassName),
                 MotherPhonenumber = @anneTel,
                 FatherAddress = @babaAdres,
                 MotherAddress = @anneAdres,
@@ -176,7 +176,7 @@ namespace BKS
             )
             VALUES (
                 @Id, @Name, @Surname, @FatherName, @BirthDate, @StudentCode, 
-                (SELECT top 1 Id FROM AYSClasses WHERE ClassName = @ClassName and Isdeleted=0), 
+                (SELECT top 1 Id FROM AYSClasses WHERE ClassName = @ClassName and Isdeleted=0 and SchoolId=dbo.GetSirketIdByUserId(@UserId)), 
                 @PaymentStatus, @MonthlyFee, @IsActive, 
                 @FatherAddress, @MotherAddress, @FatherPhoneNumber, @MotherPhoneNumber, 
                 @IsMarried, @StudentsDetails, @MotherName, 

@@ -34,6 +34,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OgrenciForm));
             txtOgrenciAd = new TextBox();
             textSoyad = new TextBox();
             txtBabaAd = new TextBox();
@@ -111,7 +112,6 @@
             // 
             // cmbogrsınıf
             // 
-            cmbogrsınıf.AllowDrop = true;
             cmbogrsınıf.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             cmbogrsınıf.ForeColor = SystemColors.WindowFrame;
             cmbogrsınıf.Location = new Point(171, 112);
@@ -368,6 +368,7 @@
             Controls.Add(groupBox10);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "OgrenciForm";
             Text = "Öğrenci Bilgi Formu";
             Load += OgrenciForm_Load;
