@@ -1360,11 +1360,16 @@ namespace BKS
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Photo = openFileDialog.FileName; // Seçilen dosyanın yolu
-                pbxPersonelPicture.Image = System.Drawing.Image.FromFile(Photo);
+                pbxPersonelPicture.Image = System.Drawing.Image.FromFile(openFileDialog.FileName);
+
                 if (pbxPersonelPicture.Image != null)
                 {
-                    pbxPersonelPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        pbxPersonelPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pbxPersonelPicture.Image.Save(ms, pbxPersonelPicture.Image.RawFormat);
+                        Photo = ms.ToArray();
+                    }
                 }
 
             }
@@ -1762,6 +1767,7 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
                     decimal YemekYol = decimal.TryParse(txtPersonelYemekYol.Text.Trim(), out decimal yemekVal) ? yemekVal : 0;
                     string SGKSicilNumarasi = txtPersonelSGKSicilNum.Text.Trim();
                     string SaglikSigortasi = txtPersonelSaglikSigorta.Text.Trim();
+
                     string Emeklilik = txtPersonelEmeklilik.Text.Trim();
                     bool EğitimGörevlisiMi = rbtPersonelEgitimGorevlisiEvet.Checked ? true : false;
                     string EgitimDurumu = cbxPersonelEgitimDurumu.Text.Trim();
@@ -2191,7 +2197,7 @@ WHERE PersonelId = @id";
         public Guid sinifid { get; set; }
         public Guid UserId { get; set; }
         public string Role { get; set; }
-        public string Photo { get; set; }
+        public byte[] Photo { get; set; }
     }
 
     // ComboBox için özel bir sınıf
