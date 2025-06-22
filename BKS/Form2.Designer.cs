@@ -931,6 +931,7 @@ namespace BKS
             // 
             // cbxPersonelUyruk
             // 
+            cbxPersonelUyruk.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxPersonelUyruk.FormattingEnabled = true;
             cbxPersonelUyruk.Items.AddRange(new object[] { "T.C", "Yabancı" });
             cbxPersonelUyruk.Location = new Point(405, 49);

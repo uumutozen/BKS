@@ -2110,14 +2110,23 @@ WHERE PersonelId = @id";
         }
         private void btnOnKayitEkle_Click(object sender, EventArgs e)
         {
+            string firstname = txtOnKayitAd.Text;
+            string lastname = txtOnKayitSoyad.Text;
+            string velitel = txtOnKayitVeliTel.Text;
+            string not = txtOnKayitNot.Text;
+            if (string.IsNullOrEmpty(firstname)&& string.IsNullOrEmpty(lastname) && string.IsNullOrEmpty(velitel)&& string.IsNullOrEmpty(not) )
+            {
+                MessageBox.Show("Eksik veya Yanlış veri!!", "Eksik veya Yanlış veri!!",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
             using (var conn = new SqlConnection(connectionString))
             {
                 var cmd = new SqlCommand("INSERT INTO PreRegistrations (FirstName, LastName, BirthDate, ParentPhone, Notes) VALUES (@FirstName, @LastName, @BirthDate, @Phone, @Notes)", conn);
-                cmd.Parameters.AddWithValue("@FirstName", txtOnKayitAd.Text);
-                cmd.Parameters.AddWithValue("@LastName", txtOnKayitSoyad.Text);
+                cmd.Parameters.AddWithValue("@FirstName", firstname);
+                cmd.Parameters.AddWithValue("@LastName", lastname);
                 cmd.Parameters.AddWithValue("@BirthDate", dtpOnKayitDogumTarihi.Value);
-                cmd.Parameters.AddWithValue("@Phone", txtOnKayitVeliTel.Text);
-                cmd.Parameters.AddWithValue("@Notes", txtOnKayitNot.Text);
+                cmd.Parameters.AddWithValue("@Phone", velitel);
+                cmd.Parameters.AddWithValue("@Notes", not);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();

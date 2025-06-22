@@ -111,7 +111,7 @@
             // 
             // cmbogrsınıf
             // 
-            cmbogrsınıf.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbogrsınıf.AllowDrop = true;
             cmbogrsınıf.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             cmbogrsınıf.ForeColor = SystemColors.WindowFrame;
             cmbogrsınıf.Location = new Point(171, 112);
