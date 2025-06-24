@@ -38,6 +38,12 @@ namespace BKS
                 // Son giriş bilgisini yükle
 
             }
+            if (Properties.Settings.Default.cbxBeniHatirla)
+            {
+                userName.Text = Properties.Settings.Default.userName;
+                passWord.Text = Properties.Settings.Default.passWord;
+                cbxBeniHatirla.Checked = true;
+            }
         }
         private Guid GetUserIdFromDatabase(string username, string password)
         {
@@ -71,7 +77,6 @@ namespace BKS
         }
         private async void bttnLgn_Click(object sender, EventArgs e)
         {
-            // Kullanıcı adı ve şifre girişleri
             string username = userName.Text.Trim();
             string password = passWord.Text.Trim();
 
@@ -83,7 +88,7 @@ namespace BKS
 
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://randevu.aslancan.com.tr/"); // API adresi
+                client.BaseAddress = new Uri("https://randevu.aslancan.com.tr/");
                 HttpResponseMessage response;
 
                 try
@@ -103,6 +108,22 @@ namespace BKS
 
                     if (loginResponse.Success)
                     {
+                        // Beni Hatırla seçiliyse ayarları kaydet
+                        if (cbxBeniHatirla.Checked)
+                        {
+                            Properties.Settings.Default.userName = username;
+                            Properties.Settings.Default.passWord = password;
+                            Properties.Settings.Default.cbxBeniHatirla = true;
+                        }
+                        else
+                        {
+                            Properties.Settings.Default.userName = "";
+                            Properties.Settings.Default.passWord = "";
+                            Properties.Settings.Default.cbxBeniHatirla = false;
+                        }
+
+                        Properties.Settings.Default.Save();
+
                         MessageBox.Show(loginResponse.Message, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Form2 form2 = new Form2
                         {
@@ -143,7 +164,6 @@ namespace BKS
                     }
                 }
             }
-
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -153,7 +173,7 @@ namespace BKS
         {
             public bool Success { get; set; }
             public string UserId { get; set; }
-            public string Role {  get; set; } 
+            public string Role { get; set; }
             public string Message { get; set; }
         }
         public class LoginHistoryService
@@ -207,6 +227,11 @@ namespace BKS
         private void groupBox2_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+             
         }
     }
 }

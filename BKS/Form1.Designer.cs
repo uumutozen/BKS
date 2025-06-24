@@ -37,9 +37,12 @@ namespace BKS
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
             pictureBox1 = new PictureBox();
+            cbxBeniHatirla = new MaterialSkin.Controls.MaterialCheckbox();
+            groupBox3 = new GroupBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            groupBox3.SuspendLayout();
             SuspendLayout();
             // 
             // bttnLgn
@@ -54,7 +57,7 @@ namespace BKS
             bttnLgn.ForeColor = SystemColors.ButtonHighlight;
             bttnLgn.HighEmphasis = true;
             bttnLgn.Icon = null;
-            bttnLgn.Location = new Point(669, 218);
+            bttnLgn.Location = new Point(663, 170);
             bttnLgn.Margin = new Padding(4, 6, 4, 6);
             bttnLgn.MouseState = MaterialSkin.MouseState.HOVER;
             bttnLgn.Name = "bttnLgn";
@@ -141,6 +144,36 @@ namespace BKS
             pictureBox1.TabStop = false;
             pictureBox1.Click += pictureBox1_Click;
             // 
+            // cbxBeniHatirla
+            // 
+            cbxBeniHatirla.AutoSize = true;
+            cbxBeniHatirla.Depth = 0;
+            cbxBeniHatirla.Location = new Point(33, 23);
+            cbxBeniHatirla.Margin = new Padding(0);
+            cbxBeniHatirla.MouseLocation = new Point(-1, -1);
+            cbxBeniHatirla.MouseState = MaterialSkin.MouseState.HOVER;
+            cbxBeniHatirla.Name = "cbxBeniHatirla";
+            cbxBeniHatirla.ReadOnly = false;
+            cbxBeniHatirla.Ripple = true;
+            cbxBeniHatirla.Size = new Size(35, 37);
+            cbxBeniHatirla.TabIndex = 5;
+            cbxBeniHatirla.UseVisualStyleBackColor = true;
+            cbxBeniHatirla.CheckedChanged += checkBox1_CheckedChanged;
+            // 
+            // groupBox3
+            // 
+            groupBox3.BackColor = Color.White;
+            groupBox3.BackgroundImage = (Image)resources.GetObject("groupBox3.BackgroundImage");
+            groupBox3.Controls.Add(cbxBeniHatirla);
+            groupBox3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            groupBox3.ForeColor = SystemColors.Control;
+            groupBox3.Location = new Point(470, 289);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(106, 69);
+            groupBox3.TabIndex = 9;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Beni Hatırla";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -148,6 +181,7 @@ namespace BKS
             BackColor = Color.White;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(812, 533);
+            Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(bttnLgn);
@@ -159,6 +193,8 @@ namespace BKS
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -170,5 +206,7 @@ namespace BKS
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private PictureBox pictureBox1;
+        private MaterialSkin.Controls.MaterialCheckbox cbxBeniHatirla;
+        private GroupBox groupBox3;
     }
 }
