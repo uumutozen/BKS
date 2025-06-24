@@ -54,7 +54,7 @@ namespace BKS
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
             LoadStockData(UserId);
             LoadModulesFromApi(UserId, Role);
-            LoadOnKayitlar();
+            LoadOnKayitlar(UserId);
             dataGridViewStok.AllowUserToAddRows = false;
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             dgvPersonelYonetimi.AllowUserToAddRows = false;
@@ -2116,32 +2116,64 @@ WHERE PersonelId = @id";
         }
         private void btnOnKayitEkle_Click(object sender, EventArgs e)
         {
-            string firstname = txtOnKayitAd.Text;
-            string lastname = txtOnKayitSoyad.Text;
-            string velitel = txtOnKayitVeliTel.Text;
-            string not = txtOnKayitNot.Text;
-            if (string.IsNullOrEmpty(firstname)&& string.IsNullOrEmpty(lastname) && string.IsNullOrEmpty(velitel)&& string.IsNullOrEmpty(not) )
+            string firstname = string.IsNullOrWhiteSpace(txtOnKayitAd.Text) ? "veri yok" : txtOnKayitAd.Text;
+            string lastname = string.IsNullOrWhiteSpace(txtOnKayitSoyad.Text) ? "veri yok" : txtOnKayitSoyad.Text;
+            string velitel = string.IsNullOrWhiteSpace(txtOnKayitVeliTel.Text) ? "veri yok" : txtOnKayitVeliTel.Text;
+            string not = string.IsNullOrWhiteSpace(txtOnKayitNot.Text) ? "veri yok" : txtOnKayitNot.Text;
+            string fatherName = "veri yok"; // İstersen textbox'tan alabilirsin
+            string studentCode = Guid.NewGuid().ToString(); // Otomatik unique code üretildi
+            bool paymentStatus = false; // Bit olarak gönderilecek, varsayılan false
+            decimal monthlyFee = 0m; // Decimal, varsayılan 0
+            Guid classId = UserId; // Doğru GUID atandığını varsayıyorum
+            DateTime createdAt = DateTime.Now;
+            bool isActive = true;
+
+            if (firstname == "veri yok" && lastname == "veri yok" && velitel == "veri yok" && not == "veri yok")
             {
-                MessageBox.Show("Eksik veya Yanlış veri!!", "Eksik veya Yanlış veri!!",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Eksik veya yanlış veri!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             using (var conn = new SqlConnection(connectionString))
             {
-                var cmd = new SqlCommand("INSERT INTO PreRegistrations (FirstName, LastName, BirthDate, ParentPhone, Notes) VALUES (@FirstName, @LastName, @BirthDate, @Phone, @Notes)", conn);
+                var cmd = new SqlCommand(@"
+EXEC [asl2e6ancomtr_aslan].[AddPreRegistration] 
+    @FirstName = @FirstName,
+    @LastName = @LastName,
+    @BirthDate = @BirthDate,
+    @ParentPhone = @ParentPhone,
+    @Notes = @Notes,
+    @CreatedAt = @CreatedAt,
+    @FatherName = @FatherName,
+    @StudentCode = @StudentCode,
+    @ClassId = @ClassId,
+    @PaymentStatus = @PaymentStatus,
+    @MonthlyFee = @MonthlyFee,
+    @IsActive = @IsActive", conn);
+
                 cmd.Parameters.AddWithValue("@FirstName", firstname);
                 cmd.Parameters.AddWithValue("@LastName", lastname);
-                cmd.Parameters.AddWithValue("@BirthDate", dtpOnKayitDogumTarihi.Value);
-                cmd.Parameters.AddWithValue("@Phone", velitel);
+                cmd.Parameters.AddWithValue("@BirthDate", dtpOnKayitDogumTarihi.Value.Date);
+                cmd.Parameters.AddWithValue("@ParentPhone", velitel);
                 cmd.Parameters.AddWithValue("@Notes", not);
+                cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
+                cmd.Parameters.AddWithValue("@FatherName", fatherName);
+                cmd.Parameters.AddWithValue("@StudentCode", studentCode);
+                cmd.Parameters.AddWithValue("@ClassId", classId);
+                cmd.Parameters.AddWithValue("@PaymentStatus", paymentStatus);
+                cmd.Parameters.AddWithValue("@MonthlyFee", monthlyFee);
+                cmd.Parameters.AddWithValue("@IsActive", isActive);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
-                MessageBox.Show("Ön kayıt başarıyla eklendi.");
-                LoadOnKayitlar();
+                MessageBox.Show("Ön kayıt başarıyla eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadOnKayitlar(UserId);
             }
         }
+
+
 
         private void btnKesinKayitYap_Click(object sender, EventArgs e)
         {
@@ -2173,16 +2205,20 @@ WHERE PersonelId = @id";
                 deleteCmd.ExecuteNonQuery();
 
                 conn.Close();
-                LoadOnKayitlar();
+                LoadOnKayitlar(UserId);
                 MessageBox.Show("Kesin kayda aktarıldı.");
             }
         }
 
-        private void LoadOnKayitlar()
+        private void LoadOnKayitlar(Guid classId)
         {
             using (var conn = new SqlConnection(connectionString))
             {
-                var adapter = new SqlDataAdapter("SELECT * FROM PreRegistrations", conn);
+                var adapter = new SqlDataAdapter("select * from PreRegistrations p where p.ClassId = dbo.GetSirketIdByUserId(@ClassId)", conn);
+
+                // Parametre ekliyoruz
+                adapter.SelectCommand.Parameters.AddWithValue("@ClassId", classId);
+
                 var table = new DataTable();
                 adapter.Fill(table);
                 dgvOnKayitlar.DataSource = table;
