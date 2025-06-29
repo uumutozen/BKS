@@ -19,6 +19,7 @@ namespace BKS
         private Form2 _form2;
         public OgrenciForm(Form2 form2)
         {
+
             _form2 = form2;
             InitializeComponent();
         }

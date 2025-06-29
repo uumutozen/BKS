@@ -78,6 +78,10 @@ namespace BKS
             //timer1.Interval = 5000; // 5 saniye
             //timer1.Tick += Timer1_Tick;
             //timer1.Start();
+            if (salesGrid.DataSource != null)
+            {
+                LoadSalesData();
+            }
             dataGridViewStok.MouseDown += DataGridView_MouseDown;
             dgvPersonelYonetimi.MouseDown += DataGridView_MouseDown;
             DgvOgrenciYonetimiSiniflar.MouseDown += DataGridView_MouseDown;
@@ -2228,6 +2232,18 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
         private void btnOnKayitEkle_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void EFatura_Click(object sender, EventArgs e)
+        {
+            FormFatura formFatura = new FormFatura();
+            formFatura.Show();
+        }
+
+        private void tabPage1_Click_2(object sender, EventArgs e)
+        {
+            FormFatura formFatura = new FormFatura();
+            formFatura.Show();
         }
 
         public Guid sinifid { get; set; }

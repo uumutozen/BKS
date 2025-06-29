@@ -155,6 +155,7 @@ namespace BKS
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
+            tabPage1 = new TabPage();
             tabControl.SuspendLayout();
             tabPageOgrenciOnKayit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOnKayitlar).BeginInit();
@@ -197,6 +198,7 @@ namespace BKS
             tabControl.Controls.Add(tabPagePersonelYonetimi);
             tabControl.Controls.Add(tabPageGelirGider);
             tabControl.Controls.Add(tabPageOzelRaporlar);
+            tabControl.Controls.Add(tabPage1);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabControl.Location = new Point(3, 64);
@@ -1477,6 +1479,17 @@ namespace BKS
             dataGridView1.TabIndex = 8;
             dataGridView1.Tag = 4010;
             // 
+            // tabPage1
+            // 
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1858, 942);
+            tabPage1.TabIndex = 5;
+            tabPage1.Text = "Fatura Merkezi";
+            tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Click += tabPage1_Click_2;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1633,5 +1646,6 @@ namespace BKS
         private RadioButton rbtPersonelEgitimGorevlisiEvet;
         private RadioButton rbtPersonelEgitimGorevlisiHayir;
         public DataGridView dataGridView1;
+        private TabPage tabPage1;
     }
 }
