@@ -2236,12 +2236,21 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
 
         private void EFatura_Click(object sender, EventArgs e)
         {
-            FormFatura formFatura = new FormFatura();
-            formFatura.Show();
+      
         }
 
         private void tabPage1_Click_2(object sender, EventArgs e)
         {
+            foreach (Form frm in Application.OpenForms)
+            {
+                if (frm is FormFatura)
+                {
+                    MessageBox.Show("Form zaten açık.");
+                    frm.BringToFront();  // İsteğe bağlı: formu öne getirir
+                    return;
+                }
+            }
+
             FormFatura formFatura = new FormFatura();
             formFatura.Show();
         }
