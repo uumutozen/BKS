@@ -157,7 +157,11 @@ namespace BKS
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
+<<<<<<< HEAD
             btnTemizle = new Button();
+=======
+            tabPage1 = new TabPage();
+>>>>>>> 064d708b9a7516139c702fb29da77f59329777fe
             tabControl.SuspendLayout();
             tabPageOgrenciOnKayit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOnKayitlar).BeginInit();
@@ -200,6 +204,7 @@ namespace BKS
             tabControl.Controls.Add(tabPagePersonelYonetimi);
             tabControl.Controls.Add(tabPageGelirGider);
             tabControl.Controls.Add(tabPageOzelRaporlar);
+            tabControl.Controls.Add(tabPage1);
             tabControl.Dock = DockStyle.Fill;
             tabControl.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabControl.Location = new Point(3, 64);
@@ -1504,6 +1509,7 @@ namespace BKS
             dataGridView1.TabIndex = 8;
             dataGridView1.Tag = 4010;
             // 
+<<<<<<< HEAD
             // btnTemizle
             // 
             btnTemizle.BackColor = SystemColors.MenuHighlight;
@@ -1517,6 +1523,18 @@ namespace BKS
             btnTemizle.Text = "Temizle \U0001f9f9";
             btnTemizle.UseVisualStyleBackColor = false;
             btnTemizle.Click += btnPersonelTemizle_Click;
+=======
+            // tabPage1
+            // 
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1858, 942);
+            tabPage1.TabIndex = 5;
+            tabPage1.Text = "Fatura Merkezi";
+            tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Click += tabPage1_Click_2;
+>>>>>>> 064d708b9a7516139c702fb29da77f59329777fe
             // 
             // Form2
             // 
@@ -1674,7 +1692,11 @@ namespace BKS
         private RadioButton rbtPersonelEgitimGorevlisiEvet;
         private RadioButton rbtPersonelEgitimGorevlisiHayir;
         public DataGridView dataGridView1;
+<<<<<<< HEAD
         private Button btnPersonelTemizle;
         private Button btnTemizle;
+=======
+        private TabPage tabPage1;
+>>>>>>> 064d708b9a7516139c702fb29da77f59329777fe
     }
 }
