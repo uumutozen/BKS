@@ -23,7 +23,7 @@ namespace BKS
         private TabPage tabPageOgrenciOnKayit;
         private TextBox txtOnKayitAd, txtOnKayitSoyad, txtOnKayitVeliTel, txtOnKayitNot;
         private DateTimePicker dtpOnKayitDogumTarihi;
-        private Button btnOnKayitEkle, btnKesinKayitYap;
+        private Button btnOnKayitEkle, btnKesinKayitYap, btnOnKayitSil;
         private DataGridView dgvOnKayitlar;
         protected override void Dispose(bool disposing)
         {
@@ -37,7 +37,6 @@ namespace BKS
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             tabControl = new TabControl();
             tabPageOgrenciOnKayit = new TabPage();
@@ -47,8 +46,8 @@ namespace BKS
             txtOnKayitVeliTel = new TextBox();
             txtOnKayitNot = new TextBox();
             btnOnKayitEkle = new Button();
+            btnOnKayitSil = new Button();
             btnKesinKayitYap = new Button();
-            dgvOnKayitlar = new DataGridView();
             tabPageStok = new TabPage();
             btnOgrenciYonetimiSinifSil = new Button();
             btnOgrenciYonetimiSinifKaydet = new Button();
@@ -82,6 +81,7 @@ namespace BKS
             tabPagePersonelYonetimi = new TabPage();
             groupBox17 = new GroupBox();
             btnPersonelSil = new Button();
+            btnPersonelTemizle = new Button();
             btnPersonelKaydet = new Button();
             btnPersonelGuncelle = new Button();
             pbxPersonelPicture = new PictureBox();
@@ -95,7 +95,8 @@ namespace BKS
             label3 = new Label();
             panel2 = new Panel();
             rbtPersonelBekar = new RadioButton();
-            label8 = new Label();
+            label8 = new Label(); 
+
             rbtPersonelEvli = new RadioButton();
             panel1 = new Panel();
             label9 = new Label();
@@ -142,6 +143,7 @@ namespace BKS
             label2 = new Label();
             txtPersonelMaas = new TextBox();
             dgvPersonelYonetimi = new DataGridView();
+            dgvOnKayitlar = new DataGridView();
             tabPageGelirGider = new TabPage();
             dataGridOdeme = new DataGridView();
             txtDescription = new TextBox();
@@ -151,14 +153,13 @@ namespace BKS
             btnAddIncomeExpense = new Button();
             tabPageOzelRaporlar = new TabPage();
             salesGrid = new DataGridView();
+            tabPage1 = new TabPage();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
-            tabPage1 = new TabPage();
             tabControl.SuspendLayout();
             tabPageOgrenciOnKayit.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvOnKayitlar).BeginInit();
             tabPageStok.SuspendLayout();
             groupBox13.SuspendLayout();
             groupBox14.SuspendLayout();
@@ -209,20 +210,38 @@ namespace BKS
             // 
             // tabPageOgrenciOnKayit
             // 
-            tabPageOgrenciOnKayit.BackColor = Color.FromArgb(245, 248, 255);
-            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitAd);
-            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitSoyad);
-            tabPageOgrenciOnKayit.Controls.Add(dtpOnKayitDogumTarihi);
-            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitVeliTel);
-            tabPageOgrenciOnKayit.Controls.Add(txtOnKayitNot);
-            tabPageOgrenciOnKayit.Controls.Add(btnOnKayitEkle);
-            tabPageOgrenciOnKayit.Controls.Add(btnKesinKayitYap);
-            tabPageOgrenciOnKayit.Controls.Add(dgvOnKayitlar);
+            // 1. ÜST PANEL – FORM ALANLARI İÇİN
+            Panel panelForm = new Panel();
+            panelForm.Dock = DockStyle.Top;
+            panelForm.Height = 250; 
+            panelForm.BackColor = Color.FromArgb(245, 248, 255);
+            tabPageOgrenciOnKayit.Controls.Add(panelForm);
+
+            // TextBox ve Butonları panelForm içine koy
+            panelForm.Controls.Add(txtOnKayitAd);
+            panelForm.Controls.Add(txtOnKayitSoyad);
+            panelForm.Controls.Add(dtpOnKayitDogumTarihi);
+            panelForm.Controls.Add(txtOnKayitVeliTel);
+            panelForm.Controls.Add(txtOnKayitNot);
+            panelForm.Controls.Add(btnOnKayitEkle);
+            panelForm.Controls.Add(btnOnKayitSil);
+            panelForm.Controls.Add(btnKesinKayitYap);
+
             tabPageOgrenciOnKayit.Location = new Point(4, 24);
             tabPageOgrenciOnKayit.Name = "tabPageOgrenciOnKayit";
             tabPageOgrenciOnKayit.Size = new Size(1858, 942);
             tabPageOgrenciOnKayit.TabIndex = 0;
             tabPageOgrenciOnKayit.Text = "🎓 Öğrenci Ön Kayıt";
+
+            Panel panelGrid = new Panel();
+            panelGrid.Dock = DockStyle.Fill;
+            panelGrid.BackColor = Color.White;
+            tabPageOgrenciOnKayit.Controls.Add(panelGrid);
+
+            // dgv’yi buraya ekle ve fill yap
+            dgvOnKayitlar.Dock = DockStyle.Fill;
+            panelGrid.Controls.Add(dgvOnKayitlar);
+
             // 
             // txtOnKayitAd
             // 
@@ -284,6 +303,20 @@ namespace BKS
             btnOnKayitEkle.UseVisualStyleBackColor = false;
             btnOnKayitEkle.Click += btnOnKayitEkle_Click;
             // 
+            // btnOnKayitSil
+            // 
+            btnOnKayitSil.BackColor = Color.FromArgb(231, 76, 60);
+            btnOnKayitSil.FlatStyle = FlatStyle.Flat;
+            btnOnKayitSil.Font = new Font("Segoe UI Semibold", 12F);
+            btnOnKayitSil.ForeColor = Color.White;
+            btnOnKayitSil.Location = new Point(490, 180);
+            btnOnKayitSil.Name = "btnOnKayitSil";
+            btnOnKayitSil.Size = new Size(200, 40);
+            btnOnKayitSil.TabIndex = 8;
+            btnOnKayitSil.Text = "🗑️ Ön Kaydı Sil";
+            btnOnKayitSil.UseVisualStyleBackColor = false;
+            btnOnKayitSil.Click += btnOnKayitSil_Click;
+            // 
             // btnKesinKayitYap
             // 
             btnKesinKayitYap.BackColor = Color.FromArgb(39, 174, 96);
@@ -296,25 +329,6 @@ namespace BKS
             btnKesinKayitYap.TabIndex = 6;
             btnKesinKayitYap.Text = "✅ Kesin Kayıt Yap";
             btnKesinKayitYap.UseVisualStyleBackColor = false;
-            // 
-            // dgvOnKayitlar
-            // 
-            dgvOnKayitlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvOnKayitlar.BackgroundColor = Color.White;
-            dgvOnKayitlar.BorderStyle = BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvOnKayitlar.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvOnKayitlar.Font = new Font("Segoe UI", 10F);
-            dgvOnKayitlar.Location = new Point(50, 240);
-            dgvOnKayitlar.Name = "dgvOnKayitlar";
-            dgvOnKayitlar.Size = new Size(1400, 600);
-            dgvOnKayitlar.TabIndex = 7;
             // 
             // tabPageStok
             // 
@@ -455,6 +469,48 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.TabIndex = 30;
             DgvOgrenciYonetimiSiniflar.Tag = 4030;
             DgvOgrenciYonetimiSiniflar.CellContentClick += DgvOgrenciYonetimiSiniflar_CellContentClick;
+            // 
+            // dgvOnKayitlar
+            // 
+            dgvOnKayitlar.BackgroundColor = SystemColors.ButtonHighlight;
+            dgvOnKayitlar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dgvOnKayitlar.ColumnHeadersHeight = 34;
+            dgvOnKayitlar.GridColor = Color.LightGray;
+            dgvOnKayitlar.Location = new Point(20, 280); // Alt konum
+            dgvOnKayitlar.Name = "dgvOnKayitlar";
+            dgvOnKayitlar.ReadOnly = true;
+            dgvOnKayitlar.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvOnKayitlar.RowHeadersVisible = false;
+            dgvOnKayitlar.RowHeadersWidth = 62;
+            dgvOnKayitlar.RowTemplate.Height = 30;
+            dgvOnKayitlar.RowTemplate.DefaultCellStyle.ForeColor = Color.Black;
+            dgvOnKayitlar.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue;
+            dgvOnKayitlar.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgvOnKayitlar.ShowRowErrors = false;
+            dgvOnKayitlar.Size = new Size(this.ClientSize.Width - 40, this.ClientSize.Height - 320); // Ekrana göre ayarlı
+            dgvOnKayitlar.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvOnKayitlar.TabIndex = 31;
+            dgvOnKayitlar.Tag = 5001;
+            dgvOnKayitlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvOnKayitlar.MultiSelect = false;
+
+            // Modern stil - ekstra
+            dgvOnKayitlar.EnableHeadersVisualStyles = false;
+            dgvOnKayitlar.ColumnHeadersDefaultCellStyle.BackColor = Color.MidnightBlue;
+            dgvOnKayitlar.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvOnKayitlar.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            dgvOnKayitlar.DefaultCellStyle.Font = new Font("Segoe UI", 10);
+            dgvOnKayitlar.DefaultCellStyle.BackColor = Color.White;
+            dgvOnKayitlar.DefaultCellStyle.ForeColor = Color.Black;
+            dgvOnKayitlar.DefaultCellStyle.SelectionBackColor = Color.LightSteelBlue;
+            dgvOnKayitlar.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgvOnKayitlar.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(240, 248, 255); // Zebra görünüm
+            dgvOnKayitlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvOnKayitlar.BorderStyle = BorderStyle.None;
+            dgvOnKayitlar.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvOnKayitlar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvOnKayitlar.ColumnHeadersVisible = true; 
+            dgvOnKayitlar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             // 
             // contextMenuStrip1
             // 
@@ -688,6 +744,7 @@ namespace BKS
             // groupBox17
             // 
             groupBox17.Controls.Add(btnPersonelSil);
+            groupBox17.Controls.Add(btnPersonelTemizle);
             groupBox17.Controls.Add(btnPersonelKaydet);
             groupBox17.Controls.Add(btnPersonelGuncelle);
             groupBox17.Controls.Add(pbxPersonelPicture);
@@ -718,6 +775,20 @@ namespace BKS
             btnPersonelSil.TabIndex = 38;
             btnPersonelSil.UseVisualStyleBackColor = false;
             btnPersonelSil.Click += btnPersonelSil_Click;
+            // 
+            // btnPersonelTemizle
+            // 
+            btnPersonelTemizle.BackColor = SystemColors.MenuHighlight;
+            btnPersonelTemizle.FlatStyle = FlatStyle.Flat;
+            btnPersonelTemizle.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnPersonelTemizle.ForeColor = Color.White;
+            btnPersonelTemizle.Location = new Point(6, 741);
+            btnPersonelTemizle.Name = "btnPersonelTemizle";
+            btnPersonelTemizle.Size = new Size(120, 50);
+            btnPersonelTemizle.TabIndex = 40;
+            btnPersonelTemizle.Text = "Temizle \U0001f9f9";
+            btnPersonelTemizle.UseVisualStyleBackColor = false;
+            btnPersonelTemizle.Click += btnPersonelTemizle_Click;
             // 
             // btnPersonelKaydet
             // 
@@ -1438,6 +1509,17 @@ namespace BKS
             salesGrid.TabIndex = 0;
             salesGrid.CellContentClick += salesGrid_CellContentClick;
             // 
+            // tabPage1
+            // 
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1858, 942);
+            tabPage1.TabIndex = 5;
+            tabPage1.Text = "Fatura Merkezi";
+            tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Click += tabPage1_Click_2;
+            // 
             // sqlCommand1
             // 
             sqlCommand1.CommandTimeout = 30;
@@ -1479,17 +1561,6 @@ namespace BKS
             dataGridView1.TabIndex = 8;
             dataGridView1.Tag = 4010;
             // 
-            // tabPage1
-            // 
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1858, 942);
-            tabPage1.TabIndex = 5;
-            tabPage1.Text = "Fatura Merkezi";
-            tabPage1.UseVisualStyleBackColor = true;
-            tabPage1.Click += tabPage1_Click_2;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1508,7 +1579,6 @@ namespace BKS
             tabControl.ResumeLayout(false);
             tabPageOgrenciOnKayit.ResumeLayout(false);
             tabPageOgrenciOnKayit.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvOnKayitlar).EndInit();
             tabPageStok.ResumeLayout(false);
             tabPageStok.PerformLayout();
             groupBox13.ResumeLayout(false);
@@ -1638,6 +1708,8 @@ namespace BKS
         private Label label9;
         private Button btnPersonelSil;
         private Button btnPersonelKaydet;
+        private Button btnPersonelTemizle;
+
         private Button btnPersonelGuncelle;
         private Label lblKimlikNum;
         private Label label3;
