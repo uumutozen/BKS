@@ -70,6 +70,34 @@ namespace BKS
         {
             try
             {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    string ucluKod = faturaNo;
+                    string yilKod = DateTime.Now.ToString("yy");  // Örneğin "25"
+                    string faturaPrefix = $"{ucluKod}{yilKod}";
+
+                    // Mevcut en büyük fatura numarasını al (belirli prefix ile başlayan)
+                    string selectQuery = "SELECT MAX(FaturaNo) FROM Faturalar WHERE FaturaNo LIKE @prefix + '%'";
+                    string yeniSayi = "00001";
+
+                    using (SqlCommand selectCmd = new SqlCommand(selectQuery, conn))
+                    {
+                        selectCmd.Parameters.AddWithValue("@prefix", faturaPrefix);
+                        var maxFaturaNo = selectCmd.ExecuteScalar() as string;
+
+                        if (!string.IsNullOrEmpty(maxFaturaNo) && maxFaturaNo.Length >= faturaPrefix.Length + 5)
+                        {
+                            string mevcutSayiStr = maxFaturaNo.Substring(faturaPrefix.Length, 5);
+                            if (int.TryParse(mevcutSayiStr, out int mevcutSayi))
+                            {
+                                yeniSayi = (mevcutSayi + 1).ToString("D5");
+                            }
+                        }
+                    }
+
+                    faturaNo = $"{faturaPrefix}{yeniSayi}";
+                
                 string pdfKlasoru = Path.Combine(Application.StartupPath, "Faturalar");
                 if (!Directory.Exists(pdfKlasoru))
                     Directory.CreateDirectory(pdfKlasoru);
@@ -189,6 +217,7 @@ namespace BKS
                 }
 
                 return dosyaYolu;
+            }
             }
             catch (Exception ex)
             {
