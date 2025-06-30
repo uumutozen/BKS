@@ -205,17 +205,44 @@ namespace BKS
                 {
                     conn.Open();
 
-                    string query = "INSERT INTO Faturalar (FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu,SirketId) VALUES (@no, @unvan, @vkn, @tarih, @pdf,dbo.GetSirketIdByUserId(@SirketId))";
+                    // Örneğin ETS ve 25 veriliyor
+                    string ucluKod = faturaNo;
+                    string yilKod = DateTime.Now.ToString("yy");  // Örneğin "25"
+                    string faturaPrefix = $"{ucluKod}{yilKod}";
 
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    // Mevcut en büyük fatura numarasını al (belirli prefix ile başlayan)
+                    string selectQuery = "SELECT MAX(FaturaNo) FROM Faturalar WHERE FaturaNo LIKE @prefix + '%'";
+                    string yeniSayi = "00001";
+
+                    using (SqlCommand selectCmd = new SqlCommand(selectQuery, conn))
                     {
-                        cmd.Parameters.AddWithValue("@no", faturaNo);
-                        cmd.Parameters.AddWithValue("@unvan", aliciUnvan);
-                        cmd.Parameters.AddWithValue("@vkn", aliciVkn);
-                        cmd.Parameters.AddWithValue("@tarih", tarih);
-                        cmd.Parameters.AddWithValue("@pdf", pdfYolu);
-                        cmd.Parameters.AddWithValue("@SirketId", Userid);
-                        cmd.ExecuteNonQuery();
+                        selectCmd.Parameters.AddWithValue("@prefix", faturaPrefix);
+                        var maxFaturaNo = selectCmd.ExecuteScalar() as string;
+
+                        if (!string.IsNullOrEmpty(maxFaturaNo) && maxFaturaNo.Length >= faturaPrefix.Length + 5)
+                        {
+                            string mevcutSayiStr = maxFaturaNo.Substring(faturaPrefix.Length, 5);
+                            if (int.TryParse(mevcutSayiStr, out int mevcutSayi))
+                            {
+                                yeniSayi = (mevcutSayi + 1).ToString("D5");
+                            }
+                        }
+                    }
+
+                    faturaNo = $"{faturaPrefix}{yeniSayi}";
+
+                    string insertQuery = "INSERT INTO Faturalar (FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu, SirketId) " +
+                                         "VALUES (@no, @unvan, @vkn, @tarih, @pdf, dbo.GetSirketIdByUserId(@SirketId))";
+
+                    using (SqlCommand insertCmd = new SqlCommand(insertQuery, conn))
+                    {
+                        insertCmd.Parameters.AddWithValue("@no", faturaNo);
+                        insertCmd.Parameters.AddWithValue("@unvan", aliciUnvan);
+                        insertCmd.Parameters.AddWithValue("@vkn", aliciVkn);
+                        insertCmd.Parameters.AddWithValue("@tarih", tarih);
+                        insertCmd.Parameters.AddWithValue("@pdf", pdfYolu);
+                        insertCmd.Parameters.AddWithValue("@SirketId", Userid);
+                        insertCmd.ExecuteNonQuery();
                     }
                 }
             }
