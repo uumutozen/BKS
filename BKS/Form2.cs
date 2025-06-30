@@ -1715,6 +1715,7 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
             rbtPersonelErkek.Checked = false;
             rbtPersonelKadin.Checked = false;
             rbtPersonelEvli.Checked = false;
+            rbtPersonelBekar.Checked = false;
             rbtPersonelEgitimGorevlisiEvet.Checked = false;
             rbtPersonelEgitimGorevlisiHayir.Checked = false;
 
@@ -2226,14 +2227,30 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
                 DialogResult result = MessageBox.Show("Seçili kaydı silmek istediğinizden emin misiniz?", "Kayıt Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
-                    // Silinecek satır
-                    var selectedRow = dgvOnKayitlar.SelectedRows[0];
-                    dgvOnKayitlar.Rows.Remove(selectedRow);
+                    // Seçilen satır ve ID
+                    DataGridViewRow selectedRow = dgvOnKayitlar.SelectedRows[0];
+                    Guid kayitId = Guid.Parse(selectedRow.Cells["Id"].Value.ToString()); // "Id" sütunu varsa!
 
-                    // Buraya veritabanı silme işlemi eklenebilir
-                    // Örnek:
-                    // var id = selectedRow.Cells["Id"].Value;
-                    // DeleteKayitById(Convert.ToInt32(id));
+                    try
+                    {
+                        using (SqlConnection conn = new SqlConnection(connectionString)) // senin örnekteki gibi
+                        {
+                            conn.Open();
+                            string query = "DELETE FROM [asl2e6ancomtr_aslan].[PreRegistrations] WHERE Id = @Id";
+                            SqlCommand cmd = new SqlCommand(query, conn);
+                            cmd.Parameters.AddWithValue("@Id", kayitId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Grid'den de kaldır
+                        dgvOnKayitlar.Rows.Remove(selectedRow);
+
+                        MessageBox.Show("Kayıt başarıyla silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             else
