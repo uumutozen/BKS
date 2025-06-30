@@ -23,7 +23,7 @@ namespace BKS
         private TabPage tabPageOgrenciOnKayit;
         private TextBox txtOnKayitAd, txtOnKayitSoyad, txtOnKayitVeliTel, txtOnKayitNot;
         private DateTimePicker dtpOnKayitDogumTarihi;
-        private Button btnOnKayitEkle, btnKesinKayitYap;
+        private Button btnOnKayitEkle, btnKesinKayitYap, btnOnKayitSil;
         private DataGridView dgvOnKayitlar;
         protected override void Dispose(bool disposing)
         {
@@ -48,6 +48,7 @@ namespace BKS
             txtOnKayitNot = new TextBox();
             btnOnKayitEkle = new Button();
             btnKesinKayitYap = new Button();
+            btnOnKayitSil = new Button();
             dgvOnKayitlar = new DataGridView();
             tabPageStok = new TabPage();
             btnOgrenciYonetimiSinifSil = new Button();
@@ -81,6 +82,7 @@ namespace BKS
             btnMakeSale = new Button();
             tabPagePersonelYonetimi = new TabPage();
             groupBox17 = new GroupBox();
+            btnPersonelTemizle = new Button();
             btnPersonelSil = new Button();
             btnPersonelKaydet = new Button();
             btnPersonelGuncelle = new Button();
@@ -155,6 +157,7 @@ namespace BKS
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
+            btnTemizle = new Button();
             tabControl.SuspendLayout();
             tabPageOgrenciOnKayit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOnKayitlar).BeginInit();
@@ -215,6 +218,7 @@ namespace BKS
             tabPageOgrenciOnKayit.Controls.Add(txtOnKayitNot);
             tabPageOgrenciOnKayit.Controls.Add(btnOnKayitEkle);
             tabPageOgrenciOnKayit.Controls.Add(btnKesinKayitYap);
+            tabPageOgrenciOnKayit.Controls.Add(btnOnKayitSil);
             tabPageOgrenciOnKayit.Controls.Add(dgvOnKayitlar);
             tabPageOgrenciOnKayit.Location = new Point(4, 24);
             tabPageOgrenciOnKayit.Name = "tabPageOgrenciOnKayit";
@@ -294,6 +298,20 @@ namespace BKS
             btnKesinKayitYap.TabIndex = 6;
             btnKesinKayitYap.Text = "✅ Kesin Kayıt Yap";
             btnKesinKayitYap.UseVisualStyleBackColor = false;
+            // 
+            // btnOnKayitSil
+            // 
+            btnOnKayitSil.BackColor = Color.FromArgb(231, 76, 60);
+            btnOnKayitSil.FlatStyle = FlatStyle.Flat;
+            btnOnKayitSil.Font = new Font("Segoe UI Semibold", 12F);
+            btnOnKayitSil.ForeColor = Color.White;
+            btnOnKayitSil.Location = new Point(490, 180);
+            btnOnKayitSil.Name = "btnOnKayitSil";
+            btnOnKayitSil.Size = new Size(200, 40);
+            btnOnKayitSil.TabIndex = 8;
+            btnOnKayitSil.Text = "🗑️ Ön Kaydı Sil";
+            btnOnKayitSil.UseVisualStyleBackColor = false;
+            btnOnKayitSil.Click += btnOnKayitSil_Click;
             // 
             // dgvOnKayitlar
             // 
@@ -685,6 +703,8 @@ namespace BKS
             // 
             // groupBox17
             // 
+            groupBox17.Controls.Add(btnPersonelTemizle);
+            groupBox17.Controls.Add(btnTemizle);
             groupBox17.Controls.Add(btnPersonelSil);
             groupBox17.Controls.Add(btnPersonelKaydet);
             groupBox17.Controls.Add(btnPersonelGuncelle);
@@ -700,6 +720,13 @@ namespace BKS
             groupBox17.TabIndex = 17;
             groupBox17.TabStop = false;
             groupBox17.Text = "Personel Bilgileri";
+            // 
+            // btnPersonelTemizle
+            // 
+            btnPersonelTemizle.Location = new Point(0, 0);
+            btnPersonelTemizle.Name = "btnPersonelTemizle";
+            btnPersonelTemizle.Size = new Size(75, 23);
+            btnPersonelTemizle.TabIndex = 0;
             // 
             // btnPersonelSil
             // 
@@ -1477,6 +1504,20 @@ namespace BKS
             dataGridView1.TabIndex = 8;
             dataGridView1.Tag = 4010;
             // 
+            // btnTemizle
+            // 
+            btnTemizle.BackColor = SystemColors.MenuHighlight;
+            btnTemizle.FlatStyle = FlatStyle.Flat;
+            btnTemizle.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnTemizle.ForeColor = Color.White;
+            btnTemizle.Location = new Point(6, 741);
+            btnTemizle.Name = "btnTemizle";
+            btnTemizle.Size = new Size(120, 50);
+            btnTemizle.TabIndex = 1;
+            btnTemizle.Text = "Temizle \U0001f9f9";
+            btnTemizle.UseVisualStyleBackColor = false;
+            btnTemizle.Click += btnPersonelTemizle_Click;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1633,5 +1674,7 @@ namespace BKS
         private RadioButton rbtPersonelEgitimGorevlisiEvet;
         private RadioButton rbtPersonelEgitimGorevlisiHayir;
         public DataGridView dataGridView1;
+        private Button btnPersonelTemizle;
+        private Button btnTemizle;
     }
 }

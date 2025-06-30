@@ -1675,6 +1675,53 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
             DeleteAndLog("AYSClasses", "Id", sinifid, UserId, "1", "DELETE");
             SinifLoad(UserId);
         }
+        private void btnPersonelTemizle_Click(object sender, EventArgs e)
+        {
+            // TextBox temizleme
+            txtPersonelAd.Clear();
+            txtPersonelSoyad.Clear();
+            txtPersonelTel.Clear();
+            txtPersonelIletişimAcilDurum.Clear();
+            txtPersonelAdres.Clear();
+            txtPersonelDepartman.Clear();
+            txtPersonelGorev.Clear();
+            txtPersonelPersonelNo.Clear();
+            txtPersonelMaas.Clear();
+            txtPersonelPrimVeEk.Clear();
+            txtPersonelYemekYol.Clear();
+            txtPersonelSGKSicilNum.Clear();
+            txtPersonelSaglikSigorta.Clear();
+            txtPersonelKimlik.Clear();
+            txtPersonelEmeklilik.Clear();
+            txtPersonelUniBolum.Clear();
+            txtPersonelSertifika.Clear();
+            txtPersonelYabanciDil.Clear();
+            txtPersonelAyrilmaNedeni.Clear();
+            txtPersonelKidemTazminat.Clear();
+
+            // ComboBox temizleme
+            cbxPersonelUyruk.SelectedIndex = -1;
+            cbxPersonelCalismaSekli.SelectedIndex = -1;
+            cbxPersonelSigorta.SelectedIndex = -1;
+            cbxPersonelEgitimDurumu.SelectedIndex = -1;
+            cbxPersonelUniversite.SelectedIndex = -1;
+
+            // DateTimePicker sıfırlama
+            dtpPersonelDG.Value = DateTime.Now;
+            dtpPersonelIseBaslamaTarihi.Value = DateTime.Now;
+            dtpPersonelCıkısTarihi.Value = DateTime.Now;
+
+            // RadioButton temizleme
+            rbtPersonelErkek.Checked = false;
+            rbtPersonelKadin.Checked = false;
+            rbtPersonelEvli.Checked = false;
+            rbtPersonelEgitimGorevlisiEvet.Checked = false;
+            rbtPersonelEgitimGorevlisiHayir.Checked = false;
+
+            // CheckBox temizleme
+            cbxPersoneIIsAyrıldı.Checked = false;
+
+        }
 
         private void btnPersonelKaydet_Click(object sender, EventArgs e)
         {
@@ -2170,6 +2217,28 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
 
                 MessageBox.Show("Ön kayıt başarıyla eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadOnKayitlar(UserId);
+            }
+        }
+        private void btnOnKayitSil_Click(object sender, EventArgs e)
+        {
+            if (dgvOnKayitlar.SelectedRows.Count > 0)
+            {
+                DialogResult result = MessageBox.Show("Seçili kaydı silmek istediğinizden emin misiniz?", "Kayıt Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    // Silinecek satır
+                    var selectedRow = dgvOnKayitlar.SelectedRows[0];
+                    dgvOnKayitlar.Rows.Remove(selectedRow);
+
+                    // Buraya veritabanı silme işlemi eklenebilir
+                    // Örnek:
+                    // var id = selectedRow.Cells["Id"].Value;
+                    // DeleteKayitById(Convert.ToInt32(id));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen silinecek bir kayıt seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
