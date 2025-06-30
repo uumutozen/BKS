@@ -2241,6 +2241,7 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
 
         private void tabPage1_Click_2(object sender, EventArgs e)
         {
+            
             foreach (Form frm in Application.OpenForms)
             {
                 if (frm is FormFatura)
@@ -2252,6 +2253,7 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
             }
 
             FormFatura formFatura = new FormFatura();
+            formFatura.UserId= UserId;
             formFatura.Show();
         }
 

@@ -20,6 +20,7 @@ namespace BKS
     {
         private readonly string connStr = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
         private string pdfKlasoru;
+        
         public FormFatura()
         {
             InitializeComponent();
@@ -30,7 +31,9 @@ namespace BKS
             pdfKlasoru = Path.Combine(Application.StartupPath, "Faturalar");
             if (!Directory.Exists(pdfKlasoru))
                 Directory.CreateDirectory(pdfKlasoru);
+           
         }
+        public Guid UserId { get; set; }
         private void FormFatura_Load(object sender, EventArgs e)
         {
             dgKalemler.Columns.Clear();
@@ -47,7 +50,7 @@ namespace BKS
             string aliciUnvan = txtAliciUnvan.Text.Trim();
             string aliciVkn = txtAliciVkn.Text.Trim();
             DateTime tarih = dtTarih.Value;
-
+         
             if (string.IsNullOrWhiteSpace(faturaNo) || string.IsNullOrWhiteSpace(aliciUnvan) || string.IsNullOrWhiteSpace(aliciVkn))
             {
                 MessageBox.Show("Tüm bilgileri doldurun!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -57,7 +60,7 @@ namespace BKS
             string pdfYolu = FaturaPdfOlustur(faturaNo, aliciUnvan, aliciVkn, tarih);
             if (pdfYolu != null)
             {
-                FaturaVeritabaninaKaydet(faturaNo, aliciUnvan, aliciVkn, tarih, pdfYolu);
+                FaturaVeritabaninaKaydet(faturaNo, aliciUnvan, aliciVkn, tarih, pdfYolu,UserId);
                 FaturalariYukle();
                 MessageBox.Show("Fatura kaydedildi ve PDF oluşturuldu.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -194,7 +197,7 @@ namespace BKS
             }
         }
 
-        private void FaturaVeritabaninaKaydet(string faturaNo, string aliciUnvan, string aliciVkn, DateTime tarih, string pdfYolu)
+        private void FaturaVeritabaninaKaydet(string faturaNo, string aliciUnvan, string aliciVkn, DateTime tarih, string pdfYolu,Guid Userid)
         {
             try
             {
@@ -202,7 +205,7 @@ namespace BKS
                 {
                     conn.Open();
 
-                    string query = "INSERT INTO Faturalar (FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu) VALUES (@no, @unvan, @vkn, @tarih, @pdf)";
+                    string query = "INSERT INTO Faturalar (FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu,SirketId) VALUES (@no, @unvan, @vkn, @tarih, @pdf,dbo.GetSirketIdByUserId(@SirketId))";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -211,7 +214,7 @@ namespace BKS
                         cmd.Parameters.AddWithValue("@vkn", aliciVkn);
                         cmd.Parameters.AddWithValue("@tarih", tarih);
                         cmd.Parameters.AddWithValue("@pdf", pdfYolu);
-
+                        cmd.Parameters.AddWithValue("@SirketId", Userid);
                         cmd.ExecuteNonQuery();
                     }
                 }
