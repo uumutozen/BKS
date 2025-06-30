@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 using PdfSharpCore.Utils;
+using static MudBlazor.Defaults;
 
 namespace BKS
 {
@@ -42,7 +43,7 @@ namespace BKS
             dgKalemler.Columns.Add("BirimFiyat", "Birim Fiyat");
             dgKalemler.Columns.Add("KDV", "KDV");
 
-            FaturalariYukle();
+            FaturalariYukle(UserId);
         }
         private void btnKaydet_Click(object sender, EventArgs e)
         {
@@ -61,7 +62,7 @@ namespace BKS
             if (pdfYolu != null)
             {
                 FaturaVeritabaninaKaydet(faturaNo, aliciUnvan, aliciVkn, tarih, pdfYolu,UserId);
-                FaturalariYukle();
+                FaturalariYukle(UserId);
                 MessageBox.Show("Fatura kaydedildi ve PDF oluşturuldu.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -281,7 +282,7 @@ namespace BKS
             }
         }
 
-        private void FaturalariYukle()
+        private void FaturalariYukle(Guid classId)
         {
             try
             {
@@ -289,10 +290,12 @@ namespace BKS
                 {
                     conn.Open();
 
-                    string sorgu = "SELECT Id, FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu FROM Faturalar";
+                    string sorgu = "SELECT Id, FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu FROM Faturalar WHERE SirketId = dbo.GetSirketIdByUserId(@ClassId)";
 
                     using (SqlDataAdapter da = new SqlDataAdapter(sorgu, conn))
                     {
+                        da.SelectCommand.Parameters.AddWithValue("@ClassId", UserId);
+
                         DataTable dt = new DataTable();
                         da.Fill(dt);
                         dgFaturalar.DataSource = dt;
@@ -307,6 +310,7 @@ namespace BKS
                 MessageBox.Show($"Faturalar yüklenirken hata: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void dgFaturalar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
