@@ -77,6 +77,7 @@ namespace BKS
         }
         private async void bttnLgn_Click(object sender, EventArgs e)
         {
+        
             string username = userName.Text.Trim();
             string password = passWord.Text.Trim();
 
@@ -131,6 +132,15 @@ namespace BKS
                             Role = loginResponse.Role
                         };
                         this.Hide();
+                        foreach (Form frm in Application.OpenForms)
+                        {
+                            if (frm is Form2)
+                            {
+                                MessageBox.Show("Form zaten açık.");
+                                frm.BringToFront();  // İsteğe bağlı: formu öne getirir
+                                return;
+                            }
+                        }
                         form2.ShowDialog();
                         Environment.Exit(0);
                     }
