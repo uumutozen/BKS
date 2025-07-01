@@ -2325,6 +2325,11 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
         private void tabPage1_Click_2(object sender, EventArgs e)
         {
 
+          
+        }
+
+        private void FaturaBtn_Click(object sender, EventArgs e)
+        {
             foreach (Form frm in Application.OpenForms)
             {
                 if (frm is FormFatura)
@@ -2339,7 +2344,6 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
             formFatura.UserId = UserId;
             formFatura.Show();
         }
-
 
         public Guid sinifid { get; set; }
         public Guid UserId { get; set; }
