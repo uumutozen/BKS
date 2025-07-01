@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using PdfSharpCore.Utils;
 using static MudBlazor.Defaults;
+using System.Diagnostics;
 
 namespace BKS
 {
@@ -229,10 +230,12 @@ namespace BKS
 
         private void FaturaVeritabaninaKaydet(string faturaNo, string aliciUnvan, string aliciVkn, DateTime tarih, string pdfYolu,Guid Userid)
         {
+            byte[] pdfBytes = File.ReadAllBytes(pdfYolu);
             try
             {
                 using (SqlConnection conn = new SqlConnection(connStr))
                 {
+
                     conn.Open();
 
                     // Örneğin ETS ve 25 veriliyor
@@ -261,8 +264,7 @@ namespace BKS
 
                     faturaNo = $"{faturaPrefix}{yeniSayi}";
 
-                    string insertQuery = "INSERT INTO Faturalar (FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu, SirketId) " +
-                                         "VALUES (@no, @unvan, @vkn, @tarih, @pdf, dbo.GetSirketIdByUserId(@SirketId))";
+                    string insertQuery = "INSERT INTO Faturalar (FaturaNo, AliciUnvan, AliciVKN, Tarih, PdfYolu, PdfIcerik, SirketId) VALUES(@no, @unvan, @vkn, @tarih, @pdf, @pdfIcerik, dbo.GetSirketIdByUserId(@SirketId))";
 
                     using (SqlCommand insertCmd = new SqlCommand(insertQuery, conn))
                     {
@@ -270,6 +272,7 @@ namespace BKS
                         insertCmd.Parameters.AddWithValue("@unvan", aliciUnvan);
                         insertCmd.Parameters.AddWithValue("@vkn", aliciVkn);
                         insertCmd.Parameters.AddWithValue("@tarih", tarih);
+                        insertCmd.Parameters.AddWithValue("@pdfIcerik", pdfBytes);
                         insertCmd.Parameters.AddWithValue("@pdf", pdfYolu);
                         insertCmd.Parameters.AddWithValue("@SirketId", Userid);
                         insertCmd.ExecuteNonQuery();
@@ -320,22 +323,42 @@ namespace BKS
 
             if (!string.IsNullOrEmpty(pdfYolu) && File.Exists(pdfYolu))
             {
-                try
+                Process.Start(new ProcessStartInfo()
                 {
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-                    {
-                        FileName = pdfYolu,
-                        UseShellExecute = true
-                    });
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"PDF açılırken hata: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    FileName = pdfYolu,
+                    UseShellExecute = true
+                });
             }
             else
             {
-                MessageBox.Show("PDF dosyası bulunamadı.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Veritabanından içeriği oku
+                var id = dgFaturalar.Rows[e.RowIndex].Cells["Id"].Value;
+                byte[] pdfBytes = null;
+
+                using (var conn = new SqlConnection(connStr))
+                {
+                    conn.Open();
+                    var cmd = new SqlCommand("SELECT PdfIcerik FROM Faturalar WHERE Id = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    var result = cmd.ExecuteScalar();
+                    if (result != DBNull.Value)
+                        pdfBytes = (byte[])result;
+                }
+
+                if (pdfBytes != null)
+                {
+                    string tempPath = Path.Combine(Path.GetTempPath(), $"Fatura_{Guid.NewGuid()}.pdf");
+                    File.WriteAllBytes(tempPath, pdfBytes);
+                    Process.Start(new ProcessStartInfo()
+                    {
+                        FileName = tempPath,
+                        UseShellExecute = true
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("PDF bulunamadı.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
     }

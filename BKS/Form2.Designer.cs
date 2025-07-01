@@ -1448,7 +1448,7 @@ namespace BKS
             FaturaBtn.FlatStyle = FlatStyle.Flat;
             FaturaBtn.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 162);
             FaturaBtn.ForeColor = Color.Transparent;
-            FaturaBtn.Location = new Point(908, 12);
+            FaturaBtn.Location = new Point(908, 10);
             FaturaBtn.Name = "FaturaBtn";
             FaturaBtn.Size = new Size(325, 41);
             FaturaBtn.TabIndex = 6;
