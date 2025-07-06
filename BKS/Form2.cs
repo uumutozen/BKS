@@ -49,7 +49,6 @@ namespace BKS
         private void Form2_Load(object sender, EventArgs e)
         {
 
-
             this.Text = GetCompanyName(UserId) + " " + "Anaokulu Yönetim Sistemi".ToUpper();
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
             LoadStockData(UserId);
@@ -173,6 +172,7 @@ namespace BKS
                 return dt;
             }
         }
+
         private void dataGridViewStok_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -2325,7 +2325,7 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
         private void tabPage1_Click_2(object sender, EventArgs e)
         {
 
-          
+
         }
 
         private void FaturaBtn_Click(object sender, EventArgs e)
@@ -2343,6 +2343,12 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
             FormFatura formFatura = new FormFatura();
             formFatura.UserId = UserId;
             formFatura.Show();
+        }
+
+        private void txtOgrenciYonetimiAra_TextChanged(object sender, EventArgs e)
+        {
+            dataGridViewStok.DataSource = LoadStockDataRefresh(UserId);
+
         }
 
         public Guid sinifid { get; set; }
