@@ -2351,6 +2351,14 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
 
         }
 
+        private void arşivToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Guid ogrenciId = (Guid)dataGridViewStok.SelectedRows[0].Cells["Id"].Value;
+
+            var arsiv = new arsivForm(UserId, connectionString,ogrenciId);
+            arsiv.ShowDialog();
+        }
+
         public Guid sinifid { get; set; }
         public Guid UserId { get; set; }
         public string Role { get; set; }

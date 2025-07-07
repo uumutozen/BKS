@@ -162,6 +162,7 @@ namespace BKS
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
+            arşivToolStripMenuItem = new ToolStripMenuItem();
             tabControl.SuspendLayout();
             tabPageOgrenciOnKayit.SuspendLayout();
             panelForm.SuspendLayout();
@@ -218,9 +219,9 @@ namespace BKS
             // 
             tabPageOgrenciOnKayit.Controls.Add(panelForm);
             tabPageOgrenciOnKayit.Controls.Add(panelGrid);
-            tabPageOgrenciOnKayit.Location = new Point(4, 34);
+            tabPageOgrenciOnKayit.Location = new Point(4, 24);
             tabPageOgrenciOnKayit.Name = "tabPageOgrenciOnKayit";
-            tabPageOgrenciOnKayit.Size = new Size(1858, 932);
+            tabPageOgrenciOnKayit.Size = new Size(1858, 942);
             tabPageOgrenciOnKayit.TabIndex = 0;
             tabPageOgrenciOnKayit.Text = "🎓 Öğrenci Ön Kayıt";
             // 
@@ -247,7 +248,7 @@ namespace BKS
             txtOnKayitAd.Location = new Point(50, 50);
             txtOnKayitAd.Name = "txtOnKayitAd";
             txtOnKayitAd.PlaceholderText = "Öğrenci Adı";
-            txtOnKayitAd.Size = new Size(250, 39);
+            txtOnKayitAd.Size = new Size(250, 29);
             txtOnKayitAd.TabIndex = 0;
             // 
             // txtOnKayitSoyad
@@ -256,7 +257,7 @@ namespace BKS
             txtOnKayitSoyad.Location = new Point(320, 50);
             txtOnKayitSoyad.Name = "txtOnKayitSoyad";
             txtOnKayitSoyad.PlaceholderText = "Öğrenci Soyadı";
-            txtOnKayitSoyad.Size = new Size(250, 39);
+            txtOnKayitSoyad.Size = new Size(250, 29);
             txtOnKayitSoyad.TabIndex = 1;
             // 
             // dtpOnKayitDogumTarihi
@@ -265,7 +266,7 @@ namespace BKS
             dtpOnKayitDogumTarihi.Format = DateTimePickerFormat.Short;
             dtpOnKayitDogumTarihi.Location = new Point(590, 50);
             dtpOnKayitDogumTarihi.Name = "dtpOnKayitDogumTarihi";
-            dtpOnKayitDogumTarihi.Size = new Size(200, 39);
+            dtpOnKayitDogumTarihi.Size = new Size(200, 29);
             dtpOnKayitDogumTarihi.TabIndex = 2;
             // 
             // txtOnKayitVeliTel
@@ -274,7 +275,7 @@ namespace BKS
             txtOnKayitVeliTel.Location = new Point(50, 100);
             txtOnKayitVeliTel.Name = "txtOnKayitVeliTel";
             txtOnKayitVeliTel.PlaceholderText = "Veli Telefonu";
-            txtOnKayitVeliTel.Size = new Size(250, 39);
+            txtOnKayitVeliTel.Size = new Size(250, 29);
             txtOnKayitVeliTel.TabIndex = 3;
             // 
             // txtOnKayitNot
@@ -335,7 +336,7 @@ namespace BKS
             panelGrid.Dock = DockStyle.Fill;
             panelGrid.Location = new Point(0, 0);
             panelGrid.Name = "panelGrid";
-            panelGrid.Size = new Size(1858, 932);
+            panelGrid.Size = new Size(1858, 942);
             panelGrid.TabIndex = 1;
             // 
             // dgvOnKayitlar
@@ -380,7 +381,7 @@ namespace BKS
             dgvOnKayitlar.RowTemplate.Height = 30;
             dgvOnKayitlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOnKayitlar.ShowRowErrors = false;
-            dgvOnKayitlar.Size = new Size(1958, 1132);
+            dgvOnKayitlar.Size = new Size(1958, 1142);
             dgvOnKayitlar.TabIndex = 31;
             dgvOnKayitlar.Tag = 5001;
             // 
@@ -400,9 +401,9 @@ namespace BKS
             tabPageStok.Controls.Add(groupBox1);
             tabPageStok.Controls.Add(groupBox2);
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            tabPageStok.Location = new Point(4, 34);
+            tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
-            tabPageStok.Size = new Size(1858, 932);
+            tabPageStok.Size = new Size(1858, 942);
             tabPageStok.TabIndex = 0;
             tabPageStok.Text = "Öğrenci Yönetimi";
             tabPageStok.Click += tabPageStok_Click;
@@ -457,7 +458,7 @@ namespace BKS
             cbxOgrenciYonetimiOgretmen.FormattingEnabled = true;
             cbxOgrenciYonetimiOgretmen.Location = new Point(6, 38);
             cbxOgrenciYonetimiOgretmen.Name = "cbxOgrenciYonetimiOgretmen";
-            cbxOgrenciYonetimiOgretmen.Size = new Size(200, 33);
+            cbxOgrenciYonetimiOgretmen.Size = new Size(200, 23);
             cbxOgrenciYonetimiOgretmen.TabIndex = 0;
             cbxOgrenciYonetimiOgretmen.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
@@ -478,7 +479,7 @@ namespace BKS
             txtOgrenciYonetimiSınıfAdı.Location = new Point(6, 38);
             txtOgrenciYonetimiSınıfAdı.Name = "txtOgrenciYonetimiSınıfAdı";
             txtOgrenciYonetimiSınıfAdı.PlaceholderText = "Sınıf Adı";
-            txtOgrenciYonetimiSınıfAdı.Size = new Size(200, 31);
+            txtOgrenciYonetimiSınıfAdı.Size = new Size(200, 23);
             txtOgrenciYonetimiSınıfAdı.TabIndex = 1;
             // 
             // groupBox15
@@ -499,7 +500,7 @@ namespace BKS
             cbxOgrenciYonetimiYasGrubu.FormattingEnabled = true;
             cbxOgrenciYonetimiYasGrubu.Location = new Point(15, 38);
             cbxOgrenciYonetimiYasGrubu.Name = "cbxOgrenciYonetimiYasGrubu";
-            cbxOgrenciYonetimiYasGrubu.Size = new Size(200, 33);
+            cbxOgrenciYonetimiYasGrubu.Size = new Size(200, 23);
             cbxOgrenciYonetimiYasGrubu.TabIndex = 0;
             // 
             // DgvOgrenciYonetimiSiniflar
@@ -527,16 +528,16 @@ namespace BKS
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { yeniKayıtEkleToolStripMenuItem, kayıtSilToolStripMenuItem, yenileToolStripMenuItem, ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, geçmişHareketToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { yeniKayıtEkleToolStripMenuItem, kayıtSilToolStripMenuItem, yenileToolStripMenuItem, ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, geçmişHareketToolStripMenuItem, arşivToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(235, 196);
+            contextMenuStrip1.Size = new Size(189, 236);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // yeniKayıtEkleToolStripMenuItem
             // 
             yeniKayıtEkleToolStripMenuItem.Image = (Image)resources.GetObject("yeniKayıtEkleToolStripMenuItem.Image");
             yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
-            yeniKayıtEkleToolStripMenuItem.Size = new Size(234, 32);
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(188, 30);
             yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
             yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
             // 
@@ -544,7 +545,7 @@ namespace BKS
             // 
             kayıtSilToolStripMenuItem.Image = (Image)resources.GetObject("kayıtSilToolStripMenuItem.Image");
             kayıtSilToolStripMenuItem.Name = "kayıtSilToolStripMenuItem";
-            kayıtSilToolStripMenuItem.Size = new Size(234, 32);
+            kayıtSilToolStripMenuItem.Size = new Size(188, 30);
             kayıtSilToolStripMenuItem.Text = "Seçili Kayıdı Sil";
             kayıtSilToolStripMenuItem.Click += DeleteStripMenuItem_Click;
             // 
@@ -552,7 +553,7 @@ namespace BKS
             // 
             yenileToolStripMenuItem.Image = (Image)resources.GetObject("yenileToolStripMenuItem.Image");
             yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
-            yenileToolStripMenuItem.Size = new Size(234, 32);
+            yenileToolStripMenuItem.Size = new Size(188, 30);
             yenileToolStripMenuItem.Text = "Yenile";
             yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
@@ -560,7 +561,7 @@ namespace BKS
             // 
             ödemeDetaylarıToolStripMenuItem.Image = (Image)resources.GetObject("ödemeDetaylarıToolStripMenuItem.Image");
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(234, 32);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(188, 30);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
@@ -568,7 +569,7 @@ namespace BKS
             // 
             excelİleAktarToolStripMenuItem.Image = (Image)resources.GetObject("excelİleAktarToolStripMenuItem.Image");
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(234, 32);
+            excelİleAktarToolStripMenuItem.Size = new Size(188, 30);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
@@ -576,7 +577,7 @@ namespace BKS
             // 
             geçmişHareketToolStripMenuItem.Image = (Image)resources.GetObject("geçmişHareketToolStripMenuItem.Image");
             geçmişHareketToolStripMenuItem.Name = "geçmişHareketToolStripMenuItem";
-            geçmişHareketToolStripMenuItem.Size = new Size(234, 32);
+            geçmişHareketToolStripMenuItem.Size = new Size(188, 30);
             geçmişHareketToolStripMenuItem.Text = "Geçmiş Hareketler";
             geçmişHareketToolStripMenuItem.Click += loglarıGörüntüleToolStripMenuItem_Click;
             // 
@@ -594,7 +595,7 @@ namespace BKS
             // 
             txtOgrenciYonetimiAra.Location = new Point(9, 4);
             txtOgrenciYonetimiAra.Name = "txtOgrenciYonetimiAra";
-            txtOgrenciYonetimiAra.Size = new Size(197, 31);
+            txtOgrenciYonetimiAra.Size = new Size(197, 23);
             txtOgrenciYonetimiAra.TabIndex = 28;
             txtOgrenciYonetimiAra.TextChanged += txtOgrenciYonetimiAra_TextChanged;
             // 
@@ -669,9 +670,9 @@ namespace BKS
             tabPageSatis.Controls.Add(groupBox8);
             tabPageSatis.Controls.Add(dataOgrVw);
             tabPageSatis.Controls.Add(btnMakeSale);
-            tabPageSatis.Location = new Point(4, 34);
+            tabPageSatis.Location = new Point(4, 24);
             tabPageSatis.Name = "tabPageSatis";
-            tabPageSatis.Size = new Size(1858, 932);
+            tabPageSatis.Size = new Size(1858, 942);
             tabPageSatis.TabIndex = 1;
             tabPageSatis.Text = "Öğrenci Ödeme Yönetimi";
             // 
@@ -693,7 +694,7 @@ namespace BKS
             numericQuantitySold.Location = new Point(6, 36);
             numericQuantitySold.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numericQuantitySold.Name = "numericQuantitySold";
-            numericQuantitySold.Size = new Size(131, 31);
+            numericQuantitySold.Size = new Size(131, 23);
             numericQuantitySold.TabIndex = 1;
             // 
             // groupBox8
@@ -713,7 +714,7 @@ namespace BKS
             // 
             comboBoxStok.Location = new Point(6, 34);
             comboBoxStok.Name = "comboBoxStok";
-            comboBoxStok.Size = new Size(200, 33);
+            comboBoxStok.Size = new Size(200, 23);
             comboBoxStok.TabIndex = 0;
             // 
             // dataOgrVw
@@ -745,10 +746,10 @@ namespace BKS
             // 
             tabPagePersonelYonetimi.Controls.Add(groupBox17);
             tabPagePersonelYonetimi.Controls.Add(dgvPersonelYonetimi);
-            tabPagePersonelYonetimi.Location = new Point(4, 34);
+            tabPagePersonelYonetimi.Location = new Point(4, 24);
             tabPagePersonelYonetimi.Name = "tabPagePersonelYonetimi";
             tabPagePersonelYonetimi.Padding = new Padding(3);
-            tabPagePersonelYonetimi.Size = new Size(1858, 932);
+            tabPagePersonelYonetimi.Size = new Size(1858, 942);
             tabPagePersonelYonetimi.TabIndex = 4;
             tabPagePersonelYonetimi.Text = "Personel Yönetimi";
             tabPagePersonelYonetimi.UseVisualStyleBackColor = true;
@@ -864,7 +865,7 @@ namespace BKS
             txtPersonelIletişimAcilDurum.Location = new Point(6, 51);
             txtPersonelIletişimAcilDurum.Name = "txtPersonelIletişimAcilDurum";
             txtPersonelIletişimAcilDurum.PlaceholderText = "Acil Durumda Ulaşılacak Kişi";
-            txtPersonelIletişimAcilDurum.Size = new Size(481, 31);
+            txtPersonelIletişimAcilDurum.Size = new Size(481, 23);
             txtPersonelIletişimAcilDurum.TabIndex = 7;
             // 
             // txtPersonelMail
@@ -872,7 +873,7 @@ namespace BKS
             txtPersonelMail.Location = new Point(239, 22);
             txtPersonelMail.Name = "txtPersonelMail";
             txtPersonelMail.PlaceholderText = "Mail";
-            txtPersonelMail.Size = new Size(248, 31);
+            txtPersonelMail.Size = new Size(248, 23);
             txtPersonelMail.TabIndex = 6;
             // 
             // txtPersonelTel
@@ -880,7 +881,7 @@ namespace BKS
             txtPersonelTel.Location = new Point(6, 22);
             txtPersonelTel.Name = "txtPersonelTel";
             txtPersonelTel.PlaceholderText = "Telefon Numarası";
-            txtPersonelTel.Size = new Size(226, 31);
+            txtPersonelTel.Size = new Size(226, 23);
             txtPersonelTel.TabIndex = 1;
             // 
             // txtPersonelAdres
@@ -918,7 +919,7 @@ namespace BKS
             lblKimlikNum.AutoSize = true;
             lblKimlikNum.Location = new Point(347, 106);
             lblKimlikNum.Name = "lblKimlikNum";
-            lblKimlikNum.Size = new Size(156, 25);
+            lblKimlikNum.Size = new Size(100, 15);
             lblKimlikNum.TabIndex = 33;
             lblKimlikNum.Text = "Kimlik Numarası :";
             // 
@@ -927,7 +928,7 @@ namespace BKS
             label3.AutoSize = true;
             label3.Location = new Point(347, 51);
             label3.Name = "label3";
-            label3.Size = new Size(83, 25);
+            label3.Size = new Size(52, 15);
             label3.TabIndex = 32;
             label3.Text = "Uyruğu :";
             // 
@@ -947,7 +948,7 @@ namespace BKS
             rbtPersonelBekar.ForeColor = Color.Black;
             rbtPersonelBekar.Location = new Point(68, 26);
             rbtPersonelBekar.Name = "rbtPersonelBekar";
-            rbtPersonelBekar.Size = new Size(83, 29);
+            rbtPersonelBekar.Size = new Size(54, 19);
             rbtPersonelBekar.TabIndex = 31;
             rbtPersonelBekar.TabStop = true;
             rbtPersonelBekar.Text = "Bekar";
@@ -958,7 +959,7 @@ namespace BKS
             label8.AutoSize = true;
             label8.Location = new Point(36, 8);
             label8.Name = "label8";
-            label8.Size = new Size(108, 25);
+            label8.Size = new Size(68, 15);
             label8.TabIndex = 13;
             label8.Text = "Medeni Hal";
             // 
@@ -968,7 +969,7 @@ namespace BKS
             rbtPersonelEvli.ForeColor = Color.Black;
             rbtPersonelEvli.Location = new Point(8, 26);
             rbtPersonelEvli.Name = "rbtPersonelEvli";
-            rbtPersonelEvli.Size = new Size(65, 29);
+            rbtPersonelEvli.Size = new Size(43, 19);
             rbtPersonelEvli.TabIndex = 11;
             rbtPersonelEvli.Text = "Evli";
             rbtPersonelEvli.UseVisualStyleBackColor = true;
@@ -988,7 +989,7 @@ namespace BKS
             label9.AutoSize = true;
             label9.Location = new Point(35, 8);
             label9.Name = "label9";
-            label9.Size = new Size(78, 25);
+            label9.Size = new Size(48, 15);
             label9.TabIndex = 14;
             label9.Text = "Cinsiyet";
             // 
@@ -998,7 +999,7 @@ namespace BKS
             rbtPersonelErkek.ForeColor = Color.Black;
             rbtPersonelErkek.Location = new Point(5, 26);
             rbtPersonelErkek.Name = "rbtPersonelErkek";
-            rbtPersonelErkek.Size = new Size(81, 29);
+            rbtPersonelErkek.Size = new Size(53, 19);
             rbtPersonelErkek.TabIndex = 6;
             rbtPersonelErkek.Text = "Erkek";
             rbtPersonelErkek.UseVisualStyleBackColor = true;
@@ -1010,7 +1011,7 @@ namespace BKS
             rbtPersonelKadin.ForeColor = Color.Black;
             rbtPersonelKadin.Location = new Point(66, 26);
             rbtPersonelKadin.Name = "rbtPersonelKadin";
-            rbtPersonelKadin.Size = new Size(84, 29);
+            rbtPersonelKadin.Size = new Size(55, 19);
             rbtPersonelKadin.TabIndex = 7;
             rbtPersonelKadin.Text = "Kadın";
             rbtPersonelKadin.UseVisualStyleBackColor = true;
@@ -1022,7 +1023,7 @@ namespace BKS
             cbxPersonelUyruk.Items.AddRange(new object[] { "T.C", "Yabancı" });
             cbxPersonelUyruk.Location = new Point(405, 49);
             cbxPersonelUyruk.Name = "cbxPersonelUyruk";
-            cbxPersonelUyruk.Size = new Size(220, 33);
+            cbxPersonelUyruk.Size = new Size(220, 23);
             cbxPersonelUyruk.TabIndex = 12;
             cbxPersonelUyruk.SelectedIndexChanged += cbxPersonelUyruk_SelectedIndexChanged;
             // 
@@ -1031,7 +1032,7 @@ namespace BKS
             label1.AutoSize = true;
             label1.Location = new Point(6, 104);
             label1.Name = "label1";
-            label1.Size = new Size(132, 25);
+            label1.Size = new Size(86, 15);
             label1.TabIndex = 9;
             label1.Text = "Doğum Tarihi :";
             label1.Click += label1_Click;
@@ -1040,7 +1041,7 @@ namespace BKS
             // 
             dtpPersonelDG.Location = new Point(98, 98);
             dtpPersonelDG.Name = "dtpPersonelDG";
-            dtpPersonelDG.Size = new Size(200, 31);
+            dtpPersonelDG.Size = new Size(200, 23);
             dtpPersonelDG.TabIndex = 8;
             dtpPersonelDG.ValueChanged += dateTimePicker1_ValueChanged;
             // 
@@ -1048,7 +1049,7 @@ namespace BKS
             // 
             txtPersonelKimlik.Location = new Point(467, 101);
             txtPersonelKimlik.Name = "txtPersonelKimlik";
-            txtPersonelKimlik.Size = new Size(158, 31);
+            txtPersonelKimlik.Size = new Size(158, 23);
             txtPersonelKimlik.TabIndex = 5;
             txtPersonelKimlik.TextChanged += txtPersonelKimlik_TextChanged;
             // 
@@ -1057,7 +1058,7 @@ namespace BKS
             txtPersonelSoyad.Location = new Point(141, 49);
             txtPersonelSoyad.Name = "txtPersonelSoyad";
             txtPersonelSoyad.PlaceholderText = "Soyadı";
-            txtPersonelSoyad.Size = new Size(129, 31);
+            txtPersonelSoyad.Size = new Size(129, 23);
             txtPersonelSoyad.TabIndex = 2;
             // 
             // txtPersonelAd
@@ -1065,7 +1066,7 @@ namespace BKS
             txtPersonelAd.Location = new Point(5, 49);
             txtPersonelAd.Name = "txtPersonelAd";
             txtPersonelAd.PlaceholderText = "Adı";
-            txtPersonelAd.Size = new Size(130, 31);
+            txtPersonelAd.Size = new Size(130, 23);
             txtPersonelAd.TabIndex = 1;
             // 
             // groupBox18
@@ -1124,7 +1125,7 @@ namespace BKS
             label10.AutoSize = true;
             label10.Location = new Point(20, 8);
             label10.Name = "label10";
-            label10.Size = new Size(143, 25);
+            label10.Size = new Size(89, 15);
             label10.TabIndex = 14;
             label10.Text = "Eğitim Görevlisi";
             // 
@@ -1134,7 +1135,7 @@ namespace BKS
             rbtPersonelEgitimGorevlisiEvet.ForeColor = Color.Black;
             rbtPersonelEgitimGorevlisiEvet.Location = new Point(5, 26);
             rbtPersonelEgitimGorevlisiEvet.Name = "rbtPersonelEgitimGorevlisiEvet";
-            rbtPersonelEgitimGorevlisiEvet.Size = new Size(72, 29);
+            rbtPersonelEgitimGorevlisiEvet.Size = new Size(47, 19);
             rbtPersonelEgitimGorevlisiEvet.TabIndex = 6;
             rbtPersonelEgitimGorevlisiEvet.Text = "Evet";
             rbtPersonelEgitimGorevlisiEvet.UseVisualStyleBackColor = true;
@@ -1145,7 +1146,7 @@ namespace BKS
             rbtPersonelEgitimGorevlisiHayir.ForeColor = Color.Black;
             rbtPersonelEgitimGorevlisiHayir.Location = new Point(66, 26);
             rbtPersonelEgitimGorevlisiHayir.Name = "rbtPersonelEgitimGorevlisiHayir";
-            rbtPersonelEgitimGorevlisiHayir.Size = new Size(80, 29);
+            rbtPersonelEgitimGorevlisiHayir.Size = new Size(53, 19);
             rbtPersonelEgitimGorevlisiHayir.TabIndex = 7;
             rbtPersonelEgitimGorevlisiHayir.Text = "Hayır";
             rbtPersonelEgitimGorevlisiHayir.UseVisualStyleBackColor = true;
@@ -1155,7 +1156,7 @@ namespace BKS
             txtPersonelKidemTazminat.Location = new Point(367, 332);
             txtPersonelKidemTazminat.Name = "txtPersonelKidemTazminat";
             txtPersonelKidemTazminat.PlaceholderText = "Kıdem ve İhbar Tazminatı\n\n";
-            txtPersonelKidemTazminat.Size = new Size(302, 31);
+            txtPersonelKidemTazminat.Size = new Size(302, 23);
             txtPersonelKidemTazminat.TabIndex = 35;
             // 
             // txtPersonelAyrilmaNedeni
@@ -1172,7 +1173,7 @@ namespace BKS
             txtPersonelEmeklilik.Location = new Point(81, 342);
             txtPersonelEmeklilik.Name = "txtPersonelEmeklilik";
             txtPersonelEmeklilik.PlaceholderText = "Emeklilik Bilgileri\n\n";
-            txtPersonelEmeklilik.Size = new Size(151, 31);
+            txtPersonelEmeklilik.Size = new Size(151, 23);
             txtPersonelEmeklilik.TabIndex = 33;
             // 
             // txtPersonelSaglikSigorta
@@ -1180,7 +1181,7 @@ namespace BKS
             txtPersonelSaglikSigorta.Location = new Point(169, 303);
             txtPersonelSaglikSigorta.Name = "txtPersonelSaglikSigorta";
             txtPersonelSaglikSigorta.PlaceholderText = "Sağlık Sigortası Bilgileri\n\n";
-            txtPersonelSaglikSigorta.Size = new Size(151, 31);
+            txtPersonelSaglikSigorta.Size = new Size(151, 23);
             txtPersonelSaglikSigorta.TabIndex = 32;
             // 
             // txtPersonelSGKSicilNum
@@ -1188,7 +1189,7 @@ namespace BKS
             txtPersonelSGKSicilNum.Location = new Point(9, 303);
             txtPersonelSGKSicilNum.Name = "txtPersonelSGKSicilNum";
             txtPersonelSGKSicilNum.PlaceholderText = "SGK Sicil Numarası";
-            txtPersonelSGKSicilNum.Size = new Size(151, 31);
+            txtPersonelSGKSicilNum.Size = new Size(151, 23);
             txtPersonelSGKSicilNum.TabIndex = 31;
             // 
             // txtPersonelYemekYol
@@ -1196,7 +1197,7 @@ namespace BKS
             txtPersonelYemekYol.Location = new Point(81, 252);
             txtPersonelYemekYol.Name = "txtPersonelYemekYol";
             txtPersonelYemekYol.PlaceholderText = "Yemek ve Yol Yardımı";
-            txtPersonelYemekYol.Size = new Size(151, 31);
+            txtPersonelYemekYol.Size = new Size(151, 23);
             txtPersonelYemekYol.TabIndex = 30;
             // 
             // txtPersonelPrimVeEk
@@ -1204,7 +1205,7 @@ namespace BKS
             txtPersonelPrimVeEk.Location = new Point(166, 219);
             txtPersonelPrimVeEk.Name = "txtPersonelPrimVeEk";
             txtPersonelPrimVeEk.PlaceholderText = "Prim ve Ek Ödemeler";
-            txtPersonelPrimVeEk.Size = new Size(151, 31);
+            txtPersonelPrimVeEk.Size = new Size(151, 23);
             txtPersonelPrimVeEk.TabIndex = 29;
             // 
             // label7
@@ -1212,7 +1213,7 @@ namespace BKS
             label7.AutoSize = true;
             label7.Location = new Point(9, 183);
             label7.Name = "label7";
-            label7.Size = new Size(137, 25);
+            label7.Size = new Size(85, 15);
             label7.TabIndex = 28;
             label7.Text = "Sigorta Bilgisi :";
             label7.Visible = false;
@@ -1223,7 +1224,7 @@ namespace BKS
             cbxPersonelSigorta.FormattingEnabled = true;
             cbxPersonelSigorta.Location = new Point(100, 180);
             cbxPersonelSigorta.Name = "cbxPersonelSigorta";
-            cbxPersonelSigorta.Size = new Size(220, 33);
+            cbxPersonelSigorta.Size = new Size(220, 23);
             cbxPersonelSigorta.TabIndex = 27;
             // 
             // txtPersonelPersonelNo
@@ -1231,7 +1232,7 @@ namespace BKS
             txtPersonelPersonelNo.Location = new Point(9, 141);
             txtPersonelPersonelNo.Name = "txtPersonelPersonelNo";
             txtPersonelPersonelNo.PlaceholderText = "Personel Numarası";
-            txtPersonelPersonelNo.Size = new Size(311, 31);
+            txtPersonelPersonelNo.Size = new Size(311, 23);
             txtPersonelPersonelNo.TabIndex = 26;
             // 
             // label6
@@ -1239,7 +1240,7 @@ namespace BKS
             label6.AutoSize = true;
             label6.Location = new Point(9, 107);
             label6.Name = "label6";
-            label6.Size = new Size(128, 25);
+            label6.Size = new Size(82, 15);
             label6.TabIndex = 25;
             label6.Text = "Çalışma Şekli :";
             label6.Visible = false;
@@ -1249,7 +1250,7 @@ namespace BKS
             cbxPersonelCalismaSekli.FormattingEnabled = true;
             cbxPersonelCalismaSekli.Location = new Point(100, 104);
             cbxPersonelCalismaSekli.Name = "cbxPersonelCalismaSekli";
-            cbxPersonelCalismaSekli.Size = new Size(220, 33);
+            cbxPersonelCalismaSekli.Size = new Size(220, 23);
             cbxPersonelCalismaSekli.TabIndex = 24;
             // 
             // txtPersonelUniBolum
@@ -1257,7 +1258,7 @@ namespace BKS
             txtPersonelUniBolum.Location = new Point(361, 180);
             txtPersonelUniBolum.Name = "txtPersonelUniBolum";
             txtPersonelUniBolum.PlaceholderText = "Bölümü";
-            txtPersonelUniBolum.Size = new Size(295, 31);
+            txtPersonelUniBolum.Size = new Size(295, 23);
             txtPersonelUniBolum.TabIndex = 23;
             txtPersonelUniBolum.Visible = false;
             // 
@@ -1266,7 +1267,7 @@ namespace BKS
             label5.AutoSize = true;
             label5.Location = new Point(361, 141);
             label5.Name = "label5";
-            label5.Size = new Size(106, 25);
+            label5.Size = new Size(65, 15);
             label5.TabIndex = 20;
             label5.Text = "Üniversite :";
             label5.Visible = false;
@@ -1276,7 +1277,7 @@ namespace BKS
             cbxPersonelUniversite.FormattingEnabled = true;
             cbxPersonelUniversite.Location = new Point(432, 138);
             cbxPersonelUniversite.Name = "cbxPersonelUniversite";
-            cbxPersonelUniversite.Size = new Size(224, 33);
+            cbxPersonelUniversite.Size = new Size(224, 23);
             cbxPersonelUniversite.TabIndex = 19;
             cbxPersonelUniversite.Visible = false;
             // 
@@ -1285,7 +1286,7 @@ namespace BKS
             txtPersonelDepartman.Location = new Point(9, 65);
             txtPersonelDepartman.Name = "txtPersonelDepartman";
             txtPersonelDepartman.PlaceholderText = "Departmanı";
-            txtPersonelDepartman.Size = new Size(151, 31);
+            txtPersonelDepartman.Size = new Size(151, 23);
             txtPersonelDepartman.TabIndex = 18;
             // 
             // txtPersonelYabanciDil
@@ -1321,7 +1322,7 @@ namespace BKS
             textBox1.Location = new Point(-96, -7);
             textBox1.Name = "textBox1";
             textBox1.PlaceholderText = "Görevi";
-            textBox1.Size = new Size(200, 31);
+            textBox1.Size = new Size(200, 23);
             textBox1.TabIndex = 13;
             // 
             // cbxPersonelEgitimDurumu
@@ -1330,7 +1331,7 @@ namespace BKS
             cbxPersonelEgitimDurumu.Items.AddRange(new object[] { "Okuryazar Değil", "İlkokul Mezunu ", "Ortaokul Mezunu", "Lise Mezunu", "Önlisans (Devam Ediyor)", "Lisans (Devam Ediyor)", "Yüksek Lisans(Devam Ediyor)", "Doktora (Devam Ediyor)", "Önlisans Mezunu", "Lisans Mezunu", "Yüksek Lisans", "Doktora " });
             cbxPersonelEgitimDurumu.Location = new Point(462, 92);
             cbxPersonelEgitimDurumu.Name = "cbxPersonelEgitimDurumu";
-            cbxPersonelEgitimDurumu.Size = new Size(194, 33);
+            cbxPersonelEgitimDurumu.Size = new Size(194, 23);
             cbxPersonelEgitimDurumu.TabIndex = 14;
             cbxPersonelEgitimDurumu.SelectedIndexChanged += comboBox1_SelectedIndexChanged_1;
             // 
@@ -1339,7 +1340,7 @@ namespace BKS
             label4.AutoSize = true;
             label4.Location = new Point(361, 95);
             label4.Name = "label4";
-            label4.Size = new Size(148, 25);
+            label4.Size = new Size(95, 15);
             label4.TabIndex = 13;
             label4.Text = "Eğitim Durumu :";
             label4.Click += label4_Click;
@@ -1349,7 +1350,7 @@ namespace BKS
             txtPersonelGorev.Location = new Point(167, 65);
             txtPersonelGorev.Name = "txtPersonelGorev";
             txtPersonelGorev.PlaceholderText = "Görevi / Ünvanı\n\n";
-            txtPersonelGorev.Size = new Size(153, 31);
+            txtPersonelGorev.Size = new Size(153, 23);
             txtPersonelGorev.TabIndex = 12;
             txtPersonelGorev.TextChanged += txtPersonelGorev_TextChanged;
             // 
@@ -1357,7 +1358,7 @@ namespace BKS
             // 
             dtpPersonelIseBaslamaTarihi.Location = new Point(122, 29);
             dtpPersonelIseBaslamaTarihi.Name = "dtpPersonelIseBaslamaTarihi";
-            dtpPersonelIseBaslamaTarihi.Size = new Size(206, 31);
+            dtpPersonelIseBaslamaTarihi.Size = new Size(206, 23);
             dtpPersonelIseBaslamaTarihi.TabIndex = 11;
             // 
             // cbxPersoneIIsAyrıldı
@@ -1365,7 +1366,7 @@ namespace BKS
             cbxPersoneIIsAyrıldı.AutoSize = true;
             cbxPersoneIIsAyrıldı.Location = new Point(367, 221);
             cbxPersoneIIsAyrıldı.Name = "cbxPersoneIIsAyrıldı";
-            cbxPersoneIIsAyrıldı.Size = new Size(138, 29);
+            cbxPersoneIIsAyrıldı.Size = new Size(89, 19);
             cbxPersoneIIsAyrıldı.TabIndex = 10;
             cbxPersoneIIsAyrıldı.Text = "İşten Ayrıldı";
             cbxPersoneIIsAyrıldı.UseVisualStyleBackColor = true;
@@ -1375,7 +1376,7 @@ namespace BKS
             // 
             dtpPersonelCıkısTarihi.Location = new Point(469, 246);
             dtpPersonelCıkısTarihi.Name = "dtpPersonelCıkısTarihi";
-            dtpPersonelCıkısTarihi.Size = new Size(200, 31);
+            dtpPersonelCıkısTarihi.Size = new Size(200, 23);
             dtpPersonelCıkısTarihi.TabIndex = 9;
             // 
             // lblIstenCıkısTarihi
@@ -1383,7 +1384,7 @@ namespace BKS
             lblIstenCıkısTarihi.AutoSize = true;
             lblIstenCıkısTarihi.Location = new Point(367, 252);
             lblIstenCıkısTarihi.Name = "lblIstenCıkısTarihi";
-            lblIstenCıkısTarihi.Size = new Size(153, 25);
+            lblIstenCıkısTarihi.Size = new Size(96, 15);
             lblIstenCıkısTarihi.TabIndex = 3;
             lblIstenCıkısTarihi.Text = "İşten Çıkış tarihi :";
             // 
@@ -1392,7 +1393,7 @@ namespace BKS
             label2.AutoSize = true;
             label2.Location = new Point(9, 35);
             label2.Name = "label2";
-            label2.Size = new Size(165, 25);
+            label2.Size = new Size(107, 15);
             label2.TabIndex = 2;
             label2.Text = "İşe Başlama Tarihi :";
             label2.Click += label2_Click;
@@ -1402,7 +1403,7 @@ namespace BKS
             txtPersonelMaas.Location = new Point(6, 219);
             txtPersonelMaas.Name = "txtPersonelMaas";
             txtPersonelMaas.PlaceholderText = "Maaş";
-            txtPersonelMaas.Size = new Size(151, 31);
+            txtPersonelMaas.Size = new Size(151, 23);
             txtPersonelMaas.TabIndex = 1;
             txtPersonelMaas.TextChanged += txtPersonelMaas_TextChanged;
             // 
@@ -1437,9 +1438,9 @@ namespace BKS
             tabPageGelirGider.Controls.Add(radioIncome);
             tabPageGelirGider.Controls.Add(radioExpense);
             tabPageGelirGider.Controls.Add(btnAddIncomeExpense);
-            tabPageGelirGider.Location = new Point(4, 34);
+            tabPageGelirGider.Location = new Point(4, 24);
             tabPageGelirGider.Name = "tabPageGelirGider";
-            tabPageGelirGider.Size = new Size(1858, 932);
+            tabPageGelirGider.Size = new Size(1858, 942);
             tabPageGelirGider.TabIndex = 2;
             tabPageGelirGider.Text = "Gelir-Gider Yönetimi";
             // 
@@ -1471,7 +1472,7 @@ namespace BKS
             txtDescription.Location = new Point(20, 20);
             txtDescription.Name = "txtDescription";
             txtDescription.PlaceholderText = "Açıklama";
-            txtDescription.Size = new Size(300, 31);
+            txtDescription.Size = new Size(300, 23);
             txtDescription.TabIndex = 0;
             // 
             // numericAmount
@@ -1480,7 +1481,7 @@ namespace BKS
             numericAmount.Location = new Point(350, 20);
             numericAmount.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numericAmount.Name = "numericAmount";
-            numericAmount.Size = new Size(120, 31);
+            numericAmount.Size = new Size(120, 23);
             numericAmount.TabIndex = 1;
             // 
             // radioIncome
@@ -1517,10 +1518,10 @@ namespace BKS
             // 
             tabPageOzelRaporlar.BackColor = Color.White;
             tabPageOzelRaporlar.Controls.Add(salesGrid);
-            tabPageOzelRaporlar.Location = new Point(4, 34);
+            tabPageOzelRaporlar.Location = new Point(4, 24);
             tabPageOzelRaporlar.Name = "tabPageOzelRaporlar";
             tabPageOzelRaporlar.Padding = new Padding(3);
-            tabPageOzelRaporlar.Size = new Size(1858, 932);
+            tabPageOzelRaporlar.Size = new Size(1858, 942);
             tabPageOzelRaporlar.TabIndex = 3;
             tabPageOzelRaporlar.Text = "Özel Raporlar";
             tabPageOzelRaporlar.Click += tabPage1_Click;
@@ -1578,9 +1579,17 @@ namespace BKS
             dataGridView1.TabIndex = 8;
             dataGridView1.Tag = 4010;
             // 
+            // arşivToolStripMenuItem
+            // 
+            arşivToolStripMenuItem.Image = (Image)resources.GetObject("arşivToolStripMenuItem.Image");
+            arşivToolStripMenuItem.Name = "arşivToolStripMenuItem";
+            arşivToolStripMenuItem.Size = new Size(188, 30);
+            arşivToolStripMenuItem.Text = "Arşiv";
+            arşivToolStripMenuItem.Click += arşivToolStripMenuItem_Click;
+            // 
             // Form2
             // 
-            AutoScaleDimensions = new SizeF(10F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoValidate = AutoValidate.EnablePreventFocusChange;
             ClientSize = new Size(1872, 1037);
@@ -1741,5 +1750,6 @@ namespace BKS
         private Panel panelForm;
         private Panel panelGrid;
         private Button FaturaBtn;
+        private ToolStripMenuItem arşivToolStripMenuItem;
     }
 }
