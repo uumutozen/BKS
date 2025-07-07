@@ -2353,10 +2353,24 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
 
         private void arşivToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Guid ogrenciId = (Guid)dataGridViewStok.SelectedRows[0].Cells["Id"].Value;
+            if (dataGridViewStok.SelectedCells.Count > 0)
+            {
+                // Seçili hücreyi bul
+                var cell = dataGridViewStok.SelectedCells[0];
 
-            var arsiv = new arsivForm(UserId, connectionString,ogrenciId);
-            arsiv.ShowDialog();
+                // Hücrenin bulunduğu satırı al
+                var row = dataGridViewStok.Rows[cell.RowIndex];
+
+                // "Id" sütununu bu satırda bul (sütun adı kesin "Id" ise!)
+                Guid ogrenciId = Guid.Parse(row.Cells["Id"].Value.ToString());
+
+                var arsiv = new arsivForm(UserId, connectionString, ogrenciId);
+                arsiv.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Lütfen bir öğrenci seçiniz!");
+            }
         }
 
         public Guid sinifid { get; set; }
