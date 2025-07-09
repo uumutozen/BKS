@@ -30,87 +30,89 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cmbOgrenciler = new System.Windows.Forms.ComboBox();
-            this.btnDosyaSec = new System.Windows.Forms.Button();
-            this.txtDosyaYolu = new System.Windows.Forms.TextBox();
-            this.btnYukle = new System.Windows.Forms.Button();
-            this.dgvDosyalar = new System.Windows.Forms.DataGridView();
-            this.btnIndir = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDosyalar)).BeginInit();
-            this.SuspendLayout();
+            cmbOgrenciler = new ComboBox();
+            btnDosyaSec = new Button();
+            txtDosyaYolu = new TextBox();
+            btnYukle = new Button();
+            dgvDosyalar = new DataGridView();
+            btnIndir = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvDosyalar).BeginInit();
+            SuspendLayout();
             // 
             // cmbOgrenciler
             // 
-            this.cmbOgrenciler.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbOgrenciler.FormattingEnabled = true;
-            this.cmbOgrenciler.Location = new System.Drawing.Point(20, 20);
-            this.cmbOgrenciler.Name = "cmbOgrenciler";
-            this.cmbOgrenciler.Size = new System.Drawing.Size(200, 24);
-            this.cmbOgrenciler.TabIndex = 0;
+            cmbOgrenciler.DropDownStyle = ComboBoxStyle.Simple;
+            cmbOgrenciler.Enabled = false;
+            cmbOgrenciler.FormattingEnabled = true;
+            cmbOgrenciler.Location = new Point(20, 20);
+            cmbOgrenciler.Name = "cmbOgrenciler";
+            cmbOgrenciler.Size = new Size(200, 24);
+            cmbOgrenciler.TabIndex = 0;
             // 
             // btnDosyaSec
             // 
-            this.btnDosyaSec.Location = new System.Drawing.Point(240, 20);
-            this.btnDosyaSec.Name = "btnDosyaSec";
-            this.btnDosyaSec.Size = new System.Drawing.Size(90, 24);
-            this.btnDosyaSec.TabIndex = 1;
-            this.btnDosyaSec.Text = "Dosya Seç";
-            this.btnDosyaSec.UseVisualStyleBackColor = true;
+            btnDosyaSec.Location = new Point(240, 20);
+            btnDosyaSec.Name = "btnDosyaSec";
+            btnDosyaSec.Size = new Size(90, 24);
+            btnDosyaSec.TabIndex = 1;
+            btnDosyaSec.Text = "Dosya Seç";
+            btnDosyaSec.UseVisualStyleBackColor = true;
             // 
             // txtDosyaYolu
             // 
-            this.txtDosyaYolu.Location = new System.Drawing.Point(340, 20);
-            this.txtDosyaYolu.Name = "txtDosyaYolu";
-            this.txtDosyaYolu.ReadOnly = true;
-            this.txtDosyaYolu.Size = new System.Drawing.Size(180, 22);
-            this.txtDosyaYolu.TabIndex = 2;
+            txtDosyaYolu.Location = new Point(340, 20);
+            txtDosyaYolu.Name = "txtDosyaYolu";
+            txtDosyaYolu.ReadOnly = true;
+            txtDosyaYolu.Size = new Size(180, 23);
+            txtDosyaYolu.TabIndex = 2;
             // 
             // btnYukle
             // 
-            this.btnYukle.Location = new System.Drawing.Point(540, 20);
-            this.btnYukle.Name = "btnYukle";
-            this.btnYukle.Size = new System.Drawing.Size(90, 24);
-            this.btnYukle.TabIndex = 3;
-            this.btnYukle.Text = "Yükle";
-            this.btnYukle.UseVisualStyleBackColor = true;
+            btnYukle.Location = new Point(540, 20);
+            btnYukle.Name = "btnYukle";
+            btnYukle.Size = new Size(90, 24);
+            btnYukle.TabIndex = 3;
+            btnYukle.Text = "Yükle";
+            btnYukle.UseVisualStyleBackColor = true;
             // 
             // dgvDosyalar
             // 
-            this.dgvDosyalar.AllowUserToAddRows = false;
-            this.dgvDosyalar.AllowUserToDeleteRows = false;
-            this.dgvDosyalar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDosyalar.Location = new System.Drawing.Point(20, 60);
-            this.dgvDosyalar.Name = "dgvDosyalar";
-            this.dgvDosyalar.ReadOnly = true;
-            this.dgvDosyalar.RowTemplate.Height = 24;
-            this.dgvDosyalar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDosyalar.Size = new System.Drawing.Size(610, 260);
-            this.dgvDosyalar.TabIndex = 4;
+            dgvDosyalar.AllowUserToAddRows = false;
+            dgvDosyalar.AllowUserToDeleteRows = false;
+            dgvDosyalar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDosyalar.Location = new Point(20, 60);
+            dgvDosyalar.Name = "dgvDosyalar";
+            dgvDosyalar.ReadOnly = true;
+            dgvDosyalar.RowTemplate.Height = 24;
+            dgvDosyalar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDosyalar.Size = new Size(610, 260);
+            dgvDosyalar.TabIndex = 4;
             // 
             // btnIndir
             // 
-            this.btnIndir.Location = new System.Drawing.Point(20, 330);
-            this.btnIndir.Name = "btnIndir";
-            this.btnIndir.Size = new System.Drawing.Size(160, 30);
-            this.btnIndir.TabIndex = 5;
-            this.btnIndir.Text = "Seçili Dosyayı İndir";
-            this.btnIndir.UseVisualStyleBackColor = true;
+            btnIndir.Location = new Point(20, 330);
+            btnIndir.Name = "btnIndir";
+            btnIndir.Size = new Size(160, 30);
+            btnIndir.TabIndex = 5;
+            btnIndir.Text = "Seçili Dosyayı İndir";
+            btnIndir.UseVisualStyleBackColor = true;
             // 
             // arsivForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(650, 380);
-            this.Controls.Add(this.cmbOgrenciler);
-            this.Controls.Add(this.btnDosyaSec);
-            this.Controls.Add(this.txtDosyaYolu);
-            this.Controls.Add(this.btnYukle);
-            this.Controls.Add(this.dgvDosyalar);
-            this.Controls.Add(this.btnIndir);
-            this.Name = "arsivForm";
-            this.Text = "Öğrenci Dosya Arşiv";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvDosyalar)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(650, 380);
+            Controls.Add(cmbOgrenciler);
+            Controls.Add(btnDosyaSec);
+            Controls.Add(txtDosyaYolu);
+            Controls.Add(btnYukle);
+            Controls.Add(dgvDosyalar);
+            Controls.Add(btnIndir);
+            Name = "arsivForm";
+            Text = "Öğrenci Dosya Arşiv";
+            ((System.ComponentModel.ISupportInitialize)dgvDosyalar).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
