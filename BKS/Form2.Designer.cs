@@ -37,21 +37,21 @@ namespace BKS
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             tabControl = new TabControl();
             tabPageOgrenciOnKayit = new TabPage();
             panelForm = new Panel();
             txtOnKayitAd = new TextBox();
+            btnOnKayitSil = new Button();
+            btnKesinKayitYap = new Button();
             txtOnKayitSoyad = new TextBox();
             dtpOnKayitDogumTarihi = new DateTimePicker();
             txtOnKayitVeliTel = new TextBox();
             txtOnKayitNot = new TextBox();
             btnOnKayitEkle = new Button();
-            btnOnKayitSil = new Button();
-            btnKesinKayitYap = new Button();
             panelGrid = new Panel();
             dgvOnKayitlar = new DataGridView();
             tabPageStok = new TabPage();
@@ -71,6 +71,7 @@ namespace BKS
             ödemeDetaylarıToolStripMenuItem = new ToolStripMenuItem();
             excelİleAktarToolStripMenuItem = new ToolStripMenuItem();
             geçmişHareketToolStripMenuItem = new ToolStripMenuItem();
+            arşivToolStripMenuItem = new ToolStripMenuItem();
             btnOgrenciYonetimiAra = new Button();
             txtOgrenciYonetimiAra = new TextBox();
             dataGridViewStok = new DataGridView();
@@ -162,7 +163,7 @@ namespace BKS
             materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             timer1 = new System.Windows.Forms.Timer(components);
             dataGridView1 = new DataGridView();
-            arşivToolStripMenuItem = new ToolStripMenuItem();
+            txtOnKayitBabaAd = new TextBox();
             tabControl.SuspendLayout();
             tabPageOgrenciOnKayit.SuspendLayout();
             panelForm.SuspendLayout();
@@ -228,14 +229,15 @@ namespace BKS
             // panelForm
             // 
             panelForm.BackColor = Color.FromArgb(245, 248, 255);
+            panelForm.Controls.Add(txtOnKayitBabaAd);
             panelForm.Controls.Add(txtOnKayitAd);
+            panelForm.Controls.Add(btnOnKayitSil);
+            panelForm.Controls.Add(btnKesinKayitYap);
             panelForm.Controls.Add(txtOnKayitSoyad);
             panelForm.Controls.Add(dtpOnKayitDogumTarihi);
             panelForm.Controls.Add(txtOnKayitVeliTel);
             panelForm.Controls.Add(txtOnKayitNot);
             panelForm.Controls.Add(btnOnKayitEkle);
-            panelForm.Controls.Add(btnOnKayitSil);
-            panelForm.Controls.Add(btnKesinKayitYap);
             panelForm.Dock = DockStyle.Top;
             panelForm.Location = new Point(0, 0);
             panelForm.Name = "panelForm";
@@ -251,6 +253,34 @@ namespace BKS
             txtOnKayitAd.Size = new Size(250, 29);
             txtOnKayitAd.TabIndex = 0;
             // 
+            // btnOnKayitSil
+            // 
+            btnOnKayitSil.BackColor = Color.FromArgb(231, 76, 60);
+            btnOnKayitSil.FlatStyle = FlatStyle.Flat;
+            btnOnKayitSil.Font = new Font("Segoe UI Semibold", 12F);
+            btnOnKayitSil.ForeColor = Color.White;
+            btnOnKayitSil.Location = new Point(1181, 180);
+            btnOnKayitSil.Name = "btnOnKayitSil";
+            btnOnKayitSil.Size = new Size(200, 40);
+            btnOnKayitSil.TabIndex = 8;
+            btnOnKayitSil.Text = "🗑️ Ön Kaydı Sil";
+            btnOnKayitSil.UseVisualStyleBackColor = false;
+            btnOnKayitSil.Click += btnOnKayitSil_Click;
+            // 
+            // btnKesinKayitYap
+            // 
+            btnKesinKayitYap.BackColor = Color.FromArgb(39, 174, 96);
+            btnKesinKayitYap.FlatStyle = FlatStyle.Flat;
+            btnKesinKayitYap.Font = new Font("Segoe UI Semibold", 12F);
+            btnKesinKayitYap.ForeColor = Color.White;
+            btnKesinKayitYap.Location = new Point(1412, 180);
+            btnKesinKayitYap.Name = "btnKesinKayitYap";
+            btnKesinKayitYap.Size = new Size(200, 40);
+            btnKesinKayitYap.TabIndex = 6;
+            btnKesinKayitYap.Text = "✅ Kesin Kayıt Yap";
+            btnKesinKayitYap.UseVisualStyleBackColor = false;
+            btnKesinKayitYap.Click += btnKesinKayitYap_Click_1;
+            // 
             // txtOnKayitSoyad
             // 
             txtOnKayitSoyad.Font = new Font("Segoe UI", 12F);
@@ -264,7 +294,7 @@ namespace BKS
             // 
             dtpOnKayitDogumTarihi.Font = new Font("Segoe UI", 12F);
             dtpOnKayitDogumTarihi.Format = DateTimePickerFormat.Short;
-            dtpOnKayitDogumTarihi.Location = new Point(590, 50);
+            dtpOnKayitDogumTarihi.Location = new Point(590, 47);
             dtpOnKayitDogumTarihi.Name = "dtpOnKayitDogumTarihi";
             dtpOnKayitDogumTarihi.Size = new Size(200, 29);
             dtpOnKayitDogumTarihi.TabIndex = 2;
@@ -274,14 +304,14 @@ namespace BKS
             txtOnKayitVeliTel.Font = new Font("Segoe UI", 12F);
             txtOnKayitVeliTel.Location = new Point(50, 100);
             txtOnKayitVeliTel.Name = "txtOnKayitVeliTel";
-            txtOnKayitVeliTel.PlaceholderText = "Veli Telefonu";
+            txtOnKayitVeliTel.PlaceholderText = "Baba Telefon";
             txtOnKayitVeliTel.Size = new Size(250, 29);
             txtOnKayitVeliTel.TabIndex = 3;
             // 
             // txtOnKayitNot
             // 
             txtOnKayitNot.Font = new Font("Segoe UI", 12F);
-            txtOnKayitNot.Location = new Point(320, 100);
+            txtOnKayitNot.Location = new Point(320, 160);
             txtOnKayitNot.Multiline = true;
             txtOnKayitNot.Name = "txtOnKayitNot";
             txtOnKayitNot.PlaceholderText = "Notlar (Opsiyonel)";
@@ -302,33 +332,6 @@ namespace BKS
             btnOnKayitEkle.UseVisualStyleBackColor = false;
             btnOnKayitEkle.Click += btnOnKayitEkle_Click;
             // 
-            // btnOnKayitSil
-            // 
-            btnOnKayitSil.BackColor = Color.FromArgb(231, 76, 60);
-            btnOnKayitSil.FlatStyle = FlatStyle.Flat;
-            btnOnKayitSil.Font = new Font("Segoe UI Semibold", 12F);
-            btnOnKayitSil.ForeColor = Color.White;
-            btnOnKayitSil.Location = new Point(490, 180);
-            btnOnKayitSil.Name = "btnOnKayitSil";
-            btnOnKayitSil.Size = new Size(200, 40);
-            btnOnKayitSil.TabIndex = 8;
-            btnOnKayitSil.Text = "🗑️ Ön Kaydı Sil";
-            btnOnKayitSil.UseVisualStyleBackColor = false;
-            btnOnKayitSil.Click += btnOnKayitSil_Click;
-            // 
-            // btnKesinKayitYap
-            // 
-            btnKesinKayitYap.BackColor = Color.FromArgb(39, 174, 96);
-            btnKesinKayitYap.FlatStyle = FlatStyle.Flat;
-            btnKesinKayitYap.Font = new Font("Segoe UI Semibold", 12F);
-            btnKesinKayitYap.ForeColor = Color.White;
-            btnKesinKayitYap.Location = new Point(270, 180);
-            btnKesinKayitYap.Name = "btnKesinKayitYap";
-            btnKesinKayitYap.Size = new Size(200, 40);
-            btnKesinKayitYap.TabIndex = 6;
-            btnKesinKayitYap.Text = "✅ Kesin Kayıt Yap";
-            btnKesinKayitYap.UseVisualStyleBackColor = false;
-            // 
             // panelGrid
             // 
             panelGrid.BackColor = Color.White;
@@ -341,34 +344,34 @@ namespace BKS
             // 
             // dgvOnKayitlar
             // 
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(240, 248, 255);
-            dgvOnKayitlar.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(240, 248, 255);
+            dgvOnKayitlar.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dgvOnKayitlar.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvOnKayitlar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvOnKayitlar.BackgroundColor = SystemColors.ButtonHighlight;
             dgvOnKayitlar.BorderStyle = BorderStyle.None;
             dgvOnKayitlar.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvOnKayitlar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.MidnightBlue;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgvOnKayitlar.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.MidnightBlue;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvOnKayitlar.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvOnKayitlar.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.LightSteelBlue;
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgvOnKayitlar.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle6.ForeColor = Color.Black;
+            dataGridViewCellStyle6.SelectionBackColor = Color.LightSteelBlue;
+            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvOnKayitlar.DefaultCellStyle = dataGridViewCellStyle6;
             dgvOnKayitlar.EnableHeadersVisualStyles = false;
             dgvOnKayitlar.GridColor = Color.LightGray;
-            dgvOnKayitlar.Location = new Point(20, 280);
+            dgvOnKayitlar.Location = new Point(3, 256);
             dgvOnKayitlar.MultiSelect = false;
             dgvOnKayitlar.Name = "dgvOnKayitlar";
             dgvOnKayitlar.ReadOnly = true;
@@ -381,7 +384,7 @@ namespace BKS
             dgvOnKayitlar.RowTemplate.Height = 30;
             dgvOnKayitlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOnKayitlar.ShowRowErrors = false;
-            dgvOnKayitlar.Size = new Size(1958, 1142);
+            dgvOnKayitlar.Size = new Size(1852, 624);
             dgvOnKayitlar.TabIndex = 31;
             dgvOnKayitlar.Tag = 5001;
             // 
@@ -530,14 +533,14 @@ namespace BKS
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { yeniKayıtEkleToolStripMenuItem, kayıtSilToolStripMenuItem, yenileToolStripMenuItem, ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, geçmişHareketToolStripMenuItem, arşivToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(189, 236);
+            contextMenuStrip1.Size = new Size(179, 214);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // yeniKayıtEkleToolStripMenuItem
             // 
             yeniKayıtEkleToolStripMenuItem.Image = (Image)resources.GetObject("yeniKayıtEkleToolStripMenuItem.Image");
             yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
-            yeniKayıtEkleToolStripMenuItem.Size = new Size(188, 30);
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(178, 30);
             yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
             yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
             // 
@@ -545,7 +548,7 @@ namespace BKS
             // 
             kayıtSilToolStripMenuItem.Image = (Image)resources.GetObject("kayıtSilToolStripMenuItem.Image");
             kayıtSilToolStripMenuItem.Name = "kayıtSilToolStripMenuItem";
-            kayıtSilToolStripMenuItem.Size = new Size(188, 30);
+            kayıtSilToolStripMenuItem.Size = new Size(178, 30);
             kayıtSilToolStripMenuItem.Text = "Seçili Kayıdı Sil";
             kayıtSilToolStripMenuItem.Click += DeleteStripMenuItem_Click;
             // 
@@ -553,7 +556,7 @@ namespace BKS
             // 
             yenileToolStripMenuItem.Image = (Image)resources.GetObject("yenileToolStripMenuItem.Image");
             yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
-            yenileToolStripMenuItem.Size = new Size(188, 30);
+            yenileToolStripMenuItem.Size = new Size(178, 30);
             yenileToolStripMenuItem.Text = "Yenile";
             yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
@@ -561,7 +564,7 @@ namespace BKS
             // 
             ödemeDetaylarıToolStripMenuItem.Image = (Image)resources.GetObject("ödemeDetaylarıToolStripMenuItem.Image");
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(188, 30);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(178, 30);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
@@ -569,7 +572,7 @@ namespace BKS
             // 
             excelİleAktarToolStripMenuItem.Image = (Image)resources.GetObject("excelİleAktarToolStripMenuItem.Image");
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(188, 30);
+            excelİleAktarToolStripMenuItem.Size = new Size(178, 30);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
@@ -577,9 +580,17 @@ namespace BKS
             // 
             geçmişHareketToolStripMenuItem.Image = (Image)resources.GetObject("geçmişHareketToolStripMenuItem.Image");
             geçmişHareketToolStripMenuItem.Name = "geçmişHareketToolStripMenuItem";
-            geçmişHareketToolStripMenuItem.Size = new Size(188, 30);
+            geçmişHareketToolStripMenuItem.Size = new Size(178, 30);
             geçmişHareketToolStripMenuItem.Text = "Geçmiş Hareketler";
             geçmişHareketToolStripMenuItem.Click += loglarıGörüntüleToolStripMenuItem_Click;
+            // 
+            // arşivToolStripMenuItem
+            // 
+            arşivToolStripMenuItem.Image = (Image)resources.GetObject("arşivToolStripMenuItem.Image");
+            arşivToolStripMenuItem.Name = "arşivToolStripMenuItem";
+            arşivToolStripMenuItem.Size = new Size(178, 30);
+            arşivToolStripMenuItem.Text = "Arşiv";
+            arşivToolStripMenuItem.Click += arşivToolStripMenuItem_Click;
             // 
             // btnOgrenciYonetimiAra
             // 
@@ -1579,13 +1590,14 @@ namespace BKS
             dataGridView1.TabIndex = 8;
             dataGridView1.Tag = 4010;
             // 
-            // arşivToolStripMenuItem
+            // txtOnKayitBabaAd
             // 
-            arşivToolStripMenuItem.Image = (Image)resources.GetObject("arşivToolStripMenuItem.Image");
-            arşivToolStripMenuItem.Name = "arşivToolStripMenuItem";
-            arşivToolStripMenuItem.Size = new Size(188, 30);
-            arşivToolStripMenuItem.Text = "Arşiv";
-            arşivToolStripMenuItem.Click += arşivToolStripMenuItem_Click;
+            txtOnKayitBabaAd.Font = new Font("Segoe UI", 12F);
+            txtOnKayitBabaAd.Location = new Point(320, 100);
+            txtOnKayitBabaAd.Name = "txtOnKayitBabaAd";
+            txtOnKayitBabaAd.PlaceholderText = "Baba Adı Soyadı";
+            txtOnKayitBabaAd.Size = new Size(250, 29);
+            txtOnKayitBabaAd.TabIndex = 9;
             // 
             // Form2
             // 
@@ -1751,5 +1763,6 @@ namespace BKS
         private Panel panelGrid;
         private Button FaturaBtn;
         private ToolStripMenuItem arşivToolStripMenuItem;
+        private TextBox txtOnKayitBabaAd;
     }
 }

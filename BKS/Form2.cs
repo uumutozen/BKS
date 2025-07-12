@@ -2169,7 +2169,7 @@ WHERE PersonelId = @id";
             string lastname = string.IsNullOrWhiteSpace(txtOnKayitSoyad.Text) ? "veri yok" : txtOnKayitSoyad.Text;
             string velitel = string.IsNullOrWhiteSpace(txtOnKayitVeliTel.Text) ? "veri yok" : txtOnKayitVeliTel.Text;
             string not = string.IsNullOrWhiteSpace(txtOnKayitNot.Text) ? "veri yok" : txtOnKayitNot.Text;
-            string fatherName = "veri yok"; // İstersen textbox'tan alabilirsin
+            string babaAd = string.IsNullOrEmpty(txtOnKayitBabaAd.Text) ? "veri yok" : txtOnKayitBabaAd.Text;
             string studentCode = Guid.NewGuid().ToString(); // Otomatik unique code üretildi
             bool paymentStatus = false; // Bit olarak gönderilecek, varsayılan false
             decimal monthlyFee = 0m; // Decimal, varsayılan 0
@@ -2206,7 +2206,7 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
                 cmd.Parameters.AddWithValue("@ParentPhone", velitel);
                 cmd.Parameters.AddWithValue("@Notes", not);
                 cmd.Parameters.AddWithValue("@CreatedAt", createdAt);
-                cmd.Parameters.AddWithValue("@FatherName", fatherName);
+                cmd.Parameters.AddWithValue("@FatherName", babaAd);
                 cmd.Parameters.AddWithValue("@StudentCode", studentCode);
                 cmd.Parameters.AddWithValue("@ClassId", classId);
                 cmd.Parameters.AddWithValue("@PaymentStatus", paymentStatus);
@@ -2301,7 +2301,7 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
         {
             using (var conn = new SqlConnection(connectionString))
             {
-                var adapter = new SqlDataAdapter("select * from PreRegistrations p where p.ClassId = dbo.GetSirketIdByUserId(@ClassId)", conn);
+                var adapter = new SqlDataAdapter("select Id,'İsim'=FirstName,'Soyisim'=LastName,'Doğum Tarihi'=BirthDate, 'Baba Telefon'=ParentPhone,'Notlar'=Notes, 'Baba Adı'=FatherName,'Ödeme Durumu'=PaymentStatus,'Aylık Ücret'=MonthlyFee  from PreRegistrations p where p.ClassId = dbo.GetSirketIdByUserId(@ClassId)", conn);
 
                 // Parametre ekliyoruz
                 adapter.SelectCommand.Parameters.AddWithValue("@ClassId", classId);
@@ -2371,6 +2371,31 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
             {
                 MessageBox.Show("Lütfen bir öğrenci seçiniz!");
             }
+        }
+
+        private void btnKesinKayitYap_Click_1(object sender, EventArgs e)
+        {
+
+            DataGridViewRow row = dgvOnKayitlar.Rows[dgvOnKayitlar.CurrentCell.RowIndex];
+
+            Form2 form2 = new Form2();
+                OgrenciForm ogrForm = new OgrenciForm(form2);
+
+                // Satırdaki verileri forma aktar
+                ogrForm.txtOgrenciAd.Text = row.Cells["İsim"].Value?.ToString() ?? "";
+                ogrForm.textSoyad.Text = row.Cells["Soyisim"].Value?.ToString() ?? "";
+                ogrForm.txtBabaAd.Text = row.Cells["Baba Adı"].Value?.ToString() ?? "";
+                ogrForm.textOgrenciDetay.Text = row.Cells["Notlar"].Value?.ToString() ?? "";
+                ogrForm.txtBabaTel.Text = row.Cells["Baba Telefon"].Value?.ToString() ?? "";
+                ogrForm.numericPrice.Text = row.Cells["Aylık Ücret"].Value?.ToString() ?? "";
+                ogrForm.checkOdemeDurum.Checked = row.Cells["Ödeme Durumu"].Value?.ToString()== "Evet";
+                ogrForm.dateDogum.Text = row.Cells["Doğum Tarihi"].Value?.ToString() ?? "";
+
+                ogrForm.UserId = UserId;    
+                ogrForm.RefreshData += DataStokRefresh;
+                ogrForm.Show();
+
+            
         }
 
         public Guid sinifid { get; set; }
