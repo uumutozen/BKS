@@ -81,7 +81,7 @@ namespace BKS
                 StudentCode = @ogrenciKod,
                 StudentsDetails = @ogrenciDetay,
                 FatherPhoneNumber = @babaTel,
-	            ClassId=(SELECT top 1 Id FROM AYSClasses WHERE ClassName = @ClassName and Isdeleted=0 and SchoolId=dbo.GetSirketIdByUserId(@UserId)select top 1 Id from aysclasses where ClassName=@ClassName),
+	            ClassId=(SELECT top 1 Id FROM AYSClasses WHERE ClassName = @ClassName and Isdeleted=0 and SchoolId=dbo.GetSirketIdByUserId(@UserId)),
                 MotherPhonenumber = @anneTel,
                 FatherAddress = @babaAdres,
                 MotherAddress = @anneAdres,
@@ -104,7 +104,7 @@ namespace BKS
                     cmd.Parameters.AddWithValue("@soyisim", soyisim);
                     cmd.Parameters.AddWithValue("@babaAdi", babaAdi);
                     cmd.Parameters.AddWithValue("@anneAdi", anneAdi);
-              
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
                     cmd.Parameters.AddWithValue("@ogrenciKod", ogrenciKod);
                     cmd.Parameters.AddWithValue("@ogrenciDetay", ogrenciDetay);
                     cmd.Parameters.AddWithValue("@ClassName", sinif);
