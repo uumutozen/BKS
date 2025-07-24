@@ -29,6 +29,7 @@ namespace BKS
             cmbOgrenciler.SelectedIndexChanged += CmbOgrenciler_SelectedIndexChanged;
             btnDosyaSec.Click += BtnDosyaSec_Click;
             btnYukle.Click += BtnYukle_Click;
+            LoadOgrenciDosyalari();
             btnIndir.Click += BtnIndir_Click;
         }
 
