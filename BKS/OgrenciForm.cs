@@ -26,6 +26,8 @@ namespace BKS
         private void OgrenciForm_Load(object sender, EventArgs e)
         {
             LoadStudentClassComboBox(UserId);
+            cmbogrsınıf.SelectedIndex = -1; 
+
         }
         private void txtOgrenciAd_TextChanged(object sender, EventArgs e)
         {
@@ -33,7 +35,7 @@ namespace BKS
         }
         private void LoadStudentClassComboBox(Guid UserId)
         {
-           
+
             using (SqlConnection conn = new SqlConnection(_form2.connectionString))
             {
 
@@ -131,7 +133,7 @@ namespace BKS
             this.Close();
             // Güncellenmiş listeyi tekrar yükle
         }
-    
+
 
         private void btnAddStock_Click(object sender, EventArgs e)
         {
@@ -220,7 +222,7 @@ namespace BKS
 
             // Bu formu kapat
             this.Close();
-           
+
         }
 
 
@@ -247,7 +249,7 @@ namespace BKS
             RefreshData.Invoke(this, new EventArgs());
             _form2.dataGridViewStok.DataSource = _form2.LoadStockDataRefresh(UserId);
             this.Close();
-      
+
 
         }
 
@@ -274,9 +276,25 @@ namespace BKS
             }
         }
 
+        private void cmbogrsınıf_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            
+                if (e.Index < 0)
+                {
+                    // Placeholder gibi davran
+                    e.Graphics.DrawString("Ev adresi seçiniz",
+                        new Font("Segoe UI", 9, FontStyle.Italic),
+                        Brushes.Gray, e.Bounds);
+                    return;
+                }
 
+                e.DrawBackground();
+                e.Graphics.DrawString(cmbogrsınıf.Items[e.Index].ToString(),
+                    e.Font, Brushes.Black, e.Bounds);
+            
+        }
 
-        public byte[] Photo { get; set; } 
+        public byte[] Photo { get; set; }
         public Guid UserId { get; set; }
         public Guid StudentId { get; set; }
     }

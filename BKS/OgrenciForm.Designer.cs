@@ -52,6 +52,7 @@
             checkAktif = new CheckBox();
             dateDogum = new DateTimePicker();
             groupBox1 = new GroupBox();
+            label1 = new Label();
             pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             groupBox10 = new GroupBox();
@@ -114,16 +115,17 @@
             // 
             cmbogrsınıf.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             cmbogrsınıf.ForeColor = SystemColors.WindowFrame;
-            cmbogrsınıf.Location = new Point(171, 112);
+            cmbogrsınıf.Location = new Point(171, 141);
             cmbogrsınıf.Name = "cmbogrsınıf";
             cmbogrsınıf.Size = new Size(259, 23);
             cmbogrsınıf.TabIndex = 4;
+            cmbogrsınıf.DrawItem += cmbogrsınıf_DrawItem;
             // 
             // textOgrenciKod
             // 
             textOgrenciKod.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             textOgrenciKod.ForeColor = SystemColors.WindowFrame;
-            textOgrenciKod.Location = new Point(171, 141);
+            textOgrenciKod.Location = new Point(171, 112);
             textOgrenciKod.Name = "textOgrenciKod";
             textOgrenciKod.PlaceholderText = "Öğrenci Numarası";
             textOgrenciKod.Size = new Size(259, 23);
@@ -216,6 +218,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(pictureBox1);
             groupBox1.Controls.Add(txtOgrenciAd);
             groupBox1.Controls.Add(textSoyad);
@@ -230,6 +233,13 @@
             groupBox1.TabIndex = 16;
             groupBox1.TabStop = false;
             groupBox1.Text = "Öğrenci Bilgileri";
+            // 
+            // label1
+            // 
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(100, 23);
+            label1.TabIndex = 0;
             // 
             // pictureBox1
             // 
@@ -398,6 +408,7 @@
         private Button btnGuncelle;
         private Button btnOgrenciYonetimiSil;
         private Button btnAddStock;
+        private Label label1;
     }
 
 }
