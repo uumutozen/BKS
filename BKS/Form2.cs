@@ -1,24 +1,26 @@
-﻿using System;
+﻿using Krypton.Ribbon;
+using MaterialSkin;
+using MaterialSkin.Controls;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.ApplicationServices;
+using Newtonsoft.Json;
+using OfficeOpenXml;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using MaterialSkin;
-using MaterialSkin.Controls;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+
 using System.Windows.Forms;
-using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
-using Newtonsoft.Json;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
-using System.Net;
-using Microsoft.VisualBasic.ApplicationServices;
 
 
 namespace BKS
@@ -33,7 +35,7 @@ namespace BKS
         {
 
             InitializeComponent();
-
+            //InitRibbon(); bu tampplete üzerine çalışılacak.
             if (salesGrid.DataSource != null)
             {
                 LoadSalesData();
@@ -46,6 +48,40 @@ namespace BKS
         }
         [System.ComponentModel.Browsable(false)]
         public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
+        //private void InitRibbon()
+        //{
+        //    // Krypton Ribbon oluştur
+        //    KryptonRibbon ribbon = new KryptonRibbon();
+        //    ribbon.Dock = DockStyle.Top;
+        //    this.Controls.Add(ribbon);
+
+        //    // Öğrenci Yönetimi Tab
+        //    KryptonRibbonTab tabOgrenci = new KryptonRibbonTab();
+        //    tabOgrenci.Text = "Öğrenci Yönetimi";
+        //    ribbon.RibbonTabs.Add(tabOgrenci);
+
+        //    // Panel ekle
+        //    KryptonRibbonGroup groupOgrenci = new KryptonRibbonGroup();
+        //    tabOgrenci.Groups.Add(groupOgrenci);
+
+        //    KryptonRibbonGroupTriple triple = new KryptonRibbonGroupTriple();
+        //    groupOgrenci.Items.Add(triple);
+
+        //    // Buton: Öğrenci Listesi
+        //    KryptonRibbonGroupButton btnOgrenciListe = new KryptonRibbonGroupButton();
+        //    btnOgrenciListe.TextLine1 = "Öğrenci Listesi";
+        //    btnOgrenciListe.Click += (s, e) => tabControl.SelectedTab = tabPageStok;
+
+        //    // Buton: Yeni Öğrenci
+        //    KryptonRibbonGroupButton btnOgrenciEkle = new KryptonRibbonGroupButton();
+        //    btnOgrenciEkle.TextLine1 = "Öğrenci Ekle";
+        //    btnOgrenciEkle.Click += (s, e) => MessageBox.Show("Öğrenci Ekle Formu Açılacak");
+
+        //    triple.Items.Add(btnOgrenciListe);
+        //    triple.Items.Add(btnOgrenciEkle);
+
+        //    // Aynı şekilde Personel, Ödeme, Gelir-Gider sekmeleri eklenebilir
+        //}
         private void Form2_Load(object sender, EventArgs e)
         {
             dgvPersonelYonetimi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -61,6 +97,7 @@ namespace BKS
             YasGrubuLoad();
             SinifLoad(UserId);
             LoadPaymentData(UserId);
+
             dataGridViewStok.Columns["Id"].Visible = false;
             dataGridViewStok.Columns["MonthlyFee"].Visible = false;//önemli değiştirme
             dataGridViewStok.Columns["FotoId"].Visible = false;
