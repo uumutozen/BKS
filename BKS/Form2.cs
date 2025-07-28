@@ -35,7 +35,7 @@ namespace BKS
         {
 
             InitializeComponent();
-            //InitRibbon(); bu tampplete üzerine çalışılacak.
+            InitRibbon(); 
             if (salesGrid.DataSource != null)
             {
                 LoadSalesData();
@@ -48,40 +48,75 @@ namespace BKS
         }
         [System.ComponentModel.Browsable(false)]
         public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
-        //private void InitRibbon()
-        //{
-        //    // Krypton Ribbon oluştur
-        //    KryptonRibbon ribbon = new KryptonRibbon();
-        //    ribbon.Dock = DockStyle.Top;
-        //    this.Controls.Add(ribbon);
 
-        //    // Öğrenci Yönetimi Tab
-        //    KryptonRibbonTab tabOgrenci = new KryptonRibbonTab();
-        //    tabOgrenci.Text = "Öğrenci Yönetimi";
-        //    ribbon.RibbonTabs.Add(tabOgrenci);
+        private void InitRibbon()
+        {
+            // Krypton Ribbon oluştur
+            KryptonRibbon ribbon = new KryptonRibbon
+            {
+                Dock = DockStyle.Top
+            };
+            this.Controls.Add(ribbon);
 
-        //    // Panel ekle
-        //    KryptonRibbonGroup groupOgrenci = new KryptonRibbonGroup();
-        //    tabOgrenci.Groups.Add(groupOgrenci);
+            // === Öğrenci Ön Kayıt ===
+            KryptonRibbonTab tabOnKayit = new KryptonRibbonTab { Text = "🎓 Öğrenci Ön Kayıt" };
+            ribbon.RibbonTabs.Add(tabOnKayit);
+            AddGroupWithButtons(tabOnKayit, "Ön Kayıt İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageOgrenciOnKayit),
+                                                          ("Yeni Kayıt", () => btnOnKayitEkle.PerformClick()));
 
-        //    KryptonRibbonGroupTriple triple = new KryptonRibbonGroupTriple();
-        //    groupOgrenci.Items.Add(triple);
+            // === Öğrenci Yönetimi ===
+            KryptonRibbonTab tabOgrenci = new KryptonRibbonTab { Text = "📚 Öğrenci Yönetimi" };
+            ribbon.RibbonTabs.Add(tabOgrenci);
+            AddGroupWithButtons(tabOgrenci, "Öğrenci İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageStok),
+                                                          ("Sınıf Ekle", () => btnOgrenciYonetimiSinifKaydet.PerformClick()));
 
-        //    // Buton: Öğrenci Listesi
-        //    KryptonRibbonGroupButton btnOgrenciListe = new KryptonRibbonGroupButton();
-        //    btnOgrenciListe.TextLine1 = "Öğrenci Listesi";
-        //    btnOgrenciListe.Click += (s, e) => tabControl.SelectedTab = tabPageStok;
+            // === Ödeme Yönetimi ===
+            KryptonRibbonTab tabOdeme = new KryptonRibbonTab { Text = "💰 Ödeme Yönetimi" };
+            ribbon.RibbonTabs.Add(tabOdeme);
+            AddGroupWithButtons(tabOdeme, "Ödeme İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageSatis),
+                                                          ("Ödeme Girişi", () => btnMakeSale.PerformClick()));
 
-        //    // Buton: Yeni Öğrenci
-        //    KryptonRibbonGroupButton btnOgrenciEkle = new KryptonRibbonGroupButton();
-        //    btnOgrenciEkle.TextLine1 = "Öğrenci Ekle";
-        //    btnOgrenciEkle.Click += (s, e) => MessageBox.Show("Öğrenci Ekle Formu Açılacak");
+            // === Personel Yönetimi ===
+            KryptonRibbonTab tabPersonel = new KryptonRibbonTab { Text = "👨‍💼 Personel Yönetimi" };
+            ribbon.RibbonTabs.Add(tabPersonel);
+            AddGroupWithButtons(tabPersonel, "Personel İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPagePersonelYonetimi));
 
-        //    triple.Items.Add(btnOgrenciListe);
-        //    triple.Items.Add(btnOgrenciEkle);
+            // === Gelir Gider Yönetimi ===
+            KryptonRibbonTab tabGelirGider = new KryptonRibbonTab { Text = "📊 Gelir-Gider" };
+            ribbon.RibbonTabs.Add(tabGelirGider);
+            AddGroupWithButtons(tabGelirGider, "Finans İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageGelirGider),
+                                                              ("Yeni Kayıt", () => btnAddIncomeExpense.PerformClick()),
+                                                              ("Fatura Merkezi", () => FaturaBtn.PerformClick()));
 
-        //    // Aynı şekilde Personel, Ödeme, Gelir-Gider sekmeleri eklenebilir
-        //}
+            // === Özel Raporlar ===
+            KryptonRibbonTab tabRapor = new KryptonRibbonTab { Text = "📈 Özel Raporlar" };
+            ribbon.RibbonTabs.Add(tabRapor);
+            AddGroupWithButtons(tabRapor, "Raporlar", ("Görüntüle", () => tabControl.SelectedTab = tabPageOzelRaporlar));
+
+            // TabControl başlıklarını gizle (artık Ribbon'dan erişim olacak)
+            tabControl.Appearance = TabAppearance.FlatButtons;
+            tabControl.ItemSize = new Size(0, 1);
+            tabControl.SizeMode = TabSizeMode.Fixed;
+        }
+
+        private void AddGroupWithButtons(KryptonRibbonTab tab, string groupName, params (string, Action)[] buttons)
+        {
+            KryptonRibbonGroup group = new KryptonRibbonGroup { TextLine1 = groupName };
+            tab.Groups.Add(group);
+
+            KryptonRibbonGroupTriple triple = new KryptonRibbonGroupTriple();
+            group.Items.Add(triple);
+
+            foreach (var (text, action) in buttons)
+            {
+                KryptonRibbonGroupButton btn = new KryptonRibbonGroupButton
+                {
+                    TextLine1 = text
+                };
+                btn.Click += (s, e) => action();
+                triple.Items.Add(btn);
+            }
+        }
         private void Form2_Load(object sender, EventArgs e)
         {
             dgvPersonelYonetimi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
