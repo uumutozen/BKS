@@ -229,8 +229,10 @@ namespace BKS
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Personel başarıyla kaydedildi.");
 
-                    // Kayıt sonrası formları temizleyebilir veya Personel listesini yenileyebilirsin
+                    MessageBox.Show("Personel başarıyla kaydedildi.");
+                    RefreshData?.Invoke(this, EventArgs.Empty); // Ekle
                     _form2.PersonelYonetimiLoad(userid);
+                    this.Close(); // isteğe bağlı kapatabilirsin
                 }
                 catch (Exception ex)
                 {
@@ -418,7 +420,9 @@ WHERE PersonelId = @id";
             }
 
             MessageBox.Show("Personel bilgileri başarıyla güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            RefreshData?.Invoke(this, EventArgs.Empty); // Ekle
             _form2.PersonelYonetimiLoad(UserId);
+            this.Close(); // isteğe bağlı
         }
         private void btnPersonelTemizle_Click(object sender, EventArgs e)
         {

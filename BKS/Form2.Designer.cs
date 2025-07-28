@@ -474,14 +474,14 @@ namespace BKS
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { yeniKayıtEkleToolStripMenuItem, kayıtSilToolStripMenuItem, yenileToolStripMenuItem, ödemeDetaylarıToolStripMenuItem, excelİleAktarToolStripMenuItem, geçmişHareketToolStripMenuItem, arşivToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(189, 236);
+            contextMenuStrip1.Size = new Size(179, 214);
             contextMenuStrip1.Text = "Ödeme Detayları";
             // 
             // yeniKayıtEkleToolStripMenuItem
             // 
             yeniKayıtEkleToolStripMenuItem.Image = (Image)resources.GetObject("yeniKayıtEkleToolStripMenuItem.Image");
             yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
-            yeniKayıtEkleToolStripMenuItem.Size = new Size(188, 30);
+            yeniKayıtEkleToolStripMenuItem.Size = new Size(178, 30);
             yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
             yeniKayıtEkleToolStripMenuItem.Click += yeniKayitEkle;
             // 
@@ -489,7 +489,7 @@ namespace BKS
             // 
             kayıtSilToolStripMenuItem.Image = (Image)resources.GetObject("kayıtSilToolStripMenuItem.Image");
             kayıtSilToolStripMenuItem.Name = "kayıtSilToolStripMenuItem";
-            kayıtSilToolStripMenuItem.Size = new Size(188, 30);
+            kayıtSilToolStripMenuItem.Size = new Size(178, 30);
             kayıtSilToolStripMenuItem.Text = "Seçili Kayıdı Sil";
             kayıtSilToolStripMenuItem.Click += DeleteStripMenuItem_Click;
             // 
@@ -497,7 +497,7 @@ namespace BKS
             // 
             yenileToolStripMenuItem.Image = (Image)resources.GetObject("yenileToolStripMenuItem.Image");
             yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
-            yenileToolStripMenuItem.Size = new Size(188, 30);
+            yenileToolStripMenuItem.Size = new Size(178, 30);
             yenileToolStripMenuItem.Text = "Yenile";
             yenileToolStripMenuItem.Click += yenileToolStripMenuItem_Click;
             // 
@@ -505,7 +505,7 @@ namespace BKS
             // 
             ödemeDetaylarıToolStripMenuItem.Image = (Image)resources.GetObject("ödemeDetaylarıToolStripMenuItem.Image");
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
-            ödemeDetaylarıToolStripMenuItem.Size = new Size(188, 30);
+            ödemeDetaylarıToolStripMenuItem.Size = new Size(178, 30);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
             ödemeDetaylarıToolStripMenuItem.Click += ödemeDetaylarıToolStripMenuItem_Click_1;
             // 
@@ -513,7 +513,7 @@ namespace BKS
             // 
             excelİleAktarToolStripMenuItem.Image = (Image)resources.GetObject("excelİleAktarToolStripMenuItem.Image");
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
-            excelİleAktarToolStripMenuItem.Size = new Size(188, 30);
+            excelİleAktarToolStripMenuItem.Size = new Size(178, 30);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
             excelİleAktarToolStripMenuItem.Click += excelAktarToolStripMenuItem_Click;
             // 
@@ -521,7 +521,7 @@ namespace BKS
             // 
             geçmişHareketToolStripMenuItem.Image = (Image)resources.GetObject("geçmişHareketToolStripMenuItem.Image");
             geçmişHareketToolStripMenuItem.Name = "geçmişHareketToolStripMenuItem";
-            geçmişHareketToolStripMenuItem.Size = new Size(188, 30);
+            geçmişHareketToolStripMenuItem.Size = new Size(178, 30);
             geçmişHareketToolStripMenuItem.Text = "Geçmiş Hareketler";
             geçmişHareketToolStripMenuItem.Click += loglarıGörüntüleToolStripMenuItem_Click;
             // 
@@ -529,7 +529,7 @@ namespace BKS
             // 
             arşivToolStripMenuItem.Image = (Image)resources.GetObject("arşivToolStripMenuItem.Image");
             arşivToolStripMenuItem.Name = "arşivToolStripMenuItem";
-            arşivToolStripMenuItem.Size = new Size(188, 30);
+            arşivToolStripMenuItem.Size = new Size(178, 30);
             arşivToolStripMenuItem.Text = "Arşiv";
             arşivToolStripMenuItem.Click += arşivToolStripMenuItem_Click;
             // 
@@ -751,6 +751,7 @@ namespace BKS
             dgvPersonelYonetimi.TabIndex = 32;
             dgvPersonelYonetimi.Tag = 4020;
             dgvPersonelYonetimi.CellClick += dataGridViewStok_CellContentClick;
+            dgvPersonelYonetimi.CellDoubleClick += dataGridViewPersonel_CellDoubleClick;
             // 
             // tabPageGelirGider
             // 

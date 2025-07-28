@@ -1501,9 +1501,12 @@ namespace BKS
             {
                 DataGridViewRow row = dgvPersonelYonetimi.Rows[e.RowIndex];
 
-                // Yeni personel formu oluştur
-                Form2 form2 = new Form2(); // form2'de dgv varsa
-                PersonelForm personelForm = new PersonelForm(form2);
+                PersonelForm personelForm = new PersonelForm(this); // this gönderiliyor
+                personelForm.UserId = this.UserId;
+                personelForm.PersonelId = (Guid)row.Cells["PersonelId"].Value;
+
+                // Refresh event bağlanıyor
+                personelForm.RefreshData += LoadPersonelRefreshEvent;
 
                 // Satırdan gelen verileri personel formuna aktar
                 personelForm.txtPersonelAd.Text = row.Cells["Adı"].Value?.ToString();
@@ -1557,9 +1560,7 @@ namespace BKS
                 personelForm.txtPersonelKidemTazminat.Text = row.Cells["Kıdem Tazminatı"].Value?.ToString();
 
                 personelForm.dtpPersonelIseBaslamaTarihi.Value = Convert.ToDateTime(row.Cells["İşe Başlama Tarihi"].Value);
-
-                personelForm.UserId = this.UserId;
-                personelForm.PersonelId = (Guid)row.Cells["PersonelId"].Value;
+            
 
                 personelForm.Show();
             }
@@ -1627,20 +1628,8 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
         }
         private void LoadPersonelRefreshEvent(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                string query = "exec GetPersonel @UserId";// arama modülü eklenecek
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
+            PersonelYonetimiLoad(UserId);
 
-                DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                adapter.Fill(dt);
-                dgvPersonelYonetimi.DataSource = dt;
-
-
-            }
         }
         private void yeniKayitEkle(object sender, EventArgs e)
         {
