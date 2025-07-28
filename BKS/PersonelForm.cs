@@ -103,7 +103,7 @@ namespace BKS
             {
                 string kimlikNo = txtPersonelKimlik.Text.Trim();
 
-                if (IsValidTCKimlikNo(kimlikNo))
+                if (!IsValidTCKimlikNo(kimlikNo))
                 {
                     MessageBox.Show("Geçersiz TC Kimlik Numarası!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtPersonelKimlik.Focus();

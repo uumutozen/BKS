@@ -165,6 +165,8 @@
             txtBabaEvAdres.Size = new Size(444, 92);
             txtBabaEvAdres.TabIndex = 9;
             txtBabaEvAdres.Text = "Ev Adresi";
+            txtBabaEvAdres.Enter += txtBabaEvAdres_Enter;
+            txtBabaEvAdres.Leave += txtBabaEvAdres_Leave;
             // 
             // txtAnneEvAdres
             // 
@@ -174,6 +176,8 @@
             txtAnneEvAdres.Size = new Size(444, 92);
             txtAnneEvAdres.TabIndex = 10;
             txtAnneEvAdres.Text = "Ev Adresi";
+            txtAnneEvAdres.Enter += txtAnneEvAdres_Enter;
+            txtAnneEvAdres.Leave += txtAnneEvAdres_Leave;
             // 
             // numericPrice
             // 

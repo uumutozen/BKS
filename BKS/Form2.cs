@@ -387,6 +387,7 @@ namespace BKS
             }
         }
 
+
         public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id, Guid UserId, string actions, string actionName)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -1726,58 +1727,110 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
 
         private void yenileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string ogrenciadi = string.IsNullOrEmpty(txtOgrenciYonetimiAra.Text) ? null : txtOgrenciYonetimiAra.Text;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "exec GetStudent @UserId,@Name";// arama modülü eklenecek
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
-                cmd.Parameters.AddWithValue("@Name", string.IsNullOrEmpty(ogrenciadi) ? (object)DBNull.Value : ogrenciadi);
 
-                DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                adapter.Fill(dt);
-                dataGridViewStok.DataSource = dt;
+                if ((int)aktifDGV.Tag == 4010)
+                {
+                    string ogrenciadi = string.IsNullOrEmpty(txtOgrenciYonetimiAra.Text) ? null : txtOgrenciYonetimiAra.Text;
 
+                    string query = "exec GetStudent @UserId,@Name";// arama modülü eklenecek
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@Name", string.IsNullOrEmpty(ogrenciadi) ? (object)DBNull.Value : ogrenciadi);
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                    dataGridViewStok.DataSource = dt;
+
+
+                }
+                if ((int)aktifDGV.Tag == 4020)
+                {
+                    string query = "exec GetPersonel @UserId";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                    dgvPersonelYonetimi.DataSource = dt;
+                }
             }
         }
         private void DeleteStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            if (dataGridViewStok.CurrentRow != null)
+            using (SqlConnection con = new SqlConnection(connectionString))
             {
+                con.Open();
 
-
-                Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
-                DialogResult result = MessageBox.Show("Bu Öğrenciyi Silmek İstiyor musunuz?", "Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result == DialogResult.Yes)
+                if ((int)aktifDGV.Tag == 4010)
                 {
 
-                    string query = @"
+                    if (dataGridViewStok.CurrentRow != null)
+                    {
+
+
+                        Guid id = (Guid)dataGridViewStok.CurrentRow.Cells["Id"].Value; // Seçili öğrencinin ID'sini al
+                        DialogResult result = MessageBox.Show("Bu Öğrenciyi Silmek İstiyor musunuz?", "Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (result == DialogResult.Yes)
+                        {
+
+                            string query = @"
             Update AysStudents set IsDeleted=1
             WHERE Id = @id";
 
-                    using (SqlConnection con = new SqlConnection(connectionString))
-                    {
-                        con.Open();
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            // Parametreleri Ekle
-                            cmd.Parameters.AddWithValue("@id", id);
 
-                            cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                            using (SqlCommand cmd = new SqlCommand(query, con))
+                            {
+                                // Parametreleri Ekle
+                                cmd.Parameters.AddWithValue("@id", id);
+
+                                cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                            }
                         }
+
+                        MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
+                        LoadStockData(UserId);
+
                     }
+                }
 
-                    MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    DeleteAndLog("Aysstudents", "Id", id, UserId, "1", "DELETE");
-                    LoadStockData(UserId);
+                else if ((int)aktifDGV.Tag == 4020)
+                {
+                    if (dgvPersonelYonetimi.CurrentRow != null)
+                    {
 
+
+                        Guid personelid = (Guid)dgvPersonelYonetimi.CurrentRow.Cells["PersonelId"].Value; 
+                        DialogResult result = MessageBox.Show("Bu Personeli Silmek İstiyor musunuz?", "Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (result == DialogResult.Yes)
+                        {
+
+                            string query = @"
+            Update Personel set Isactive=0
+            WHERE PersonelId = @id";
+
+
+                            using (SqlCommand cmd = new SqlCommand(query, con))
+                            {
+                                // Parametreleri Ekle
+                                cmd.Parameters.AddWithValue("@id", personelid);
+
+                                cmd.ExecuteNonQuery(); // SQL sorgusunu çalıştır
+                            }
+                        }
+
+                        MessageBox.Show("Öğrenci Silindi Eski Kayıtlar için Loglara Bak..", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        DeleteAndLog("Personel", "PersonelId", personelid, UserId, "1", "DELETE");
+                        LoadStockData(UserId);
+
+                    }
                 }
             }
         }
-
 
 
         private void btnOgrenciYonetimiSinifSil_Click(object sender, EventArgs e)

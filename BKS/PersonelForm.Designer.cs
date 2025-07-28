@@ -349,6 +349,7 @@
             cbxPersonelUyruk.Name = "cbxPersonelUyruk";
             cbxPersonelUyruk.Size = new Size(220, 23);
             cbxPersonelUyruk.TabIndex = 12;
+            cbxPersonelUyruk.SelectedIndexChanged += cbxPersonelUyruk_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -624,7 +625,7 @@
             txtPersonelSertifika.PlaceholderText = "Sertifikalar ve Eğitimler";
             txtPersonelSertifika.Size = new Size(269, 94);
             txtPersonelSertifika.TabIndex = 16;
-           // txtPersonelSertifika.TextChanged += this.txtPersonelSertifika_TextChanged;
+            // txtPersonelSertifika.TextChanged += this.txtPersonelSertifika_TextChanged;
             // 
             // groupBox20
             // 
@@ -686,6 +687,7 @@
             cbxPersoneIIsAyrıldı.TabIndex = 10;
             cbxPersoneIIsAyrıldı.Text = "İşten Ayrıldı";
             cbxPersoneIIsAyrıldı.UseVisualStyleBackColor = true;
+            cbxPersoneIIsAyrıldı.CheckedChanged += cbxPersoneIIsAyrıldı_CheckedChanged;
             // 
             // dtpPersonelCıkısTarihi
             // 
@@ -751,7 +753,10 @@
             groupBox20.ResumeLayout(false);
             groupBox20.PerformLayout();
             ResumeLayout(false);
+            Load += PersonelForm_Load; 
+
         }
+        
 
         #endregion
 

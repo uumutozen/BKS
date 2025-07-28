@@ -26,7 +26,7 @@ namespace BKS
         private void OgrenciForm_Load(object sender, EventArgs e)
         {
             LoadStudentClassComboBox(UserId);
-            cmbogrsınıf.SelectedIndex = -1; 
+            cmbogrsınıf.SelectedIndex = -1;
 
         }
         private void txtOgrenciAd_TextChanged(object sender, EventArgs e)
@@ -133,6 +133,7 @@ namespace BKS
             this.Close();
             // Güncellenmiş listeyi tekrar yükle
         }
+
 
 
         private void btnAddStock_Click(object sender, EventArgs e)
@@ -278,20 +279,56 @@ namespace BKS
 
         private void cmbogrsınıf_DrawItem(object sender, DrawItemEventArgs e)
         {
-            
-                if (e.Index < 0)
-                {
-                    // Placeholder gibi davran
-                    e.Graphics.DrawString("Ev adresi seçiniz",
-                        new Font("Segoe UI", 9, FontStyle.Italic),
-                        Brushes.Gray, e.Bounds);
-                    return;
-                }
 
-                e.DrawBackground();
-                e.Graphics.DrawString(cmbogrsınıf.Items[e.Index].ToString(),
-                    e.Font, Brushes.Black, e.Bounds);
-            
+            if (e.Index < 0)
+            {
+                // Placeholder gibi davran
+                e.Graphics.DrawString("Ev adresi seçiniz",
+                    new Font("Segoe UI", 9, FontStyle.Italic),
+                    Brushes.Gray, e.Bounds);
+                return;
+            }
+
+            e.DrawBackground();
+            e.Graphics.DrawString(cmbogrsınıf.Items[e.Index].ToString(),
+                e.Font, Brushes.Black, e.Bounds);
+
+        }
+
+        private void txtBabaEvAdres_Enter(object sender, EventArgs e)
+        {
+            if (txtBabaEvAdres.Text == "Ev Adresi")
+            {
+                txtBabaEvAdres.Text = "";
+                txtBabaEvAdres.ForeColor = Color.Black; // Yazı rengi normal olsun
+            }
+        }
+
+        private void txtBabaEvAdres_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBabaEvAdres.Text))
+            {
+                txtBabaEvAdres.Text = "Ev Adresi";
+                txtBabaEvAdres.ForeColor = Color.Gray; // Placeholder gibi görünmesi için gri
+            }
+        }
+
+        private void txtAnneEvAdres_Enter(object sender, EventArgs e)
+        {
+            if (txtAnneEvAdres.Text == "Ev Adresi")
+            {
+                txtAnneEvAdres.Text = "";
+                txtAnneEvAdres.ForeColor = Color.Black; // Yazı rengi normal olsun
+            }
+        }
+
+        private void txtAnneEvAdres_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtAnneEvAdres.Text))
+            {
+                txtAnneEvAdres.Text = "Ev Adresi";
+                txtAnneEvAdres.ForeColor = Color.Gray; // Placeholder gibi görünmesi için gri
+            }
         }
 
         public byte[] Photo { get; set; }
