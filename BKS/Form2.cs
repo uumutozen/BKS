@@ -1,4 +1,5 @@
 ﻿using Krypton.Ribbon;
+using Krypton.Toolkit;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using Microsoft.IdentityModel.Tokens;
@@ -21,11 +22,16 @@ using System.Threading.Tasks;
 
 using System.Windows.Forms;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+//using System.IO;
+//using System.Drawing;
+//using ComponentFactory.Krypton.Toolkit;
+//using PdfSharp.UniversalAccessibility;
+
 
 
 namespace BKS
 {
-    public partial class Form2 : MaterialForm
+    public partial class Form2 : KryptonForm
 
     {
 
@@ -35,7 +41,6 @@ namespace BKS
         {
 
             InitializeComponent();
-            InitRibbon(); 
             if (salesGrid.DataSource != null)
             {
                 LoadSalesData();
@@ -43,7 +48,8 @@ namespace BKS
 
             LoadStockComboBox();
             form1.Close();
-
+            InitRibbon();
+            this.Text = "Anaokulu Yönetim Sistemi";
 
         }
         [System.ComponentModel.Browsable(false)]
@@ -53,45 +59,44 @@ namespace BKS
         {
             // Krypton Ribbon oluştur
             KryptonRibbon ribbon = new KryptonRibbon
+
             {
-                Dock = DockStyle.Top
+                Dock = DockStyle.Top,
+               PaletteMode=PaletteMode.Office2013White,
+              
             };
             this.Controls.Add(ribbon);
-
+            
             // === Öğrenci Ön Kayıt ===
             KryptonRibbonTab tabOnKayit = new KryptonRibbonTab { Text = "🎓 Öğrenci Ön Kayıt" };
             ribbon.RibbonTabs.Add(tabOnKayit);
-            AddGroupWithButtons(tabOnKayit, "Ön Kayıt İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageOgrenciOnKayit),
-                                                          ("Yeni Kayıt", () => btnOnKayitEkle.PerformClick()));
+            AddGroupWithButtons(tabOnKayit, "Ön Kayıt İşlemleri", ("Öğrenci Ön Kayıt", () => tabControl.SelectedTab = tabPageOgrenciOnKayit));
 
             // === Öğrenci Yönetimi ===
             KryptonRibbonTab tabOgrenci = new KryptonRibbonTab { Text = "📚 Öğrenci Yönetimi" };
             ribbon.RibbonTabs.Add(tabOgrenci);
-            AddGroupWithButtons(tabOgrenci, "Öğrenci İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageStok),
-                                                          ("Sınıf Ekle", () => btnOgrenciYonetimiSinifKaydet.PerformClick()));
+            AddGroupWithButtons(tabOgrenci, "Öğrenci İşlemleri", ("Öğrenci Yönetimi", () => tabControl.SelectedTab = tabPageStok));
 
             // === Ödeme Yönetimi ===
             KryptonRibbonTab tabOdeme = new KryptonRibbonTab { Text = "💰 Ödeme Yönetimi" };
             ribbon.RibbonTabs.Add(tabOdeme);
-            AddGroupWithButtons(tabOdeme, "Ödeme İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageSatis),
-                                                          ("Ödeme Girişi", () => btnMakeSale.PerformClick()));
+            AddGroupWithButtons(tabOdeme, "Ödeme İşlemleri", ("Ödeme Girişi", () => tabControl.SelectedTab = tabPageSatis));
 
             // === Personel Yönetimi ===
             KryptonRibbonTab tabPersonel = new KryptonRibbonTab { Text = "👨‍💼 Personel Yönetimi" };
             ribbon.RibbonTabs.Add(tabPersonel);
-            AddGroupWithButtons(tabPersonel, "Personel İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPagePersonelYonetimi));
+            AddGroupWithButtons(tabPersonel, "Personel İşlemleri", ("Personel Yönetimi", () => tabControl.SelectedTab = tabPagePersonelYonetimi));
 
             // === Gelir Gider Yönetimi ===
             KryptonRibbonTab tabGelirGider = new KryptonRibbonTab { Text = "📊 Gelir-Gider" };
             ribbon.RibbonTabs.Add(tabGelirGider);
-            AddGroupWithButtons(tabGelirGider, "Finans İşlemleri", ("Liste", () => tabControl.SelectedTab = tabPageGelirGider),
-                                                              ("Yeni Kayıt", () => btnAddIncomeExpense.PerformClick()),
+            AddGroupWithButtons(tabGelirGider, "Finans İşlemleri", ("Ödeme Yönetimi", () => tabControl.SelectedTab = tabPageGelirGider),
                                                               ("Fatura Merkezi", () => FaturaBtn.PerformClick()));
 
             // === Özel Raporlar ===
             KryptonRibbonTab tabRapor = new KryptonRibbonTab { Text = "📈 Özel Raporlar" };
             ribbon.RibbonTabs.Add(tabRapor);
-            AddGroupWithButtons(tabRapor, "Raporlar", ("Görüntüle", () => tabControl.SelectedTab = tabPageOzelRaporlar));
+            AddGroupWithButtons(tabRapor, "Raporlar", ("Özel Raporlar", () => tabControl.SelectedTab = tabPageOzelRaporlar));
 
             // TabControl başlıklarını gizle (artık Ribbon'dan erişim olacak)
             tabControl.Appearance = TabAppearance.FlatButtons;
@@ -111,12 +116,55 @@ namespace BKS
             {
                 KryptonRibbonGroupButton btn = new KryptonRibbonGroupButton
                 {
-                    TextLine1 = text
+                    TextLine1 = text,
+                    ImageSmall = GetButtonIcon(text),
+                    ImageLarge = GetButtonIcon(text)
                 };
                 btn.Click += (s, e) => action();
                 triple.Items.Add(btn);
             }
         }
+        private Image ImageFromResource(object resource)
+        {
+            if (resource is Image img)
+                return img;
+
+            if (resource is byte[] bytes)
+                return Image.FromStream(new MemoryStream(bytes));
+
+            return null;
+        }
+        private Image GetButtonIcon(string text)
+        {
+            switch (text)
+            {
+                case "Liste":
+                    return ImageFromResource(Properties.Resources.icon_liste);
+                case "Yeni Kayıt":
+                    return ImageFromResource(Properties.Resources.icon_yeniKayit);
+                case "Öğrenci Yönetimi":
+                    return ImageFromResource(Properties.Resources.icon_ogrenciYonetimi);
+                case "Sınıf Ekle":
+                    return ImageFromResource(Properties.Resources.icon_sinifEkle);
+                case "Ödeme Girişi":
+                    return ImageFromResource(Properties.Resources.icon_odemeGirisi);
+                case "Ödeme Yönetimi":
+                    return ImageFromResource(Properties.Resources.icon_odemeYonetimi);
+                case "Fatura Merkezi":
+                    return ImageFromResource(Properties.Resources.icon_fatura);
+                case "Personel Yönetimi":
+                    return ImageFromResource(Properties.Resources.icon_personel);
+                case "Özel Raporlar":
+                    return ImageFromResource(Properties.Resources.icon_rapor);          
+                case "Görüntüle":
+                    return ImageFromResource(Properties.Resources.icon_goruntule);
+                case "Öğrenci Ön Kayıt":
+                    return ImageFromResource(Properties.Resources.icon_ogrencionkayit);
+                default:
+                    return null;
+            }
+        }
+
         private void Form2_Load(object sender, EventArgs e)
         {
             dgvPersonelYonetimi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -132,7 +180,6 @@ namespace BKS
             YasGrubuLoad();
             SinifLoad(UserId);
             LoadPaymentData(UserId);
-
             dataGridViewStok.Columns["Id"].Visible = false;
             dataGridViewStok.Columns["MonthlyFee"].Visible = false;//önemli değiştirme
             dataGridViewStok.Columns["FotoId"].Visible = false;
@@ -153,8 +200,6 @@ namespace BKS
             dataGridViewStok.MouseDown += DataGridView_MouseDown;
             dgvPersonelYonetimi.MouseDown += DataGridView_MouseDown;
             DgvOgrenciYonetimiSiniflar.MouseDown += DataGridView_MouseDown;
-
-
         }
         private void ResizeAndSetButtonImage(Button button, Image image)
         {
@@ -1633,7 +1678,7 @@ namespace BKS
                 personelForm.txtPersonelKidemTazminat.Text = row.Cells["Kıdem Tazminatı"].Value?.ToString();
 
                 personelForm.dtpPersonelIseBaslamaTarihi.Value = Convert.ToDateTime(row.Cells["İşe Başlama Tarihi"].Value);
-            
+
 
                 personelForm.Show();
             }
@@ -1804,7 +1849,7 @@ WHERE Id = (select top 1 Id from aysclasses where ClassName=@SinifAdiP and IsDel
                     {
 
 
-                        Guid personelid = (Guid)dgvPersonelYonetimi.CurrentRow.Cells["PersonelId"].Value; 
+                        Guid personelid = (Guid)dgvPersonelYonetimi.CurrentRow.Cells["PersonelId"].Value;
                         DialogResult result = MessageBox.Show("Bu Personeli Silmek İstiyor musunuz?", "Sil", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         if (result == DialogResult.Yes)
                         {
@@ -2142,7 +2187,7 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
 
         }
 
-
+        
 
         public Guid sinifid { get; set; }
         public Guid UserId { get; set; }
