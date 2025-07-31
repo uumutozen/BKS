@@ -145,7 +145,7 @@ namespace BKS
             tabControl.Location = new Point(0, 0);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(1928, 813);
+            tabControl.Size = new Size(1940, 777);
             tabControl.TabIndex = 0;
             // 
             // tabPageOgrenciOnKayit
@@ -154,7 +154,7 @@ namespace BKS
             tabPageOgrenciOnKayit.Controls.Add(panelGrid);
             tabPageOgrenciOnKayit.Location = new Point(4, 24);
             tabPageOgrenciOnKayit.Name = "tabPageOgrenciOnKayit";
-            tabPageOgrenciOnKayit.Size = new Size(1920, 785);
+            tabPageOgrenciOnKayit.Size = new Size(1932, 749);
             tabPageOgrenciOnKayit.TabIndex = 0;
             tabPageOgrenciOnKayit.Text = "🎓 Öğrenci Ön Kayıt";
             // 
@@ -173,7 +173,7 @@ namespace BKS
             panelForm.Dock = DockStyle.Top;
             panelForm.Location = new Point(0, 0);
             panelForm.Name = "panelForm";
-            panelForm.Size = new Size(1920, 250);
+            panelForm.Size = new Size(1932, 250);
             panelForm.TabIndex = 0;
             // 
             // txtOnKayitBabaAd
@@ -281,7 +281,7 @@ namespace BKS
             panelGrid.Dock = DockStyle.Fill;
             panelGrid.Location = new Point(0, 0);
             panelGrid.Name = "panelGrid";
-            panelGrid.Size = new Size(1920, 785);
+            panelGrid.Size = new Size(1932, 749);
             panelGrid.TabIndex = 1;
             // 
             // dgvOnKayitlar
@@ -326,7 +326,7 @@ namespace BKS
             dgvOnKayitlar.RowTemplate.Height = 30;
             dgvOnKayitlar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvOnKayitlar.ShowRowErrors = false;
-            dgvOnKayitlar.Size = new Size(1904, 467);
+            dgvOnKayitlar.Size = new Size(1916, 431);
             dgvOnKayitlar.TabIndex = 31;
             dgvOnKayitlar.Tag = 5001;
             // 
@@ -361,7 +361,7 @@ namespace BKS
             tabPageStok.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162);
             tabPageStok.Location = new Point(4, 24);
             tabPageStok.Name = "tabPageStok";
-            tabPageStok.Size = new Size(1916, 797);
+            tabPageStok.Size = new Size(1932, 749);
             tabPageStok.TabIndex = 0;
             tabPageStok.Text = "Öğrenci Yönetimi";
             tabPageStok.Click += tabPageStok_Click;
@@ -584,7 +584,7 @@ namespace BKS
             dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
             dataGridViewStok.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.Black;
             dataGridViewStok.ShowRowErrors = false;
-            dataGridViewStok.Size = new Size(1866, 550);
+            dataGridViewStok.Size = new Size(1874, 550);
             dataGridViewStok.TabIndex = 0;
             dataGridViewStok.Tag = 4010;
             dataGridViewStok.CellDoubleClick += dataGridViewStok_CellDoubleClick;
@@ -636,7 +636,7 @@ namespace BKS
             tabPageSatis.Controls.Add(btnMakeSale);
             tabPageSatis.Location = new Point(4, 24);
             tabPageSatis.Name = "tabPageSatis";
-            tabPageSatis.Size = new Size(1916, 797);
+            tabPageSatis.Size = new Size(1932, 749);
             tabPageSatis.TabIndex = 1;
             tabPageSatis.Text = "Öğrenci Ödeme Yönetimi";
             // 
@@ -712,7 +712,7 @@ namespace BKS
             tabPagePersonelYonetimi.Location = new Point(4, 24);
             tabPagePersonelYonetimi.Name = "tabPagePersonelYonetimi";
             tabPagePersonelYonetimi.Padding = new Padding(3);
-            tabPagePersonelYonetimi.Size = new Size(1916, 797);
+            tabPagePersonelYonetimi.Size = new Size(1932, 749);
             tabPagePersonelYonetimi.TabIndex = 4;
             tabPagePersonelYonetimi.Text = "Personel Yönetimi";
             tabPagePersonelYonetimi.UseVisualStyleBackColor = true;
@@ -761,7 +761,7 @@ namespace BKS
             dgvPersonelYonetimi.RowTemplate.Height = 30;
             dgvPersonelYonetimi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPersonelYonetimi.ShowRowErrors = false;
-            dgvPersonelYonetimi.Size = new Size(1863, 973);
+            dgvPersonelYonetimi.Size = new Size(1867, 961);
             dgvPersonelYonetimi.TabIndex = 32;
             dgvPersonelYonetimi.Tag = 4020;
             dgvPersonelYonetimi.CellClick += dataGridViewStok_CellContentClick;
@@ -779,7 +779,7 @@ namespace BKS
             tabPageGelirGider.Controls.Add(btnAddIncomeExpense);
             tabPageGelirGider.Location = new Point(4, 24);
             tabPageGelirGider.Name = "tabPageGelirGider";
-            tabPageGelirGider.Size = new Size(1916, 797);
+            tabPageGelirGider.Size = new Size(1932, 749);
             tabPageGelirGider.TabIndex = 2;
             tabPageGelirGider.Text = "Gelir-Gider Yönetimi";
             // 
@@ -860,7 +860,7 @@ namespace BKS
             tabPageOzelRaporlar.Location = new Point(4, 24);
             tabPageOzelRaporlar.Name = "tabPageOzelRaporlar";
             tabPageOzelRaporlar.Padding = new Padding(3);
-            tabPageOzelRaporlar.Size = new Size(1916, 797);
+            tabPageOzelRaporlar.Size = new Size(1932, 749);
             tabPageOzelRaporlar.TabIndex = 3;
             tabPageOzelRaporlar.Text = "Özel Raporlar";
             tabPageOzelRaporlar.Click += tabPage1_Click;
@@ -910,12 +910,12 @@ namespace BKS
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoValidate = AutoValidate.EnablePreventFocusChange;
-            ClientSize = new Size(1928, 813);
+            ClientSize = new Size(1940, 777);
             Controls.Add(tabControl);
             Font = new Font("Times New Roman", 9F);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form2";
-            PaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365BlueLightMode;
+            PaletteMode = Krypton.Toolkit.PaletteMode.VisualStudio2010Render2013;
             Text = "Anaokulu Yönetimi Sistemi";
             WindowState = FormWindowState.Maximized;
             FormClosing += Form2_FormClosing;
