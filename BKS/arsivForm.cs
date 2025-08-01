@@ -12,14 +12,14 @@ using System.Windows.Forms;
 
 namespace BKS
 {
- 
+
     public partial class arsivForm : Form
     {
         private Guid UserId;
         private Guid OgrenciId;
         private string connectionString;
 
-        public arsivForm(Guid userId, string connStr,Guid ogrenciId)
+        public arsivForm(Guid userId, string connStr, Guid ogrenciId)
         {
             UserId = userId;
             connectionString = connStr;
@@ -151,6 +151,11 @@ namespace BKS
             public string DosyaAdi { get; set; }
             public string DosyaYolu { get; set; }
             public DateTime EklenmeTarihi { get; set; }
+        }
+
+        private void cmbOgrenciler_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 

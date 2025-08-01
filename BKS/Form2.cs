@@ -37,15 +37,14 @@ namespace BKS
 
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
         private DataGridView aktifDGV;
+        private Dictionary<string, KryptonRibbonTab> ribbonTabs = new Dictionary<string, KryptonRibbonTab>();
+        private KryptonRibbon ribbon; // Bunu da class seviyesine al.
         public Form2()
         {
 
             InitializeComponent();
-            if (salesGrid.DataSource != null)
-            {
-                LoadSalesData();
-            }
 
+            LoadOzelRaporlarToGrid();
             LoadStockComboBox();
             form1.Close();
             InitRibbon();
@@ -57,71 +56,70 @@ namespace BKS
 
         private void InitRibbon()
         {
-            // Krypton Ribbon oluştur
-            KryptonRibbon ribbon = new KryptonRibbon
-
+            ribbon = new KryptonRibbon
             {
                 Dock = DockStyle.Top,
-               PaletteMode=PaletteMode.Office2013White,
-              
+                PaletteMode = PaletteMode.Office2013White,
             };
             this.Controls.Add(ribbon);
-            
-            // === Öğrenci Ön Kayıt ===
-            KryptonRibbonTab tabOnKayit = new KryptonRibbonTab { Text = "🎓 Öğrenci Ön Kayıt" };
-            ribbon.RibbonTabs.Add(tabOnKayit);
-            AddGroupWithButtons(tabOnKayit, "Ön Kayıt İşlemleri", ("Öğrenci Ön Kayıt", () => tabControl.SelectedTab = tabPageOgrenciOnKayit));
 
-            // === Öğrenci Yönetimi ===
-            KryptonRibbonTab tabOgrenci = new KryptonRibbonTab { Text = "📚 Öğrenci Yönetimi" };
-            ribbon.RibbonTabs.Add(tabOgrenci);
-            AddGroupWithButtons(tabOgrenci, "Öğrenci İşlemleri", ("Öğrenci Yönetimi", () => tabControl.SelectedTab = tabPageStok));
+            ribbonTabs.Clear();
 
-            // === Ödeme Yönetimi ===
-            KryptonRibbonTab tabOdeme = new KryptonRibbonTab { Text = "💰 Ödeme Yönetimi" };
-            ribbon.RibbonTabs.Add(tabOdeme);
-            AddGroupWithButtons(tabOdeme, "Ödeme İşlemleri", ("Ödeme Girişi", () => tabControl.SelectedTab = tabPageSatis));
+            // Tabları eklerken anahtarları modül adı ile uyumlu yaz!
+            AddRibbonTab("tabPageOgrenciOnKayit", "🎓 Öğrenci Ön Kayıt", "Ön Kayıt İşlemleri", ("Öğrenci Ön Kayıt", () => tabControl.SelectedTab = tabPageOgrenciOnKayit));
+            AddRibbonTab("tabPageStok", "📚 Öğrenci Yönetimi", "Öğrenci İşlemleri", ("Öğrenci Yönetimi", () => tabControl.SelectedTab = tabPageStok));
+            AddRibbonTab("tabPageSatis", "💰 Ödeme Yönetimi", "Ödeme İşlemleri", ("Ödeme Girişi", () => tabControl.SelectedTab = tabPageSatis));
+            AddRibbonTab("tabPagePersonelYonetimi", "👨‍💼 Personel Yönetimi", "Personel İşlemleri", ("Personel Yönetimi", () => tabControl.SelectedTab = tabPagePersonelYonetimi));
+            AddRibbonTab("tabPageGelirGider", "📊 Gelir-Gider", "Finans İşlemleri",
+                ("Ödeme Yönetimi", () => tabControl.SelectedTab = tabPageGelirGider),
+                ("Fatura Merkezi", () => FaturaBtn.PerformClick()));
+            AddRibbonTab(
+                "tabPageOzelRaporlar",
+                "📈 Özel Raporlar",
+                "Raporlar",
+                ("Özel Raporlar", () => tabControl.SelectedTab = tabPageOzelRaporlar),
+                // Yeni Grup: "Özel Rapor Tasarım" Butonu
+                ("Özel Rapor Tasarım", () => ShowOzelRaporForm())
+            );
 
-            // === Personel Yönetimi ===
-            KryptonRibbonTab tabPersonel = new KryptonRibbonTab { Text = "👨‍💼 Personel Yönetimi" };
-            ribbon.RibbonTabs.Add(tabPersonel);
-            AddGroupWithButtons(tabPersonel, "Personel İşlemleri", ("Personel Yönetimi", () => tabControl.SelectedTab = tabPagePersonelYonetimi));
-
-            // === Gelir Gider Yönetimi ===
-            KryptonRibbonTab tabGelirGider = new KryptonRibbonTab { Text = "📊 Gelir-Gider" };
-            ribbon.RibbonTabs.Add(tabGelirGider);
-            AddGroupWithButtons(tabGelirGider, "Finans İşlemleri", ("Ödeme Yönetimi", () => tabControl.SelectedTab = tabPageGelirGider),
-                                                              ("Fatura Merkezi", () => FaturaBtn.PerformClick()));
-
-            // === Özel Raporlar ===
-            KryptonRibbonTab tabRapor = new KryptonRibbonTab { Text = "📈 Özel Raporlar" };
-            ribbon.RibbonTabs.Add(tabRapor);
-            AddGroupWithButtons(tabRapor, "Raporlar", ("Özel Raporlar", () => tabControl.SelectedTab = tabPageOzelRaporlar));
-
-            // TabControl başlıklarını gizle (artık Ribbon'dan erişim olacak)
+            // TabControl başlıklarını gizle
             tabControl.Appearance = TabAppearance.FlatButtons;
             tabControl.ItemSize = new Size(0, 1);
             tabControl.SizeMode = TabSizeMode.Fixed;
         }
 
+        private void ShowOzelRaporForm()
+        {
+            var form = new ÖzelRapor();
+            form.ShowDialog(); // modal açılır
+        }
         private void AddGroupWithButtons(KryptonRibbonTab tab, string groupName, params (string, Action)[] buttons)
         {
             KryptonRibbonGroup group = new KryptonRibbonGroup { TextLine1 = groupName };
             tab.Groups.Add(group);
 
-            KryptonRibbonGroupTriple triple = new KryptonRibbonGroupTriple();
-            group.Items.Add(triple);
-
             foreach (var (text, action) in buttons)
             {
-                KryptonRibbonGroupButton btn = new KryptonRibbonGroupButton
+                var triple = new KryptonRibbonGroupTriple();
+                var btn = new KryptonRibbonGroupButton
                 {
-                    TextLine1 = text,
                     ImageSmall = GetButtonIcon(text),
                     ImageLarge = GetButtonIcon(text)
                 };
+                var parts = text.Split(' ');
+                if (parts.Length > 1)
+                {
+                    btn.TextLine1 = parts[0];
+                    btn.TextLine2 = string.Join(" ", parts.Skip(1));
+                }
+                else
+                {
+                    btn.TextLine1 = text;
+                    btn.TextLine2 = "";
+                }
                 btn.Click += (s, e) => action();
                 triple.Items.Add(btn);
+                group.Items.Add(triple);
             }
         }
         private Image ImageFromResource(object resource)
@@ -193,10 +191,7 @@ namespace BKS
             //timer1.Interval = 5000; // 5 saniye
             //timer1.Tick += Timer1_Tick;
             //timer1.Start();
-            if (salesGrid.DataSource != null)
-            {
-                LoadSalesData();
-            }
+            LoadOzelRaporlarToGrid();
             dataGridViewStok.MouseDown += DataGridView_MouseDown;
             dgvPersonelYonetimi.MouseDown += DataGridView_MouseDown;
             DgvOgrenciYonetimiSiniflar.MouseDown += DataGridView_MouseDown;
@@ -236,7 +231,8 @@ namespace BKS
                     string json = client.DownloadString(url);
 
                     var result = JsonConvert.DeserializeObject<ModuleResponse>(json);
-                    SetTabAccess(result.modules, result.role);
+                    SetTabAccess(result.modules, result.role);        // Eski (tabControl için)
+                    SetRibbonTabAccess(result.modules, result.role);  
                 }
             }
             catch (WebException ex)
@@ -431,7 +427,41 @@ namespace BKS
                 }
             }
         }
+        private void AddRibbonTab(string moduleKey, string tabText, string groupName, params (string, Action)[] buttons)
+        {
+            var tab = new KryptonRibbonTab { Text = tabText };
+            ribbon.RibbonTabs.Add(tab);
+            AddGroupWithButtons(tab, groupName, buttons);
+            ribbonTabs[moduleKey] = tab;
+        }
+        private void SetRibbonTabAccess(List<string> activeModules, string role)
+        {
+            if (string.IsNullOrWhiteSpace(role) || activeModules == null || activeModules.Count == 0)
+            {
+                // Tüm tabları gizle
+                foreach (var tab in ribbonTabs.Values)
+                {
+                    tab.Visible = false;
+                }
+                return;
+            }
 
+            if (role.ToUpper() == "ADMİN")
+            {
+                // Admin ise hepsi açık
+                foreach (var tab in ribbonTabs.Values)
+                {
+                    tab.Visible = true;
+                }
+                return;
+            }
+
+            // Admin değilse sadece izin verilenler açık
+            foreach (var pair in ribbonTabs)
+            {
+                pair.Value.Visible = activeModules.Contains(pair.Key);
+            }
+        }
 
         public void DeleteAndLog(string tableName, string primaryKeyColumn, Guid id, Guid UserId, string actions, string actionName)
         {
@@ -2100,7 +2130,36 @@ EXEC [asl2e6ancomtr_aslan].[AddPreRegistration]
                 dgvOnKayitlar.DataSource = table;
             }
         }
+        private void LoadOzelRaporlarToGrid()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlDataAdapter da = new SqlDataAdapter("SELECT Id, RaporAdi, Sorgu, KayitTarihi FROM OzelRaporlar ORDER BY KayitTarihi DESC", conn))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    salesGrid.DataSource = dt;
+                }
+            }
+            // Güzelleştirme
+            salesGrid.Columns["Id"].Visible = false;
+            salesGrid.Columns["Sorgu"].Visible = false;
+            salesGrid.Columns["RaporAdi"].HeaderText = "Rapor Adı";
+            salesGrid.Columns["KayitTarihi"].HeaderText = "Eklenme Tarihi";
+        }
+        private void salesGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                var row = salesGrid.Rows[e.RowIndex];
+                int raporId = Convert.ToInt32(row.Cells["Id"].Value);
 
+                // Raporu açacak yeni form
+                RaporCalistirForm frm = new RaporCalistirForm(raporId);
+                frm.ShowDialog();
+            }
+        }
         private void btnOnKayitEkle_Click_1(object sender, EventArgs e)
         {
 
