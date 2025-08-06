@@ -153,7 +153,9 @@ namespace BKS
                 case "Personel Yönetimi":
                     return ImageFromResource(Properties.Resources.icon_personel);
                 case "Özel Raporlar":
-                    return ImageFromResource(Properties.Resources.icon_rapor);          
+                    return ImageFromResource(Properties.Resources.icon_rapor);
+                case "Özel Rapor Tasarım":
+                    return ImageFromResource(Properties.Resources.icon_rapor);
                 case "Görüntüle":
                     return ImageFromResource(Properties.Resources.icon_goruntule);
                 case "Öğrenci Ön Kayıt":
