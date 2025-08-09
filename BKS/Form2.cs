@@ -19,8 +19,7 @@ namespace BKS
 {
     public partial class Form2 : MaterialForm
     {
-        public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
-
+      
         public Form2()
         {
 

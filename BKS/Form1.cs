@@ -8,7 +8,7 @@ namespace BKS
 {
     public partial class Form1 : MaterialForm
     {
-        string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
+       
         private LoginHistoryService loginHistoryService;
 
         public Form1()
