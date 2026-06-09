@@ -58,7 +58,144 @@ namespace BKS
         }
 
         #region Helpers
+        private Guid EnsurePersonelArchiveStudent(Guid personelId)
+        {
+            /*
+                Personel arşivi için yeni endpoint açmadan mevcut öğrenci arşiv sistemini kullanıyoruz.
 
+                Mantık:
+                - Personel sağ tık > Arşiv
+                - AysStudents tablosunda aynı Id ile gizli bir kayıt var mı bakılır.
+                - Yoksa Personel bilgileriyle AysStudents içine IsDeleted = 1 olan gizli kayıt açılır.
+                - arsivForm bu Id'yi öğrenci Id gibi kullanır.
+                - Dosya arşiv endpointleri aynı kalır:
+                    GET  /api/dosya-arsiv/ogrenci/{id}
+                    POST /api/dosya-arsiv/yukle
+            */
+
+            object exists = ExecuteScalarValue(
+                "SELECT COUNT(1) FROM AysStudents WHERE Id = @Id",
+                CommandType.Text,
+                DbParam("@Id", personelId));
+
+            if (exists != null && exists != DBNull.Value && Convert.ToInt32(exists) > 0)
+                return personelId;
+
+            DataTable personelDt = ExecuteDataTable(
+                @"SELECT TOP 1
+              p.PersonelId,
+              p.FirstName,
+              p.LastName,
+              p.Phone,
+              p.Address,
+              p.Birthdate,
+              p.CompanyId
+          FROM Personel p
+          WHERE p.PersonelId = @PersonelId
+            AND p.CompanyId = (SELECT TOP 1 CompanyId FROM CompanyUsers WHERE UserId = @UserId)",
+                CommandType.Text,
+                DbParam("@PersonelId", personelId),
+                DbParam("@UserId", UserId));
+
+            if (personelDt.Rows.Count == 0)
+                throw new Exception("Personel bilgisi bulunamadı.");
+
+            DataRow pRow = personelDt.Rows[0];
+
+            string firstName = pRow["FirstName"] == DBNull.Value || string.IsNullOrWhiteSpace(pRow["FirstName"].ToString())
+                ? "Personel"
+                : pRow["FirstName"].ToString();
+
+            string lastName = pRow["LastName"] == DBNull.Value || string.IsNullOrWhiteSpace(pRow["LastName"].ToString())
+                ? "Arşiv"
+                : pRow["LastName"].ToString();
+
+            string phone = pRow["Phone"] == DBNull.Value ? "" : pRow["Phone"].ToString();
+            string address = pRow["Address"] == DBNull.Value ? "" : pRow["Address"].ToString();
+
+            DateTime birthDate = DateTime.Now;
+
+            if (pRow["Birthdate"] != DBNull.Value &&
+                DateTime.TryParse(pRow["Birthdate"].ToString(), out DateTime parsedBirthDate))
+            {
+                birthDate = parsedBirthDate;
+            }
+
+            Guid companyId = Guid.Parse(pRow["CompanyId"].ToString());
+
+            ExecuteNonQueryCommand(
+                @"INSERT INTO AysStudents
+          (
+              Id,
+              Name,
+              Surname,
+              FatherName,
+              BirthDate,
+              StudentCode,
+              ClassId,
+              PaymentStatus,
+              MonthlyFee,
+              IsActive,
+              FatherAddress,
+              MotherAddress,
+              FatherPhoneNumber,
+              MotherPhoneNumber,
+              IsMarried,
+              StudentsDetails,
+              MotherName,
+              SchoolId,
+              IsDeleted
+          )
+          VALUES
+          (
+              @Id,
+              @Name,
+              @Surname,
+              @FatherName,
+              @BirthDate,
+              @StudentCode,
+              (
+                  SELECT TOP 1 Id
+                  FROM AYSClasses
+                  WHERE SchoolId = @SchoolId
+                    AND ISNULL(IsDeleted, 0) = 0
+                  ORDER BY ClassName
+              ),
+              @PaymentStatus,
+              @MonthlyFee,
+              @IsActive,
+              @FatherAddress,
+              @MotherAddress,
+              @FatherPhoneNumber,
+              @MotherPhoneNumber,
+              @IsMarried,
+              @StudentsDetails,
+              @MotherName,
+              @SchoolId,
+              @IsDeleted
+          )",
+                CommandType.Text,
+                DbParam("@Id", personelId),
+                DbParam("@Name", firstName),
+                DbParam("@Surname", lastName),
+                DbParam("@FatherName", "PERSONEL ARŞİV"),
+                DbParam("@BirthDate", birthDate),
+                DbParam("@StudentCode", "PRSARSIV-" + personelId.ToString("N").Substring(0, 12).ToUpper()),
+                DbParam("@PaymentStatus", false),
+                DbParam("@MonthlyFee", 0),
+                DbParam("@IsActive", false),
+                DbParam("@FatherAddress", address),
+                DbParam("@MotherAddress", ""),
+                DbParam("@FatherPhoneNumber", phone),
+                DbParam("@MotherPhoneNumber", ""),
+                DbParam("@IsMarried", false),
+                DbParam("@StudentsDetails", "PERSONEL_ARSIV_KAYDI - Bu kayıt personel arşivi için otomatik oluşturulmuştur."),
+                DbParam("@MotherName", ""),
+                DbParam("@SchoolId", companyId),
+                DbParam("@IsDeleted", true));
+
+            return personelId;
+        }
         private SqlConnection CreateConnection()
         {
             return new SqlConnection(connectionString);
@@ -454,6 +591,10 @@ namespace BKS
             DgvOgrenciYonetimiSiniflar.AllowUserToAddRows = false;
             dgvPersonelYonetimi.AllowUserToAddRows = false;
 
+            dataGridViewStok.Tag = StudentModuleTag;
+            dgvPersonelYonetimi.Tag = PersonelModuleTag;
+            DgvOgrenciYonetimiSiniflar.Tag = 0;
+
             dataGridViewStok.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewStok.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
@@ -724,19 +865,52 @@ namespace BKS
 
         private void arşivToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridViewStok.SelectedCells.Count <= 0)
+            int activeTag = GetActiveGridTag();
+
+            if (aktifDGV == null || aktifDGV.CurrentRow == null)
             {
-                MessageBox.Show("Lütfen bir öğrenci seçiniz!");
+                MessageBox.Show("Lütfen bir kayıt seçiniz!");
                 return;
             }
 
-            var cell = dataGridViewStok.SelectedCells[0];
-            var row = dataGridViewStok.Rows[cell.RowIndex];
-            Guid ogrenciId = Guid.Parse(row.Cells["Id"].Value.ToString());
-
-            using (var arsiv = new arsivForm(UserId, connectionString, ogrenciId))
+            try
             {
-                arsiv.ShowDialog();
+                if (activeTag == StudentModuleTag)
+                {
+                    if (!TryGetSelectedGuid(dataGridViewStok, "Id", out Guid ogrenciId))
+                    {
+                        MessageBox.Show("Geçerli öğrenci bilgisi alınamadı.");
+                        return;
+                    }
+
+                    using (var arsiv = new arsivForm(UserId, connectionString, ogrenciId))
+                    {
+                        arsiv.ShowDialog();
+                    }
+                }
+                else if (activeTag == PersonelModuleTag)
+                {
+                    if (!TryGetSelectedGuid(dgvPersonelYonetimi, "PersonelId", out Guid personelId))
+                    {
+                        MessageBox.Show("Geçerli personel bilgisi alınamadı.");
+                        return;
+                    }
+
+                    Guid arsivOgrenciId = EnsurePersonelArchiveStudent(personelId);
+
+                    using (var arsiv = new arsivForm(UserId, connectionString, arsivOgrenciId))
+                    {
+                        arsiv.ShowDialog();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Bu alanda arşiv işlemi desteklenmiyor.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Arşiv açılırken hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1859,6 +2033,38 @@ namespace BKS
         private void DataGridView_MouseDown(object sender, MouseEventArgs e)
         {
             aktifDGV = sender as DataGridView;
+
+            if (aktifDGV == null)
+                return;
+
+            DataGridView.HitTestInfo hit = aktifDGV.HitTest(e.X, e.Y);
+
+            if (hit.RowIndex < 0)
+                return;
+
+            if (e.Button == MouseButtons.Right || e.Button == MouseButtons.Left)
+            {
+                aktifDGV.ClearSelection();
+                aktifDGV.Rows[hit.RowIndex].Selected = true;
+
+                if (hit.ColumnIndex >= 0)
+                    aktifDGV.CurrentCell = aktifDGV.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
+                else
+                    aktifDGV.CurrentCell = aktifDGV.Rows[hit.RowIndex].Cells[0];
+            }
+
+            if (e.Button == MouseButtons.Right)
+            {
+                int activeTag = GetActiveGridTag();
+
+                if (ödemeDetaylarıToolStripMenuItem != null)
+                    ödemeDetaylarıToolStripMenuItem.Visible = activeTag == StudentModuleTag;
+
+                if (arşivToolStripMenuItem != null)
+                    arşivToolStripMenuItem.Visible = activeTag == StudentModuleTag || activeTag == PersonelModuleTag;
+
+                contextMenuStrip1.Show(aktifDGV, e.Location);
+            }
         }
 
         private void DataStokRefresh(object sender, EventArgs e)

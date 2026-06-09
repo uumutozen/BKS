@@ -1,18 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Net.Http;
 using System.Windows.Forms;
 
 namespace BKS
 {
-
     public partial class arsivForm : Form
     {
         private Guid UserId;
@@ -24,13 +20,17 @@ namespace BKS
             UserId = userId;
             connectionString = connStr;
             OgrenciId = ogrenciId;
+
             InitializeComponent();
+
             LoadOgrenciler();
+
             cmbOgrenciler.SelectedIndexChanged += CmbOgrenciler_SelectedIndexChanged;
             btnDosyaSec.Click += BtnDosyaSec_Click;
             btnYukle.Click += BtnYukle_Click;
-            LoadOgrenciDosyalari();
             btnIndir.Click += BtnIndir_Click;
+
+            LoadOgrenciDosyalari();
         }
 
         private void LoadOgrenciler()
@@ -38,16 +38,36 @@ namespace BKS
             using (var conn = new SqlConnection(connectionString))
             {
                 conn.Open();
+
                 var dt = new DataTable();
+
                 var da = new SqlDataAdapter(
-    "SELECT Id, Name + ' ' + Surname as AdSoyad FROM Aysstudents WHERE IsDeleted = 0 AND SchoolId = dbo.GetSirketIdByUserId(@UserId) and Id=@Id ORDER BY Name", conn);
+                    @"SELECT 
+                          Id,
+                          CASE 
+                              WHEN ISNULL(StudentCode, '') LIKE 'PRSARSIV-%'
+                                  THEN '[Personel] ' + ISNULL(Name, '') + ' ' + ISNULL(Surname, '')
+                              ELSE ISNULL(Name, '') + ' ' + ISNULL(Surname, '')
+                          END AS AdSoyad
+                      FROM Aysstudents
+                      WHERE SchoolId = dbo.GetSirketIdByUserId(@UserId)
+                        AND Id = @Id
+                      ORDER BY Name", conn);
+
                 da.SelectCommand.Parameters.AddWithValue("@UserId", UserId);
                 da.SelectCommand.Parameters.AddWithValue("@Id", OgrenciId);
                 da.Fill(dt);
 
                 var items = new List<OgrenciCombo>();
+
                 foreach (DataRow dr in dt.Rows)
-                    items.Add(new OgrenciCombo() { Id = dr["Id"].ToString(), AdSoyad = dr["AdSoyad"].ToString() });
+                {
+                    items.Add(new OgrenciCombo()
+                    {
+                        Id = dr["Id"].ToString(),
+                        AdSoyad = dr["AdSoyad"].ToString()
+                    });
+                }
 
                 cmbOgrenciler.DataSource = items;
                 cmbOgrenciler.DisplayMember = "AdSoyad";
@@ -63,17 +83,28 @@ namespace BKS
         private void LoadOgrenciDosyalari()
         {
             dgvDosyalar.DataSource = null;
-            if (cmbOgrenciler.SelectedValue == null) return;
+
+            if (cmbOgrenciler.SelectedValue == null)
+                return;
+
             string ogrenciId = cmbOgrenciler.SelectedValue.ToString();
 
             using (var client = new HttpClient())
             {
                 var resp = client.GetAsync($"https://randevu.aslancan.com.tr/api/dosya-arsiv/ogrenci/{ogrenciId}").Result;
+
                 if (resp.IsSuccessStatusCode)
                 {
                     var json = resp.Content.ReadAsStringAsync().Result;
                     var dosyalar = JsonConvert.DeserializeObject<List<DosyaArsivModel>>(json);
+
                     dgvDosyalar.DataSource = dosyalar;
+
+                    if (dgvDosyalar.Columns.Contains("Id"))
+                        dgvDosyalar.Columns["Id"].Visible = false;
+
+                    if (dgvDosyalar.Columns.Contains("DosyaYolu"))
+                        dgvDosyalar.Columns["DosyaYolu"].Visible = false;
                 }
                 else
                 {
@@ -93,49 +124,90 @@ namespace BKS
 
         private async void BtnYukle_Click(object sender, EventArgs e)
         {
-            if (cmbOgrenciler.SelectedValue == null) { MessageBox.Show("Öğrenci seç!"); return; }
+            if (cmbOgrenciler.SelectedValue == null)
+            {
+                MessageBox.Show("Kayıt seç!");
+                return;
+            }
+
             string ogrenciId = cmbOgrenciler.SelectedValue.ToString();
             string dosyaYolu = txtDosyaYolu.Text;
-            if (string.IsNullOrEmpty(dosyaYolu))
+
+            if (string.IsNullOrWhiteSpace(dosyaYolu))
             {
                 MessageBox.Show("Lütfen dosya seçin.");
                 return;
             }
 
-            using (var client = new HttpClient())
-            using (var form = new MultipartFormDataContent())
+            if (!File.Exists(dosyaYolu))
             {
-                form.Add(new StringContent(ogrenciId), "ogrenciId");
-                form.Add(new StreamContent(File.OpenRead(dosyaYolu)), "dosya", Path.GetFileName(dosyaYolu));
-                var resp = await client.PostAsync("https://randevu.aslancan.com.tr/api/dosya-arsiv/yukle", form);
-                if (resp.IsSuccessStatusCode)
+                MessageBox.Show("Seçilen dosya bulunamadı.");
+                return;
+            }
+
+            try
+            {
+                using (var client = new HttpClient())
+                using (var form = new MultipartFormDataContent())
+                using (var fs = File.OpenRead(dosyaYolu))
                 {
-                    MessageBox.Show("Dosya yüklendi.");
-                    LoadOgrenciDosyalari();
+                    form.Add(new StringContent(ogrenciId), "ogrenciId");
+                    form.Add(new StreamContent(fs), "dosya", Path.GetFileName(dosyaYolu));
+
+                    var resp = await client.PostAsync("https://randevu.aslancan.com.tr/api/dosya-arsiv/yukle", form);
+
+                    if (resp.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Dosya yüklendi.");
+                        txtDosyaYolu.Clear();
+                        LoadOgrenciDosyalari();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Yükleme hatası: " + resp.ReasonPhrase);
+                    }
                 }
-                else
-                    MessageBox.Show("Yükleme hatası: " + resp.ReasonPhrase);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Yükleme sırasında hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private async void BtnIndir_Click(object sender, EventArgs e)
         {
-            if (dgvDosyalar.SelectedRows.Count == 0) { MessageBox.Show("Dosya seç!"); return; }
-            int dosyaId = (int)dgvDosyalar.SelectedRows[0].Cells["Id"].Value;
-            string dosyaAdi = dgvDosyalar.SelectedRows[0].Cells["DosyaAdi"].Value.ToString();
-
-            using (var client = new HttpClient())
+            if (dgvDosyalar.SelectedRows.Count == 0)
             {
-                var resp = await client.GetAsync($"https://randevu.aslancan.com.tr/api/dosya-arsiv/indir/{dosyaId}");
-                if (resp.IsSuccessStatusCode)
+                MessageBox.Show("Dosya seç!");
+                return;
+            }
+
+            try
+            {
+                int dosyaId = Convert.ToInt32(dgvDosyalar.SelectedRows[0].Cells["Id"].Value);
+                string dosyaAdi = dgvDosyalar.SelectedRows[0].Cells["DosyaAdi"].Value.ToString();
+
+                using (var client = new HttpClient())
                 {
-                    var data = await resp.Content.ReadAsByteArrayAsync();
-                    string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), dosyaAdi);
-                    File.WriteAllBytes(path, data);
-                    MessageBox.Show("Dosya indirildi: " + path);
+                    var resp = await client.GetAsync($"https://randevu.aslancan.com.tr/api/dosya-arsiv/indir/{dosyaId}");
+
+                    if (resp.IsSuccessStatusCode)
+                    {
+                        var data = await resp.Content.ReadAsByteArrayAsync();
+                        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), dosyaAdi);
+
+                        File.WriteAllBytes(path, data);
+                        MessageBox.Show("Dosya indirildi: " + path);
+                    }
+                    else
+                    {
+                        MessageBox.Show("İndirme hatası: " + resp.ReasonPhrase);
+                    }
                 }
-                else
-                    MessageBox.Show("İndirme hatası: " + resp.ReasonPhrase);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("İndirme sırasında hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -143,8 +215,10 @@ namespace BKS
         {
             public string Id { get; set; }
             public string AdSoyad { get; set; }
+
             public override string ToString() => AdSoyad;
         }
+
         public class DosyaArsivModel
         {
             public int Id { get; set; }
@@ -155,8 +229,6 @@ namespace BKS
 
         private void cmbOgrenciler_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
         }
     }
-
 }
