@@ -1,5 +1,3 @@
-﻿using Krypton.Ribbon;
-using Krypton.Toolkit;
 using MaterialSkin;
 using MaterialSkin.Controls;
 using Microsoft.IdentityModel.Tokens;
@@ -32,19 +30,30 @@ namespace BKS
         public string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
 
         private DataGridView aktifDGV;
-        private readonly Dictionary<string, KryptonRibbonTab> ribbonTabs = new Dictionary<string, KryptonRibbonTab>(StringComparer.OrdinalIgnoreCase);
-        private KryptonRibbon ribbon;
+        private const string SystemNavigationKey = "SYSTEM_EXIT";
+        private readonly Dictionary<string, Button> navigationButtons = new Dictionary<string, Button>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string> navigationTitles = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string> navigationSubtitles = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly List<TabPage> _allModulePages = new List<TabPage>();
+        private TableLayoutPanel _mainLayout;
+        private TableLayoutPanel _contentLayout;
+        private FlowLayoutPanel _navigationList;
+        private Panel _sidebarPanel;
+        private Panel _topBarPanel;
+        private Label _headerTitleLabel;
+        private Label _headerSubtitleLabel;
+        private Label _headerUserLabel;
+        private bool _layoutInitialized;
+
 
         public Form2()
         {
             InitializeComponent();
-            InitRibbon();
+            ConfigureMainWindow();
+            BuildResponsiveLayout();
             LoadStockComboBox();
             this.Text = "Anaokulu Yönetim Sistemi";
         }
-
-        [System.ComponentModel.Browsable(false)]
-        public new System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
 
         public Guid sinifid { get; set; }
         public Guid UserId { get; set; }
@@ -389,168 +398,225 @@ namespace BKS
 
         #endregion
 
-        #region Ribbon
+        #region Modern Navigation
 
-        private void InitRibbon()
+        private void RegisterNavigationItem(string moduleKey, string title, string subtitle, Action action)
         {
-            ribbon = new KryptonRibbon
+            if (_navigationList == null)
+                return;
+
+            navigationTitles[moduleKey] = title;
+            navigationSubtitles[moduleKey] = subtitle;
+
+            var button = new Button
             {
-                Dock = DockStyle.Top,
-                PaletteMode = PaletteMode.Office2013White,
+                Name = "nav_" + moduleKey,
+                Tag = moduleKey,
+                Text = BuildNavigationText(moduleKey, false),
+                Height = 58,
+                Width = 222,
+                Margin = new Padding(8, 4, 8, 4),
+                TextAlign = ContentAlignment.MiddleLeft,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.Transparent,
+                ForeColor = Color.FromArgb(226, 232, 240),
+                Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold, GraphicsUnit.Point, 162),
+                Cursor = Cursors.Hand
             };
+            button.FlatAppearance.BorderSize = 0;
+            button.FlatAppearance.MouseOverBackColor = Color.FromArgb(45, 59, 82);
+            button.FlatAppearance.MouseDownBackColor = Color.FromArgb(59, 130, 246);
+            button.Click += (s, e) => action();
 
-            this.Controls.Add(ribbon);
-            ribbonTabs.Clear();
-
-            AddRibbonTab("tabPageOgrenciOnKayit", "🎓 Öğrenci Ön Kayıt", "Ön Kayıt İşlemleri", ("Öğrenci Ön Kayıt", () => tabControl.SelectedTab = tabPageOgrenciOnKayit));
-            AddRibbonTab("tabPageStok", "📚 Öğrenci Yönetimi", "Öğrenci İşlemleri", ("Öğrenci Yönetimi", () => tabControl.SelectedTab = tabPageStok));
-            AddRibbonTab("tabPageSatis", "💰 Ödeme Yönetimi", "Ödeme İşlemleri", ("Ödeme Girişi", () => tabControl.SelectedTab = tabPageSatis));
-            AddRibbonTab("tabPagePersonelYonetimi", "👨‍💼 Personel Yönetimi", "Personel İşlemleri", ("Personel Yönetimi", () => tabControl.SelectedTab = tabPagePersonelYonetimi));
-            AddRibbonTab("tabPageGelirGider", "📊 Gelir-Gider", "Finans İşlemleri",
-                ("Ödeme Yönetimi", () => tabControl.SelectedTab = tabPageGelirGider),
-                ("Fatura Merkezi", () => FaturaBtn.PerformClick()));
-            AddRibbonTab("tabPageOzelRaporlar", "📈 Özel Raporlar", "Raporlar",
-                ("Özel Raporlar", () => tabControl.SelectedTab = tabPageOzelRaporlar),
-                ("Özel Rapor Tasarım", ShowOzelRaporForm));
-
-            tabControl.Appearance = TabAppearance.FlatButtons;
-            tabControl.ItemSize = new Size(0, 1);
-            tabControl.SizeMode = TabSizeMode.Fixed;
+            navigationButtons[moduleKey] = button;
+            _navigationList.Controls.Add(button);
         }
 
-        private void AddRibbonTab(string moduleKey, string tabText, string groupName, params (string, Action)[] buttons)
+        private string BuildNavigationText(string moduleKey, bool compact)
         {
-            var tab = new KryptonRibbonTab { Text = tabText };
-            ribbon.RibbonTabs.Add(tab);
-            AddGroupWithButtons(tab, groupName, buttons);
-            ribbonTabs[moduleKey] = tab;
+            string icon = GetNavigationIcon(moduleKey);
+
+            if (compact)
+                return icon;
+
+            string title = navigationTitles.ContainsKey(moduleKey) ? navigationTitles[moduleKey] : moduleKey;
+            string subtitle = navigationSubtitles.ContainsKey(moduleKey) ? navigationSubtitles[moduleKey] : string.Empty;
+
+            return string.IsNullOrWhiteSpace(subtitle)
+                ? $"{icon}  {title}"
+                : $"{icon}  {title}\r\n     {subtitle}";
         }
 
-        private void AddGroupWithButtons(KryptonRibbonTab tab, string groupName, params (string, Action)[] buttons)
+        private string GetNavigationIcon(string moduleKey)
         {
-            KryptonRibbonGroup group = new KryptonRibbonGroup { TextLine1 = groupName };
-            tab.Groups.Add(group);
-
-            foreach (var (text, action) in buttons)
+            switch (moduleKey)
             {
-                var triple = new KryptonRibbonGroupTriple();
-                var btn = new KryptonRibbonGroupButton
-                {
-                    ImageSmall = GetButtonIcon(text),
-                    ImageLarge = GetButtonIcon(text)
-                };
-
-                var parts = text.Split(' ');
-                btn.TextLine1 = parts[0];
-                btn.TextLine2 = parts.Length > 1 ? string.Join(" ", parts.Skip(1)) : string.Empty;
-                btn.Click += (s, e) => action();
-
-                triple.Items.Add(btn);
-                group.Items.Add(triple);
+                case "tabPageOgrenciOnKayit": return "🎓";
+                case "tabPageStok": return "📚";
+                case "tabPageSatis": return "💰";
+                case "tabPagePersonelYonetimi": return "👤";
+                case "tabPageGelirGider": return "📊";
+                case "tabPageOzelRaporlar": return "📈";
+                case SystemNavigationKey: return "⏻";
+                default: return "•";
             }
         }
 
-        private void ShowOzelRaporForm()
+        private void BuildNavigationItems()
         {
-            using (var form = new ÖzelRapor())
+            if (_navigationList == null)
+                return;
+
+            navigationButtons.Clear();
+            navigationTitles.Clear();
+            navigationSubtitles.Clear();
+            _navigationList.Controls.Clear();
+
+            RegisterNavigationItem("tabPageOgrenciOnKayit", "Öğrenci Ön Kayıt", "Aday kayıt ve kesin kayıt", () => SelectModule(tabPageOgrenciOnKayit));
+            RegisterNavigationItem("tabPageStok", "Öğrenci Yönetimi", "Sınıf, öğrenci ve arşiv", () => SelectModule(tabPageStok));
+            RegisterNavigationItem("tabPageSatis", "Ödeme Yönetimi", "Tahsilat ve öğrenci ödeme", () => SelectModule(tabPageSatis));
+            RegisterNavigationItem("tabPagePersonelYonetimi", "Personel", "Personel kartları ve arşiv", () => SelectModule(tabPagePersonelYonetimi));
+            RegisterNavigationItem("tabPageGelirGider", "Gelir / Gider", "Kasa, fatura ve finans", () => SelectModule(tabPageGelirGider));
+            RegisterNavigationItem("tabPageOzelRaporlar", "Raporlar", "Özel rapor merkezi", () => SelectModule(tabPageOzelRaporlar));
+
+            var separator = new Label
             {
-                form.ShowDialog();
+                AutoSize = false,
+                Height = 1,
+                Width = 220,
+                Margin = new Padding(8, 12, 8, 12),
+                BackColor = Color.FromArgb(51, 65, 85)
+            };
+            _navigationList.Controls.Add(separator);
+
+            RegisterNavigationItem(SystemNavigationKey, "Çıkış", "Programı kapat", CloseApplication);
+            UpdateNavigationVisualState();
+        }
+
+        private void SelectModule(TabPage page)
+        {
+            if (page == null)
+                return;
+
+            if (!tabControl.TabPages.Contains(page))
+                tabControl.TabPages.Add(page);
+
+            tabControl.SelectedTab = page;
+            UpdateHeaderForCurrentTab();
+            UpdateNavigationVisualState();
+        }
+
+        private void UpdateNavigationVisualState()
+        {
+            if (tabControl == null || navigationButtons.Count == 0)
+                return;
+
+            string selectedKey = tabControl.SelectedTab?.Name ?? string.Empty;
+
+            foreach (var pair in navigationButtons)
+            {
+                bool selected = string.Equals(pair.Key, selectedKey, StringComparison.OrdinalIgnoreCase);
+                pair.Value.BackColor = selected ? Color.FromArgb(59, 130, 246) : Color.Transparent;
+                pair.Value.ForeColor = selected ? Color.White : Color.FromArgb(226, 232, 240);
             }
         }
 
-        private Image ImageFromResource(object resource)
+        private void UpdateHeaderForCurrentTab()
         {
-            if (resource is Image img)
-                return img;
+            if (_headerTitleLabel == null || tabControl == null)
+                return;
 
-            if (resource is byte[] bytes)
-            {
-                using (var ms = new MemoryStream(bytes))
-                {
-                    return Image.FromStream(ms);
-                }
-            }
+            string key = tabControl.SelectedTab?.Name ?? string.Empty;
+            string title = navigationTitles.ContainsKey(key) ? navigationTitles[key] : (tabControl.SelectedTab?.Text ?? "Ana Ekran");
+            string subtitle = navigationSubtitles.ContainsKey(key) ? navigationSubtitles[key] : "Modül ekranı";
 
-            return null;
+            _headerTitleLabel.Text = title;
+            _headerSubtitleLabel.Text = subtitle;
         }
 
-        private Image GetButtonIcon(string text)
+        private void SetNavigationAccess(List<string> activeModules, string role)
         {
-            switch (text)
+            if (navigationButtons.Count == 0)
+                return;
+
+            bool showAll = IsAdminRole(role) || string.IsNullOrWhiteSpace(role) || activeModules == null || activeModules.Count == 0 || !HasMatchingModuleKey(activeModules);
+
+            foreach (var pair in navigationButtons)
             {
-                case "Liste": return ImageFromResource(Properties.Resources.icon_liste);
-                case "Yeni Kayıt": return ImageFromResource(Properties.Resources.icon_yeniKayit);
-                case "Öğrenci Yönetimi": return ImageFromResource(Properties.Resources.icon_ogrenciYonetimi);
-                case "Sınıf Ekle": return ImageFromResource(Properties.Resources.icon_sinifEkle);
-                case "Ödeme Girişi": return ImageFromResource(Properties.Resources.icon_odemeGirisi);
-                case "Ödeme Yönetimi": return ImageFromResource(Properties.Resources.icon_odemeYonetimi);
-                case "Fatura Merkezi": return ImageFromResource(Properties.Resources.icon_fatura);
-                case "Personel Yönetimi": return ImageFromResource(Properties.Resources.icon_personel);
-                case "Özel Raporlar": return ImageFromResource(Properties.Resources.icon_rapor);
-                case "Özel Rapor Tasarım": return ImageFromResource(Properties.Resources.icon_rapor);
-                case "Görüntüle": return ImageFromResource(Properties.Resources.icon_goruntule);
-                case "Öğrenci Ön Kayıt": return ImageFromResource(Properties.Resources.icon_ogrencionkayit);
-                default: return null;
+                bool visible = pair.Key == SystemNavigationKey || showAll || activeModules.Any(module => string.Equals(module, pair.Key, StringComparison.OrdinalIgnoreCase));
+                pair.Value.Visible = visible;
             }
+
+            UpdateNavigationVisualState();
+        }
+
+        private bool HasMatchingModuleKey(List<string> activeModules)
+        {
+            if (activeModules == null || activeModules.Count == 0)
+                return false;
+
+            return activeModules.Any(module => _allModulePages.Any(tab => string.Equals(module, tab.Name, StringComparison.OrdinalIgnoreCase)));
         }
 
         private void SetTabAccess(List<string> activeModules, string role)
         {
-            if (string.IsNullOrWhiteSpace(role) || activeModules == null || activeModules.Count == 0)
+            if (_allModulePages.Count == 0)
+                IndexModulePages();
+
+            if (string.IsNullOrWhiteSpace(role) || activeModules == null || activeModules.Count == 0 || !HasMatchingModuleKey(activeModules))
             {
-                foreach (TabPage tab in tabControl.TabPages.Cast<TabPage>().ToList())
-                {
-                    HideTabPage(tab);
-                }
+                ApplyVisibleTabPages(tab => true);
+                SetNavigationAccess(activeModules, role);
                 return;
             }
 
             if (IsAdminRole(role))
             {
-                foreach (TabPage tab in tabControl.TabPages)
-                {
-                    tab.Enabled = true;
-                    ShowTabPage(tab);
-                }
+                ApplyVisibleTabPages(tab => true);
+                SetNavigationAccess(activeModules, role);
                 return;
             }
 
-            foreach (TabPage tab in tabControl.TabPages.Cast<TabPage>().ToList())
-            {
-                bool hasAccess = activeModules.Contains(tab.Name);
-                tab.Enabled = hasAccess;
-
-                if (hasAccess)
-                    ShowTabPage(tab);
-                else
-                    HideTabPage(tab);
-            }
+            ApplyVisibleTabPages(tab => activeModules.Any(module => string.Equals(module, tab.Name, StringComparison.OrdinalIgnoreCase)));
+            SetNavigationAccess(activeModules, role);
         }
 
-        private void SetRibbonTabAccess(List<string> activeModules, string role)
+        private void IndexModulePages()
         {
-            if (string.IsNullOrWhiteSpace(role) || activeModules == null || activeModules.Count == 0)
+            _allModulePages.Clear();
+            _allModulePages.AddRange(new[]
             {
-                foreach (var tab in ribbonTabs.Values)
-                {
-                    tab.Visible = false;
-                }
-                return;
+                tabPageOgrenciOnKayit,
+                tabPageStok,
+                tabPageSatis,
+                tabPagePersonelYonetimi,
+                tabPageGelirGider,
+                tabPageOzelRaporlar
+            }.Where(tab => tab != null));
+        }
+
+        private void ApplyVisibleTabPages(Func<TabPage, bool> isVisible)
+        {
+            var selected = tabControl.SelectedTab;
+
+            tabControl.SuspendLayout();
+            tabControl.TabPages.Clear();
+
+            foreach (var tab in _allModulePages)
+            {
+                bool visible = isVisible(tab);
+                tab.Enabled = visible;
+
+                if (visible)
+                    tabControl.TabPages.Add(tab);
             }
 
-            if (IsAdminRole(role))
-            {
-                foreach (var tab in ribbonTabs.Values)
-                {
-                    tab.Visible = true;
-                }
-                return;
-            }
+            if (selected != null && tabControl.TabPages.Contains(selected))
+                tabControl.SelectedTab = selected;
+            else if (tabControl.TabPages.Count > 0)
+                tabControl.SelectedIndex = 0;
 
-            foreach (var pair in ribbonTabs)
-            {
-                pair.Value.Visible = activeModules.Contains(pair.Key);
-            }
+            tabControl.ResumeLayout(true);
         }
 
         private void ShowTabPage(TabPage tabPage)
@@ -567,15 +633,765 @@ namespace BKS
 
         #endregion
 
+
+        #region Modern Responsive UI
+
+        private void ConfigureMainWindow()
+        {
+            SuspendLayout();
+            BackColor = Color.FromArgb(246, 248, 252);
+            Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            MinimumSize = new Size(1180, 720);
+            StartPosition = FormStartPosition.CenterScreen;
+            FormBorderStyle = FormBorderStyle.Sizable;
+            ControlBox = true;
+            MinimizeBox = true;
+            MaximizeBox = true;
+            KeyPreview = true;
+            KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Escape)
+                {
+                    CloseApplication();
+                    e.Handled = true;
+                }
+            };
+            ResumeLayout(false);
+        }
+
+        private void BuildResponsiveLayout()
+        {
+            if (_layoutInitialized) return;
+            _layoutInitialized = true;
+
+            SuspendLayout();
+            IndexModulePages();
+            UseSegoeFontRecursive(this);
+            ConfigurePreRegistrationTab();
+            ConfigureStudentManagementTab();
+            ConfigurePaymentTab();
+            ConfigurePersonnelTab();
+            ConfigureIncomeExpenseTab();
+            ConfigureReportsTab();
+            StyleAllGrids();
+            InstallMainShellLayout();
+            Resize += (s, e) => ApplyAdaptiveHeights();
+            ApplyAdaptiveHeights();
+            ResumeLayout(true);
+        }
+
+        private void ConfigurePreRegistrationTab()
+        {
+            tabPageOgrenciOnKayit.SuspendLayout();
+            tabPageOgrenciOnKayit.BackColor = ModernWinForms.PageBack;
+            tabPageOgrenciOnKayit.Padding = new Padding(14);
+            tabPageOgrenciOnKayit.AutoScroll = true;
+
+            ModernWinForms.HideLegacyButton(btnOnKayitEkle);
+            ModernWinForms.HideLegacyButton(btnOnKayitSil);
+            ModernWinForms.HideLegacyButton(btnKesinKayitYap);
+
+            var page = ModernWinForms.CreatePageLayout(4);
+            page.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
+            page.RowStyles.Add(new RowStyle(SizeType.Absolute, 78));
+            page.RowStyles.Add(new RowStyle(SizeType.Absolute, 172));
+            page.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            var header = CreateModuleHeader(
+                "Öğrenci Ön Kayıt",
+                "Aday öğrenciyi hızlı kaydet, sağ tık menüsüyle kesin kayda çevir veya arşivle.",
+                "Faz 2 • Responsive kayıt akışı");
+
+            var commandCard = ModernWinForms.CreateCard("preRegistrationCommandCard", 0);
+            var strip = ModernWinForms.CreateCommandStrip("preRegistrationCommandStrip");
+            strip.Items.Add(ModernWinForms.CreateCommand("Ctrl+S Kaydet", (s, e) => RunPreRegistrationAdd()));
+            strip.Items.Add(ModernWinForms.CreateCommand("Ctrl+Enter Kesin kayıt", (s, e) => RunPreRegistrationConfirm()));
+            strip.Items.Add(ModernWinForms.CreateCommand("Delete Sil", (s, e) => RunPreRegistrationDelete()));
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add(ModernWinForms.CreateCommand("Yenile", (s, e) => LoadOnKayitlar(UserId)));
+            commandCard.Controls.Add(strip);
+
+            panelForm = panelForm ?? new Panel();
+            panelForm.Dock = DockStyle.Fill;
+            panelForm.BackColor = Color.White;
+            panelForm.Padding = new Padding(16);
+            panelForm.Margin = new Padding(0, 0, 0, 14);
+
+            var formFlow = ModernWinForms.CreateFlow("flowOnKayitForm", true);
+            ModernWinForms.StyleInput(txtOnKayitAd, 230);
+            ModernWinForms.StyleInput(txtOnKayitSoyad, 230);
+            ModernWinForms.StyleInput(dtpOnKayitDogumTarihi, 190);
+            ModernWinForms.StyleInput(txtOnKayitVeliTel, 230);
+            ModernWinForms.StyleInput(txtOnKayitBabaAd, 230);
+            ModernWinForms.StyleInput(txtOnKayitNot, 430, 52);
+            formFlow.Controls.AddRange(new Control[]
+            {
+                txtOnKayitAd, txtOnKayitSoyad, dtpOnKayitDogumTarihi,
+                txtOnKayitVeliTel, txtOnKayitBabaAd, txtOnKayitNot
+            });
+            panelForm.Controls.Clear();
+            panelForm.Controls.Add(formFlow);
+
+            panelGrid = panelGrid ?? new Panel();
+            panelGrid.Dock = DockStyle.Fill;
+            panelGrid.Padding = new Padding(12);
+            panelGrid.BackColor = Color.White;
+            dgvOnKayitlar.Dock = DockStyle.Fill;
+            dgvOnKayitlar.Location = Point.Empty;
+            ModernWinForms.StyleGrid(dgvOnKayitlar);
+            panelGrid.Controls.Clear();
+            panelGrid.Controls.Add(dgvOnKayitlar);
+
+            dgvOnKayitlar.ContextMenuStrip = BuildPreRegistrationContextMenu();
+            panelForm.ContextMenuStrip = dgvOnKayitlar.ContextMenuStrip;
+            tabPageOgrenciOnKayit.ContextMenuStrip = dgvOnKayitlar.ContextMenuStrip;
+
+            tabPageOgrenciOnKayit.KeyDown += (s, e) =>
+            {
+                if (e.Control && e.KeyCode == Keys.S) { RunPreRegistrationAdd(); e.Handled = true; }
+                if (e.Control && e.KeyCode == Keys.Enter) { RunPreRegistrationConfirm(); e.Handled = true; }
+                if (e.KeyCode == Keys.Delete) { RunPreRegistrationDelete(); e.Handled = true; }
+            };
+
+            page.Controls.Add(header, 0, 0);
+            page.Controls.Add(commandCard, 0, 1);
+            page.Controls.Add(panelForm, 0, 2);
+            page.Controls.Add(panelGrid, 0, 3);
+
+            tabPageOgrenciOnKayit.Controls.Clear();
+            tabPageOgrenciOnKayit.Controls.Add(page);
+            tabPageOgrenciOnKayit.ResumeLayout(false);
+        }
+
+
+        private void ConfigureStudentManagementTab()
+        {
+            tabPageStok.SuspendLayout();
+            tabPageStok.BackColor = ModernWinForms.PageBack;
+            tabPageStok.Padding = new Padding(14);
+            tabPageStok.AutoScroll = true;
+
+            ModernWinForms.HideLegacyButton(btnOgrenciYonetimiAra);
+            ModernWinForms.HideLegacyButton(btnOgrenciYonetimiSinifGuncelle);
+            ModernWinForms.HideLegacyButton(btnOgrenciYonetimiSinifSil);
+            ModernWinForms.HideLegacyButton(btnOgrenciYonetimiSinifKaydet);
+
+            var shell = CreateScrollShell("studentManagementShell");
+            var layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 1,
+                RowCount = 5,
+                BackColor = Color.Transparent,
+                MinimumSize = new Size(980, 720),
+                Padding = new Padding(0)
+            };
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 420));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 250));
+
+            layout.Controls.Add(CreateModuleHeader(
+                "Öğrenci Yönetimi",
+                "Öğrenci listesi, sınıf atamaları ve arşiv işlemleri tek ekranda; seçimler sağ tık ile yönetilir.",
+                "Faz 2 • Grid + sınıf kokpiti"), 0, 0);
+
+            var searchCard = ModernWinForms.CreateCard("studentSearchCard");
+            var searchFlow = ModernWinForms.CreateFlow("studentSearchFlow", true);
+            ModernWinForms.StyleInput(txtOgrenciYonetimiAra, 340);
+            txtOgrenciYonetimiAra.PlaceholderText = "Öğrenci adı, soyadı, sınıf veya telefon ara...";
+            txtOgrenciYonetimiAra.TextChanged += (s, e) => ModernWinForms.ApplySearchFilter(dataGridViewStok, txtOgrenciYonetimiAra.Text);
+            searchFlow.Controls.Add(txtOgrenciYonetimiAra);
+            searchFlow.Controls.Add(ModernWinForms.CreateBadge("Enter: ara • Sağ tık: işlem"));
+            searchCard.Controls.Add(searchFlow);
+            layout.Controls.Add(searchCard, 0, 1);
+
+            PrepareGroupBox(groupBox2, "Öğrenci Listesi");
+            groupBox2.Controls.Clear();
+            ModernWinForms.StyleGrid(dataGridViewStok);
+            dataGridViewStok.Dock = DockStyle.Fill;
+            dataGridViewStok.Location = Point.Empty;
+            groupBox2.Controls.Add(dataGridViewStok);
+            layout.Controls.Add(groupBox2, 0, 2);
+
+            var classStripCard = ModernWinForms.CreateCard("classCommandCard", 0);
+            var classStrip = ModernWinForms.CreateCommandStrip("classCommandStrip");
+            classStrip.Items.Add(ModernWinForms.CreateCommand("Sınıf kaydet", (s, e) => RunClassSave()));
+            classStrip.Items.Add(ModernWinForms.CreateCommand("Sınıf güncelle", (s, e) => RunClassUpdate()));
+            classStrip.Items.Add(ModernWinForms.CreateCommand("Sınıf sil", (s, e) => RunClassDelete()));
+            classStrip.Items.Add(new ToolStripSeparator());
+            classStrip.Items.Add(ModernWinForms.CreateCommand("Yenile", (s, e) => { LoadStockData(UserId); SinifLoad(UserId); }));
+            classStripCard.Controls.Add(classStrip);
+            layout.Controls.Add(classStripCard, 0, 3);
+
+            var bottomLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1,
+                BackColor = Color.Transparent
+            };
+            bottomLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62));
+            bottomLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38));
+
+            PrepareGroupBox(groupBox1, "Sınıf Listesi");
+            groupBox1.Controls.Clear();
+            ModernWinForms.StyleGrid(DgvOgrenciYonetimiSiniflar);
+            DgvOgrenciYonetimiSiniflar.Dock = DockStyle.Fill;
+            DgvOgrenciYonetimiSiniflar.Location = Point.Empty;
+            groupBox1.Controls.Add(DgvOgrenciYonetimiSiniflar);
+
+            var classEditor = ModernWinForms.CreateCard("classEditorCard");
+            var classFlow = ModernWinForms.CreateFlow("classEditorFlow", true);
+            PrepareInlineGroupBox(groupBox14, "Sınıf Adı", 230, 82);
+            PrepareInlineGroupBox(groupBox15, "Yaş Grubu", 230, 82);
+            PrepareInlineGroupBox(groupBox13, "Öğretmen", 230, 82);
+            ModernWinForms.StyleInput(txtOgrenciYonetimiSınıfAdı, 200);
+            ModernWinForms.StyleInput(cbxOgrenciYonetimiYasGrubu, 200);
+            ModernWinForms.StyleInput(cbxOgrenciYonetimiOgretmen, 200);
+            classFlow.Controls.AddRange(new Control[] { groupBox14, groupBox15, groupBox13 });
+            classEditor.Controls.Add(classFlow);
+
+            bottomLayout.Controls.Add(groupBox1, 0, 0);
+            bottomLayout.Controls.Add(classEditor, 1, 0);
+            layout.Controls.Add(bottomLayout, 0, 4);
+
+            dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
+            DgvOgrenciYonetimiSiniflar.ContextMenuStrip = BuildClassContextMenu();
+
+            shell.Controls.Add(layout);
+            tabPageStok.Controls.Clear();
+            tabPageStok.Controls.Add(shell);
+            tabPageStok.ResumeLayout(false);
+        }
+
+
+        private void ConfigurePaymentTab()
+        {
+            tabPageSatis.SuspendLayout();
+            tabPageSatis.BackColor = ModernWinForms.PageBack;
+            tabPageSatis.Padding = new Padding(14);
+
+            ModernWinForms.HideLegacyButton(btnMakeSale);
+
+            var layout = ModernWinForms.CreatePageLayout(4);
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 98));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            layout.Controls.Add(CreateModuleHeader(
+                "Öğrenci Ödeme Yönetimi",
+                "Ödeme girişi, öğrenci seçimi ve tahsilat takibi daha geniş, okunaklı ve responsive yapıya taşındı.",
+                "Faz 2 • Finans kokpiti"), 0, 0);
+
+            var commandCard = ModernWinForms.CreateCard("paymentCommandCard", 0);
+            var strip = ModernWinForms.CreateCommandStrip("paymentCommandStrip");
+            strip.Items.Add(ModernWinForms.CreateCommand("Ödeme girişi", (s, e) => RunPaymentEntry()));
+            strip.Items.Add(ModernWinForms.CreateCommand("Yenile", (s, e) => LoadPaymentData(UserId)));
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add(new ToolStripLabel("İpucu: Gridde sağ tık ile ödeme detayları ve arşiv işlemlerine ulaş."));
+            commandCard.Controls.Add(strip);
+            layout.Controls.Add(commandCard, 0, 1);
+
+            var filters = ModernWinForms.CreateCard("paymentFiltersCard");
+            var top = ModernWinForms.CreateFlow("paymentActionBar", true);
+            PrepareInlineGroupBox(groupBox8, "Öğrenci Seçimi", 280, 76);
+            PrepareInlineGroupBox(groupBox9, "Öğrenci Ücreti", 210, 76);
+            ModernWinForms.StyleInput(comboBoxStok, 240);
+            ModernWinForms.StyleInput(numericQuantitySold, 170);
+            top.Controls.Add(groupBox8);
+            top.Controls.Add(groupBox9);
+            filters.Controls.Add(top);
+            layout.Controls.Add(filters, 0, 2);
+
+            var gridBox = CreateCardPanel("paymentGridCard");
+            ModernWinForms.StyleGrid(dataOgrVw);
+            dataOgrVw.Dock = DockStyle.Fill;
+            dataOgrVw.Location = Point.Empty;
+            dataOgrVw.ContextMenuStrip = contextMenuStrip1;
+            gridBox.Controls.Add(dataOgrVw);
+            layout.Controls.Add(gridBox, 0, 3);
+
+            tabPageSatis.Controls.Clear();
+            tabPageSatis.Controls.Add(layout);
+            tabPageSatis.ResumeLayout(false);
+        }
+
+
+        private void ConfigurePersonnelTab()
+        {
+            tabPagePersonelYonetimi.SuspendLayout();
+            tabPagePersonelYonetimi.BackColor = ModernWinForms.PageBack;
+            tabPagePersonelYonetimi.Padding = new Padding(14);
+
+            var layout = ModernWinForms.CreatePageLayout(3);
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            layout.Controls.Add(CreateModuleHeader(
+                "Personel Yönetimi",
+                "Personel listesi, arşiv ve hızlı kayıt işlemleri grid odaklı hale getirildi.",
+                "Faz 2 • Personel kokpiti"), 0, 0);
+
+            var searchCard = ModernWinForms.CreateCard("personnelSearchCard");
+            var searchFlow = ModernWinForms.CreateFlow("personnelSearchFlow", true);
+            var txtPersonelAra = new TextBox { Name = "txtPersonelAra", PlaceholderText = "Personel adı, görev, departman veya telefon ara..." };
+            ModernWinForms.StyleInput(txtPersonelAra, 360);
+            txtPersonelAra.TextChanged += (s, e) => ModernWinForms.ApplySearchFilter(dgvPersonelYonetimi, txtPersonelAra.Text);
+            searchFlow.Controls.Add(txtPersonelAra);
+            searchFlow.Controls.Add(ModernWinForms.CreateBadge("Çift tık: detay • Sağ tık: işlem"));
+            searchCard.Controls.Add(searchFlow);
+            layout.Controls.Add(searchCard, 0, 1);
+
+            var gridBox = CreateCardPanel("personnelGridCard");
+            ModernWinForms.StyleGrid(dgvPersonelYonetimi);
+            dgvPersonelYonetimi.Dock = DockStyle.Fill;
+            dgvPersonelYonetimi.Location = Point.Empty;
+            dgvPersonelYonetimi.ContextMenuStrip = contextMenuStrip1;
+            gridBox.Controls.Add(dgvPersonelYonetimi);
+            layout.Controls.Add(gridBox, 0, 2);
+
+            tabPagePersonelYonetimi.Controls.Clear();
+            tabPagePersonelYonetimi.Controls.Add(layout);
+            tabPagePersonelYonetimi.ResumeLayout(false);
+        }
+
+
+        private void ConfigureIncomeExpenseTab()
+        {
+            tabPageGelirGider.SuspendLayout();
+            tabPageGelirGider.BackColor = ModernWinForms.PageBack;
+            tabPageGelirGider.Padding = new Padding(14);
+
+            ModernWinForms.HideLegacyButton(btnAddIncomeExpense);
+            ModernWinForms.HideLegacyButton(FaturaBtn);
+
+            var layout = ModernWinForms.CreatePageLayout(4);
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 70));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 92));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            layout.Controls.Add(CreateModuleHeader(
+                "Gelir - Gider Yönetimi",
+                "Gelir/gider kaydı, fatura merkezi ve finans hareketleri tek ekranda sadeleştirildi.",
+                "Faz 2 • Finans + fatura"), 0, 0);
+
+            var commandCard = ModernWinForms.CreateCard("incomeExpenseCommandCard", 0);
+            var strip = ModernWinForms.CreateCommandStrip("incomeExpenseCommandStrip");
+            strip.Items.Add(ModernWinForms.CreateCommand("Gelir/Gider kaydet", (s, e) => RunIncomeExpenseSave()));
+            strip.Items.Add(ModernWinForms.CreateCommand("Fatura merkezi", (s, e) => RunInvoiceCenter()));
+            strip.Items.Add(ModernWinForms.CreateCommand("Yenile", (s, e) => LoadSalesData()));
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add(new ToolStripLabel("Ctrl+S: kaydet • Ctrl+F: fatura"));
+            commandCard.Controls.Add(strip);
+            layout.Controls.Add(commandCard, 0, 1);
+
+            var entryCard = ModernWinForms.CreateCard("incomeExpenseEntryCard");
+            var top = ModernWinForms.CreateFlow("incomeExpenseActionBar", true);
+            ModernWinForms.StyleInput(txtDescription, 360);
+            ModernWinForms.StyleInput(numericAmount, 160);
+            ModernWinForms.StyleCheck(radioIncome);
+            ModernWinForms.StyleCheck(radioExpense);
+            txtDescription.PlaceholderText = "Açıklama / işlem notu";
+            top.Controls.Add(txtDescription);
+            top.Controls.Add(numericAmount);
+            top.Controls.Add(radioIncome);
+            top.Controls.Add(radioExpense);
+            entryCard.Controls.Add(top);
+            layout.Controls.Add(entryCard, 0, 2);
+
+            var gridBox = CreateCardPanel("incomeExpenseGridCard");
+            ModernWinForms.StyleGrid(dataGridOdeme);
+            dataGridOdeme.Dock = DockStyle.Fill;
+            dataGridOdeme.Location = Point.Empty;
+            gridBox.Controls.Add(dataGridOdeme);
+            layout.Controls.Add(gridBox, 0, 3);
+
+            tabPageGelirGider.KeyDown += (s, e) =>
+            {
+                if (e.Control && e.KeyCode == Keys.S) { RunIncomeExpenseSave(); e.Handled = true; }
+                if (e.Control && e.KeyCode == Keys.F) { RunInvoiceCenter(); e.Handled = true; }
+            };
+
+            tabPageGelirGider.Controls.Clear();
+            tabPageGelirGider.Controls.Add(layout);
+            tabPageGelirGider.ResumeLayout(false);
+        }
+
+
+        private void ConfigureReportsTab()
+        {
+            tabPageOzelRaporlar.SuspendLayout();
+            tabPageOzelRaporlar.BackColor = ModernWinForms.PageBack;
+            tabPageOzelRaporlar.Padding = new Padding(14);
+            var layout = ModernWinForms.CreatePageLayout(2);
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            layout.Controls.Add(CreateModuleHeader("Özel Raporlar", "Kaydedilmiş raporları responsive gridde incele.", "Faz 2"), 0, 0);
+            var gridBox = CreateCardPanel("reportsGridCard");
+            ModernWinForms.StyleGrid(salesGrid);
+            salesGrid.Dock = DockStyle.Fill;
+            salesGrid.Location = Point.Empty;
+            gridBox.Controls.Add(salesGrid);
+            layout.Controls.Add(gridBox, 0, 1);
+            tabPageOzelRaporlar.Controls.Clear();
+            tabPageOzelRaporlar.Controls.Add(layout);
+            tabPageOzelRaporlar.ResumeLayout(false);
+        }
+
+
+
+
+        private void RunPreRegistrationAdd() => btnOnKayitEkle_Click(btnOnKayitEkle, EventArgs.Empty);
+        private void RunPreRegistrationConfirm() => btnKesinKayitYap_Click_1(btnKesinKayitYap, EventArgs.Empty);
+        private void RunPreRegistrationDelete() => btnOnKayitSil_Click(btnOnKayitSil, EventArgs.Empty);
+        private void RunClassSave() => btnOgrenciYonetimiSinifKaydet_Click(btnOgrenciYonetimiSinifKaydet, EventArgs.Empty);
+        private void RunClassUpdate() => btnOgrenciYonetimiSinifGuncelle_Click(btnOgrenciYonetimiSinifGuncelle, EventArgs.Empty);
+        private void RunClassDelete() => btnOgrenciYonetimiSinifSil_Click(btnOgrenciYonetimiSinifSil, EventArgs.Empty);
+        private void RunPaymentEntry() => btnMakeSale_Click(btnMakeSale, EventArgs.Empty);
+        private void RunIncomeExpenseSave() => btnAddIncomeExpense_Click(btnAddIncomeExpense, EventArgs.Empty);
+        private void RunInvoiceCenter() => FaturaBtn_Click(FaturaBtn, EventArgs.Empty);
+
+        private Panel CreateModuleHeader(string title, string subtitle, string badgeText)
+        {
+            var card = ModernWinForms.CreateCard("moduleHeader", 14);
+            var badge = ModernWinForms.CreateBadge(badgeText);
+            badge.Dock = DockStyle.Right;
+            badge.Width = 260;
+            card.Controls.Add(badge);
+            card.Controls.Add(ModernWinForms.CreateSubtitle(subtitle));
+            card.Controls.Add(ModernWinForms.CreateTitle(title));
+            return card;
+        }
+
+        private ContextMenuStrip BuildPreRegistrationContextMenu()
+        {
+            var menu = new ContextMenuStrip();
+            menu.Items.Add("Ön kayıt ekle", null, (s, e) => RunPreRegistrationAdd());
+            menu.Items.Add("Kesin kayda çevir", null, (s, e) => RunPreRegistrationConfirm());
+            menu.Items.Add("Seçili ön kaydı sil", null, (s, e) => RunPreRegistrationDelete());
+            menu.Items.Add(new ToolStripSeparator());
+            menu.Items.Add("Listeyi yenile", null, (s, e) => LoadOnKayitlar(UserId));
+            return menu;
+        }
+
+        private ContextMenuStrip BuildClassContextMenu()
+        {
+            var menu = new ContextMenuStrip();
+            menu.Items.Add("Sınıf kaydet", null, (s, e) => RunClassSave());
+            menu.Items.Add("Sınıf güncelle", null, (s, e) => RunClassUpdate());
+            menu.Items.Add("Sınıf sil", null, (s, e) => RunClassDelete());
+            menu.Items.Add(new ToolStripSeparator());
+            menu.Items.Add("Yenile", null, (s, e) => SinifLoad(UserId));
+            return menu;
+        }
+
+        private void InstallMainShellLayout()
+        {
+            if (_mainLayout != null) return;
+
+            Controls.Remove(tabControl);
+
+            _mainLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1,
+                BackColor = Color.FromArgb(246, 248, 252),
+                Margin = Padding.Empty,
+                Padding = Padding.Empty
+            };
+            _mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 258));
+            _mainLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            _mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            _sidebarPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.FromArgb(15, 23, 42),
+                Padding = new Padding(12)
+            };
+
+            var sidebarLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                BackColor = Color.Transparent
+            };
+            sidebarLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 104));
+            sidebarLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            var brandPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.Transparent
+            };
+
+            var brandTitle = new Label
+            {
+                Text = "BKS",
+                Dock = DockStyle.Top,
+                Height = 38,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 162),
+                TextAlign = ContentAlignment.BottomLeft
+            };
+
+            var brandSubtitle = new Label
+            {
+                Text = "Anaokulu Yönetim Sistemi",
+                Dock = DockStyle.Top,
+                Height = 42,
+                ForeColor = Color.FromArgb(148, 163, 184),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162),
+                TextAlign = ContentAlignment.TopLeft
+            };
+
+            brandPanel.Controls.Add(brandSubtitle);
+            brandPanel.Controls.Add(brandTitle);
+
+            _navigationList = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                BackColor = Color.Transparent,
+                Padding = new Padding(0, 4, 0, 0)
+            };
+
+            sidebarLayout.Controls.Add(brandPanel, 0, 0);
+            sidebarLayout.Controls.Add(_navigationList, 0, 1);
+            _sidebarPanel.Controls.Add(sidebarLayout);
+
+            _contentLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 2,
+                BackColor = Color.FromArgb(246, 248, 252),
+                Padding = Padding.Empty,
+                Margin = Padding.Empty
+            };
+            _contentLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 86));
+            _contentLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+
+            _topBarPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.White,
+                Padding = new Padding(24, 12, 24, 10)
+            };
+
+            _headerTitleLabel = new Label
+            {
+                Dock = DockStyle.Top,
+                Height = 34,
+                ForeColor = Color.FromArgb(15, 23, 42),
+                Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold, GraphicsUnit.Point, 162),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            _headerSubtitleLabel = new Label
+            {
+                Dock = DockStyle.Top,
+                Height = 24,
+                ForeColor = Color.FromArgb(100, 116, 139),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 162),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            _headerUserLabel = new Label
+            {
+                Dock = DockStyle.Right,
+                Width = 320,
+                ForeColor = Color.FromArgb(51, 65, 85),
+                Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 162),
+                TextAlign = ContentAlignment.MiddleRight
+            };
+
+            _topBarPanel.Controls.Add(_headerSubtitleLabel);
+            _topBarPanel.Controls.Add(_headerTitleLabel);
+            _topBarPanel.Controls.Add(_headerUserLabel);
+
+            tabControl.Appearance = TabAppearance.FlatButtons;
+            tabControl.ItemSize = new Size(0, 1);
+            tabControl.SizeMode = TabSizeMode.Fixed;
+            tabControl.Dock = DockStyle.Fill;
+            tabControl.SelectedIndexChanged += (s, e) =>
+            {
+                UpdateHeaderForCurrentTab();
+                UpdateNavigationVisualState();
+            };
+
+            _contentLayout.Controls.Add(_topBarPanel, 0, 0);
+            _contentLayout.Controls.Add(tabControl, 0, 1);
+
+            _mainLayout.Controls.Add(_sidebarPanel, 0, 0);
+            _mainLayout.Controls.Add(_contentLayout, 1, 0);
+            Controls.Add(_mainLayout);
+
+            BuildNavigationItems();
+            UpdateHeaderForCurrentTab();
+        }
+
+        private Panel CreateScrollShell(string name)
+        {
+            return new Panel
+            {
+                Name = name,
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                BackColor = Color.Transparent
+            };
+        }
+
+        private Panel CreateCardPanel(string name)
+        {
+            return ModernWinForms.CreateCard(name, 12);
+        }
+
+        private FlowLayoutPanel CreateFlowPanel(string name, bool wrap)
+        {
+            return new FlowLayoutPanel
+            {
+                Name = name,
+                Dock = DockStyle.Fill,
+                AutoScroll = false,
+                WrapContents = wrap,
+                FlowDirection = FlowDirection.LeftToRight,
+                BackColor = Color.Transparent
+            };
+        }
+
+        private void PrepareGroupBox(GroupBox groupBox, string text)
+        {
+            ModernWinForms.StyleGroupBox(groupBox, text);
+        }
+
+
+        private void PrepareInlineGroupBox(GroupBox groupBox, string text, int width, int height)
+        {
+            PrepareGroupBox(groupBox, text);
+            groupBox.Dock = DockStyle.None;
+            groupBox.Width = width;
+            groupBox.Height = height;
+            groupBox.Margin = new Padding(0, 0, 12, 12);
+        }
+
+        private void PrepareInput(Control control, int width, int height = 34)
+        {
+            ModernWinForms.StyleInput(control, width, height);
+        }
+
+        private void PreparePrimaryButton(Button button, string text, Color backColor, int width = 172, int height = 42)
+        {
+            button.Text = text;
+            button.Width = width;
+            button.Height = height;
+            button.Margin = new Padding(0, 0, 12, 12);
+            button.BackColor = backColor;
+            button.ForeColor = Color.White;
+            button.FlatStyle = FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 0;
+            button.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            button.Cursor = Cursors.Hand;
+            button.Image = null;
+            button.TextImageRelation = TextImageRelation.ImageBeforeText;
+            button.ImageAlign = ContentAlignment.MiddleLeft;
+            button.TextAlign = ContentAlignment.MiddleCenter;
+        }
+
+        private void StyleAllGrids()
+        {
+            foreach (var grid in GetAllControls(this).OfType<DataGridView>())
+            {
+                StyleGrid(grid);
+            }
+        }
+
+        private void StyleGrid(DataGridView grid)
+        {
+            ModernWinForms.StyleGrid(grid);
+        }
+
+        private IEnumerable<Control> GetAllControls(Control parent)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                yield return child;
+                foreach (Control grandChild in GetAllControls(child))
+                    yield return grandChild;
+            }
+        }
+
+        private void UseSegoeFontRecursive(Control parent)
+        {
+            parent.Font = new Font("Segoe UI", parent.Font.Size <= 0 ? 9.5F : parent.Font.Size, parent.Font.Style, GraphicsUnit.Point, 162);
+            foreach (Control child in parent.Controls)
+                UseSegoeFontRecursive(child);
+        }
+
+        private void ApplyAdaptiveHeights()
+        {
+            if (!_layoutInitialized || panelForm == null) return;
+
+            int width = ClientSize.Width;
+            panelForm.Height = width < 1250 ? 270 : 210;
+
+            if (_contentLayout != null && _contentLayout.RowStyles.Count > 0)
+            {
+                _contentLayout.RowStyles[0].Height = width < 1050 ? 72 : 86;
+            }
+
+            if (_mainLayout != null && _mainLayout.ColumnStyles.Count > 0)
+            {
+                bool compact = width < 1050;
+                _mainLayout.ColumnStyles[0].Width = compact ? 76 : 258;
+
+                foreach (var pair in navigationButtons)
+                {
+                    pair.Value.Text = BuildNavigationText(pair.Key, compact);
+                    pair.Value.Width = compact ? 52 : 222;
+                    pair.Value.Height = compact ? 50 : 58;
+                    pair.Value.TextAlign = compact ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft;
+                    pair.Value.Margin = compact ? new Padding(0, 4, 0, 4) : new Padding(8, 4, 8, 4);
+                }
+            }
+        }
+
+        private void CloseApplication()
+        {
+            var result = MessageBox.Show(
+                "Program kapatılsın mı?",
+                "Çıkış",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+                Close();
+        }
+
+        #endregion
+
         #region Form Events
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            dgvPersonelYonetimi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvPersonelYonetimi.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPersonelYonetimi.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
             this.Text = (GetCompanyName(UserId) + " Anaokulu Yönetim Sistemi").ToUpper();
             this.materialLabel3.Text = ("Merhaba " + GetLastUser(UserId) + " Son Giriş Zamanın : " + GetLastLoginTime(UserId)).ToUpper();
+            if (_headerUserLabel != null)
+                _headerUserLabel.Text = (GetLastUser(UserId) + "  •  " + GetLastLoginTime(UserId));
 
             LoadModulesFromApi(UserId, Role);
             LoadOnKayitlar(UserId);
@@ -605,6 +1421,9 @@ namespace BKS
             dataGridViewStok.MouseDown += DataGridView_MouseDown;
             dgvPersonelYonetimi.MouseDown += DataGridView_MouseDown;
             DgvOgrenciYonetimiSiniflar.MouseDown += DataGridView_MouseDown;
+
+            StyleAllGrids();
+            ApplyAdaptiveHeights();
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -629,14 +1448,12 @@ namespace BKS
 
                     var result = JsonConvert.DeserializeObject<ModuleResponse>(json);
                     SetTabAccess(result?.modules, result?.role);
-                    SetRibbonTabAccess(result?.modules, result?.role);
                 }
             }
             catch (WebException ex)
             {
                 MessageBox.Show("Modüller yüklenemedi!\n" + ex.Message);
                 SetTabAccess(null, null);
-                SetRibbonTabAccess(null, null);
             }
         }
 

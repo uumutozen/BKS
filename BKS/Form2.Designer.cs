@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace BKS
 {
@@ -40,7 +40,6 @@ namespace BKS
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
@@ -374,7 +373,6 @@ namespace BKS
             btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifSil.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifSil.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifSil.Image");
             btnOgrenciYonetimiSinifSil.Location = new Point(1543, 856);
             btnOgrenciYonetimiSinifSil.Name = "btnOgrenciYonetimiSinifSil";
             btnOgrenciYonetimiSinifSil.Size = new Size(72, 77);
@@ -389,7 +387,6 @@ namespace BKS
             btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifKaydet.ForeColor = Color.Black;
-            btnOgrenciYonetimiSinifKaydet.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifKaydet.Image");
             btnOgrenciYonetimiSinifKaydet.Location = new Point(1637, 856);
             btnOgrenciYonetimiSinifKaydet.Name = "btnOgrenciYonetimiSinifKaydet";
             btnOgrenciYonetimiSinifKaydet.Size = new Size(72, 77);
@@ -493,7 +490,6 @@ namespace BKS
             // 
             // yeniKayıtEkleToolStripMenuItem
             // 
-            yeniKayıtEkleToolStripMenuItem.Image = (Image)resources.GetObject("yeniKayıtEkleToolStripMenuItem.Image");
             yeniKayıtEkleToolStripMenuItem.Name = "yeniKayıtEkleToolStripMenuItem";
             yeniKayıtEkleToolStripMenuItem.Size = new Size(207, 30);
             yeniKayıtEkleToolStripMenuItem.Text = "Yeni Kayıt Ekle";
@@ -501,7 +497,6 @@ namespace BKS
             // 
             // kayıtSilToolStripMenuItem
             // 
-            kayıtSilToolStripMenuItem.Image = (Image)resources.GetObject("kayıtSilToolStripMenuItem.Image");
             kayıtSilToolStripMenuItem.Name = "kayıtSilToolStripMenuItem";
             kayıtSilToolStripMenuItem.Size = new Size(207, 30);
             kayıtSilToolStripMenuItem.Text = "Seçili Kayıdı Sil";
@@ -509,7 +504,6 @@ namespace BKS
             // 
             // yenileToolStripMenuItem
             // 
-            yenileToolStripMenuItem.Image = (Image)resources.GetObject("yenileToolStripMenuItem.Image");
             yenileToolStripMenuItem.Name = "yenileToolStripMenuItem";
             yenileToolStripMenuItem.Size = new Size(207, 30);
             yenileToolStripMenuItem.Text = "Yenile";
@@ -517,7 +511,6 @@ namespace BKS
             // 
             // ödemeDetaylarıToolStripMenuItem
             // 
-            ödemeDetaylarıToolStripMenuItem.Image = (Image)resources.GetObject("ödemeDetaylarıToolStripMenuItem.Image");
             ödemeDetaylarıToolStripMenuItem.Name = "ödemeDetaylarıToolStripMenuItem";
             ödemeDetaylarıToolStripMenuItem.Size = new Size(207, 30);
             ödemeDetaylarıToolStripMenuItem.Text = "Ödeme Detayları";
@@ -525,7 +518,6 @@ namespace BKS
             // 
             // excelİleAktarToolStripMenuItem
             // 
-            excelİleAktarToolStripMenuItem.Image = (Image)resources.GetObject("excelİleAktarToolStripMenuItem.Image");
             excelİleAktarToolStripMenuItem.Name = "excelİleAktarToolStripMenuItem";
             excelİleAktarToolStripMenuItem.Size = new Size(207, 30);
             excelİleAktarToolStripMenuItem.Text = "Excel ile Aktar";
@@ -533,7 +525,6 @@ namespace BKS
             // 
             // geçmişHareketToolStripMenuItem
             // 
-            geçmişHareketToolStripMenuItem.Image = (Image)resources.GetObject("geçmişHareketToolStripMenuItem.Image");
             geçmişHareketToolStripMenuItem.Name = "geçmişHareketToolStripMenuItem";
             geçmişHareketToolStripMenuItem.Size = new Size(207, 30);
             geçmişHareketToolStripMenuItem.Text = "Geçmiş Hareketler";
@@ -541,7 +532,6 @@ namespace BKS
             // 
             // arşivToolStripMenuItem
             // 
-            arşivToolStripMenuItem.Image = (Image)resources.GetObject("arşivToolStripMenuItem.Image");
             arşivToolStripMenuItem.Name = "arşivToolStripMenuItem";
             arşivToolStripMenuItem.Size = new Size(207, 30);
             arşivToolStripMenuItem.Text = "Arşiv";
@@ -597,7 +587,6 @@ namespace BKS
             btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
             btnOgrenciYonetimiSinifGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.White;
-            btnOgrenciYonetimiSinifGuncelle.Image = (Image)resources.GetObject("btnOgrenciYonetimiSinifGuncelle.Image");
             btnOgrenciYonetimiSinifGuncelle.Location = new Point(1732, 856);
             btnOgrenciYonetimiSinifGuncelle.Name = "btnOgrenciYonetimiSinifGuncelle";
             btnOgrenciYonetimiSinifGuncelle.Size = new Size(72, 77);
@@ -918,7 +907,6 @@ namespace BKS
             ClientSize = new Size(1924, 753);
             Controls.Add(tabControl);
             Font = new Font("Times New Roman", 9F);
-            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form2";
             Text = "Anaokulu Yönetimi Sistemi";
             WindowState = FormWindowState.Maximized;
@@ -989,13 +977,6 @@ namespace BKS
         private GroupBox groupBox2;
         private ToolStripMenuItem geçmişHareketToolStripMenuItem;
         public DataGridView dataGridView1;
-        //private Krypton.Ribbon.KryptonRibbon ribbon;
-        //private Krypton.Ribbon.KryptonRibbonTab tabOnKayit;
-        //private Krypton.Ribbon.KryptonRibbonTab tabOgrenci;
-        //private Krypton.Ribbon.KryptonRibbonTab tabOdeme;
-        //private Krypton.Ribbon.KryptonRibbonTab tabPersonel;
-        //private Krypton.Ribbon.KryptonRibbonTab tabGelirGider;
-        //private Krypton.Ribbon.KryptonRibbonTab tabRapor;
         private Panel panelForm;
         private Panel panelGrid;
         private Button FaturaBtn;

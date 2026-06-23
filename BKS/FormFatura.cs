@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Media;
 using PdfSharpCore.Utils;
 using static MudBlazor.Defaults;
 using System.Diagnostics;
@@ -26,6 +25,7 @@ namespace BKS
         public FormFatura()
         {
             InitializeComponent();
+            BuildModernInvoiceLayout();
 
             // Font resolver'i global olarak ayarla
             GlobalFontSettings.FontResolver = new FontResolver();
@@ -35,6 +35,106 @@ namespace BKS
                 Directory.CreateDirectory(pdfKlasoru);
            
         }
+        private void BuildModernInvoiceLayout()
+        {
+            ModernWinForms.StyleForm(this, "Fatura Merkezi", new Size(980, 720));
+            KeyPreview = true;
+            ModernWinForms.HideLegacyButton(btnKaydet);
+
+            var root = ModernWinForms.CreatePageLayout(5);
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 58));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 118));
+            root.RowStyles.Add(new RowStyle(SizeType.Percent, 52));
+            root.RowStyles.Add(new RowStyle(SizeType.Percent, 48));
+
+            var header = ModernWinForms.CreateCard("invoiceHeader");
+            header.Controls.Add(ModernWinForms.CreateSubtitle("Fatura bilgileri, kalem girişi ve geçmiş faturalar responsive tasarıma taşındı."));
+            header.Controls.Add(ModernWinForms.CreateTitle("Fatura Merkezi"));
+            root.Controls.Add(header, 0, 0);
+
+            var commandCard = ModernWinForms.CreateCard("invoiceCommands", 0);
+            var strip = ModernWinForms.CreateCommandStrip("invoiceCommandStrip");
+            strip.Items.Add(ModernWinForms.CreateCommand("Ctrl+S Kaydet ve PDF oluştur", (s, e) => RunInvoiceSave()));
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add(new ToolStripLabel("Geçmiş faturada çift tık: PDF görüntüle"));
+            commandCard.Controls.Add(strip);
+            root.Controls.Add(commandCard, 0, 1);
+
+            var infoCard = ModernWinForms.CreateCard("invoiceInfoCard");
+            var infoFlow = ModernWinForms.CreateFlow("invoiceInfoFlow", true);
+            HideInvoiceLabels();
+            txtFaturaNo.PlaceholderText = "Fatura No";
+            txtAliciUnvan.PlaceholderText = "Alıcı Ünvan";
+            txtAliciVkn.PlaceholderText = "Alıcı VKN/TCKN";
+            ModernWinForms.StyleInput(txtFaturaNo, 220);
+            ModernWinForms.StyleInput(txtAliciUnvan, 300);
+            ModernWinForms.StyleInput(txtAliciVkn, 220);
+            ModernWinForms.StyleInput(dtTarih, 220);
+            infoFlow.Controls.AddRange(new Control[] { txtFaturaNo, txtAliciUnvan, txtAliciVkn, dtTarih });
+            infoCard.Controls.Add(infoFlow);
+            root.Controls.Add(infoCard, 0, 2);
+
+            var linesCard = ModernWinForms.CreateCard("invoiceLinesCard");
+            var linesLayout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2, BackColor = System.Drawing.Color.Transparent };
+            linesLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58));
+            linesLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            var linesHeader = new Panel { Dock = DockStyle.Fill, BackColor = System.Drawing.Color.Transparent };
+            linesHeader.Controls.Add(ModernWinForms.CreateSubtitle("Kalemleri aşağıdaki grid üzerinden düzenle. Yeni satır otomatik açılır."));
+            linesHeader.Controls.Add(ModernWinForms.CreateTitle("Fatura Kalemleri"));
+            ModernWinForms.StyleGrid(dgKalemler);
+            dgKalemler.Dock = DockStyle.Fill;
+            dgKalemler.Location = Point.Empty;
+            linesLayout.Controls.Add(linesHeader, 0, 0);
+            linesLayout.Controls.Add(dgKalemler, 0, 1);
+            linesCard.Controls.Add(linesLayout);
+            root.Controls.Add(linesCard, 0, 3);
+
+            var historyCard = ModernWinForms.CreateCard("invoiceHistoryCard");
+            var historyLayout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2, BackColor = System.Drawing.Color.Transparent };
+            historyLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58));
+            historyLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            var historyHeader = new Panel { Dock = DockStyle.Fill, BackColor = System.Drawing.Color.Transparent };
+            historyHeader.Controls.Add(ModernWinForms.CreateSubtitle("Kayıtlı faturalar listesi. PDF için çift tıkla."));
+            historyHeader.Controls.Add(ModernWinForms.CreateTitle("Fatura Geçmişi"));
+            ModernWinForms.StyleGrid(dgFaturalar);
+            dgFaturalar.Dock = DockStyle.Fill;
+            dgFaturalar.Location = Point.Empty;
+            historyLayout.Controls.Add(historyHeader, 0, 0);
+            historyLayout.Controls.Add(dgFaturalar, 0, 1);
+            historyCard.Controls.Add(historyLayout);
+            root.Controls.Add(historyCard, 0, 4);
+
+            var menu = new ContextMenuStrip();
+            menu.Items.Add("Kaydet ve PDF oluştur", null, (s, e) => RunInvoiceSave());
+            ContextMenuStrip = menu;
+            dgKalemler.ContextMenuStrip = menu;
+            dgFaturalar.ContextMenuStrip = menu;
+
+            KeyDown += (s, e) =>
+            {
+                if (e.Control && e.KeyCode == Keys.S)
+                {
+                    RunInvoiceSave();
+                    e.Handled = true;
+                }
+            };
+
+            Controls.Add(root);
+            root.BringToFront();
+            ModernWinForms.UseSegoeRecursive(this);
+        }
+
+        private void HideInvoiceLabels()
+        {
+            label1.Visible = false;
+            label2.Visible = false;
+            label3.Visible = false;
+            label4.Visible = false;
+        }
+
+        private void RunInvoiceSave() => btnKaydet_Click(btnKaydet, EventArgs.Empty);
+
         public Guid UserId { get; set; }
         private void FormFatura_Load(object sender, EventArgs e)
         {

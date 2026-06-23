@@ -3,17 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BKS
 {
     public partial class arsivForm : Form
     {
-        private Guid UserId;
-        private Guid OgrenciId;
-        private string connectionString;
+        private const string ApiBaseUrl = "https://randevu.aslancan.com.tr/api/dosya-arsiv";
+
+        private readonly Guid UserId;
+        private readonly Guid OgrenciId;
+        private readonly string connectionString;
+        private readonly HttpClient httpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(90) };
+        private readonly BindingSource dosyaBindingSource = new BindingSource();
+
+        private List<DosyaArsivModel> tumDosyalar = new List<DosyaArsivModel>();
+        private bool isBusy;
 
         public arsivForm(Guid userId, string connStr, Guid ogrenciId)
         {
@@ -22,15 +32,132 @@ namespace BKS
             OgrenciId = ogrenciId;
 
             InitializeComponent();
+            ConfigureScreen();
+            RegisterEvents();
 
             LoadOgrenciler();
+            _ = LoadOgrenciDosyalariAsync();
+        }
 
-            cmbOgrenciler.SelectedIndexChanged += CmbOgrenciler_SelectedIndexChanged;
+        private void ConfigureScreen()
+        {
+            ConfigureGrid();
+            ConfigureFilters();
+            ConfigureDragDrop();
+            UpdateDateFilterEnabled();
+            UpdateSummary();
+            SetStatus("Hazır.");
+        }
+
+        private void RegisterEvents()
+        {
+            cmbOgrenciler.SelectedIndexChanged += async (s, e) => await LoadOgrenciDosyalariAsync();
             btnDosyaSec.Click += BtnDosyaSec_Click;
-            btnYukle.Click += BtnYukle_Click;
-            btnIndir.Click += BtnIndir_Click;
+            btnYukle.Click += async (s, e) => await YukleAsync();
+            btnIndir.Click += async (s, e) => await IndirAsync(true);
+            btnMasaustuIndir.Click += async (s, e) => await IndirAsync(false);
+            btnKopyala.Click += (s, e) => CopySelectedFileName();
+            btnYenile.Click += async (s, e) => await LoadOgrenciDosyalariAsync();
+            btnFiltreTemizle.Click += (s, e) => ClearFilters();
 
-            LoadOgrenciDosyalari();
+            txtAra.TextChanged += (s, e) => ApplyFilters();
+            cmbTur.SelectedIndexChanged += (s, e) => ApplyFilters();
+            chkTarih.CheckedChanged += (s, e) =>
+            {
+                UpdateDateFilterEnabled();
+                ApplyFilters();
+            };
+            dtBaslangic.ValueChanged += (s, e) => ApplyFilters();
+            dtBitis.ValueChanged += (s, e) => ApplyFilters();
+
+            dgvDosyalar.SelectionChanged += (s, e) => UpdateSelectedCard();
+            dgvDosyalar.CellDoubleClick += async (s, e) =>
+            {
+                if (e.RowIndex >= 0)
+                    await IndirAsync(true);
+            };
+            dgvDosyalar.CellMouseDown += DgvDosyalar_CellMouseDown;
+
+            menuIndir.Click += async (s, e) => await IndirAsync(true);
+            menuMasaustuneIndir.Click += async (s, e) => await IndirAsync(false);
+            menuDosyaAdiniKopyala.Click += (s, e) => CopySelectedFileName();
+            menuYenile.Click += async (s, e) => await LoadOgrenciDosyalariAsync();
+
+            FormClosed += (s, e) => httpClient.Dispose();
+        }
+
+        private void ConfigureGrid()
+        {
+            dgvDosyalar.AutoGenerateColumns = false;
+            dgvDosyalar.DataSource = dosyaBindingSource;
+            dgvDosyalar.Columns.Clear();
+
+            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = nameof(DosyaArsivModel.DosyaAdi),
+                HeaderText = "Dosya Adı",
+                FillWeight = 46,
+                MinimumWidth = 240
+            });
+
+            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = nameof(DosyaArsivModel.DosyaTipi),
+                HeaderText = "Tür",
+                FillWeight = 16,
+                MinimumWidth = 110
+            });
+
+            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = nameof(DosyaArsivModel.Uzanti),
+                HeaderText = "Uzantı",
+                FillWeight = 10,
+                MinimumWidth = 85
+            });
+
+            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
+            {
+                DataPropertyName = nameof(DosyaArsivModel.Eklenme),
+                HeaderText = "Eklenme Tarihi",
+                FillWeight = 18,
+                MinimumWidth = 150
+            });
+        }
+
+        private void ConfigureFilters()
+        {
+            cmbTur.Items.Clear();
+            cmbTur.Items.AddRange(new object[]
+            {
+                "Tümü",
+                "PDF",
+                "Word",
+                "Excel",
+                "Resim",
+                "Sunum",
+                "Sıkıştırılmış",
+                "Diğer"
+            });
+            cmbTur.SelectedIndex = 0;
+
+            dtBaslangic.Value = DateTime.Today.AddMonths(-1);
+            dtBitis.Value = DateTime.Today;
+        }
+
+        private void ConfigureDragDrop()
+        {
+            grpUpload.AllowDrop = true;
+            txtDosyaYolu.AllowDrop = true;
+            lblDropHint.AllowDrop = true;
+
+            grpUpload.DragEnter += Upload_DragEnter;
+            txtDosyaYolu.DragEnter += Upload_DragEnter;
+            lblDropHint.DragEnter += Upload_DragEnter;
+
+            grpUpload.DragDrop += Upload_DragDrop;
+            txtDosyaYolu.DragDrop += Upload_DragDrop;
+            lblDropHint.DragDrop += Upload_DragDrop;
         }
 
         private void LoadOgrenciler()
@@ -40,7 +167,6 @@ namespace BKS
                 conn.Open();
 
                 var dt = new DataTable();
-
                 var da = new SqlDataAdapter(
                     @"SELECT 
                           Id,
@@ -64,171 +190,480 @@ namespace BKS
                 {
                     items.Add(new OgrenciCombo()
                     {
-                        Id = dr["Id"].ToString(),
-                        AdSoyad = dr["AdSoyad"].ToString()
+                        Id = dr["Id"].ToString() ?? string.Empty,
+                        AdSoyad = dr["AdSoyad"].ToString() ?? string.Empty
                     });
                 }
 
+                cmbOgrenciler.DisplayMember = nameof(OgrenciCombo.AdSoyad);
+                cmbOgrenciler.ValueMember = nameof(OgrenciCombo.Id);
                 cmbOgrenciler.DataSource = items;
-                cmbOgrenciler.DisplayMember = "AdSoyad";
-                cmbOgrenciler.ValueMember = "Id";
+
+                if (items.Count == 0)
+                    SetStatus("Bu arşiv için kayıt bulunamadı.");
             }
         }
 
-        private void CmbOgrenciler_SelectedIndexChanged(object sender, EventArgs e)
+        private async Task LoadOgrenciDosyalariAsync(bool force = false)
         {
-            LoadOgrenciDosyalari();
-        }
-
-        private void LoadOgrenciDosyalari()
-        {
-            dgvDosyalar.DataSource = null;
-
-            if (cmbOgrenciler.SelectedValue == null)
+            if ((isBusy && !force) || cmbOgrenciler.SelectedValue == null)
                 return;
 
-            string ogrenciId = cmbOgrenciler.SelectedValue.ToString();
+            string ogrenciId = cmbOgrenciler.SelectedValue.ToString() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(ogrenciId))
+                return;
 
-            using (var client = new HttpClient())
+            SetBusy(true, "Dosyalar alınıyor...");
+
+            try
             {
-                var resp = client.GetAsync($"https://randevu.aslancan.com.tr/api/dosya-arsiv/ogrenci/{ogrenciId}").Result;
+                var resp = await httpClient.GetAsync($"{ApiBaseUrl}/ogrenci/{ogrenciId}");
 
-                if (resp.IsSuccessStatusCode)
+                if (!resp.IsSuccessStatusCode)
                 {
-                    var json = resp.Content.ReadAsStringAsync().Result;
-                    var dosyalar = JsonConvert.DeserializeObject<List<DosyaArsivModel>>(json);
-
-                    dgvDosyalar.DataSource = dosyalar;
-
-                    if (dgvDosyalar.Columns.Contains("Id"))
-                        dgvDosyalar.Columns["Id"].Visible = false;
-
-                    if (dgvDosyalar.Columns.Contains("DosyaYolu"))
-                        dgvDosyalar.Columns["DosyaYolu"].Visible = false;
+                    tumDosyalar = new List<DosyaArsivModel>();
+                    ApplyFilters();
+                    MessageBox.Show("Dosyalar alınamadı: " + resp.ReasonPhrase, "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    SetStatus("Dosyalar alınamadı.");
+                    return;
                 }
-                else
-                {
-                    MessageBox.Show("Dosyalar alınamadı.");
-                }
+
+                var json = await resp.Content.ReadAsStringAsync();
+                var dosyalar = JsonConvert.DeserializeObject<List<DosyaArsivModel>>(json) ?? new List<DosyaArsivModel>();
+
+                tumDosyalar = dosyalar
+                    .OrderByDescending(x => x.EklenmeTarihi)
+                    .ThenBy(x => x.DosyaAdi)
+                    .ToList();
+
+                ApplyFilters();
+                SetStatus($"{tumDosyalar.Count} dosya listelendi.");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Arşiv dosyaları alınırken hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetStatus("Arşiv yüklenirken hata oluştu.");
+            }
+            finally
+            {
+                SetBusy(false);
+            }
+        }
+
+        private void ApplyFilters()
+        {
+            IEnumerable<DosyaArsivModel> query = tumDosyalar;
+            string search = (txtAra.Text ?? string.Empty).Trim();
+            string selectedType = cmbTur.SelectedItem?.ToString() ?? "Tümü";
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(x =>
+                    (x.DosyaAdi ?? string.Empty).IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (x.Uzanti ?? string.Empty).IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (x.DosyaTipi ?? string.Empty).IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0);
+            }
+
+            if (!string.Equals(selectedType, "Tümü", StringComparison.OrdinalIgnoreCase))
+                query = query.Where(x => string.Equals(x.DosyaTipi, selectedType, StringComparison.OrdinalIgnoreCase));
+
+            if (chkTarih.Checked)
+            {
+                DateTime baslangic = dtBaslangic.Value.Date;
+                DateTime bitis = dtBitis.Value.Date.AddDays(1).AddTicks(-1);
+
+                if (baslangic <= bitis)
+                    query = query.Where(x => x.EklenmeTarihi >= baslangic && x.EklenmeTarihi <= bitis);
+            }
+
+            var filtered = query.ToList();
+            dosyaBindingSource.DataSource = filtered;
+            UpdateSummary(filtered.Count);
+        }
+
+        private void UpdateSummary(int? filteredCount = null)
+        {
+            int visibleCount = filteredCount ?? (dosyaBindingSource.DataSource as List<DosyaArsivModel>)?.Count ?? 0;
+            lblTotalValue.Text = $"{visibleCount} / {tumDosyalar.Count}";
+
+            var lastFile = tumDosyalar.OrderByDescending(x => x.EklenmeTarihi).FirstOrDefault();
+            lblLastValue.Text = lastFile == null || lastFile.EklenmeTarihi == default
+                ? "-"
+                : lastFile.EklenmeTarihi.ToString("dd.MM.yyyy HH:mm");
+
+            UpdateSelectedCard();
+        }
+
+        private void UpdateSelectedCard()
+        {
+            var selected = GetSelectedFile();
+            lblSelectedValue.Text = selected == null ? "Seçili dosya yok" : selected.DosyaAdi;
+        }
+
+        private void ClearFilters()
+        {
+            txtAra.Clear();
+            cmbTur.SelectedIndex = 0;
+            chkTarih.Checked = false;
+            dtBaslangic.Value = DateTime.Today.AddMonths(-1);
+            dtBitis.Value = DateTime.Today;
+            ApplyFilters();
+        }
+
+        private void UpdateDateFilterEnabled()
+        {
+            dtBaslangic.Enabled = chkTarih.Checked;
+            dtBitis.Enabled = chkTarih.Checked;
         }
 
         private void BtnDosyaSec_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            using (var ofd = new OpenFileDialog())
             {
+                ofd.Title = "Arşive yüklenecek dosyayı seç";
+                ofd.Filter = "Tüm dosyalar|*.*|PDF|*.pdf|Word|*.doc;*.docx|Excel|*.xls;*.xlsx|Resim|*.jpg;*.jpeg;*.png;*.webp";
+                ofd.Multiselect = false;
+
                 if (ofd.ShowDialog() == DialogResult.OK)
-                    txtDosyaYolu.Text = ofd.FileName;
+                    SetSelectedUploadFile(ofd.FileName);
             }
         }
 
-        private async void BtnYukle_Click(object sender, EventArgs e)
+        private async Task YukleAsync()
         {
             if (cmbOgrenciler.SelectedValue == null)
             {
-                MessageBox.Show("Kayıt seç!");
+                MessageBox.Show("Lütfen kayıt seçin.", "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string ogrenciId = cmbOgrenciler.SelectedValue.ToString();
+            string ogrenciId = cmbOgrenciler.SelectedValue.ToString() ?? string.Empty;
             string dosyaYolu = txtDosyaYolu.Text;
 
             if (string.IsNullOrWhiteSpace(dosyaYolu))
             {
-                MessageBox.Show("Lütfen dosya seçin.");
+                MessageBox.Show("Lütfen yüklenecek dosyayı seçin.", "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!File.Exists(dosyaYolu))
             {
-                MessageBox.Show("Seçilen dosya bulunamadı.");
+                MessageBox.Show("Seçilen dosya bulunamadı.", "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            SetBusy(true, "Dosya yükleniyor...");
+
             try
             {
-                using (var client = new HttpClient())
                 using (var form = new MultipartFormDataContent())
                 using (var fs = File.OpenRead(dosyaYolu))
                 {
                     form.Add(new StringContent(ogrenciId), "ogrenciId");
                     form.Add(new StreamContent(fs), "dosya", Path.GetFileName(dosyaYolu));
 
-                    var resp = await client.PostAsync("https://randevu.aslancan.com.tr/api/dosya-arsiv/yukle", form);
+                    var resp = await httpClient.PostAsync($"{ApiBaseUrl}/yukle", form);
 
                     if (resp.IsSuccessStatusCode)
                     {
-                        MessageBox.Show("Dosya yüklendi.");
                         txtDosyaYolu.Clear();
-                        LoadOgrenciDosyalari();
+                        lblDropHint.Text = "Dosyayı buraya sürükleyip bırakabilirsin.";
+                        await LoadOgrenciDosyalariAsync(true);
+                        MessageBox.Show("Dosya başarıyla yüklendi.", "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        SetStatus("Dosya yüklendi.");
                     }
                     else
                     {
-                        MessageBox.Show("Yükleme hatası: " + resp.ReasonPhrase);
+                        MessageBox.Show("Yükleme hatası: " + resp.ReasonPhrase, "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        SetStatus("Yükleme başarısız.");
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Yükleme sırasında hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetStatus("Yükleme sırasında hata oluştu.");
+            }
+            finally
+            {
+                SetBusy(false);
             }
         }
 
-        private async void BtnIndir_Click(object sender, EventArgs e)
+        private async Task IndirAsync(bool askPath)
         {
-            if (dgvDosyalar.SelectedRows.Count == 0)
+            var selected = GetSelectedFile();
+            if (selected == null)
             {
-                MessageBox.Show("Dosya seç!");
+                MessageBox.Show("Lütfen indirilecek dosyayı seçin.", "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            SetBusy(true, "Dosya indiriliyor...");
+
             try
             {
-                int dosyaId = Convert.ToInt32(dgvDosyalar.SelectedRows[0].Cells["Id"].Value);
-                string dosyaAdi = dgvDosyalar.SelectedRows[0].Cells["DosyaAdi"].Value.ToString();
+                var resp = await httpClient.GetAsync($"{ApiBaseUrl}/indir/{selected.Id}");
 
-                using (var client = new HttpClient())
+                if (!resp.IsSuccessStatusCode)
                 {
-                    var resp = await client.GetAsync($"https://randevu.aslancan.com.tr/api/dosya-arsiv/indir/{dosyaId}");
-
-                    if (resp.IsSuccessStatusCode)
-                    {
-                        var data = await resp.Content.ReadAsByteArrayAsync();
-                        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), dosyaAdi);
-
-                        File.WriteAllBytes(path, data);
-                        MessageBox.Show("Dosya indirildi: " + path);
-                    }
-                    else
-                    {
-                        MessageBox.Show("İndirme hatası: " + resp.ReasonPhrase);
-                    }
+                    MessageBox.Show("İndirme hatası: " + resp.ReasonPhrase, "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    SetStatus("İndirme başarısız.");
+                    return;
                 }
+
+                byte[] data = await resp.Content.ReadAsByteArrayAsync();
+                string targetPath = askPath ? AskSavePath(selected.DosyaAdi) : BuildDesktopPath(selected.DosyaAdi);
+
+                if (string.IsNullOrWhiteSpace(targetPath))
+                {
+                    SetStatus("İndirme iptal edildi.");
+                    return;
+                }
+
+                File.WriteAllBytes(targetPath, data);
+                SetStatus("Dosya indirildi: " + targetPath);
+
+                var result = MessageBox.Show("Dosya indirildi. Klasörde göstermek ister misiniz?", "Arşiv", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (result == DialogResult.Yes)
+                    ShowInExplorer(targetPath);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("İndirme sırasında hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetStatus("İndirme sırasında hata oluştu.");
+            }
+            finally
+            {
+                SetBusy(false);
+            }
+        }
+
+        private string AskSavePath(string fileName)
+        {
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.Title = "Dosyayı kaydet";
+                sfd.FileName = MakeSafeFileName(fileName);
+                sfd.Filter = "Tüm dosyalar|*.*";
+                sfd.OverwritePrompt = true;
+
+                return sfd.ShowDialog() == DialogResult.OK ? sfd.FileName : string.Empty;
+            }
+        }
+
+        private string BuildDesktopPath(string fileName)
+        {
+            string desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            string safeName = MakeSafeFileName(fileName);
+            string path = Path.Combine(desktop, safeName);
+
+            if (!File.Exists(path))
+                return path;
+
+            string name = Path.GetFileNameWithoutExtension(safeName);
+            string ext = Path.GetExtension(safeName);
+
+            for (int i = 1; i < 1000; i++)
+            {
+                string candidate = Path.Combine(desktop, $"{name} ({i}){ext}");
+                if (!File.Exists(candidate))
+                    return candidate;
+            }
+
+            return Path.Combine(desktop, $"{name}_{DateTime.Now:yyyyMMddHHmmss}{ext}");
+        }
+
+        private string MakeSafeFileName(string fileName)
+        {
+            string safeName = string.IsNullOrWhiteSpace(fileName) ? "arsiv-dosyasi" : fileName;
+            foreach (char invalidChar in Path.GetInvalidFileNameChars())
+                safeName = safeName.Replace(invalidChar, '_');
+            return safeName;
+        }
+
+        private DosyaArsivModel? GetSelectedFile()
+        {
+            if (dgvDosyalar.CurrentRow?.DataBoundItem is DosyaArsivModel current)
+                return current;
+
+            if (dgvDosyalar.SelectedRows.Count > 0 && dgvDosyalar.SelectedRows[0].DataBoundItem is DosyaArsivModel selected)
+                return selected;
+
+            return null;
+        }
+
+        private void CopySelectedFileName()
+        {
+            var selected = GetSelectedFile();
+            if (selected == null)
+            {
+                MessageBox.Show("Kopyalanacak dosyayı seçin.", "Arşiv", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            Clipboard.SetText(selected.DosyaAdi ?? string.Empty);
+            SetStatus("Dosya adı kopyalandı.");
+        }
+
+        private void SetSelectedUploadFile(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+                return;
+
+            txtDosyaYolu.Text = filePath;
+            var info = new FileInfo(filePath);
+            lblDropHint.Text = $"Seçildi: {info.Name} • {FormatBytes(info.Length)}";
+        }
+
+        private string FormatBytes(long bytes)
+        {
+            string[] suffixes = { "B", "KB", "MB", "GB" };
+            double size = bytes;
+            int suffixIndex = 0;
+
+            while (size >= 1024 && suffixIndex < suffixes.Length - 1)
+            {
+                size /= 1024;
+                suffixIndex++;
+            }
+
+            return $"{size:0.##} {suffixes[suffixIndex]}";
+        }
+
+        private void SetBusy(bool busy, string? message = null)
+        {
+            isBusy = busy;
+            progressBar.Visible = busy;
+            btnYukle.Enabled = !busy;
+            btnIndir.Enabled = !busy;
+            btnMasaustuIndir.Enabled = !busy;
+            btnYenile.Enabled = !busy;
+            btnDosyaSec.Enabled = !busy;
+            Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+
+            if (!string.IsNullOrWhiteSpace(message))
+                SetStatus(message);
+        }
+
+        private void SetStatus(string message)
+        {
+            lblStatus.Text = message;
+        }
+
+        private void Upload_DragEnter(object? sender, DragEventArgs e)
+        {
+            if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void Upload_DragDrop(object? sender, DragEventArgs e)
+        {
+            if (e.Data == null || !e.Data.GetDataPresent(DataFormats.FileDrop))
+                return;
+
+            var files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files == null || files.Length == 0)
+                return;
+
+            SetSelectedUploadFile(files[0]);
+        }
+
+        private void DgvDosyalar_CellMouseDown(object? sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                dgvDosyalar.ClearSelection();
+                dgvDosyalar.Rows[e.RowIndex].Selected = true;
+                dgvDosyalar.CurrentCell = dgvDosyalar.Rows[e.RowIndex].Cells[0];
+            }
+        }
+
+        private void ShowInExplorer(string filePath)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = "explorer.exe",
+                    Arguments = $"/select,\"{filePath}\"",
+                    UseShellExecute = true
+                });
+            }
+            catch
+            {
+                // Explorer açılamazsa indirme işlemini bozmayalım.
             }
         }
 
         class OgrenciCombo
         {
-            public string Id { get; set; }
-            public string AdSoyad { get; set; }
-
+            public string Id { get; set; } = string.Empty;
+            public string AdSoyad { get; set; } = string.Empty;
             public override string ToString() => AdSoyad;
         }
 
         public class DosyaArsivModel
         {
             public int Id { get; set; }
-            public string DosyaAdi { get; set; }
-            public string DosyaYolu { get; set; }
+            public string DosyaAdi { get; set; } = string.Empty;
+            public string DosyaYolu { get; set; } = string.Empty;
             public DateTime EklenmeTarihi { get; set; }
-        }
 
-        private void cmbOgrenciler_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
+            public string Uzanti
+            {
+                get
+                {
+                    string ext = Path.GetExtension(DosyaAdi ?? string.Empty);
+                    return string.IsNullOrWhiteSpace(ext) ? "-" : ext.TrimStart('.').ToUpperInvariant();
+                }
+            }
+
+            public string DosyaTipi
+            {
+                get
+                {
+                    string ext = Path.GetExtension(DosyaAdi ?? string.Empty).ToLowerInvariant();
+
+                    switch (ext)
+                    {
+                        case ".pdf":
+                            return "PDF";
+                        case ".doc":
+                        case ".docx":
+                            return "Word";
+                        case ".xls":
+                        case ".xlsx":
+                        case ".csv":
+                            return "Excel";
+                        case ".jpg":
+                        case ".jpeg":
+                        case ".png":
+                        case ".webp":
+                        case ".gif":
+                            return "Resim";
+                        case ".ppt":
+                        case ".pptx":
+                            return "Sunum";
+                        case ".zip":
+                        case ".rar":
+                        case ".7z":
+                            return "Sıkıştırılmış";
+                        default:
+                            return "Diğer";
+                    }
+                }
+            }
+
+            public string Eklenme
+            {
+                get
+                {
+                    return EklenmeTarihi == default ? "-" : EklenmeTarihi.ToString("dd.MM.yyyy HH:mm");
+                }
+            }
         }
     }
 }

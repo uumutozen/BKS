@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,12 +8,12 @@ using System.Windows.Forms;
 
 namespace BKS
 {
-    public partial class ÖzelRapor : Form
+    public partial class OzelRapor : Form
     {
         private readonly string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
         private readonly ToolTip toolTip = new ToolTip();
 
-        public ÖzelRapor()
+        public OzelRapor()
         {
             InitializeComponent();
             InitUITheme();
@@ -25,7 +25,7 @@ namespace BKS
             btnRaporYukle.Click += btnRaporYukle_Click;
             btnGenerateFields.Click += btnGenerateFields_Click;
             btnRunQuery.Click += btnRunQuery_Click;
-            this.Load += ÖzelRapor_Load;
+            this.Load += OzelRapor_Load;
         }
 
         // --- UI RENK/TEMA AYARI ---
@@ -406,7 +406,7 @@ namespace BKS
         }
 
         // FORM LOAD
-        private void ÖzelRapor_Load(object sender, EventArgs e)
+        private void OzelRapor_Load(object sender, EventArgs e)
         {
             OzelRaporlariYukle();
         }

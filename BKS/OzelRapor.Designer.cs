@@ -1,6 +1,6 @@
-﻿namespace BKS
+namespace BKS
 {
-    partial class ÖzelRapor
+    partial class OzelRapor
     {
         /// <summary>
         /// Required designer variable.

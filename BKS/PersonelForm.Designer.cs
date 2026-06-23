@@ -1,4 +1,4 @@
-﻿namespace BKS
+namespace BKS
 {
     partial class PersonelForm
     {
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PersonelForm));
             btnPersonelSil = new Button();
             btnPersonelTemizle = new Button();
             btnPersonelKaydet = new Button();
@@ -108,7 +107,6 @@
             btnPersonelSil.FlatStyle = FlatStyle.Flat;
             btnPersonelSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelSil.ForeColor = Color.White;
-            btnPersonelSil.Image = (Image)resources.GetObject("btnPersonelSil.Image");
             btnPersonelSil.Location = new Point(717, 838);
             btnPersonelSil.Name = "btnPersonelSil";
             btnPersonelSil.Size = new Size(72, 77);
@@ -137,7 +135,6 @@
             btnPersonelKaydet.FlatStyle = FlatStyle.Flat;
             btnPersonelKaydet.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelKaydet.ForeColor = Color.Black;
-            btnPersonelKaydet.Image = (Image)resources.GetObject("btnPersonelKaydet.Image");
             btnPersonelKaydet.Location = new Point(811, 838);
             btnPersonelKaydet.Name = "btnPersonelKaydet";
             btnPersonelKaydet.Size = new Size(72, 77);
@@ -154,7 +151,6 @@
             btnPersonelGuncelle.FlatStyle = FlatStyle.Flat;
             btnPersonelGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnPersonelGuncelle.ForeColor = Color.White;
-            btnPersonelGuncelle.Image = (Image)resources.GetObject("btnPersonelGuncelle.Image");
             btnPersonelGuncelle.Location = new Point(906, 838);
             btnPersonelGuncelle.Name = "btnPersonelGuncelle";
             btnPersonelGuncelle.Size = new Size(72, 77);

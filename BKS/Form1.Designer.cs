@@ -1,4 +1,4 @@
-﻿
+
 
 namespace BKS
 {
@@ -30,7 +30,6 @@ namespace BKS
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             bttnLgn = new MaterialSkin.Controls.MaterialButton();
             passWord = new MaterialSkin.Controls.MaterialTextBox();
             userName = new MaterialSkin.Controls.MaterialTextBox();
@@ -50,7 +49,6 @@ namespace BKS
             bttnLgn.AutoSize = false;
             bttnLgn.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             bttnLgn.BackColor = SystemColors.ActiveCaption;
-            bttnLgn.BackgroundImage = (Image)resources.GetObject("bttnLgn.BackgroundImage");
             bttnLgn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             bttnLgn.Depth = 0;
             bttnLgn.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Bold);
@@ -108,7 +106,6 @@ namespace BKS
             // groupBox1
             // 
             groupBox1.BackColor = Color.White;
-            groupBox1.BackgroundImage = (Image)resources.GetObject("groupBox1.BackgroundImage");
             groupBox1.Controls.Add(userName);
             groupBox1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
             groupBox1.ForeColor = SystemColors.Control;
@@ -122,7 +119,6 @@ namespace BKS
             // groupBox2
             // 
             groupBox2.BackColor = Color.White;
-            groupBox2.BackgroundImage = (Image)resources.GetObject("groupBox2.BackgroundImage");
             groupBox2.Controls.Add(passWord);
             groupBox2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
             groupBox2.ForeColor = SystemColors.Control;
@@ -136,7 +132,6 @@ namespace BKS
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(6, 67);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(800, 460);
@@ -163,7 +158,6 @@ namespace BKS
             // groupBox3
             // 
             groupBox3.BackColor = Color.White;
-            groupBox3.BackgroundImage = (Image)resources.GetObject("groupBox3.BackgroundImage");
             groupBox3.Controls.Add(cbxBeniHatirla);
             groupBox3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 162);
             groupBox3.ForeColor = SystemColors.Control;
@@ -179,7 +173,6 @@ namespace BKS
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(812, 533);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
