@@ -873,6 +873,10 @@ namespace BKS
             // 
             timer1.Enabled = true;
             // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            // 
             // dataGridView1
             // 
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -898,8 +902,13 @@ namespace BKS
             // 
             // Form2
             // 
+<<<<<<< HEAD
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
+=======
+            AutoScaleDimensions = new SizeF(8F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+>>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             AutoValidate = AutoValidate.EnablePreventFocusChange;
             ClientSize = new Size(1924, 753);
             Controls.Add(tabControl);

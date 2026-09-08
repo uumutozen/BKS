@@ -768,8 +768,13 @@ namespace BKS
             // 
             // arsivForm
             // 
+<<<<<<< HEAD
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+=======
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+>>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             BackColor = System.Drawing.Color.FromArgb(246, 248, 252);
             ClientSize = new System.Drawing.Size(1184, 761);
             Controls.Add(rootLayout);
