@@ -17,13 +17,8 @@
     <ApplicationIcon>helm_icon.ico</ApplicationIcon>
     <SignAssembly>False</SignAssembly>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-<<<<<<< HEAD
     <FileVersion>1.2.0.0</FileVersion>
     <AssemblyVersion>1.2.0.0</AssemblyVersion>
-=======
-    <FileVersion>1.0.3</FileVersion>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,7 +31,6 @@
 
 
   <ItemGroup>
-<<<<<<< HEAD
   </ItemGroup>
 
 
@@ -80,25 +74,6 @@
     </EmbeddedResource>
     <Compile Update="Form2.Ribbon.cs"><SubType>Code</SubType></Compile>
   </ItemGroup>
-=======
-    <PackageReference Include="DevExpress.Data" Version="25.1.3" />
-    <PackageReference Include="EPPlus" Version="7.7.0" />
-    <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
-    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
-    <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.2.1" />
-    <PackageReference Include="MaterialSkin" Version="0.2.1" />
-    <PackageReference Include="MaterialSkin.2" Version="2.3.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
-    <PackageReference Include="MudBlazor" Version="8.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="PDFsharp" Version="6.2.0" />
-    <PackageReference Include="PdfSharpCore" Version="1.3.67" />
-    <PackageReference Include="Radzen.Blazor" Version="6.2.5" />
-    <PackageReference Include="Syncfusion.Tools.Windows" Version="30.1.42" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-  </ItemGroup>
-
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
 
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
@@ -131,7 +106,6 @@
     </EmbeddedResource>
   </ItemGroup>
 
-<<<<<<< HEAD
   <ItemGroup Condition="'$(BksOfflineDependencies)' == ''">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="PdfSharpCore" Version="1.3.67" />
@@ -141,6 +115,4 @@
     <Reference Include="$(BksOfflineDependencies)/*.dll" Exclude="$(BksOfflineDependencies)/sni.dll" />
     <Content Include="$(BksOfflineDependencies)/sni.dll" Condition="Exists('$(BksOfflineDependencies)/sni.dll')" Link="sni.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-=======
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
 </Project>

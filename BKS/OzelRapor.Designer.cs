@@ -177,13 +177,8 @@ namespace BKS
             // 
             // ÖzelRapor
             // 
-<<<<<<< HEAD
             AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
-=======
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             ClientSize = new Size(1492, 664);
             Controls.Add(lblRaporAdi);
             Controls.Add(txtRaporAdi);

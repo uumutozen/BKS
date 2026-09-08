@@ -8,7 +8,6 @@ namespace BKS
 {
     internal static class ModernWinForms
     {
-<<<<<<< HEAD
         public static readonly Color PageBack = RibbonPalette.Workspace;
         public static readonly Color CardBack = Color.White;
         public static readonly Color Border = RibbonPalette.Border;
@@ -18,17 +17,6 @@ namespace BKS
         public static readonly Color Success = Color.FromArgb(22, 163, 74);
         public static readonly Color Text = RibbonPalette.Text;
         public static readonly Color Muted = RibbonPalette.CaptionText;
-=======
-        public static readonly Color PageBack = Color.FromArgb(246, 248, 252);
-        public static readonly Color CardBack = Color.White;
-        public static readonly Color Border = Color.FromArgb(226, 232, 240);
-        public static readonly Color Primary = Color.FromArgb(37, 99, 235);
-        public static readonly Color PrimaryDark = Color.FromArgb(30, 64, 175);
-        public static readonly Color Danger = Color.FromArgb(220, 38, 38);
-        public static readonly Color Success = Color.FromArgb(22, 163, 74);
-        public static readonly Color Text = Color.FromArgb(15, 23, 42);
-        public static readonly Color Muted = Color.FromArgb(100, 116, 139);
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
 
         public static void StyleForm(Form form, string title, Size minSize)
         {
@@ -161,10 +149,6 @@ namespace BKS
             control.Height = height;
             control.Margin = new Padding(0, 0, 12, 12);
             control.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 162);
-<<<<<<< HEAD
-=======
-
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             if (control is TextBox tb)
             {
                 tb.BorderStyle = BorderStyle.FixedSingle;
@@ -210,12 +194,7 @@ namespace BKS
         public static void StyleGroupBox(GroupBox groupBox, string? title = null)
         {
             if (!string.IsNullOrWhiteSpace(title))
-<<<<<<< HEAD
             groupBox.Text = title;
-=======
-                groupBox.Text = title;
-
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             groupBox.Dock = DockStyle.Fill;
             groupBox.Padding = new Padding(14, 28, 14, 14);
             groupBox.Margin = new Padding(0, 0, 14, 14);
@@ -230,18 +209,13 @@ namespace BKS
             grid.BackgroundColor = CardBack;
             grid.GridColor = Border;
             grid.EnableHeadersVisualStyles = false;
-<<<<<<< HEAD
             grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             grid.AllowUserToOrderColumns = true;
             grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-=======
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             grid.MultiSelect = false;
             grid.RowHeadersVisible = false;
             grid.AllowUserToResizeRows = false;
-<<<<<<< HEAD
             grid.ColumnHeadersHeight = (int)(44 * grid.DeviceDpi / 96F);
             grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(222, 232, 245);
@@ -249,19 +223,10 @@ namespace BKS
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point,
             162);
             grid.DefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 162);
-=======
-            grid.ColumnHeadersHeight = 40;
-            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            grid.ColumnHeadersDefaultCellStyle.BackColor = PrimaryDark;
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 162);
-            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 162);
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             grid.DefaultCellStyle.ForeColor = Text;
             grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
             grid.DefaultCellStyle.SelectionForeColor = Text;
             grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 250, 252);
-<<<<<<< HEAD
             grid.RowTemplate.Height = (int)(40 * grid.DeviceDpi / 96F);
             grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
@@ -277,15 +242,11 @@ namespace BKS
             var rect = new Rectangle(12, grid.ColumnHeadersHeight + 16, Math.Max(0, grid.Width - 24), Math.Max(0, grid.Height - grid.ColumnHeadersHeight - 32));
             TextRenderer.DrawText(e.Graphics, "Gösterilecek kayıt bulunamadı.", grid.Font, rect, Muted,
             TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
-=======
-            grid.RowTemplate.Height = 34;
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
         }
 
         public static void ApplySearchFilter(DataGridView grid, string searchText)
         {
             if (grid.DataSource == null) return;
-<<<<<<< HEAD
             var term = DataValues.EscapeLike((searchText ?? string.Empty).Trim());
             if (grid.DataSource is DataTable dt)
             {
@@ -294,31 +255,14 @@ namespace BKS
                 : string.Join(" OR ", dt.Columns.Cast<DataColumn>()
                 .Where(c => c.DataType == typeof(string))
                 .Select(c => $"CONVERT([{c.ColumnName.Replace("\\", "\\\\").Replace("]", "\\]")}], 'System.String') LIKE '%{term}%'"));
-=======
-            var term = (searchText ?? string.Empty).Trim().Replace("'", "''");
-            if (grid.DataSource is DataTable dt)
-            {
-                dt.DefaultView.RowFilter = string.IsNullOrWhiteSpace(term)
-                    ? string.Empty
-                    : string.Join(" OR ", dt.Columns.Cast<DataColumn>()
-                        .Where(c => c.DataType == typeof(string))
-                        .Select(c => $"CONVERT([{c.ColumnName}], 'System.String') LIKE '%{term}%'"));
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             }
             else if (grid.DataSource is DataView dv)
             {
                 dv.RowFilter = string.IsNullOrWhiteSpace(term)
-<<<<<<< HEAD
                 ? string.Empty
                 : string.Join(" OR ", dv.Table.Columns.Cast<DataColumn>()
                 .Where(c => c.DataType == typeof(string))
                 .Select(c => $"CONVERT([{c.ColumnName.Replace("\\", "\\\\").Replace("]", "\\]")}], 'System.String') LIKE '%{term}%'"));
-=======
-                    ? string.Empty
-                    : string.Join(" OR ", dv.Table.Columns.Cast<DataColumn>()
-                        .Where(c => c.DataType == typeof(string))
-                        .Select(c => $"CONVERT([{c.ColumnName}], 'System.String') LIKE '%{term}%'"));
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
             }
         }
 
@@ -327,12 +271,8 @@ namespace BKS
             foreach (Control child in parent.Controls)
             {
                 if (child.Font != null)
-<<<<<<< HEAD
                 child.Font = new Font("Segoe UI", child.Font.Size <= 0 ? 9.5F: child.Font.Size, child.Font.Style, GraphicsUnit.Point,
                 162);
-=======
-                    child.Font = new Font("Segoe UI", child.Font.Size <= 0 ? 9.5F : child.Font.Size, child.Font.Style, GraphicsUnit.Point, 162);
->>>>>>> 645a1b309fb5801e896c1ed802514678b2a0ed31
                 UseSegoeRecursive(child);
             }
         }
