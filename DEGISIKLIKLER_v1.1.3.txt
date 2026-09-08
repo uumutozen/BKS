@@ -1,0 +1,9 @@
+v1.1.3
+
+Ribbon: yalnızca modül menüleri, gri/mavi tema.
+İşlemler: mevcut eylemler simgeli sağ tık menülerine taşındı.
+Listeler: modern başlık, satır ve seçim renkleri, kayıt sayısı, boş liste açıklaması.
+Öğrenci/sınıf: geniş ekranda yan yana, dar ekranda alt alta ve kaydırmalı.
+Login: yeni iki bölümlü tasarım, parola göster/gizle, Caps Lock, yükleniyor göstergesi.
+Kaynak/bağımlılık paketi: Calistir.cmd ilk açılışta kullanıcının SDK ortamında derler.
+Son sürüm bu ortamda derlenmedi veya Windows üzerinde çalıştırılmadı.

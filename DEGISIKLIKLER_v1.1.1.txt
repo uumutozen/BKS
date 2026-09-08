@@ -1,0 +1,11 @@
+v1.1.1
+
+1. Etiket/giriş üst üste binmesi: Dock ayarını iptal eden Anchor sırası düzeltildi; alanlar iki ayrı tablo satırına alındı.
+2. Ribbon/içerik örtüşmesi: pencere bölgeleri ayrı ve DPI uyumlu hesaplanır.
+3. Eski Font ölçek tabanları DPI 96 tabanına geçirildi; çalışma anındaki ölçek birimi geçişi düzeltildi.
+4. Ribbon grupları, komutları ve sekmeleri DPI değişiminde yeniden ölçülür.
+5. Dar ekran arama, fatura ve rapor editörlerine asgari giriş yüksekliği verildi.
+6. Arşiv durum çubuğu ortak pencere düzenine alındı.
+7. 22 kontrol başarılı; ek yerleşim denetimi 160 hesap senaryosu içerir. Windows görsel çalıştırması yapılmadı.
+
+ZIP yeni klasöre çıkarılmalı; içindeki Calistir.cmd kullanılmalı. Kaynak ve EXE birlikte v1.1.1.

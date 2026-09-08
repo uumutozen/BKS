@@ -1,4 +1,4 @@
-﻿namespace BKS
+namespace BKS
 {
     public abstract class LoadStockDataBase
     {

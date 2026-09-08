@@ -1,22 +1,41 @@
-namespace BKS
+using System.Globalization;
+namespace BKS;
+internal static class Program
 {
-    internal static class Program
+    [STAThread]
+    private static void Main(string[] args)
     {
-
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        ApplicationConfiguration.Initialize();
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("tr-TR");
+        CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("tr-TR");
+        if (args.Contains("--layout-checks"))
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
-            Application.Exit();
-        
-    
+            var index = Array.IndexOf(args, "--layout-checks");
+            var directory = args.Length> index + 1 ? args[index + 1]: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "HelmSoftware", "BKS", "LayoutChecks");
+            Environment.ExitCode = LayoutDiagnostics.Run(directory);
+            return;
         }
-
+        Application.ThreadException += (_, e) => UiActions.ShowError(e.Exception);
+        if (args.Contains("--login-preview"))
+        {
+            AppConfiguration.DesignPreview = true;
+            Application.Run(new Form1());
+            return;
+        }
+        if (args.Contains("--ui-preview"))
+        {
+            AppConfiguration.DesignPreview = true;
+            Application.Run(new Form2());
+            return;
+        }
+        try
+        {
+            Application.Run(new Form1());
+        }
+        catch (Exception ex)
+        {
+            UiActions.ShowError(ex);
+        }
     }
 }

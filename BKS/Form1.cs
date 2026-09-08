@@ -1,248 +1,137 @@
-﻿using System;
-using System.Data.SqlClient;
-using MaterialSkin;
-using MaterialSkin.Controls;
-using BKS;
+using System.Net;
 using System.Net.Http.Json;
-
-namespace BKS
+using System.Text.Json;
+namespace BKS;
+public partial class Form1 : Form
 {
-    public partial class Form1 : MaterialForm
+    private bool _loggingIn;
+    private readonly CancellationTokenSource _loginCancellation = new();
+    public Form1()
     {
-        string connectionString = "Server=31.186.11.161;Database=asl2e6ancomtr_PaymentDBDB;User Id=asl2e6ancomtr_aslan;Password=Aslan123.@;TrustServerCertificate=True;";
-        private LoginHistoryService loginHistoryService;
-
-        public Form1()
+        InitializeComponent();
+    }
+    private void Form1_Load(object? sender, EventArgs e)
+    {
+        if (AppConfiguration.DesignPreview)
         {
-            InitializeComponent();
-            loginHistoryService = new LoginHistoryService(connectionString);
-
-            // Material Skin theme ayarları
-            var manager = MaterialSkinManager.Instance;
-            manager.AddFormToManage(this);
-            manager.Theme = MaterialSkinManager.Themes.LIGHT;
-            manager.ColorScheme = new ColorScheme(Primary.Blue500, Primary.Blue700, Primary.Blue300, Accent.LightBlue200, TextShade.WHITE);
+            loginStatus.Text = "Tasarım önizlemesi — canlı giriş kapalı.";
+            return;
         }
-
-        [System.ComponentModel.Browsable(false)]
-        public System.Windows.Forms.AutoScaleMode AutoScaleMode { get; set; }
-        private static extern bool SetProcessDPIAware();
-
-
-
-        private void Form1_Load(object sender, EventArgs e)
+        // Remove legacy plaintext password storage without ever copying it to the new UI.
+        Properties.Settings.Default.passWord = "";
+        if (Properties.Settings.Default.cbxBeniHatirla)
         {
-            string username = userName.Text.Trim();
-            if (!string.IsNullOrEmpty(username))
-            {
-                // Son giriş bilgisini yükle
-
-            }
-            if (Properties.Settings.Default.cbxBeniHatirla)
-            {
-                userName.Text = Properties.Settings.Default.userName;
-                passWord.Text = Properties.Settings.Default.passWord;
-                cbxBeniHatirla.Checked = true;
-            }
+            userName.Text = Properties.Settings.Default.userName;
+            cbxBeniHatirla.Checked = true;
         }
-        private Guid GetUserIdFromDatabase(string username, string password)
+        Properties.Settings.Default.Save();
+    }
+    private async void bttnLgn_Click(object? sender, EventArgs e)
+    {
+        if (_loggingIn || AppConfiguration.DesignPreview) return;
+        if (string.IsNullOrWhiteSpace(userName.Text) || passWord.Text.Length == 0)
         {
-            Guid userId = Guid.NewGuid(); // Varsayılan olarak -1 döndür
-
-            string query = "SELECT UserId FROM CompanyUsers ce  \r\njoin Companies c on c.CompanyId= ce.CompanyId\r\nWHERE ce.IsActive=1 and c.IsActive=1 and Email = @Username AND Password = @Password";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Password", password);
-
-                        object result = command.ExecuteScalar();
-                        if (result != null)
-                        {
-                            userId = (Guid)result;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Bağlantı hatası: " + ex.Message);
-                }
-            }
-            return userId;
+            loginStatus.ForeColor = Color.Firebrick;
+            loginStatus.Text = "E-posta adresinizi ve parolanızı girin.";
+            if (string.IsNullOrWhiteSpace(userName.Text)) userName.Focus();
+            else passWord.Focus();
+            return;
         }
-        private async void bttnLgn_Click(object sender, EventArgs e)
+        _loggingIn = true;
+        SetLoginBusy(true);
+        loginStatus.ForeColor = ModernWinForms.Muted;
+        loginStatus.Text = "Giriş doğrulanıyor…";
+        try
         {
-        
-            string username = userName.Text.Trim();
-            string password = passWord.Text.Trim();
-
-            var loginRequest = new
+            if (string.IsNullOrWhiteSpace(AppConfiguration.ConnectionString))
             {
-                Email = username,
-                Password = password
-            };
-
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://randevu.aslancan.com.tr/");
-                HttpResponseMessage response;
-
-                try
+                using var settings = new ConnectionSettingsForm();
+                if (settings.ShowDialog(this) != DialogResult.OK)
                 {
-                    response = await client.PostAsJsonAsync("api/Login", loginRequest);
-                }
-                catch (HttpRequestException ex)
-                {
-                    MessageBox.Show("Sunucuya bağlanılamadı. Lütfen internet bağlantınızı veya sunucuyu kontrol edin.\nHata: " + ex.Message,
-                                    "Sunucu Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    loginStatus.Text = "Devam etmek için bağlantı ayarlarını kaydedin.";
                     return;
                 }
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
-
-                    if (loginResponse.Success)
-                    {
-                        // Beni Hatırla seçiliyse ayarları kaydet
-                        if (cbxBeniHatirla.Checked)
-                        {
-                            Properties.Settings.Default.userName = username;
-                            Properties.Settings.Default.passWord = password;
-                            Properties.Settings.Default.cbxBeniHatirla = true;
-                        }
-                        else
-                        {
-                            Properties.Settings.Default.userName = "";
-                            Properties.Settings.Default.passWord = "";
-                            Properties.Settings.Default.cbxBeniHatirla = false;
-                        }
-
-                        Properties.Settings.Default.Save();
-
-                        MessageBox.Show(loginResponse.Message, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Form2 form2 = new Form2
-                        {
-                            UserId = Guid.Parse(loginResponse.UserId),
-                            Role = loginResponse.Role
-                        };
-                        this.Hide();
-                        foreach (Form frm in Application.OpenForms)
-                        {
-                            if (frm is Form2)
-                            {
-                                MessageBox.Show("Form zaten açık.");
-                                frm.BringToFront();  // İsteğe bağlı: formu öne getirir
-                                return;
-                            }
-                        }
-                        form2.ShowDialog();
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
-                        MessageBox.Show(loginResponse.Message ?? "Bilinmeyen bir hata oluştu.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    switch (response.StatusCode)
-                    {
-                        case System.Net.HttpStatusCode.Unauthorized:
-                        case System.Net.HttpStatusCode.Forbidden:
-                            MessageBox.Show("Kullanıcı adı veya şifre hatalı.", "Yetkisiz", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            break;
-
-                        case System.Net.HttpStatusCode.BadRequest:
-                            var error = await response.Content.ReadAsStringAsync();
-                            MessageBox.Show("Geçersiz istek: " + error, "İstek Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            break;
-
-                        case System.Net.HttpStatusCode.InternalServerError:
-                        case System.Net.HttpStatusCode.ServiceUnavailable:
-                            MessageBox.Show("Sunucu şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.", "Sunucu Hatası", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-
-                        default:
-                            MessageBox.Show($"Hata oluştu: {response.StatusCode}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            break;
-                    }
-                }
             }
-        }
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Environment.Exit(0); // Tüm programı kapatır.
-        }
-        public class LoginResponse
-        {
-            public bool Success { get; set; }
-            public string UserId { get; set; }
-            public string Role { get; set; }
-            public string Message { get; set; }
-        }
-        public class LoginHistoryService
-        {
-            private readonly string _connectionString;
-
-            public LoginHistoryService(string connectionString)
+            using var client = new HttpClient
             {
-                _connectionString = connectionString;
+                Timeout = TimeSpan.FromSeconds(30)
+            };
+            using var response = await client.PostAsJsonAsync(AppConfiguration.Api("api/Login"), new
+            {
+                Email = userName.Text.Trim(), Password = passWord.Text
+            }, _loginCancellation.Token);
+            if (!response.IsSuccessStatusCode)
+            {
+                loginStatus.Text = response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden ? "E-posta veya parola hatalı.": "Giriş hizmeti isteği tamamlayamadı. Lütfen tekrar deneyin.";
+                return;
             }
-
-            //public string GetLastLoginTime(string username)
-            //{
-            //    string lastLoginTime = "Bilinmiyor";
-            //    string query = "SELECT Songiriszamani FROM Bksusers WHERE Username=@Username";
-
-            //    using (SqlConnection connection = new SqlConnection(_connectionString))
-            //    {
-            //        try
-            //        {
-            //            connection.Open();
-            //            using (SqlCommand command = new SqlCommand(query, connection))
-            //            {
-            //                command.Parameters.AddWithValue("@Username", username);
-            //                object result = command.ExecuteScalar();
-            //                if (result != null)
-            //                {
-            //                    lastLoginTime = result.ToString();
-            //                }
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine("Hata: " + ex.Message);
-            //        }
-            //    }
-
-            //    return lastLoginTime;
+            var result = await response.Content.ReadFromJsonAsync<LoginResponse>(cancellationToken: _loginCancellation.Token);
+            if (result?.Success != true || !Guid.TryParse(result.UserId, out var id) || id == Guid.Empty || string.IsNullOrWhiteSpace(result.Role))
+            {
+                loginStatus.Text = result?.Success == false ? result.Message ?? "Giriş reddedildi.": "Giriş yanıtında kullanıcı veya rol bilgisi eksik.";
+                return;
+            }
+            Properties.Settings.Default.userName = cbxBeniHatirla.Checked ? userName.Text.Trim(): "";
+            Properties.Settings.Default.cbxBeniHatirla = cbxBeniHatirla.Checked;
+            Properties.Settings.Default.passWord = "";
+            Properties.Settings.Default.Save();
+            SessionContext.UserId = id;
+            SessionContext.Role = result.Role;
+            using var main = new Form2
+            {
+                UserId = id,
+                Role = result.Role
+            };
+            passWord.Clear();
+            Hide();
+            main.ShowDialog();
+            SessionContext.Clear();
+            Close();
         }
-
-        private void materialLabel3_Click(object sender, EventArgs e)
+        catch (OperationCanceledException)
         {
-
+            if (!IsDisposed) loginStatus.Text = "Giriş isteği zaman aşımına uğradı.";
         }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
+        catch (JsonException)
         {
-
+            if (!IsDisposed) loginStatus.Text = "Sunucudan beklenen giriş yanıtı alınamadı.";
         }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
+        catch (Exception ex)
         {
-
+            if (!IsDisposed) loginStatus.Text = UiActions.SafeMessage(ex);
         }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        finally
         {
-             
+            _loggingIn = false;
+            if (!IsDisposed)
+            {
+                SetLoginBusy(false);
+                loginStatus.ForeColor = Color.Firebrick;
+                if (!Visible) Show();
+            }
+        }
+    }
+    public sealed class LoginResponse
+    {
+        public bool Success
+        {
+            get;
+            set;
+        }
+        public string? UserId
+        {
+            get;
+            set;
+        }
+        public string? Role
+        {
+            get;
+            set;
+        }
+        public string? Message
+        {
+            get;
+            set;
         }
     }
 }
-

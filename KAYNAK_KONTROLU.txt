@@ -1,0 +1,8 @@
+Parsed C# sources: 83
+Syntax errors: []
+Resource output names: 9 unique
+Designer handler errors: []
+Unique named shell commands: 42
+Ribbon dimensions / no horizontal scrolling: source rules valid
+Personnel photo hooks: True
+NOTE: Syntax and source-integrity checks only; no .NET compiler, Windows UI, or SQL server was run.

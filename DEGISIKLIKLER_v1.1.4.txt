@@ -1,0 +1,11 @@
+v1.1.4
+
+Ribbon sekme + gezinme grupları geri getirildi; kayıt işlemleri sağ tıkta.
+Personel, öğrenci ve bağlantı kartları kullanıcı odaklı bölümlere ayrıldı.
+Personel fotoğrafı: bağlı seçim düğmesi/tıklama, JPG desteği, önizleme, değiştirme ve kaldırma.
+Yeni personel + fotoğraf aynı transaction; mevcut fotoğraf değişmişse UPDATE.
+Mevcut fotoğraf şirket filtresiyle yeniden okunur; dosya/stream kilidi tutulmaz.
+Personel numarası UPDATE, kimlik alanı erişimi, eksik alanın bölümünü açma düzeltmeleri.
+Fotoğraf alanı olmayan veritabanları için 002_Personel_Fotograf.sql eklendi.
+SDK yok; indirme ağ onayı tamamlanmadan iptal edildi. Son sürüm derlenmedi; GUI/SQL test edilmedi.
+Calistir.cmd kullanıcının SDK ortamında ilk derlemeyi yapar.

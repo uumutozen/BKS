@@ -1,0 +1,1 @@
+BKS 1.2.0 kaynak paketi. Derle_ve_Yayinla.cmd ile uygulamayi olusturun. Bu klasorde eski BKS.exe bulunmaz.

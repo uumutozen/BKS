@@ -1,4 +1,4 @@
-﻿namespace BKS
+namespace BKS
 {
     partial class FormFatura
     {

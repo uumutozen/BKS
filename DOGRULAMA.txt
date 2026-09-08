@@ -1,0 +1,27 @@
+BKS 1.2.0 — DOĞRULAMA DURUMU
+
+YAPILAN KAYNAK KONTROLLERİ
+- 83 uygulama C# dosyası C# dil ayrıştırıcısıyla tarandı: sözdizimi hatası yok.
+- WinForms Designer olay bağlantılarının karşılıkları mevcut.
+- 9 gömülü kaynağın çıktı adı birbirinden farklı; MSB3577 düzeltmesi korundu.
+- Ana ribbon'da 42 adlandırılmış komut kimliği birbirinden farklı.
+- Ribbon ölçüsü: açık 126, daraltılmış 30 mantıksal piksel.
+- Ribbon üzerinde yatay kaydırma kullanan panel tanımı yok.
+- Personel PhotoEditor ve PhotoChanged bağlantıları mevcut.
+
+BU ORTAMDA ÇALIŞTIRILMAYAN KONTROLLER
+- .NET SDK bulunmadığı için dotnet build / publish yapılmadı.
+- Windows olmadığı için WinForms uygulaması açılıp görsel test edilmedi.
+- Gerçek SQL Server / API ile kayıt, güncelleme, fotoğraf ve yetki senaryoları çalıştırılmadı.
+- Tests/BKS.Checks.csproj ve --layout-checks senaryoları bu sürümde çalıştırılmadı.
+
+Sözdizimi taraması, C# derleyicisinin tür denetiminin veya çalışma zamanı testinin
+karşılığı değildir. Paket kaynak sürümüdür; önceki sürüme ait BKS.exe içermez.
+
+WINDOWS'TA
+1. Derle_ve_Yayinla.cmd
+2. Testleri_Calistir.cmd
+3. Yerlesim_Kontrol.cmd
+4. Windows ölçeklendirmesi %100 / %125 / %150 ile yerleşim kontrolünü tekrarlayın.
+5. Test veritabanında: aynı öğrenciyi iki kez açma, kaydetmeden kapatma/iptal,
+   personel fotoğrafını ekleme/değiştirme/kaldırma, sınıf güncelleme ve yetki yenileme.
