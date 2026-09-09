@@ -22,74 +22,37 @@ public partial class FormFatura : Form
     public FormFatura()
     {
         InitializeComponent();
-        BuildModernInvoiceLayout();
+        InitializeInvoiceBehavior();
         _edits = new EditSession(this, () => btnKaydet_Click(this, EventArgs.Empty),
         () => System.Text.Json.JsonSerializer.Serialize(dgKalemler.Rows.Cast<DataGridViewRow>()
         .Where(row => !row.IsNewRow).Select(row => row.Cells.Cast<DataGridViewCell>().Select(cell => Convert.ToString(cell.Value)).ToArray()).ToArray()));
     }
 
-    private void BuildModernInvoiceLayout()
+    private void InitializeInvoiceBehavior()
     {
-        var info = new ResponsiveFields(("Fatura öneki (örnek: BKS)", txtFaturaNo), ("Alıcı unvanı", txtAliciUnvan), ("VKN / TCKN", txtAliciVkn),
-        ("Belge tarihi", dtTarih));
-        var lists = new TabControl
-        {
-            Dock = DockStyle.Fill
-        };
-        var lines = new TabPage("Fatura kalemleri");
-        var history = new TabPage("Kayıtlı faturalar");
-        lines.Controls.Add(dgKalemler);
-        dgKalemler.Dock = DockStyle.Fill;
-        history.Controls.Add(Screens.Grid(dgFaturalar));
-        lists.TabPages.Add(lines);
-        lists.TabPages.Add(history);
-        var body = new EditorGridPanel(info, lists, .30F);
-        var ribbon = Screens.Ribbon("Fatura", new RibbonCommand("Kaydet ve PDF", RibbonIcon.Backup, () => btnKaydet_Click(this,
-        EventArgs.Empty), () => !saving), new RibbonCommand("Geçmişi yenile", RibbonIcon.Refresh, () => FaturalariYukle(UserId)),
-        new RibbonCommand("Yeni belge", RibbonIcon.Add, () =>
-        {
-            txtAliciUnvan.Clear();
-            txtAliciVkn.Clear();
-            dgKalemler.Rows.Clear();
-            lists.SelectedIndex = 0;
-        }), new RibbonCommand("Kapat", RibbonIcon.Restore, Close));
-        Screens.Install(this, body, ribbon, "Fatura merkezi");
-        KeyPreview = true;
+        Screens.PrepareDesignerForm(this);
+        GridAppearance.Apply(dgKalemler);
+        DesignerListBinding.Attach(dgFaturalar, txtInvoiceSearch, pnlInvoiceHistoryClear, pnlInvoiceHistoryColumns, pnlInvoiceHistoryCount);
         KeyDown += (_, e) =>
         {
-            if (e.Control && e.KeyCode == Keys.S)
+            if (e.Control && e.KeyCode == Keys.S && !AppConfiguration.DesignPreview)
             {
                 UiActions.Run(() => btnKaydet_Click(this, EventArgs.Empty));
                 e.SuppressKeyPress = true;
             }
         };
     }
+    private void RefreshInvoices_Click(object? sender, EventArgs e) => UiActions.Run(() => FaturalariYukle(UserId));
+    private void NewInvoice_Click(object? sender, EventArgs e)
+    {
+        txtAliciUnvan.Clear(); txtAliciVkn.Clear(); dgKalemler.Rows.Clear();
+        tabInvoices.SelectedTab = tabLines;
+    }
+    private void CloseRecord_Click(object? sender, EventArgs e) => Close();
+
 
     private void FormFatura_Load(object sender, EventArgs e)
     {
-        dgKalemler.Columns.Clear();
-        ModernWinForms.StyleGrid(dgKalemler);
-        dgKalemler.ReadOnly = false;
-        dgKalemler.AllowUserToAddRows = true;
-        dgKalemler.AllowUserToDeleteRows = true;
-        foreach (var(key, title) in new[]
-        {
-            ("UrunAdi", "Kalem açıklaması"),
-            ("Miktar", "Miktar"),
-            ("BirimFiyat", "Birim fiyat"),
-            ("KDV", "KDV %")
-        }) dgKalemler.Columns.Add(key, title);
-        dgKalemler.Columns["UrunAdi"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-        foreach (var key in new[]
-        {
-            "Miktar",
-            "BirimFiyat",
-            "KDV"
-        })
-        {
-            dgKalemler.Columns[key].ValueType = typeof(decimal);
-            dgKalemler.Columns[key].DefaultCellStyle.Format = "N2";
-        }
         dgKalemler.DefaultValuesNeeded += (_, args) =>
         {
             args.Row.Cells["Miktar"].Value = 1M;
@@ -130,6 +93,7 @@ public partial class FormFatura : Form
         if (!Regex.IsMatch(prefix, @"^[A-Z0-9]{1,12}$") || title.Length == 0 || !Regex.IsMatch(tax, @"^(\d{10}|\d{11})$")) throw new InvalidOperationException("Önek 1–12 harf/rakam, alıcı unvanı ve 10/11 haneli VKN/TCKN girin.");
         var lines = ReadLines();
         saving = true;
+        btnKaydet.Enabled = false;
         string? path = null;
         bool committed = false;
         try
@@ -176,6 +140,7 @@ public partial class FormFatura : Form
         finally
         {
             saving = false;
+            if (!IsDisposed) btnKaydet.Enabled = true;
         }
     }
 

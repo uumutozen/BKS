@@ -60,60 +60,72 @@ namespace BKS
             base.Dispose(disposing);
         }
 
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDosyaAdi;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDosyaTipi;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUzanti;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEklenme;
+        private System.Windows.Forms.Button btnColumns;
+
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle headerStyle = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle cellStyle = new System.Windows.Forms.DataGridViewCellStyle();
-            rootLayout = new System.Windows.Forms.TableLayoutPanel();
-            headerPanel = new System.Windows.Forms.Panel();
-            lblHeaderBadge = new System.Windows.Forms.Label();
-            lblSubtitle = new System.Windows.Forms.Label();
-            lblTitle = new System.Windows.Forms.Label();
-            summaryPanel = new System.Windows.Forms.FlowLayoutPanel();
-            pnlTotalCard = new System.Windows.Forms.Panel();
-            lblTotalValue = new System.Windows.Forms.Label();
-            lblTotalTitle = new System.Windows.Forms.Label();
-            pnlSelectedCard = new System.Windows.Forms.Panel();
-            lblSelectedValue = new System.Windows.Forms.Label();
-            lblSelectedTitle = new System.Windows.Forms.Label();
-            pnlLastCard = new System.Windows.Forms.Panel();
-            lblLastValue = new System.Windows.Forms.Label();
-            lblLastTitle = new System.Windows.Forms.Label();
-            grpUpload = new System.Windows.Forms.GroupBox();
-            uploadLayout = new System.Windows.Forms.TableLayoutPanel();
-            lblOgrenci = new System.Windows.Forms.Label();
-            cmbOgrenciler = new System.Windows.Forms.ComboBox();
-            btnDosyaSec = new System.Windows.Forms.Button();
-            btnYukle = new System.Windows.Forms.Button();
-            lblDosya = new System.Windows.Forms.Label();
-            txtDosyaYolu = new System.Windows.Forms.TextBox();
-            lblDropHint = new System.Windows.Forms.Label();
-            grpFilters = new System.Windows.Forms.GroupBox();
-            filterLayout = new System.Windows.Forms.TableLayoutPanel();
-            lblAra = new System.Windows.Forms.Label();
-            txtAra = new System.Windows.Forms.TextBox();
-            lblTur = new System.Windows.Forms.Label();
-            cmbTur = new System.Windows.Forms.ComboBox();
-            chkTarih = new System.Windows.Forms.CheckBox();
-            dtBaslangic = new System.Windows.Forms.DateTimePicker();
-            dtBitis = new System.Windows.Forms.DateTimePicker();
-            btnFiltreTemizle = new System.Windows.Forms.Button();
-            btnYenile = new System.Windows.Forms.Button();
-            dgvDosyalar = new System.Windows.Forms.DataGridView();
-            dgvContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
-            menuIndir = new System.Windows.Forms.ToolStripMenuItem();
-            menuMasaustuneIndir = new System.Windows.Forms.ToolStripMenuItem();
-            menuDosyaAdiniKopyala = new System.Windows.Forms.ToolStripMenuItem();
-            menuSeparator = new System.Windows.Forms.ToolStripSeparator();
-            menuYenile = new System.Windows.Forms.ToolStripMenuItem();
-            actionPanel = new System.Windows.Forms.FlowLayoutPanel();
-            btnIndir = new System.Windows.Forms.Button();
-            btnMasaustuIndir = new System.Windows.Forms.Button();
-            btnKopyala = new System.Windows.Forms.Button();
-            statusStrip = new System.Windows.Forms.StatusStrip();
-            lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            progressBar = new System.Windows.Forms.ToolStripProgressBar();
+            var dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            var dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            var dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            rootLayout = new TableLayoutPanel();
+            headerPanel = new Panel();
+            lblHeaderBadge = new Label();
+            lblSubtitle = new Label();
+            lblTitle = new Label();
+            summaryPanel = new FlowLayoutPanel();
+            pnlTotalCard = new Panel();
+            lblTotalValue = new Label();
+            lblTotalTitle = new Label();
+            pnlSelectedCard = new Panel();
+            lblSelectedValue = new Label();
+            lblSelectedTitle = new Label();
+            pnlLastCard = new Panel();
+            lblLastValue = new Label();
+            lblLastTitle = new Label();
+            grpUpload = new GroupBox();
+            uploadLayout = new TableLayoutPanel();
+            lblOgrenci = new Label();
+            cmbOgrenciler = new ComboBox();
+            btnDosyaSec = new Button();
+            btnYukle = new Button();
+            lblDosya = new Label();
+            txtDosyaYolu = new TextBox();
+            lblDropHint = new Label();
+            grpFilters = new GroupBox();
+            filterLayout = new TableLayoutPanel();
+            lblAra = new Label();
+            txtAra = new TextBox();
+            lblTur = new Label();
+            cmbTur = new ComboBox();
+            chkTarih = new CheckBox();
+            dtBaslangic = new DateTimePicker();
+            dtBitis = new DateTimePicker();
+            btnFiltreTemizle = new Button();
+            btnYenile = new Button();
+            dgvDosyalar = new DataGridView();
+            colDosyaAdi = new DataGridViewTextBoxColumn();
+            colDosyaTipi = new DataGridViewTextBoxColumn();
+            colUzanti = new DataGridViewTextBoxColumn();
+            colEklenme = new DataGridViewTextBoxColumn();
+            dgvContextMenu = new ContextMenuStrip(components);
+            menuIndir = new ToolStripMenuItem();
+            menuMasaustuneIndir = new ToolStripMenuItem();
+            menuDosyaAdiniKopyala = new ToolStripMenuItem();
+            menuSeparator = new ToolStripSeparator();
+            menuYenile = new ToolStripMenuItem();
+            actionPanel = new FlowLayoutPanel();
+            btnColumns = new Button();
+            btnIndir = new Button();
+            btnMasaustuIndir = new Button();
+            btnKopyala = new Button();
+            statusStrip = new StatusStrip();
+            lblStatus = new ToolStripStatusLabel();
+            progressBar = new ToolStripProgressBar();
             rootLayout.SuspendLayout();
             headerPanel.SuspendLayout();
             summaryPanel.SuspendLayout();
@@ -132,205 +144,206 @@ namespace BKS
             // 
             // rootLayout
             // 
-            rootLayout.BackColor = System.Drawing.Color.FromArgb(246, 248, 252);
+            rootLayout.AutoScroll = true;
+            rootLayout.AutoScrollMinSize = new Size(960, 690);
+            rootLayout.BackColor = Color.FromArgb(246, 248, 252);
             rootLayout.ColumnCount = 1;
-            rootLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            rootLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             rootLayout.Controls.Add(headerPanel, 0, 0);
             rootLayout.Controls.Add(summaryPanel, 0, 1);
             rootLayout.Controls.Add(grpUpload, 0, 2);
             rootLayout.Controls.Add(grpFilters, 0, 3);
             rootLayout.Controls.Add(dgvDosyalar, 0, 4);
             rootLayout.Controls.Add(actionPanel, 0, 5);
-            rootLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            rootLayout.Location = new System.Drawing.Point(0, 0);
+            rootLayout.Dock = DockStyle.Fill;
+            rootLayout.Location = new Point(0, 0);
             rootLayout.Name = "rootLayout";
-            rootLayout.Padding = new System.Windows.Forms.Padding(18, 16, 18, 8);
+            rootLayout.Padding = new Padding(18, 16, 18, 8);
             rootLayout.RowCount = 6;
-            rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 104F));
-            rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-            rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 126F));
-            rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            rootLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            rootLayout.Size = new System.Drawing.Size(1184, 739);
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 104F));
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 86F));
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 126F));
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            rootLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+            rootLayout.Size = new Size(1184, 739);
             rootLayout.TabIndex = 0;
             // 
             // headerPanel
             // 
-            headerPanel.BackColor = System.Drawing.Color.FromArgb(21, 32, 55);
+            headerPanel.BackColor = Color.FromArgb(21, 32, 55);
             headerPanel.Controls.Add(lblHeaderBadge);
             headerPanel.Controls.Add(lblSubtitle);
             headerPanel.Controls.Add(lblTitle);
-            headerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            headerPanel.Location = new System.Drawing.Point(21, 19);
+            headerPanel.Dock = DockStyle.Fill;
+            headerPanel.Location = new Point(21, 19);
             headerPanel.Name = "headerPanel";
-            headerPanel.Padding = new System.Windows.Forms.Padding(24, 18, 24, 18);
-            headerPanel.Size = new System.Drawing.Size(1142, 98);
+            headerPanel.Padding = new Padding(24, 18, 24, 18);
+            headerPanel.Size = new Size(1142, 98);
             headerPanel.TabIndex = 0;
             // 
             // lblHeaderBadge
             // 
-            lblHeaderBadge.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            lblHeaderBadge.BackColor = System.Drawing.Color.FromArgb(39, 174, 96);
-            lblHeaderBadge.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            lblHeaderBadge.ForeColor = System.Drawing.Color.White;
-            lblHeaderBadge.Location = new System.Drawing.Point(958, 22);
+            lblHeaderBadge.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblHeaderBadge.BackColor = Color.FromArgb(39, 174, 96);
+            lblHeaderBadge.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            lblHeaderBadge.ForeColor = Color.White;
+            lblHeaderBadge.Location = new Point(958, 22);
             lblHeaderBadge.Name = "lblHeaderBadge";
-            lblHeaderBadge.Size = new System.Drawing.Size(160, 30);
+            lblHeaderBadge.Size = new Size(160, 30);
             lblHeaderBadge.TabIndex = 2;
-            lblHeaderBadge.Text = "Responsive Arşiv";
-            lblHeaderBadge.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            lblHeaderBadge.Text = "Dosya Arşivi";
+            lblHeaderBadge.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblSubtitle
             // 
-            lblSubtitle.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 10.5F);
-            lblSubtitle.ForeColor = System.Drawing.Color.FromArgb(203, 213, 225);
-            lblSubtitle.Location = new System.Drawing.Point(26, 56);
+            lblSubtitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblSubtitle.Font = new Font("Segoe UI", 10.5F);
+            lblSubtitle.ForeColor = Color.FromArgb(68, 87, 111);
+            lblSubtitle.Location = new Point(26, 56);
             lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Size = new System.Drawing.Size(850, 25);
+            lblSubtitle.Size = new Size(850, 25);
             lblSubtitle.TabIndex = 1;
             lblSubtitle.Text = "Öğrenci/personel dosyalarını tek ekrandan filtrele, yükle, indir ve yönet.";
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 22F, System.Drawing.FontStyle.Bold);
-            lblTitle.ForeColor = System.Drawing.Color.White;
-            lblTitle.Location = new System.Drawing.Point(24, 14);
+            lblTitle.Font = new Font("Segoe UI Semibold", 22F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(37, 54, 75);
+            lblTitle.Location = new Point(24, 14);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new System.Drawing.Size(280, 41);
+            lblTitle.Size = new Size(261, 41);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Akıllı Dosya Arşivi";
             // 
             // summaryPanel
             // 
             summaryPanel.AutoScroll = true;
-            summaryPanel.BackColor = System.Drawing.Color.Transparent;
+            summaryPanel.BackColor = Color.Transparent;
             summaryPanel.Controls.Add(pnlTotalCard);
             summaryPanel.Controls.Add(pnlSelectedCard);
             summaryPanel.Controls.Add(pnlLastCard);
-            summaryPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            summaryPanel.Location = new System.Drawing.Point(18, 120);
-            summaryPanel.Margin = new System.Windows.Forms.Padding(0);
+            summaryPanel.Dock = DockStyle.Fill;
+            summaryPanel.Location = new Point(18, 120);
+            summaryPanel.Margin = new Padding(0);
             summaryPanel.Name = "summaryPanel";
-            summaryPanel.Padding = new System.Windows.Forms.Padding(2, 10, 2, 6);
-            summaryPanel.Size = new System.Drawing.Size(1148, 86);
+            summaryPanel.Padding = new Padding(2, 10, 2, 6);
+            summaryPanel.Size = new Size(1148, 86);
             summaryPanel.TabIndex = 1;
-            summaryPanel.WrapContents = true;
             // 
             // pnlTotalCard
             // 
-            pnlTotalCard.BackColor = System.Drawing.Color.White;
+            pnlTotalCard.BackColor = Color.White;
             pnlTotalCard.Controls.Add(lblTotalValue);
             pnlTotalCard.Controls.Add(lblTotalTitle);
-            pnlTotalCard.Location = new System.Drawing.Point(8, 16);
-            pnlTotalCard.Margin = new System.Windows.Forms.Padding(6);
+            pnlTotalCard.Location = new Point(8, 16);
+            pnlTotalCard.Margin = new Padding(6);
             pnlTotalCard.Name = "pnlTotalCard";
-            pnlTotalCard.Padding = new System.Windows.Forms.Padding(18, 10, 18, 10);
-            pnlTotalCard.Size = new System.Drawing.Size(260, 62);
+            pnlTotalCard.Padding = new Padding(18, 10, 18, 10);
+            pnlTotalCard.Size = new Size(260, 62);
             pnlTotalCard.TabIndex = 0;
             // 
             // lblTotalValue
             // 
             lblTotalValue.AutoSize = true;
-            lblTotalValue.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold);
-            lblTotalValue.ForeColor = System.Drawing.Color.FromArgb(15, 23, 42);
-            lblTotalValue.Location = new System.Drawing.Point(17, 25);
+            lblTotalValue.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold);
+            lblTotalValue.ForeColor = Color.FromArgb(37, 54, 75);
+            lblTotalValue.Location = new Point(17, 25);
             lblTotalValue.Name = "lblTotalValue";
-            lblTotalValue.Size = new System.Drawing.Size(27, 32);
+            lblTotalValue.Size = new Size(27, 32);
             lblTotalValue.TabIndex = 1;
             lblTotalValue.Text = "0";
             // 
             // lblTotalTitle
             // 
             lblTotalTitle.AutoSize = true;
-            lblTotalTitle.Font = new System.Drawing.Font("Segoe UI", 9F);
-            lblTotalTitle.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
-            lblTotalTitle.Location = new System.Drawing.Point(18, 9);
+            lblTotalTitle.Font = new Font("Segoe UI", 9F);
+            lblTotalTitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblTotalTitle.Location = new Point(18, 9);
             lblTotalTitle.Name = "lblTotalTitle";
-            lblTotalTitle.Size = new System.Drawing.Size(122, 15);
+            lblTotalTitle.Size = new Size(136, 15);
             lblTotalTitle.TabIndex = 0;
             lblTotalTitle.Text = "Görünen / toplam dosya";
             // 
             // pnlSelectedCard
             // 
-            pnlSelectedCard.BackColor = System.Drawing.Color.White;
+            pnlSelectedCard.BackColor = Color.White;
             pnlSelectedCard.Controls.Add(lblSelectedValue);
             pnlSelectedCard.Controls.Add(lblSelectedTitle);
-            pnlSelectedCard.Location = new System.Drawing.Point(280, 16);
-            pnlSelectedCard.Margin = new System.Windows.Forms.Padding(6);
+            pnlSelectedCard.Location = new Point(280, 16);
+            pnlSelectedCard.Margin = new Padding(6);
             pnlSelectedCard.Name = "pnlSelectedCard";
-            pnlSelectedCard.Padding = new System.Windows.Forms.Padding(18, 10, 18, 10);
-            pnlSelectedCard.Size = new System.Drawing.Size(360, 62);
+            pnlSelectedCard.Padding = new Padding(18, 10, 18, 10);
+            pnlSelectedCard.Size = new Size(360, 62);
             pnlSelectedCard.TabIndex = 1;
             // 
             // lblSelectedValue
             // 
-            lblSelectedValue.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            lblSelectedValue.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            lblSelectedValue.ForeColor = System.Drawing.Color.FromArgb(15, 23, 42);
-            lblSelectedValue.Location = new System.Drawing.Point(18, 30);
+            lblSelectedValue.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblSelectedValue.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lblSelectedValue.ForeColor = Color.FromArgb(37, 54, 75);
+            lblSelectedValue.Location = new Point(18, 30);
             lblSelectedValue.Name = "lblSelectedValue";
-            lblSelectedValue.Size = new System.Drawing.Size(320, 23);
+            lblSelectedValue.Size = new Size(320, 23);
             lblSelectedValue.TabIndex = 1;
             lblSelectedValue.Text = "-";
             // 
             // lblSelectedTitle
             // 
             lblSelectedTitle.AutoSize = true;
-            lblSelectedTitle.Font = new System.Drawing.Font("Segoe UI", 9F);
-            lblSelectedTitle.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
-            lblSelectedTitle.Location = new System.Drawing.Point(18, 9);
+            lblSelectedTitle.Font = new Font("Segoe UI", 9F);
+            lblSelectedTitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblSelectedTitle.Location = new Point(18, 9);
             lblSelectedTitle.Name = "lblSelectedTitle";
-            lblSelectedTitle.Size = new System.Drawing.Size(63, 15);
+            lblSelectedTitle.Size = new Size(60, 15);
             lblSelectedTitle.TabIndex = 0;
             lblSelectedTitle.Text = "Aktif kayıt";
             // 
             // pnlLastCard
             // 
-            pnlLastCard.BackColor = System.Drawing.Color.White;
+            pnlLastCard.BackColor = Color.White;
             pnlLastCard.Controls.Add(lblLastValue);
             pnlLastCard.Controls.Add(lblLastTitle);
-            pnlLastCard.Location = new System.Drawing.Point(652, 16);
-            pnlLastCard.Margin = new System.Windows.Forms.Padding(6);
+            pnlLastCard.Location = new Point(652, 16);
+            pnlLastCard.Margin = new Padding(6);
             pnlLastCard.Name = "pnlLastCard";
-            pnlLastCard.Padding = new System.Windows.Forms.Padding(18, 10, 18, 10);
-            pnlLastCard.Size = new System.Drawing.Size(260, 62);
+            pnlLastCard.Padding = new Padding(18, 10, 18, 10);
+            pnlLastCard.Size = new Size(260, 62);
             pnlLastCard.TabIndex = 2;
             // 
             // lblLastValue
             // 
             lblLastValue.AutoSize = true;
-            lblLastValue.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            lblLastValue.ForeColor = System.Drawing.Color.FromArgb(15, 23, 42);
-            lblLastValue.Location = new System.Drawing.Point(18, 30);
+            lblLastValue.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lblLastValue.ForeColor = Color.FromArgb(37, 54, 75);
+            lblLastValue.Location = new Point(18, 30);
             lblLastValue.Name = "lblLastValue";
-            lblLastValue.Size = new System.Drawing.Size(16, 21);
+            lblLastValue.Size = new Size(16, 21);
             lblLastValue.TabIndex = 1;
             lblLastValue.Text = "-";
             // 
             // lblLastTitle
             // 
             lblLastTitle.AutoSize = true;
-            lblLastTitle.Font = new System.Drawing.Font("Segoe UI", 9F);
-            lblLastTitle.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
-            lblLastTitle.Location = new System.Drawing.Point(18, 9);
+            lblLastTitle.Font = new Font("Segoe UI", 9F);
+            lblLastTitle.ForeColor = Color.FromArgb(100, 116, 139);
+            lblLastTitle.Location = new Point(18, 9);
             lblLastTitle.Name = "lblLastTitle";
-            lblLastTitle.Size = new System.Drawing.Size(89, 15);
+            lblLastTitle.Size = new Size(98, 15);
             lblLastTitle.TabIndex = 0;
             lblLastTitle.Text = "Son eklenen tarih";
             // 
             // grpUpload
             // 
             grpUpload.Controls.Add(uploadLayout);
-            grpUpload.Dock = System.Windows.Forms.DockStyle.Fill;
-            grpUpload.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            grpUpload.ForeColor = System.Drawing.Color.FromArgb(30, 41, 59);
-            grpUpload.Location = new System.Drawing.Point(21, 209);
+            grpUpload.Dock = DockStyle.Fill;
+            grpUpload.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            grpUpload.ForeColor = Color.FromArgb(30, 41, 59);
+            grpUpload.Location = new Point(21, 209);
             grpUpload.Name = "grpUpload";
-            grpUpload.Padding = new System.Windows.Forms.Padding(14, 12, 14, 12);
-            grpUpload.Size = new System.Drawing.Size(1142, 120);
+            grpUpload.Padding = new Padding(14, 12, 14, 12);
+            grpUpload.Size = new Size(1142, 120);
             grpUpload.TabIndex = 2;
             grpUpload.TabStop = false;
             grpUpload.Text = " Dosya yükleme alanı ";
@@ -338,10 +351,10 @@ namespace BKS
             // uploadLayout
             // 
             uploadLayout.ColumnCount = 4;
-            uploadLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 118F));
-            uploadLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            uploadLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 138F));
-            uploadLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            uploadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 118F));
+            uploadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            uploadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 138F));
+            uploadLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
             uploadLayout.Controls.Add(lblOgrenci, 0, 0);
             uploadLayout.Controls.Add(cmbOgrenciler, 1, 0);
             uploadLayout.Controls.Add(btnDosyaSec, 2, 0);
@@ -349,68 +362,68 @@ namespace BKS
             uploadLayout.Controls.Add(lblDosya, 0, 1);
             uploadLayout.Controls.Add(txtDosyaYolu, 1, 1);
             uploadLayout.Controls.Add(lblDropHint, 2, 1);
-            uploadLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            uploadLayout.Location = new System.Drawing.Point(14, 30);
+            uploadLayout.Dock = DockStyle.Fill;
+            uploadLayout.Location = new Point(14, 30);
             uploadLayout.Name = "uploadLayout";
             uploadLayout.RowCount = 2;
-            uploadLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            uploadLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            uploadLayout.Size = new System.Drawing.Size(1114, 78);
+            uploadLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            uploadLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            uploadLayout.Size = new Size(1114, 78);
             uploadLayout.TabIndex = 0;
             // 
             // lblOgrenci
             // 
             lblOgrenci.AutoSize = true;
-            lblOgrenci.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblOgrenci.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblOgrenci.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
-            lblOgrenci.Location = new System.Drawing.Point(3, 0);
+            lblOgrenci.Dock = DockStyle.Fill;
+            lblOgrenci.Font = new Font("Segoe UI", 10F);
+            lblOgrenci.ForeColor = Color.FromArgb(71, 85, 105);
+            lblOgrenci.Location = new Point(3, 0);
             lblOgrenci.Name = "lblOgrenci";
-            lblOgrenci.Size = new System.Drawing.Size(112, 39);
+            lblOgrenci.Size = new Size(112, 39);
             lblOgrenci.TabIndex = 0;
             lblOgrenci.Text = "Kayıt";
-            lblOgrenci.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblOgrenci.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // cmbOgrenciler
             // 
-            cmbOgrenciler.Dock = System.Windows.Forms.DockStyle.Fill;
-            cmbOgrenciler.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            cmbOgrenciler.Font = new System.Drawing.Font("Segoe UI", 10F);
+            cmbOgrenciler.Dock = DockStyle.Fill;
+            cmbOgrenciler.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbOgrenciler.Font = new Font("Segoe UI", 10F);
             cmbOgrenciler.FormattingEnabled = true;
-            cmbOgrenciler.Location = new System.Drawing.Point(121, 7);
-            cmbOgrenciler.Margin = new System.Windows.Forms.Padding(3, 7, 12, 3);
+            cmbOgrenciler.Location = new Point(121, 7);
+            cmbOgrenciler.Margin = new Padding(3, 7, 12, 3);
             cmbOgrenciler.Name = "cmbOgrenciler";
-            cmbOgrenciler.Size = new System.Drawing.Size(620, 25);
+            cmbOgrenciler.Size = new Size(723, 25);
             cmbOgrenciler.TabIndex = 1;
             // 
             // btnDosyaSec
             // 
-            btnDosyaSec.BackColor = System.Drawing.Color.FromArgb(71, 85, 105);
-            btnDosyaSec.Dock = System.Windows.Forms.DockStyle.Fill;
+            btnDosyaSec.BackColor = Color.FromArgb(71, 85, 105);
+            btnDosyaSec.Dock = DockStyle.Fill;
             btnDosyaSec.FlatAppearance.BorderSize = 0;
-            btnDosyaSec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnDosyaSec.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            btnDosyaSec.ForeColor = System.Drawing.Color.White;
-            btnDosyaSec.Location = new System.Drawing.Point(756, 5);
-            btnDosyaSec.Margin = new System.Windows.Forms.Padding(3, 5, 12, 5);
+            btnDosyaSec.FlatStyle = FlatStyle.Flat;
+            btnDosyaSec.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnDosyaSec.ForeColor = Color.White;
+            btnDosyaSec.Location = new Point(859, 5);
+            btnDosyaSec.Margin = new Padding(3, 5, 12, 5);
             btnDosyaSec.Name = "btnDosyaSec";
-            btnDosyaSec.Size = new System.Drawing.Size(123, 29);
+            btnDosyaSec.Size = new Size(123, 29);
             btnDosyaSec.TabIndex = 2;
             btnDosyaSec.Text = "Dosya Seç";
             btnDosyaSec.UseVisualStyleBackColor = false;
             // 
             // btnYukle
             // 
-            btnYukle.BackColor = System.Drawing.Color.FromArgb(22, 163, 74);
-            btnYukle.Dock = System.Windows.Forms.DockStyle.Fill;
+            btnYukle.BackColor = Color.FromArgb(22, 163, 74);
+            btnYukle.Dock = DockStyle.Fill;
             btnYukle.FlatAppearance.BorderSize = 0;
-            btnYukle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnYukle.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            btnYukle.ForeColor = System.Drawing.Color.White;
-            btnYukle.Location = new System.Drawing.Point(894, 5);
-            btnYukle.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            btnYukle.FlatStyle = FlatStyle.Flat;
+            btnYukle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnYukle.ForeColor = Color.White;
+            btnYukle.Location = new Point(997, 5);
+            btnYukle.Margin = new Padding(3, 5, 3, 5);
             btnYukle.Name = "btnYukle";
-            btnYukle.Size = new System.Drawing.Size(217, 29);
+            btnYukle.Size = new Size(114, 29);
             btnYukle.TabIndex = 3;
             btnYukle.Text = "Yükle";
             btnYukle.UseVisualStyleBackColor = false;
@@ -418,51 +431,51 @@ namespace BKS
             // lblDosya
             // 
             lblDosya.AutoSize = true;
-            lblDosya.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblDosya.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblDosya.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
-            lblDosya.Location = new System.Drawing.Point(3, 39);
+            lblDosya.Dock = DockStyle.Fill;
+            lblDosya.Font = new Font("Segoe UI", 10F);
+            lblDosya.ForeColor = Color.FromArgb(71, 85, 105);
+            lblDosya.Location = new Point(3, 39);
             lblDosya.Name = "lblDosya";
-            lblDosya.Size = new System.Drawing.Size(112, 39);
+            lblDosya.Size = new Size(112, 39);
             lblDosya.TabIndex = 4;
             lblDosya.Text = "Seçilen dosya";
-            lblDosya.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblDosya.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // txtDosyaYolu
             // 
-            txtDosyaYolu.Dock = System.Windows.Forms.DockStyle.Fill;
-            txtDosyaYolu.Font = new System.Drawing.Font("Segoe UI", 10F);
-            txtDosyaYolu.Location = new System.Drawing.Point(121, 46);
-            txtDosyaYolu.Margin = new System.Windows.Forms.Padding(3, 7, 12, 3);
+            txtDosyaYolu.Dock = DockStyle.Fill;
+            txtDosyaYolu.Font = new Font("Segoe UI", 10F);
+            txtDosyaYolu.Location = new Point(121, 46);
+            txtDosyaYolu.Margin = new Padding(3, 7, 12, 3);
             txtDosyaYolu.Name = "txtDosyaYolu";
             txtDosyaYolu.ReadOnly = true;
-            txtDosyaYolu.Size = new System.Drawing.Size(620, 25);
+            txtDosyaYolu.Size = new Size(723, 25);
             txtDosyaYolu.TabIndex = 5;
             // 
             // lblDropHint
             // 
             lblDropHint.AutoSize = true;
             uploadLayout.SetColumnSpan(lblDropHint, 2);
-            lblDropHint.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblDropHint.Font = new System.Drawing.Font("Segoe UI", 9F);
-            lblDropHint.ForeColor = System.Drawing.Color.FromArgb(100, 116, 139);
-            lblDropHint.Location = new System.Drawing.Point(756, 39);
+            lblDropHint.Dock = DockStyle.Fill;
+            lblDropHint.Font = new Font("Segoe UI", 9F);
+            lblDropHint.ForeColor = Color.FromArgb(100, 116, 139);
+            lblDropHint.Location = new Point(859, 39);
             lblDropHint.Name = "lblDropHint";
-            lblDropHint.Size = new System.Drawing.Size(355, 39);
+            lblDropHint.Size = new Size(252, 39);
             lblDropHint.TabIndex = 6;
             lblDropHint.Text = "Dosyayı buraya sürükleyip bırakabilirsin.";
-            lblDropHint.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblDropHint.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // grpFilters
             // 
             grpFilters.Controls.Add(filterLayout);
-            grpFilters.Dock = System.Windows.Forms.DockStyle.Fill;
-            grpFilters.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            grpFilters.ForeColor = System.Drawing.Color.FromArgb(30, 41, 59);
-            grpFilters.Location = new System.Drawing.Point(21, 335);
+            grpFilters.Dock = DockStyle.Fill;
+            grpFilters.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            grpFilters.ForeColor = Color.FromArgb(30, 41, 59);
+            grpFilters.Location = new Point(21, 335);
             grpFilters.Name = "grpFilters";
-            grpFilters.Padding = new System.Windows.Forms.Padding(14, 12, 14, 12);
-            grpFilters.Size = new System.Drawing.Size(1142, 84);
+            grpFilters.Padding = new Padding(14, 12, 14, 12);
+            grpFilters.Size = new Size(1142, 84);
             grpFilters.TabIndex = 3;
             grpFilters.TabStop = false;
             grpFilters.Text = " Arama ve filtreler ";
@@ -470,15 +483,15 @@ namespace BKS
             // filterLayout
             // 
             filterLayout.ColumnCount = 9;
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 130F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 118F));
-            filterLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 55F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 115F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 118F));
+            filterLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 105F));
             filterLayout.Controls.Add(lblAra, 0, 0);
             filterLayout.Controls.Add(txtAra, 1, 0);
             filterLayout.Controls.Add(lblTur, 2, 0);
@@ -488,126 +501,126 @@ namespace BKS
             filterLayout.Controls.Add(dtBitis, 6, 0);
             filterLayout.Controls.Add(btnFiltreTemizle, 7, 0);
             filterLayout.Controls.Add(btnYenile, 8, 0);
-            filterLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            filterLayout.Location = new System.Drawing.Point(14, 30);
+            filterLayout.Dock = DockStyle.Fill;
+            filterLayout.Location = new Point(14, 30);
             filterLayout.Name = "filterLayout";
             filterLayout.RowCount = 1;
-            filterLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            filterLayout.Size = new System.Drawing.Size(1114, 42);
+            filterLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            filterLayout.Size = new Size(1114, 42);
             filterLayout.TabIndex = 0;
             // 
             // lblAra
             // 
             lblAra.AutoSize = true;
-            lblAra.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblAra.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblAra.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
-            lblAra.Location = new System.Drawing.Point(3, 0);
+            lblAra.Dock = DockStyle.Fill;
+            lblAra.Font = new Font("Segoe UI", 10F);
+            lblAra.ForeColor = Color.FromArgb(71, 85, 105);
+            lblAra.Location = new Point(3, 0);
             lblAra.Name = "lblAra";
-            lblAra.Size = new System.Drawing.Size(49, 42);
+            lblAra.Size = new Size(49, 42);
             lblAra.TabIndex = 0;
             lblAra.Text = "Ara";
-            lblAra.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblAra.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // txtAra
             // 
-            txtAra.Dock = System.Windows.Forms.DockStyle.Fill;
-            txtAra.Font = new System.Drawing.Font("Segoe UI", 10F);
-            txtAra.Location = new System.Drawing.Point(58, 8);
-            txtAra.Margin = new System.Windows.Forms.Padding(3, 8, 12, 3);
+            txtAra.Dock = DockStyle.Fill;
+            txtAra.Font = new Font("Segoe UI", 10F);
+            txtAra.Location = new Point(58, 8);
+            txtAra.Margin = new Padding(3, 8, 12, 3);
             txtAra.Name = "txtAra";
             txtAra.PlaceholderText = "Dosya adı veya uzantı ara...";
-            txtAra.Size = new System.Drawing.Size(236, 25);
+            txtAra.Size = new Size(276, 25);
             txtAra.TabIndex = 1;
             // 
             // lblTur
             // 
             lblTur.AutoSize = true;
-            lblTur.Dock = System.Windows.Forms.DockStyle.Fill;
-            lblTur.Font = new System.Drawing.Font("Segoe UI", 10F);
-            lblTur.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
-            lblTur.Location = new System.Drawing.Point(309, 0);
+            lblTur.Dock = DockStyle.Fill;
+            lblTur.Font = new Font("Segoe UI", 10F);
+            lblTur.ForeColor = Color.FromArgb(71, 85, 105);
+            lblTur.Location = new Point(349, 0);
             lblTur.Name = "lblTur";
-            lblTur.Size = new System.Drawing.Size(34, 42);
+            lblTur.Size = new Size(34, 42);
             lblTur.TabIndex = 2;
             lblTur.Text = "Tür";
-            lblTur.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            lblTur.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // cmbTur
             // 
-            cmbTur.Dock = System.Windows.Forms.DockStyle.Fill;
-            cmbTur.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            cmbTur.Font = new System.Drawing.Font("Segoe UI", 10F);
+            cmbTur.Dock = DockStyle.Fill;
+            cmbTur.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTur.Font = new Font("Segoe UI", 10F);
             cmbTur.FormattingEnabled = true;
-            cmbTur.Location = new System.Drawing.Point(349, 8);
-            cmbTur.Margin = new System.Windows.Forms.Padding(3, 8, 12, 3);
+            cmbTur.Location = new Point(389, 8);
+            cmbTur.Margin = new Padding(3, 8, 12, 3);
             cmbTur.Name = "cmbTur";
-            cmbTur.Size = new System.Drawing.Size(115, 25);
+            cmbTur.Size = new Size(115, 25);
             cmbTur.TabIndex = 3;
             // 
             // chkTarih
             // 
             chkTarih.AutoSize = true;
-            chkTarih.Dock = System.Windows.Forms.DockStyle.Fill;
-            chkTarih.Font = new System.Drawing.Font("Segoe UI", 10F);
-            chkTarih.ForeColor = System.Drawing.Color.FromArgb(71, 85, 105);
-            chkTarih.Location = new System.Drawing.Point(479, 3);
+            chkTarih.Dock = DockStyle.Fill;
+            chkTarih.Font = new Font("Segoe UI", 10F);
+            chkTarih.ForeColor = Color.FromArgb(71, 85, 105);
+            chkTarih.Location = new Point(519, 3);
             chkTarih.Name = "chkTarih";
-            chkTarih.Size = new System.Drawing.Size(109, 36);
+            chkTarih.Size = new Size(109, 36);
             chkTarih.TabIndex = 4;
             chkTarih.Text = "Tarih aralığı";
             chkTarih.UseVisualStyleBackColor = true;
             // 
             // dtBaslangic
             // 
-            dtBaslangic.Dock = System.Windows.Forms.DockStyle.Fill;
-            dtBaslangic.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            dtBaslangic.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtBaslangic.Location = new System.Drawing.Point(594, 8);
-            dtBaslangic.Margin = new System.Windows.Forms.Padding(3, 8, 12, 3);
+            dtBaslangic.Dock = DockStyle.Fill;
+            dtBaslangic.Font = new Font("Segoe UI", 9.5F);
+            dtBaslangic.Format = DateTimePickerFormat.Short;
+            dtBaslangic.Location = new Point(634, 8);
+            dtBaslangic.Margin = new Padding(3, 8, 12, 3);
             dtBaslangic.Name = "dtBaslangic";
-            dtBaslangic.Size = new System.Drawing.Size(115, 24);
+            dtBaslangic.Size = new Size(115, 24);
             dtBaslangic.TabIndex = 5;
             // 
             // dtBitis
             // 
-            dtBitis.Dock = System.Windows.Forms.DockStyle.Fill;
-            dtBitis.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            dtBitis.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            dtBitis.Location = new System.Drawing.Point(724, 8);
-            dtBitis.Margin = new System.Windows.Forms.Padding(3, 8, 12, 3);
+            dtBitis.Dock = DockStyle.Fill;
+            dtBitis.Font = new Font("Segoe UI", 9.5F);
+            dtBitis.Format = DateTimePickerFormat.Short;
+            dtBitis.Location = new Point(764, 8);
+            dtBitis.Margin = new Padding(3, 8, 12, 3);
             dtBitis.Name = "dtBitis";
-            dtBitis.Size = new System.Drawing.Size(115, 24);
+            dtBitis.Size = new Size(115, 24);
             dtBitis.TabIndex = 6;
             // 
             // btnFiltreTemizle
             // 
-            btnFiltreTemizle.BackColor = System.Drawing.Color.FromArgb(226, 232, 240);
-            btnFiltreTemizle.Dock = System.Windows.Forms.DockStyle.Fill;
+            btnFiltreTemizle.BackColor = Color.FromArgb(226, 232, 240);
+            btnFiltreTemizle.Dock = DockStyle.Fill;
             btnFiltreTemizle.FlatAppearance.BorderSize = 0;
-            btnFiltreTemizle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnFiltreTemizle.Font = new System.Drawing.Font("Segoe UI Semibold", 9.5F, System.Drawing.FontStyle.Bold);
-            btnFiltreTemizle.ForeColor = System.Drawing.Color.FromArgb(30, 41, 59);
-            btnFiltreTemizle.Location = new System.Drawing.Point(854, 6);
-            btnFiltreTemizle.Margin = new System.Windows.Forms.Padding(3, 6, 10, 5);
+            btnFiltreTemizle.FlatStyle = FlatStyle.Flat;
+            btnFiltreTemizle.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            btnFiltreTemizle.ForeColor = Color.FromArgb(30, 41, 59);
+            btnFiltreTemizle.Location = new Point(894, 6);
+            btnFiltreTemizle.Margin = new Padding(3, 6, 10, 5);
             btnFiltreTemizle.Name = "btnFiltreTemizle";
-            btnFiltreTemizle.Size = new System.Drawing.Size(105, 31);
+            btnFiltreTemizle.Size = new Size(105, 31);
             btnFiltreTemizle.TabIndex = 7;
             btnFiltreTemizle.Text = "Temizle";
             btnFiltreTemizle.UseVisualStyleBackColor = false;
             // 
             // btnYenile
             // 
-            btnYenile.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
-            btnYenile.Dock = System.Windows.Forms.DockStyle.Fill;
+            btnYenile.BackColor = Color.FromArgb(37, 99, 235);
+            btnYenile.Dock = DockStyle.Fill;
             btnYenile.FlatAppearance.BorderSize = 0;
-            btnYenile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnYenile.Font = new System.Drawing.Font("Segoe UI Semibold", 9.5F, System.Drawing.FontStyle.Bold);
-            btnYenile.ForeColor = System.Drawing.Color.White;
-            btnYenile.Location = new System.Drawing.Point(972, 6);
-            btnYenile.Margin = new System.Windows.Forms.Padding(3, 6, 3, 5);
+            btnYenile.FlatStyle = FlatStyle.Flat;
+            btnYenile.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            btnYenile.ForeColor = Color.White;
+            btnYenile.Location = new Point(1012, 6);
+            btnYenile.Margin = new Padding(3, 6, 3, 5);
             btnYenile.Name = "btnYenile";
-            btnYenile.Size = new System.Drawing.Size(139, 31);
+            btnYenile.Size = new Size(99, 31);
             btnYenile.TabIndex = 8;
             btnYenile.Text = "Yenile";
             btnYenile.UseVisualStyleBackColor = false;
@@ -617,169 +630,210 @@ namespace BKS
             dgvDosyalar.AllowUserToAddRows = false;
             dgvDosyalar.AllowUserToDeleteRows = false;
             dgvDosyalar.AllowUserToResizeRows = false;
-            dgvDosyalar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDosyalar.BackgroundColor = System.Drawing.Color.White;
-            dgvDosyalar.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dgvDosyalar.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvDosyalar.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            headerStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            headerStyle.BackColor = System.Drawing.Color.FromArgb(15, 23, 42);
-            headerStyle.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            headerStyle.ForeColor = System.Drawing.Color.White;
-            headerStyle.SelectionBackColor = System.Drawing.Color.FromArgb(15, 23, 42);
-            headerStyle.SelectionForeColor = System.Drawing.Color.White;
-            headerStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            dgvDosyalar.ColumnHeadersDefaultCellStyle = headerStyle;
+            dgvDosyalar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDosyalar.BackgroundColor = Color.White;
+            dgvDosyalar.BorderStyle = BorderStyle.None;
+            dgvDosyalar.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvDosyalar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(244, 247, 251);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(37, 54, 75);
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(244, 247, 251);
+            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(37, 54, 75);
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvDosyalar.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvDosyalar.ColumnHeadersHeight = 42;
+            dgvDosyalar.Columns.AddRange(new DataGridViewColumn[] { colDosyaAdi, colDosyaTipi, colUzanti, colEklenme });
             dgvDosyalar.ContextMenuStrip = dgvContextMenu;
-            cellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            cellStyle.BackColor = System.Drawing.Color.White;
-            cellStyle.Font = new System.Drawing.Font("Segoe UI", 10F);
-            cellStyle.ForeColor = System.Drawing.Color.FromArgb(30, 41, 59);
-            cellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(219, 234, 254);
-            cellStyle.SelectionForeColor = System.Drawing.Color.FromArgb(15, 23, 42);
-            cellStyle.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            dgvDosyalar.DefaultCellStyle = cellStyle;
-            dgvDosyalar.Dock = System.Windows.Forms.DockStyle.Fill;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(30, 41, 59);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(219, 234, 254);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(37, 54, 75);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvDosyalar.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvDosyalar.Dock = DockStyle.Fill;
             dgvDosyalar.EnableHeadersVisualStyles = false;
-            dgvDosyalar.GridColor = System.Drawing.Color.FromArgb(226, 232, 240);
-            dgvDosyalar.Location = new System.Drawing.Point(21, 425);
+            dgvDosyalar.GridColor = Color.FromArgb(226, 232, 240);
+            dgvDosyalar.Location = new Point(21, 425);
             dgvDosyalar.MultiSelect = false;
             dgvDosyalar.Name = "dgvDosyalar";
             dgvDosyalar.ReadOnly = true;
             dgvDosyalar.RowHeadersVisible = false;
             dgvDosyalar.RowTemplate.Height = 38;
-            dgvDosyalar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            dgvDosyalar.Size = new System.Drawing.Size(1142, 253);
+            dgvDosyalar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDosyalar.Size = new Size(1142, 245);
             dgvDosyalar.TabIndex = 4;
+            // 
+            // colDosyaAdi
+            // 
+            colDosyaAdi.DataPropertyName = "DosyaAdi";
+            colDosyaAdi.HeaderText = "Dosya Adı";
+            colDosyaAdi.Name = "colDosyaAdi";
+            colDosyaAdi.ReadOnly = true;
+            // 
+            // colDosyaTipi
+            // 
+            colDosyaTipi.DataPropertyName = "DosyaTipi";
+            colDosyaTipi.HeaderText = "Tür";
+            colDosyaTipi.Name = "colDosyaTipi";
+            colDosyaTipi.ReadOnly = true;
+            // 
+            // colUzanti
+            // 
+            colUzanti.DataPropertyName = "Uzanti";
+            colUzanti.HeaderText = "Uzantı";
+            colUzanti.Name = "colUzanti";
+            colUzanti.ReadOnly = true;
+            // 
+            // colEklenme
+            // 
+            colEklenme.DataPropertyName = "Eklenme";
+            dataGridViewCellStyle2.Format = "dd.MM.yyyy HH:mm";
+            colEklenme.DefaultCellStyle = dataGridViewCellStyle2;
+            colEklenme.HeaderText = "Eklenme Tarihi";
+            colEklenme.Name = "colEklenme";
+            colEklenme.ReadOnly = true;
             // 
             // dgvContextMenu
             // 
-            dgvContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { menuIndir, menuMasaustuneIndir, menuDosyaAdiniKopyala, menuSeparator, menuYenile });
+            dgvContextMenu.Items.AddRange(new ToolStripItem[] { menuIndir, menuMasaustuneIndir, menuDosyaAdiniKopyala, menuSeparator, menuYenile });
             dgvContextMenu.Name = "dgvContextMenu";
-            dgvContextMenu.Size = new System.Drawing.Size(185, 98);
+            dgvContextMenu.Size = new Size(180, 98);
             // 
             // menuIndir
             // 
             menuIndir.Name = "menuIndir";
-            menuIndir.Size = new System.Drawing.Size(184, 22);
+            menuIndir.Size = new Size(179, 22);
             menuIndir.Text = "Farklı kaydet / indir";
             // 
             // menuMasaustuneIndir
             // 
             menuMasaustuneIndir.Name = "menuMasaustuneIndir";
-            menuMasaustuneIndir.Size = new System.Drawing.Size(184, 22);
+            menuMasaustuneIndir.Size = new Size(179, 22);
             menuMasaustuneIndir.Text = "Masaüstüne indir";
             // 
             // menuDosyaAdiniKopyala
             // 
             menuDosyaAdiniKopyala.Name = "menuDosyaAdiniKopyala";
-            menuDosyaAdiniKopyala.Size = new System.Drawing.Size(184, 22);
+            menuDosyaAdiniKopyala.Size = new Size(179, 22);
             menuDosyaAdiniKopyala.Text = "Dosya adını kopyala";
             // 
             // menuSeparator
             // 
             menuSeparator.Name = "menuSeparator";
-            menuSeparator.Size = new System.Drawing.Size(181, 6);
+            menuSeparator.Size = new Size(176, 6);
             // 
             // menuYenile
             // 
             menuYenile.Name = "menuYenile";
-            menuYenile.Size = new System.Drawing.Size(184, 22);
+            menuYenile.Size = new Size(179, 22);
             menuYenile.Text = "Listeyi yenile";
             // 
             // actionPanel
             // 
+            actionPanel.Controls.Add(btnColumns);
             actionPanel.Controls.Add(btnIndir);
             actionPanel.Controls.Add(btnMasaustuIndir);
             actionPanel.Controls.Add(btnKopyala);
-            actionPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            actionPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            actionPanel.Location = new System.Drawing.Point(21, 684);
+            actionPanel.Dock = DockStyle.Fill;
+            actionPanel.FlowDirection = FlowDirection.RightToLeft;
+            actionPanel.Location = new Point(21, 676);
             actionPanel.Name = "actionPanel";
-            actionPanel.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            actionPanel.Size = new System.Drawing.Size(1142, 52);
+            actionPanel.Padding = new Padding(0, 10, 0, 0);
+            actionPanel.Size = new Size(1142, 52);
             actionPanel.TabIndex = 5;
+            // 
+            // btnColumns
+            // 
+            btnColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+            btnColumns.FlatStyle = FlatStyle.Flat;
+            btnColumns.Location = new Point(1039, 13);
+            btnColumns.Name = "btnColumns";
+            btnColumns.Size = new Size(100, 34);
+            btnColumns.TabIndex = 0;
+            btnColumns.Text = "Sütunlar";
+            btnColumns.Click += Columns_Click;
             // 
             // btnIndir
             // 
-            btnIndir.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
+            btnIndir.BackColor = Color.FromArgb(37, 99, 235);
             btnIndir.FlatAppearance.BorderSize = 0;
-            btnIndir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnIndir.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            btnIndir.ForeColor = System.Drawing.Color.White;
-            btnIndir.Location = new System.Drawing.Point(982, 13);
+            btnIndir.FlatStyle = FlatStyle.Flat;
+            btnIndir.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnIndir.ForeColor = Color.White;
+            btnIndir.Location = new Point(876, 13);
             btnIndir.Name = "btnIndir";
-            btnIndir.Size = new System.Drawing.Size(157, 34);
+            btnIndir.Size = new Size(157, 34);
             btnIndir.TabIndex = 0;
             btnIndir.Text = "Farklı Kaydet";
             btnIndir.UseVisualStyleBackColor = false;
             // 
             // btnMasaustuIndir
             // 
-            btnMasaustuIndir.BackColor = System.Drawing.Color.FromArgb(15, 23, 42);
+            btnMasaustuIndir.BackColor = Color.FromArgb(244, 247, 251);
             btnMasaustuIndir.FlatAppearance.BorderSize = 0;
-            btnMasaustuIndir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnMasaustuIndir.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            btnMasaustuIndir.ForeColor = System.Drawing.Color.White;
-            btnMasaustuIndir.Location = new System.Drawing.Point(813, 13);
+            btnMasaustuIndir.FlatStyle = FlatStyle.Flat;
+            btnMasaustuIndir.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnMasaustuIndir.ForeColor = Color.White;
+            btnMasaustuIndir.Location = new Point(707, 13);
             btnMasaustuIndir.Name = "btnMasaustuIndir";
-            btnMasaustuIndir.Size = new System.Drawing.Size(163, 34);
+            btnMasaustuIndir.Size = new Size(163, 34);
             btnMasaustuIndir.TabIndex = 1;
             btnMasaustuIndir.Text = "Masaüstüne İndir";
             btnMasaustuIndir.UseVisualStyleBackColor = false;
             // 
             // btnKopyala
             // 
-            btnKopyala.BackColor = System.Drawing.Color.FromArgb(226, 232, 240);
+            btnKopyala.BackColor = Color.FromArgb(226, 232, 240);
             btnKopyala.FlatAppearance.BorderSize = 0;
-            btnKopyala.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnKopyala.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            btnKopyala.ForeColor = System.Drawing.Color.FromArgb(30, 41, 59);
-            btnKopyala.Location = new System.Drawing.Point(644, 13);
+            btnKopyala.FlatStyle = FlatStyle.Flat;
+            btnKopyala.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnKopyala.ForeColor = Color.FromArgb(30, 41, 59);
+            btnKopyala.Location = new Point(538, 13);
             btnKopyala.Name = "btnKopyala";
-            btnKopyala.Size = new System.Drawing.Size(163, 34);
+            btnKopyala.Size = new Size(163, 34);
             btnKopyala.TabIndex = 2;
             btnKopyala.Text = "Dosya Adını Kopyala";
             btnKopyala.UseVisualStyleBackColor = false;
             // 
             // statusStrip
             // 
-            statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { lblStatus, progressBar });
-            statusStrip.Location = new System.Drawing.Point(0, 739);
+            statusStrip.Items.AddRange(new ToolStripItem[] { lblStatus, progressBar });
+            statusStrip.Location = new Point(0, 739);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new System.Drawing.Size(1184, 22);
+            statusStrip.Size = new Size(1184, 22);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "statusStrip";
             // 
             // lblStatus
             // 
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new System.Drawing.Size(39, 17);
+            lblStatus.Size = new Size(37, 17);
             lblStatus.Text = "Hazır.";
             // 
             // progressBar
             // 
             progressBar.MarqueeAnimationSpeed = 35;
             progressBar.Name = "progressBar";
-            progressBar.Size = new System.Drawing.Size(120, 16);
-            progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            progressBar.Size = new Size(120, 16);
+            progressBar.Style = ProgressBarStyle.Marquee;
             progressBar.Visible = false;
             // 
             // arsivForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            BackColor = System.Drawing.Color.FromArgb(246, 248, 252);
-            ClientSize = new System.Drawing.Size(1184, 761);
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            BackColor = Color.FromArgb(246, 248, 252);
+            ClientSize = new Size(1184, 761);
             Controls.Add(rootLayout);
             Controls.Add(statusStrip);
-            Font = new System.Drawing.Font("Segoe UI", 10F);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-            MaximizeBox = true;
-            MinimumSize = new System.Drawing.Size(980, 640);
+            Font = new Font("Segoe UI", 10F);
+            MinimumSize = new Size(980, 640);
             Name = "arsivForm";
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Akıllı Dosya Arşivi";
             rootLayout.ResumeLayout(false);
             headerPanel.ResumeLayout(false);

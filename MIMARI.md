@@ -1,69 +1,35 @@
-# Kod rehberi
+# BKS 1.4.0 UI mimarisi
 
-## Mevcut yapı
+## Ana pencere
 
-Giriş ekranı Form1, ana pencere Form2'dir. Uygulama WinForms'tur; MVC controller,
-Entity Framework veya katmanlı bir backend projesi arşivde yoktur. Giriş ve modül
-listesi mevcut API üzerinden, ekran verileri SQL Server / mevcut stored procedure
-sözleşmeleri üzerinden alınır. Bu sözleşmeler yeniden tasarlanmadı.
+`Form2.Designer.cs` modül TabPage'lerini ve tüm sabit alan/liste yerleşimlerini oluşturur.
+`Form2.Ribbon.cs` ana Ribbon ile DocumentWorkspace'i shell'e bağlar.
+Ribbon PageSelected yalnızca Ribbon seçimini kaydeder; modül açmaz.
+ActiveDocumentChanged yalnızca aktif belge anahtarını, durum satırını ve komut etkinliğini yeniler.
+Ana Ribbon'a belge Ribbon'ı enjekte eden API kaldırıldı.
+`Form2.Commands.cs` navigasyon ve veri işlemi komutlarını ayrı tanımlar.
+`Form2.ModuleBehavior.cs` mevcut Designer kontrollerinin olaylarını ve listelerin filtre davranışını bağlar.
+`DocumentRegistry` belge anahtarına göre tek instance korur; `DocumentWorkspace` açma/kapatma ve yetkileri yönetir.
+`DocumentFormHost` kayıt formlarını içeriklerini silmeden gömer.
 
-Önceki sürümde gizli TabControl ile tek liste gösteriliyor ve birçok detay formu
-bağımsız açılıyordu. Form2.cs yaklaşık 2000 satırdı. Şimdi ana pencere kurulumu,
-yetki yükleme, menü tanımı ve modül olayları ayrı dosyalardadır. Partial sınıflar
-Designer alanlarına erişimi koruyan geçiş düzenidir; bu dosyalar bağımsız servis
-olarak sunulmamıştır. İş kurallarının tamamı yeni domain katmanına taşınmış değildir.
+## Kayıt formları
 
-## Ortak bileşenler
+- `.Designer.cs`: standart kontrol alanları, InitializeComponent, Dock/Anchor, tablo satır/sütunları, sekmeler, statik grid kolonları, olay bağlantıları.
+- Normal `.cs`, `.Runtime.cs`, `.Persistence.cs`, `.Validation.cs`, `.Photo.cs`: davranış, doğrulama, veri işlemleri, fotoğraf okuma ve düzenleme.
+- `OgrenciForm.Layout.cs`, `PersonelForm.Layout.cs` ve `Form2.Layout.cs` kaldırıldı.
+- `PhotoEditor` artık panel değildir; Designer'daki PictureBox, iki Button ve Label ile çalışan davranış sınıfıdır. Kontrol oluşturmaz/taşımaz.
+- `PaymentDetailsForm`, `PaymentPlanForm`, `DataListForm`, `ConnectionSettingsForm` ayrı standart Designer formlarıdır.
+- Kayıt formlarında yerel Ribbon yoktur. Komutlar Designer araç çubuğundadır.
 
-`RibbonCommand`: Kimlik, açıklama, simge, boyut, kısayol, yetki anahtarı, uygunluk
-koşulu, grup ve sıra tutar. `Invoke()` tekrar giriş kontrolü ve hata sunumunu sağlar.
-Ribbon, taşma menüsü ve sağ tık aynı komut nesnesini çağırır. Uzun süren mevcut API
-ve liste okumalarının yüklenme durumu Form2.Session'dadır. Eski senkron yazma
-metotları senkron kalmıştır; hepsi async hale getirilmiş değildir.
+## Listeler
 
-`DocumentRegistry<T>`: Sadece anahtar ve nesne ömrünü yönetir. WinForms bağımlılığı
-yoktur. Aynı anahtarda factory yeniden çalışmaz. Factory başarısız olursa anahtar
-rezerve edilmez. `DocumentWorkspace`, bu generic bileşeni WinForms sekmelerine bağlar.
+`RibbonPalette` renkleri merkezileştirir. `GridAppearance` ortak grid ölçüleri, seçim, çizgiler, teknik kolonlar ve formatları uygular.
+`DesignerListBinding` Designer'da bulunan arama, temizle, sütunlar ve sayaç kontrollerini bağlar; yerleşim oluşturmaz.
+`GridFilterController` ve `GridColumnMenu` filtreleme, sıralama ve sütun seçimini sürdürür.
+Arşiv kendi tür/tarih filtrelerini korur; ortak grid görünümünü ve sütun menüsünü kullanır.
+Fatura kalemleri düzenlenebilir, ödeme detayları çoklu seçilebilir; liste stilinin uygulanması bu davranışları değiştirmez.
 
-`SqlDataAccess`: Bağlantı, komut ve okuyucu ömrünü tek yerde yönetir. `Execute<T>`
-ve `Query<T>` tekrar kullanılabilir. Şirket filtrelerini otomatik tahmin etmez;
-sorgular açıkça filtre içerir. `ModuleReader` ana liste sorgularını barındırır.
-Mevcut kayıt işlemlerinin transaction sınırları ve SP parametreleri korunur.
+## Doğrulama
 
-`EditSession`: Form girdilerinin başlangıç durumunu alır. Görünmeyen SectionedForm
-bölümlerini de izler. Fotoğraf ve fatura kalemleri ek durum sağlayıcısıyla izlenir.
-`AcceptChanges()` yalnızca başarılı kayıt sonrası çağrılır. Arama kutuları kayıt
-verisi sayılmaz. Ana pencere kapanışı tüm kayıt sekmelerinin kapanışını denetler.
-
-## Yeni komut eklemek
-
-Form2.Commands.cs içindeki ilgili gruba `Command(...)` ekleyin. Kimlik benzersiz
-olsun; API'deki gerçek permission anahtarını ve seçili satır koşulunu verin.
-İşlemi ilgili modül metoduna yönlendirin. Yeni detay için:
-
-```csharp
-_documents.OpenDocument(
-    "student:" + studentId,
-    "Öğrenci kartı",
-    () => CreateStudentForm(studentId),
-    tabPageStok.Name);
-```
-
-Örnekteki CreateStudentForm, eklenecek ekranın gerçek yükleme fabrikasını temsil
-eder. Mevcut fabrikalar Modules/Students.cs ve Modules/Personnel.cs içindedir.
-Kaydetme kodunu ribbon çizim sınıfına koymayın. Yeni bir iş modülü için backend
-sözleşmesi, yetki anahtarı, gerçek form ve testler sağlandıktan sonra menü kaydedin.
-
-## Kaynak dosyaları
-
-Dokuz .resx açık ve benzersiz LogicalName / ManifestResourceName değerleriyle
-kaydedilir. Varsayılan resource keşfi kapalıdır. Yeni partial dosyaları eklerken bu
-ayarı kaldırmayın: önceki MSB3577 BKS.Form2.resources çakışmasını engeller.
-
-## Korunan sınırlar
-
-Öğrenci silme IsDeleted, personel silme IsActive ile mevcut pasife alma akışını
-kullanır. Rapor tanımları kaynak projedeki ortak rapor tablosunu kullanır. Sunucu
-kodları ve gerçek SQL şeması teslim edilmediği için bunların doğruluğu burada
-yeniden onaylanamaz. Fotoğraf kolon uyumu ve GelirGider şirket kolonu için mevcut
-Database dosyaları korunmuştur.
+`Tests/` platformdan bağımsız iş kurallarını doğrular. `Form2.NavigationChecks.cs` Windows yerleşim kontrolüne eklenen Ribbon/belge senaryolarını içerir.
+`UI/LayoutDiagnostics.cs` Windows'ta görünen TableLayoutPanel kontrollerinin çakışmalarını ve sekme geçişlerini de denetler.

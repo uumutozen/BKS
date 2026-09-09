@@ -40,6 +40,7 @@ public partial class Form2
         bool OnPage(string key) => tabControl.SelectedTab?.Name == key;
         _ribbon.AddPage("home", "Ana Sayfa", ("Hızlı erişim", new[]
         {
+            new RibbonCommand("Ana Sayfa", RibbonIcon.Folder, () => _documents.Activate("home")) { Size = RibbonButtonSize.Large },
             Navigate("home.students", "Öğrenci listesi", students),
             Navigate("home.payments", "Tahsilatlar", payments),
             Navigate("home.personnel", "Personel listesi", personnel),
@@ -71,12 +72,11 @@ public partial class Form2
         {
             Command("students.search", "Ara", RibbonIcon.Search, () =>
             {
-                SelectModuleByKey(students);
-                txtOgrenciYonetimiAra.Focus();
+                ListSurface.FocusSearch(dataGridViewStok);
             }, students,
-            shortcut: Keys.Control | Keys.F),
-            Command("students.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, shortcut: Keys.F5),
-            Command("students.import", "Excel içe al", RibbonIcon.Export, () => ImportSelected(dataGridViewStok), students)
+            enabled: () => OnPage(students), shortcut: Keys.Control | Keys.F),
+            Command("students.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, enabled: () => OnPage(students) || OnPage(preregistration), shortcut: Keys.F5),
+            Command("students.import", "Excel içe al", RibbonIcon.Export, () => ImportSelected(dataGridViewStok), students, () => OnPage(students))
         }));
         _ribbon.AddPage("classes", "Sınıf & Eğitim", ("Sınıflar", new[]
         {
@@ -87,7 +87,7 @@ public partial class Form2
             () => OnPage("classes") && DgvOgrenciYonetimiSiniflar.CurrentRow != null),
             Command("classes.remove", "Sınıf sil", RibbonIcon.Archive, RunClassDelete, students,
             () => OnPage("classes") && DgvOgrenciYonetimiSiniflar.CurrentRow != null),
-            Command("classes.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, students, shortcut: Keys.F5)
+            Command("classes.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, students, enabled: () => OnPage("classes"), shortcut: Keys.F5)
         }));
         _ribbon.AddPage("finance", "Finans",
         ("Finans ekranları", new[]
@@ -100,7 +100,7 @@ public partial class Form2
         {
             Command("payments.save", "Tahsilat kaydet", RibbonIcon.Backup, RunPaymentEntry, payments, () => OnPage(payments)),
             Command("finance.save", "Gelir / gider kaydet", RibbonIcon.Backup, RunIncomeExpenseSave, finance, () => OnPage(finance)),
-            Command("finance.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, shortcut: Keys.F5)
+            Command("finance.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, enabled: () => OnPage(payments) || OnPage(finance), shortcut: Keys.F5)
         }));
         _ribbon.AddPage(personnel, "Personel",
         ("Personel", new[]
@@ -109,34 +109,34 @@ public partial class Form2
             Command("personnel.new", "Yeni personel", RibbonIcon.Add, () => NewRecord(dgvPersonelYonetimi), personnel,
             shortcut: Keys.Control | Keys.N, size: RibbonButtonSize.Large),
             Command("personnel.edit", "Düzenle", RibbonIcon.Edit, () => EditSelected(dgvPersonelYonetimi), personnel,
-            () => dgvPersonelYonetimi.CurrentRow != null, Keys.Control | Keys.E),
+            () => OnPage(personnel) && dgvPersonelYonetimi.CurrentRow != null, Keys.Control | Keys.E),
             Command("personnel.remove", "Pasife al", RibbonIcon.Archive, () => DeleteSelected(dgvPersonelYonetimi), personnel,
-            () => dgvPersonelYonetimi.CurrentRow != null),
+            () => OnPage(personnel) && dgvPersonelYonetimi.CurrentRow != null),
             Command("personnel.files", "Evrak arşivi", RibbonIcon.Folder, () => ArchiveSelected(dgvPersonelYonetimi), personnel,
-            () => dgvPersonelYonetimi.CurrentRow != null)
+            () => OnPage(personnel) && dgvPersonelYonetimi.CurrentRow != null)
         }),
         ("Liste", new[]
         {
-            Command("personnel.search", "Ara", RibbonIcon.Search, () => _personnelSearch.Focus(), personnel, shortcut: Keys.Control | Keys.F),
-            Command("personnel.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, personnel, shortcut: Keys.F5),
-            Command("personnel.import", "Excel içe al", RibbonIcon.Export, () => ImportSelected(dgvPersonelYonetimi), personnel)
+            Command("personnel.search", "Ara", RibbonIcon.Search, () => ListSurface.FocusSearch(dgvPersonelYonetimi), personnel, enabled: () => OnPage(personnel), shortcut: Keys.Control | Keys.F),
+            Command("personnel.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, personnel, enabled: () => OnPage(personnel), shortcut: Keys.F5),
+            Command("personnel.import", "Excel içe al", RibbonIcon.Export, () => ImportSelected(dgvPersonelYonetimi), personnel, () => OnPage(personnel))
         }));
         _ribbon.AddPage(reports, "Raporlar", ("Raporlar", new[]
         {
             Navigate("reports.list", "Rapor listesi", reports),
             Command("reports.run", "Rapor çalıştır", RibbonIcon.View,
             () => salesGrid_CellDoubleClick(salesGrid, new DataGridViewCellEventArgs(0, salesGrid.CurrentRow.Index)),
-            reports, () => salesGrid.CurrentRow != null, size: RibbonButtonSize.Large),
+            reports, () => OnPage(reports) && salesGrid.CurrentRow != null, size: RibbonButtonSize.Large),
             Command("reports.design", "Rapor tasarla", RibbonIcon.Edit,
             () => _documents.OpenDocument("report:designer", "Rapor tasarımı", () => new OzelRapor(), reports),
             reports, () => ModuleAccess.IsAdmin(Role)),
-            Command("reports.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, reports, shortcut: Keys.F5)
+            Command("reports.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, reports, enabled: () => OnPage(reports), shortcut: Keys.F5)
         }));
         _ribbon.AddPage("system", "Ayarlar", ("Oturum", new[]
         {
             Command("session.refresh", "Yetkileri yenile", RibbonIcon.Refresh, () => _ = InitializeSessionAsync(), size: RibbonButtonSize.Large),
             new RibbonCommand("Bağlantı bilgisi", RibbonIcon.Help, () => MessageBox.Show(
-            "Bağlantı ayarlarını giriş ekranından değiştirebilirsiniz.\nBKS 1.2.0\nCtrl+F1: Ribbon daralt / genişlet")),
+            "Bağlantı ayarlarını giriş ekranından değiştirebilirsiniz.\nBKS 1.4.0\nCtrl+F1: Ribbon daralt / genişlet")),
             new RibbonCommand("Çıkış", RibbonIcon.Archive, CloseApplication)
         }));
     }

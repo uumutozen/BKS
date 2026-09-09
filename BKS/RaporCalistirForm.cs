@@ -19,27 +19,21 @@ namespace BKS
         private string _sorgu;
         private Dictionary<string, string> _parametreler;
         private string _tabloAdi;
-        private Panel panelParametreler;
-        private DataGridView gridSonuc;
-        private Button btnCalistir;
+
+        public RaporCalistirForm() : this(0) { }
 
         public RaporCalistirForm(int raporId)
         {
             _raporId = raporId;
             InitializeComponent();
-            this.Load += RaporCalistirForm_Load;
+            Screens.PrepareDesignerForm(this);
+            DesignerListBinding.Attach(gridSonuc, txtResultsSearch, pnlResultsClear, pnlResultsColumns, pnlResultsCount);
         }
+
+        private void CloseRecord_Click(object? sender, EventArgs e) => Close();
 
         private void RaporCalistirForm_Load(object sender, EventArgs e)
         {
-            panelParametreler = new Panel
-            {
-                Dock = DockStyle.Fill
-            };
-            gridSonuc = new DataGridView();
-            var ribbon = Screens.Ribbon("Rapor", new RibbonCommand("Çalıştır", RibbonIcon.View, () => BtnCalistir_Click(this,
-            EventArgs.Empty)), new RibbonCommand("Kapat", RibbonIcon.Restore, Close));
-            Screens.Install(this, Screens.WithEditor(panelParametreler, gridSonuc, .30F), ribbon, "Özel raporu çalıştır");
             if (AppConfiguration.DesignPreview) return;
             // Rapor bilgilerini DB'den çek
             using (SqlConnection conn = new SqlConnection(_connectionString))

@@ -1,207 +1,455 @@
-namespace BKS
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace BKS;
+
+partial class OzelRapor
 {
-    partial class OzelRapor
+    private System.ComponentModel.IContainer components = null;
+
+    private TableLayoutPanel tlpReportInfo;
+    private TextBox txtRaporAdi;
+    private Label lbl_txtRaporAdi;
+    private ComboBox cmbOzelRaporlar;
+    private Label lbl_cmbOzelRaporlar;
+    private TextBox txtQuery;
+    private Panel panelParametreler;
+    private DataGridView dataGridView1;
+    private TableLayoutPanel pnlResults;
+    private TableLayoutPanel pnlResultsToolbar;
+    private Label pnlResultsTitle;
+    private TextBox txtResultsSearch;
+    private Button pnlResultsClear;
+    private Button pnlResultsColumns;
+    private Label pnlResultsCount;
+    private TabControl tabReport;
+    private TabPage tabQuery;
+    private TabPage tabParameters;
+    private TabPage tabResults;
+    private TableLayoutPanel pnlReportBody;
+    private TableLayoutPanel pnlRoot;
+    private TableLayoutPanel pnlHeader;
+    private Label lblTitle;
+    private Label lblSubtitle;
+    private FlowLayoutPanel pnlCommandBar;
+    private Button btnRaporKaydet;
+    private Button btnRaporYukle;
+    private Button btnGenerateFields;
+    private Button btnRunQuery;
+    private Button btnClose;
+
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        private System.Windows.Forms.Label lblRaporAdi;
-        private System.Windows.Forms.TextBox txtRaporAdi;
-        private System.Windows.Forms.Button btnRaporKaydet;
-        private System.Windows.Forms.Label lblOzelRaporlar;
-        private System.Windows.Forms.ComboBox cmbOzelRaporlar;
-        private System.Windows.Forms.Button btnRaporYukle;
-        private System.Windows.Forms.Label lblQuery;
-        private System.Windows.Forms.TextBox txtQuery;
-        private System.Windows.Forms.Button btnGenerateFields;
-        private System.Windows.Forms.Button btnRunQuery;
-        private System.Windows.Forms.Label lblParams;
-        private System.Windows.Forms.Panel panelParametreler;
-        private System.Windows.Forms.DataGridView dataGridView1;
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
-        private void InitializeComponent()
-        {
-            lblRaporAdi = new Label();
-            txtRaporAdi = new TextBox();
-            btnRaporKaydet = new Button();
-            lblOzelRaporlar = new Label();
-            cmbOzelRaporlar = new ComboBox();
-            btnRaporYukle = new Button();
-            lblQuery = new Label();
-            txtQuery = new TextBox();
-            btnGenerateFields = new Button();
-            btnRunQuery = new Button();
-            lblParams = new Label();
-            panelParametreler = new Panel();
-            dataGridView1 = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            SuspendLayout();
-            // 
-            // lblRaporAdi
-            // 
-            lblRaporAdi.AutoSize = true;
-            lblRaporAdi.Location = new Point(19, 14);
-            lblRaporAdi.Name = "lblRaporAdi";
-            lblRaporAdi.Size = new Size(62, 15);
-            lblRaporAdi.TabIndex = 0;
-            lblRaporAdi.Text = "Rapor Adı:";
-            // 
-            // txtRaporAdi
-            // 
-            txtRaporAdi.Location = new Point(96, 11);
-            txtRaporAdi.Margin = new Padding(3, 2, 3, 2);
-            txtRaporAdi.Name = "txtRaporAdi";
-            txtRaporAdi.Size = new Size(184, 23);
-            txtRaporAdi.TabIndex = 1;
-            // 
-            // btnRaporKaydet
-            // 
-            btnRaporKaydet.Location = new Point(298, 10);
-            btnRaporKaydet.Margin = new Padding(3, 2, 3, 2);
-            btnRaporKaydet.Name = "btnRaporKaydet";
-            btnRaporKaydet.Size = new Size(105, 24);
-            btnRaporKaydet.TabIndex = 2;
-            btnRaporKaydet.Text = "Raporu Kaydet";
-            btnRaporKaydet.UseVisualStyleBackColor = true;
-            // 
-            // lblOzelRaporlar
-            // 
-            lblOzelRaporlar.AutoSize = true;
-            lblOzelRaporlar.Location = new Point(420, 14);
-            lblOzelRaporlar.Name = "lblOzelRaporlar";
-            lblOzelRaporlar.Size = new Size(80, 15);
-            lblOzelRaporlar.TabIndex = 3;
-            lblOzelRaporlar.Text = "Özel Raporlar:";
-            // 
-            // cmbOzelRaporlar
-            // 
-            cmbOzelRaporlar.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbOzelRaporlar.Location = new Point(516, 11);
-            cmbOzelRaporlar.Margin = new Padding(3, 2, 3, 2);
-            cmbOzelRaporlar.Name = "cmbOzelRaporlar";
-            cmbOzelRaporlar.Size = new Size(184, 23);
-            cmbOzelRaporlar.TabIndex = 4;
-            // 
-            // btnRaporYukle
-            // 
-            btnRaporYukle.Location = new Point(718, 10);
-            btnRaporYukle.Margin = new Padding(3, 2, 3, 2);
-            btnRaporYukle.Name = "btnRaporYukle";
-            btnRaporYukle.Size = new Size(105, 24);
-            btnRaporYukle.TabIndex = 5;
-            btnRaporYukle.Text = "Raporu Yükle";
-            btnRaporYukle.UseVisualStyleBackColor = true;
-            // 
-            // lblQuery
-            // 
-            lblQuery.AutoSize = true;
-            lblQuery.Location = new Point(19, 44);
-            lblQuery.Name = "lblQuery";
-            lblQuery.Size = new Size(77, 15);
-            lblQuery.TabIndex = 6;
-            lblQuery.Text = "SQL Sorgusu:";
-            // 
-            // txtQuery
-            // 
-            txtQuery.Font = new Font("Consolas", 10F);
-            txtQuery.Location = new Point(19, 61);
-            txtQuery.Margin = new Padding(3, 2, 3, 2);
-            txtQuery.Multiline = true;
-            txtQuery.Name = "txtQuery";
-            txtQuery.ScrollBars = ScrollBars.Vertical;
-            txtQuery.Size = new Size(604, 46);
-            txtQuery.TabIndex = 7;
-            // 
-            // btnGenerateFields
-            // 
-            btnGenerateFields.Location = new Point(639, 61);
-            btnGenerateFields.Margin = new Padding(3, 2, 3, 2);
-            btnGenerateFields.Name = "btnGenerateFields";
-            btnGenerateFields.Size = new Size(115, 30);
-            btnGenerateFields.TabIndex = 8;
-            btnGenerateFields.Text = "Parametreleri Getir";
-            btnGenerateFields.UseVisualStyleBackColor = true;
-            // 
-            // btnRunQuery
-            // 
-            btnRunQuery.Location = new Point(760, 61);
-            btnRunQuery.Margin = new Padding(3, 2, 3, 2);
-            btnRunQuery.Name = "btnRunQuery";
-            btnRunQuery.Size = new Size(122, 30);
-            btnRunQuery.TabIndex = 9;
-            btnRunQuery.Text = "Sorguyu Çalıştır";
-            btnRunQuery.UseVisualStyleBackColor = true;
-            // 
-            // lblParams
-            // 
-            lblParams.AutoSize = true;
-            lblParams.Location = new Point(19, 112);
-            lblParams.Name = "lblParams";
-            lblParams.Size = new Size(107, 15);
-            lblParams.TabIndex = 10;
-            lblParams.Text = "Parametre Alanları:";
-            // 
-            // panelParametreler
-            // 
-            panelParametreler.AutoScroll = true;
-            panelParametreler.BackColor = Color.WhiteSmoke;
-            panelParametreler.BorderStyle = BorderStyle.FixedSingle;
-            panelParametreler.Location = new Point(19, 131);
-            panelParametreler.Margin = new Padding(3, 2, 3, 2);
-            panelParametreler.Name = "panelParametreler";
-            panelParametreler.Size = new Size(614, 522);
-            panelParametreler.TabIndex = 11;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.Location = new Point(639, 131);
-            dataGridView1.Margin = new Padding(3, 2, 3, 2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(827, 522);
-            dataGridView1.TabIndex = 12;
-            // 
-            // ÖzelRapor
-            // 
-            AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(1492, 664);
-            Controls.Add(lblRaporAdi);
-            Controls.Add(txtRaporAdi);
-            Controls.Add(btnRaporKaydet);
-            Controls.Add(lblOzelRaporlar);
-            Controls.Add(cmbOzelRaporlar);
-            Controls.Add(btnRaporYukle);
-            Controls.Add(lblQuery);
-            Controls.Add(txtQuery);
-            Controls.Add(btnGenerateFields);
-            Controls.Add(btnRunQuery);
-            Controls.Add(lblParams);
-            Controls.Add(panelParametreler);
-            Controls.Add(dataGridView1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(3, 2, 3, 2);
-            Name = "ÖzelRapor";
-            Text = "Özel SQL Raporları";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
-        }
-
-        #endregion
+        if (disposing) components?.Dispose();
+        base.Dispose(disposing);
     }
+
+    #region Windows Form Designer generated code
+    private void InitializeComponent()
+    {
+        components = new System.ComponentModel.Container();
+        tlpReportInfo = new TableLayoutPanel();
+        txtRaporAdi = new TextBox();
+        lbl_txtRaporAdi = new Label();
+        cmbOzelRaporlar = new ComboBox();
+        lbl_cmbOzelRaporlar = new Label();
+        txtQuery = new TextBox();
+        panelParametreler = new Panel();
+        dataGridView1 = new DataGridView();
+        dataGridView1.MultiSelect = false;
+        pnlResults = new TableLayoutPanel();
+        pnlResultsToolbar = new TableLayoutPanel();
+        pnlResultsTitle = new Label();
+        txtResultsSearch = new TextBox();
+        pnlResultsClear = new Button();
+        pnlResultsColumns = new Button();
+        pnlResultsCount = new Label();
+        tabReport = new TabControl();
+        tabQuery = new TabPage();
+        tabParameters = new TabPage();
+        tabResults = new TabPage();
+        pnlReportBody = new TableLayoutPanel();
+        pnlRoot = new TableLayoutPanel();
+        pnlHeader = new TableLayoutPanel();
+        lblTitle = new Label();
+        lblSubtitle = new Label();
+        pnlCommandBar = new FlowLayoutPanel();
+        btnRaporKaydet = new Button();
+        btnRaporYukle = new Button();
+        btnGenerateFields = new Button();
+        btnRunQuery = new Button();
+        btnClose = new Button();
+        ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+        SuspendLayout();
+        tlpReportInfo.SuspendLayout();
+        panelParametreler.SuspendLayout();
+        pnlResults.SuspendLayout();
+        pnlResultsToolbar.SuspendLayout();
+        tabReport.SuspendLayout();
+        tabQuery.SuspendLayout();
+        tabParameters.SuspendLayout();
+        tabResults.SuspendLayout();
+        pnlReportBody.SuspendLayout();
+        pnlRoot.SuspendLayout();
+        pnlHeader.SuspendLayout();
+        pnlCommandBar.SuspendLayout();
+        tlpReportInfo.Name = "tlpReportInfo";
+        tlpReportInfo.Dock = DockStyle.Fill;
+        tlpReportInfo.ColumnCount = 2;
+        tlpReportInfo.RowCount = 3;
+        tlpReportInfo.Margin = Padding.Empty;
+        tlpReportInfo.Padding = new Padding(16);
+        tlpReportInfo.BackColor = Color.White;
+        tlpReportInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpReportInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpReportInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpReportInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpReportInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tlpReportInfo.AutoScroll = true;
+        txtRaporAdi.Name = "txtRaporAdi";
+        txtRaporAdi.Dock = DockStyle.Fill;
+        txtRaporAdi.Margin = new Padding(0, 0, 16, 10);
+        txtRaporAdi.Size = new Size(260, 32);
+        txtRaporAdi.TabIndex = 2;
+        txtRaporAdi.Font = new Font("Segoe UI", 10F);
+        txtRaporAdi.ForeColor = Color.FromArgb(37, 54, 75);
+        txtRaporAdi.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtRaporAdi.Name = "lbl_txtRaporAdi";
+        lbl_txtRaporAdi.AutoSize = true;
+        lbl_txtRaporAdi.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtRaporAdi.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtRaporAdi.Text = "Rapor adı";
+        cmbOzelRaporlar.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbOzelRaporlar.Name = "cmbOzelRaporlar";
+        cmbOzelRaporlar.Dock = DockStyle.Fill;
+        cmbOzelRaporlar.Margin = new Padding(0, 0, 16, 10);
+        cmbOzelRaporlar.Size = new Size(260, 32);
+        cmbOzelRaporlar.TabIndex = 4;
+        cmbOzelRaporlar.Font = new Font("Segoe UI", 10F);
+        cmbOzelRaporlar.ForeColor = Color.FromArgb(37, 54, 75);
+        lbl_cmbOzelRaporlar.Name = "lbl_cmbOzelRaporlar";
+        lbl_cmbOzelRaporlar.AutoSize = true;
+        lbl_cmbOzelRaporlar.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_cmbOzelRaporlar.Margin = new Padding(0, 2, 12, 6);
+        lbl_cmbOzelRaporlar.Text = "Kayıtlı rapor";
+        txtQuery.Name = "txtQuery";
+        txtQuery.Margin = new Padding(0, 0, 16, 10);
+        txtQuery.Size = new Size(260, 32);
+        txtQuery.TabIndex = 6;
+        txtQuery.ForeColor = Color.FromArgb(37, 54, 75);
+        txtQuery.BorderStyle = BorderStyle.FixedSingle;
+        txtQuery.Dock = DockStyle.Fill;
+        txtQuery.Multiline = true;
+        txtQuery.ScrollBars = ScrollBars.Both;
+        txtQuery.WordWrap = false;
+        txtQuery.Font = new Font("Consolas", 11F);
+        panelParametreler.Name = "panelParametreler";
+        panelParametreler.Dock = DockStyle.Fill;
+        panelParametreler.AutoScroll = true;
+        dataGridView1.Name = "dataGridView1";
+        dataGridView1.Dock = DockStyle.Fill;
+        dataGridView1.BackgroundColor = Color.White;
+        dataGridView1.BorderStyle = BorderStyle.None;
+        dataGridView1.EnableHeadersVisualStyles = false;
+        dataGridView1.ColumnHeadersHeight = 36;
+        dataGridView1.RowHeadersWidth = 44;
+        dataGridView1.AllowUserToAddRows = false;
+        dataGridView1.AllowUserToDeleteRows = false;
+        dataGridView1.ReadOnly = true;
+        dataGridView1.AllowUserToOrderColumns = true;
+        dataGridView1.AllowUserToResizeRows = false;
+        dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9.5F);
+        dataGridView1.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
+        dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridView1.DefaultCellStyle.SelectionForeColor = Color.FromArgb(37, 54, 75);
+        dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridView1.RowTemplate.Height = 32;
+        pnlResults.Name = "pnlResults";
+        pnlResults.Dock = DockStyle.Fill;
+        pnlResults.ColumnCount = 1;
+        pnlResults.RowCount = 3;
+        pnlResults.Margin = Padding.Empty;
+        pnlResults.BackColor = Color.White;
+        pnlResults.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlResults.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
+        pnlResults.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlResults.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+        pnlResults.Padding = new Padding(8);
+        pnlResultsToolbar.Name = "pnlResultsToolbar";
+        pnlResultsToolbar.ColumnCount = 4;
+        pnlResultsToolbar.RowCount = 1;
+        pnlResultsToolbar.Margin = Padding.Empty;
+        pnlResultsToolbar.BackColor = Color.White;
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        pnlResultsToolbar.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+        pnlResultsToolbar.Padding = Padding.Empty;
+        pnlResultsToolbar.AutoSize = true;
+        pnlResultsToolbar.Dock = DockStyle.Top;
+        pnlResultsTitle.Name = "pnlResultsTitle";
+        pnlResultsTitle.ForeColor = Color.FromArgb(68, 87, 111);
+        pnlResultsTitle.Margin = new Padding(0, 2, 12, 6);
+        pnlResultsTitle.Text = "Sorgu sonuçları";
+        pnlResultsTitle.Font = new Font("Segoe UI Semibold", 11F);
+        pnlResultsTitle.Anchor = AnchorStyles.Left;
+        pnlResultsTitle.AutoEllipsis = true;
+        pnlResultsTitle.AutoSize = false;
+        pnlResultsTitle.Dock = DockStyle.Fill;
+        txtResultsSearch.Name = "txtResultsSearch";
+        txtResultsSearch.Dock = DockStyle.Fill;
+        txtResultsSearch.Size = new Size(260, 32);
+        txtResultsSearch.TabIndex = 12;
+        txtResultsSearch.Font = new Font("Segoe UI", 10F);
+        txtResultsSearch.ForeColor = Color.FromArgb(37, 54, 75);
+        txtResultsSearch.BorderStyle = BorderStyle.FixedSingle;
+        txtResultsSearch.PlaceholderText = "Listede ara (Ctrl+F)";
+        txtResultsSearch.Margin = new Padding(0, 4, 8, 6);
+        pnlResultsClear.Name = "pnlResultsClear";
+        pnlResultsClear.AutoSize = true;
+        pnlResultsClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlResultsClear.MinimumSize = new Size(96, 34);
+        pnlResultsClear.Padding = new Padding(12, 4, 12, 4);
+        pnlResultsClear.Margin = new Padding(0, 0, 8, 0);
+        pnlResultsClear.FlatStyle = FlatStyle.Flat;
+        pnlResultsClear.BackColor = Color.FromArgb(246, 248, 251);
+        pnlResultsClear.ForeColor = Color.FromArgb(37, 54, 75);
+        pnlResultsClear.UseVisualStyleBackColor = false;
+        pnlResultsClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlResultsClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        pnlResultsClear.Text = "Temizle";
+        pnlResultsColumns.Name = "pnlResultsColumns";
+        pnlResultsColumns.AutoSize = true;
+        pnlResultsColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlResultsColumns.MinimumSize = new Size(96, 34);
+        pnlResultsColumns.Padding = new Padding(12, 4, 12, 4);
+        pnlResultsColumns.Margin = new Padding(0, 0, 8, 0);
+        pnlResultsColumns.FlatStyle = FlatStyle.Flat;
+        pnlResultsColumns.BackColor = Color.FromArgb(246, 248, 251);
+        pnlResultsColumns.ForeColor = Color.FromArgb(37, 54, 75);
+        pnlResultsColumns.UseVisualStyleBackColor = false;
+        pnlResultsColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlResultsColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        pnlResultsColumns.Text = "Sütunlar";
+        pnlResultsCount.Name = "pnlResultsCount";
+        pnlResultsCount.AutoSize = true;
+        pnlResultsCount.ForeColor = Color.FromArgb(68, 87, 111);
+        pnlResultsCount.Margin = new Padding(0, 2, 12, 6);
+        pnlResultsCount.Text = "Kayıt: 0";
+        pnlResultsCount.Dock = DockStyle.Fill;
+        tabReport.Name = "tabReport";
+        tabReport.Dock = DockStyle.Fill;
+        tabReport.Padding = new Point(14, 7);
+        tabReport.SelectedIndex = 0;
+        tabQuery.Name = "tabQuery";
+        tabQuery.Text = "SQL Sorgusu";
+        tabQuery.Padding = new Padding(4);
+        tabQuery.BackColor = Color.White;
+        tabQuery.AutoScroll = true;
+        tabParameters.Name = "tabParameters";
+        tabParameters.Text = "Parametreler";
+        tabParameters.Padding = new Padding(4);
+        tabParameters.BackColor = Color.White;
+        tabParameters.AutoScroll = true;
+        tabResults.Name = "tabResults";
+        tabResults.Text = "Sonuçlar";
+        tabResults.Padding = new Padding(4);
+        tabResults.BackColor = Color.White;
+        tabResults.AutoScroll = true;
+        pnlReportBody.Name = "pnlReportBody";
+        pnlReportBody.Dock = DockStyle.Fill;
+        pnlReportBody.ColumnCount = 1;
+        pnlReportBody.RowCount = 2;
+        pnlReportBody.Margin = Padding.Empty;
+        pnlReportBody.BackColor = Color.White;
+        pnlReportBody.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlReportBody.RowStyles.Add(new RowStyle(SizeType.Absolute, 108F));
+        pnlReportBody.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlReportBody.Padding = Padding.Empty;
+        pnlRoot.Name = "pnlRoot";
+        pnlRoot.Dock = DockStyle.Fill;
+        pnlRoot.ColumnCount = 1;
+        pnlRoot.RowCount = 3;
+        pnlRoot.Margin = Padding.Empty;
+        pnlRoot.BackColor = Color.White;
+        pnlRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlRoot.Padding = Padding.Empty;
+        pnlHeader.Name = "pnlHeader";
+        pnlHeader.Dock = DockStyle.Fill;
+        pnlHeader.ColumnCount = 1;
+        pnlHeader.RowCount = 2;
+        pnlHeader.Margin = Padding.Empty;
+        pnlHeader.BackColor = Color.White;
+        pnlHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlHeader.Padding = new Padding(16, 6, 16, 0);
+        lblTitle.Name = "lblTitle";
+        lblTitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblTitle.Margin = new Padding(0, 2, 12, 6);
+        lblTitle.Text = "Özel Rapor Tasarımı";
+        lblTitle.Font = new Font("Segoe UI Semibold", 15F);
+        lblTitle.AutoSize = true;
+        lblSubtitle.Name = "lblSubtitle";
+        lblSubtitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblSubtitle.Margin = new Padding(0, 2, 12, 6);
+        lblSubtitle.Text = "Bilgileri düzenleyin; değişikliklerinizi kaydedin.";
+        lblSubtitle.AutoSize = true;
+        pnlCommandBar.Name = "pnlCommandBar";
+        pnlCommandBar.Dock = DockStyle.Top;
+        pnlCommandBar.AutoSize = true;
+        pnlCommandBar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlCommandBar.WrapContents = true;
+        pnlCommandBar.Padding = new Padding(16, 8, 8, 8);
+        pnlCommandBar.Margin = Padding.Empty;
+        pnlCommandBar.BackColor = Color.White;
+        btnRaporKaydet.Name = "btnRaporKaydet";
+        btnRaporKaydet.AutoSize = true;
+        btnRaporKaydet.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnRaporKaydet.MinimumSize = new Size(96, 34);
+        btnRaporKaydet.Padding = new Padding(12, 4, 12, 4);
+        btnRaporKaydet.Margin = new Padding(0, 0, 8, 0);
+        btnRaporKaydet.FlatStyle = FlatStyle.Flat;
+        btnRaporKaydet.BackColor = Color.FromArgb(40, 99, 163);
+        btnRaporKaydet.ForeColor = Color.White;
+        btnRaporKaydet.UseVisualStyleBackColor = false;
+        btnRaporKaydet.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnRaporKaydet.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnRaporKaydet.Text = "Kaydet";
+        btnRaporYukle.Name = "btnRaporYukle";
+        btnRaporYukle.AutoSize = true;
+        btnRaporYukle.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnRaporYukle.MinimumSize = new Size(96, 34);
+        btnRaporYukle.Padding = new Padding(12, 4, 12, 4);
+        btnRaporYukle.Margin = new Padding(0, 0, 8, 0);
+        btnRaporYukle.FlatStyle = FlatStyle.Flat;
+        btnRaporYukle.BackColor = Color.FromArgb(246, 248, 251);
+        btnRaporYukle.ForeColor = Color.FromArgb(37, 54, 75);
+        btnRaporYukle.UseVisualStyleBackColor = false;
+        btnRaporYukle.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnRaporYukle.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnRaporYukle.Text = "Yükle";
+        btnGenerateFields.Name = "btnGenerateFields";
+        btnGenerateFields.AutoSize = true;
+        btnGenerateFields.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnGenerateFields.MinimumSize = new Size(96, 34);
+        btnGenerateFields.Padding = new Padding(12, 4, 12, 4);
+        btnGenerateFields.Margin = new Padding(0, 0, 8, 0);
+        btnGenerateFields.FlatStyle = FlatStyle.Flat;
+        btnGenerateFields.BackColor = Color.FromArgb(246, 248, 251);
+        btnGenerateFields.ForeColor = Color.FromArgb(37, 54, 75);
+        btnGenerateFields.UseVisualStyleBackColor = false;
+        btnGenerateFields.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnGenerateFields.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnGenerateFields.Text = "Parametreler";
+        btnRunQuery.Name = "btnRunQuery";
+        btnRunQuery.AutoSize = true;
+        btnRunQuery.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnRunQuery.MinimumSize = new Size(96, 34);
+        btnRunQuery.Padding = new Padding(12, 4, 12, 4);
+        btnRunQuery.Margin = new Padding(0, 0, 8, 0);
+        btnRunQuery.FlatStyle = FlatStyle.Flat;
+        btnRunQuery.BackColor = Color.FromArgb(246, 248, 251);
+        btnRunQuery.ForeColor = Color.FromArgb(37, 54, 75);
+        btnRunQuery.UseVisualStyleBackColor = false;
+        btnRunQuery.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnRunQuery.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnRunQuery.Text = "Çalıştır";
+        btnClose.Name = "btnClose";
+        btnClose.AutoSize = true;
+        btnClose.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnClose.MinimumSize = new Size(96, 34);
+        btnClose.Padding = new Padding(12, 4, 12, 4);
+        btnClose.Margin = new Padding(0, 0, 8, 0);
+        btnClose.FlatStyle = FlatStyle.Flat;
+        btnClose.BackColor = Color.FromArgb(246, 248, 251);
+        btnClose.ForeColor = Color.FromArgb(37, 54, 75);
+        btnClose.UseVisualStyleBackColor = false;
+        btnClose.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnClose.Text = "Kapat";
+        tlpReportInfo.Controls.Add(lbl_txtRaporAdi, 0, 0);
+        tlpReportInfo.Controls.Add(txtRaporAdi, 0, 1);
+        tlpReportInfo.Controls.Add(lbl_cmbOzelRaporlar, 1, 0);
+        tlpReportInfo.Controls.Add(cmbOzelRaporlar, 1, 1);
+        pnlResultsToolbar.Controls.Add(pnlResultsTitle, 0, 0);
+        pnlResultsToolbar.Controls.Add(txtResultsSearch, 1, 0);
+        pnlResultsToolbar.Controls.Add(pnlResultsClear, 2, 0);
+        pnlResultsToolbar.Controls.Add(pnlResultsColumns, 3, 0);
+        pnlResults.Controls.Add(pnlResultsToolbar, 0, 0);
+        pnlResults.Controls.Add(dataGridView1, 0, 1);
+        pnlResults.Controls.Add(pnlResultsCount, 0, 2);
+        tabQuery.Controls.Add(txtQuery);
+        tabReport.Controls.Add(tabQuery);
+        tabParameters.Controls.Add(panelParametreler);
+        tabReport.Controls.Add(tabParameters);
+        tabResults.Controls.Add(pnlResults);
+        tabReport.Controls.Add(tabResults);
+        pnlReportBody.Controls.Add(tlpReportInfo, 0, 0);
+        pnlReportBody.Controls.Add(tabReport, 0, 1);
+        pnlHeader.Controls.Add(lblTitle, 0, 0);
+        pnlHeader.Controls.Add(lblSubtitle, 0, 1);
+        pnlRoot.Controls.Add(pnlHeader, 0, 0);
+        pnlCommandBar.Controls.Add(btnRaporKaydet);
+        pnlCommandBar.Controls.Add(btnRaporYukle);
+        pnlCommandBar.Controls.Add(btnGenerateFields);
+        pnlCommandBar.Controls.Add(btnRunQuery);
+        pnlCommandBar.Controls.Add(btnClose);
+        pnlRoot.Controls.Add(pnlCommandBar, 0, 1);
+        pnlRoot.Controls.Add(pnlReportBody, 0, 2);
+        Controls.Add(pnlRoot);
+        btnRaporKaydet.Click += btnRaporKaydet_Click;
+        btnRaporYukle.Click += btnRaporYukle_Click;
+        btnGenerateFields.Click += GenerateParameters_Click;
+        btnRunQuery.Click += RunQuery_Click;
+        btnClose.Click += CloseRecord_Click;
+        AutoScaleDimensions = new SizeF(96F, 96F);
+        AutoScaleMode = AutoScaleMode.Dpi;
+        Font = new Font("Segoe UI", 10F);
+        BackColor = Color.White;
+        ClientSize = new Size(1120, 760);
+        MinimumSize = new Size(720, 520);
+        StartPosition = FormStartPosition.CenterParent;
+        KeyPreview = true;
+        Name = "OzelRapor";
+        Text = "Özel Rapor Tasarımı";
+        Load += OzelRapor_Load;
+        ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+        pnlCommandBar.ResumeLayout(false);
+        pnlCommandBar.PerformLayout();
+        pnlHeader.ResumeLayout(false);
+        pnlHeader.PerformLayout();
+        pnlRoot.ResumeLayout(false);
+        pnlRoot.PerformLayout();
+        pnlReportBody.ResumeLayout(false);
+        pnlReportBody.PerformLayout();
+        tabResults.ResumeLayout(false);
+        tabResults.PerformLayout();
+        tabParameters.ResumeLayout(false);
+        tabParameters.PerformLayout();
+        tabQuery.ResumeLayout(false);
+        tabQuery.PerformLayout();
+        tabReport.ResumeLayout(false);
+        tabReport.PerformLayout();
+        pnlResultsToolbar.ResumeLayout(false);
+        pnlResultsToolbar.PerformLayout();
+        pnlResults.ResumeLayout(false);
+        pnlResults.PerformLayout();
+        panelParametreler.ResumeLayout(false);
+        panelParametreler.PerformLayout();
+        tlpReportInfo.ResumeLayout(false);
+        tlpReportInfo.PerformLayout();
+        ResumeLayout(false);
+        PerformLayout();
+    }
+    #endregion
 }

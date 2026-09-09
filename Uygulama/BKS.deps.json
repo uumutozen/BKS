@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {},
     ".NETCoreApp,Version=v8.0/win-x64": {
-      "BKS/1.1.2": {
+      "BKS/1.4.0": {
         "dependencies": {
           "ICSharpCode.SharpZipLib": "1.4.2.13",
           "Newtonsoft.Json": "13.0.0.0",
@@ -71,7 +71,7 @@
     }
   },
   "libraries": {
-    "BKS/1.1.2": {
+    "BKS/1.4.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

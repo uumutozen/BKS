@@ -8,10 +8,11 @@ public static class AppConfiguration
     public static string DataDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
     "HelmSoftware", "BKS");
     private static string SettingsPath => Path.Combine(DataDirectory, "connection.json");
+    private static bool designPreview;
     public static bool DesignPreview
     {
-        get;
-        internal set;
+        get => designPreview || System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime;
+        internal set => designPreview = value;
     }
     private static Settings? cached;
     private sealed class Settings

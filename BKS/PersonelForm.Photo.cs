@@ -5,10 +5,18 @@ namespace BKS;
 
 public partial class PersonelForm
 {
+    private void DisposePhotoLoader()
+    {
+        if (_photoCancellationDisposed) return;
+        _photoCancellationDisposed = true;
+        _photoLoadCancellation.Cancel();
+        _photoLoadCancellation.Dispose();
+    }
+
     public async void PersonelForm_Load(object sender, EventArgs e)
     {
         txtPersonelKimlik.Enabled = true;
-        lblKimlikNum.Visible = false;
+        lblKimlikNum.Visible = true;
         cbxPersoneIIsAyrıldı_CheckedChanged(sender, e);
         if (AppConfiguration.DesignPreview || PersonelId == Guid.Empty) return;
         _photoEditor.SetBusy(true);

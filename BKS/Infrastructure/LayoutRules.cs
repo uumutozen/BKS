@@ -17,7 +17,7 @@ public static class LayoutRules
         height = Math.Max(0, height);
         int Px(int value) => (int) Math.Ceiling(value * Math.Max(.5F, scale));
         int title = hasTitle ? Math.Min(height, Px(46)): 0;
-        int ribbon = Math.Min(height - title, Px(expanded ? 126: 30));
+        int ribbon = Math.Min(height - title, Px(expanded ? 134: 32));
         int footer = hasFooter ? Math.Min(height - title - ribbon, Px(28)): 0;
         return(title, ribbon, new Rectangle(0, title + ribbon, width, height - title - ribbon - footer), footer);
     }

@@ -14,7 +14,6 @@ namespace BKS
     public partial class arsivForm : Form
     {
         private static string ApiBaseUrl => AppConfiguration.Api("api/dosya-arsiv").AbsoluteUri;
-        private BksRibbon archiveRibbon;
         private readonly Guid UserId;
         private readonly Guid OgrenciId;
         private readonly string connectionString;
@@ -25,13 +24,19 @@ namespace BKS
         private readonly BindingSource dosyaBindingSource = new BindingSource();
         private List<DosyaArsivModel> tumDosyalar = new List<DosyaArsivModel>();
         private bool isBusy;
+        private GridColumnMenu _columnMenu = null!;
+        public arsivForm() : this(Guid.Empty, "", Guid.Empty) { }
+
         public arsivForm(Guid userId, string connStr, Guid ogrenciId)
         {
             UserId = userId;
             connectionString = connStr;
             OgrenciId = ogrenciId;
             InitializeComponent();
-            BuildRibbonArchiveLayout();
+            Screens.PrepareDesignerForm(this);
+            GridAppearance.Apply(dgvDosyalar);
+            _columnMenu = new GridColumnMenu(dgvDosyalar, GridFilterController.For(dgvDosyalar));
+            ListSurface.RegisterSearch(dgvDosyalar, txtAra);
             ConfigureScreen();
             RegisterEvents();
             Shown += async(_, _) =>
@@ -48,6 +53,8 @@ namespace BKS
                 }
             };
         }
+        private void Columns_Click(object? sender, EventArgs e) => _columnMenu.ShowColumnChooser(btnColumns);
+
         private void ConfigureScreen()
         {
             ConfigureGrid();
@@ -57,22 +64,7 @@ namespace BKS
             UpdateSummary();
             SetStatus("Hazır.");
         }
-        private void BuildRibbonArchiveLayout()
-        {
-            var fields = new ResponsiveFields(("Kayıt", cmbOgrenciler), ("Yüklenecek dosya", txtDosyaYolu), ("Dosya ara", txtAra),
-            ("Dosya türü", cmbTur), ("Tarih filtresi", chkTarih), ("Başlangıç", dtBaslangic), ("Bitiş", dtBitis));
-            archiveRibbon = Screens.Ribbon("Arşiv", new RibbonCommand("Dosya seç", RibbonIcon.Folder, () => BtnDosyaSec_Click(this,
-            EventArgs.Empty), () => !isBusy), new RibbonCommand("Yükle", RibbonIcon.Export, () => _ = YukleAsync(), () => !isBusy),
-            new RibbonCommand("İndir", RibbonIcon.Backup, () => _ = IndirAsync(true), () => !isBusy), new RibbonCommand("Masaüstüne indir",
-            RibbonIcon.Backup, () => _ = IndirAsync(false), () => !isBusy), new RibbonCommand("Yenile", RibbonIcon.Refresh,
-            () => _ = LoadOgrenciDosyalariAsync(), () => !isBusy), new RibbonCommand("Filtre temizle", RibbonIcon.Search, ClearFilters),
-            new RibbonCommand("Kapat", RibbonIcon.Restore, Close));
-            Screens.Install(this, Screens.WithEditor(fields, dgvDosyalar, .40F), archiveRibbon, "Dosya arşivi");
-            if (Controls[0] is RibbonWorkspace workspace) workspace.SetFooter(statusStrip);
-            fields.AllowDrop = true;
-            fields.DragEnter += Upload_DragEnter;
-            fields.DragDrop += Upload_DragDrop;
-        }
+    
         private void RegisterEvents()
         {
             cmbOgrenciler.SelectedIndexChanged += async(s, e) => await LoadOgrenciDosyalariAsync();
@@ -109,35 +101,6 @@ namespace BKS
         {
             dgvDosyalar.AutoGenerateColumns = false;
             dgvDosyalar.DataSource = dosyaBindingSource;
-            dgvDosyalar.Columns.Clear();
-            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = nameof(DosyaArsivModel.DosyaAdi),
-                HeaderText = "Dosya Adı",
-                FillWeight = 46,
-                MinimumWidth = 240
-            });
-            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = nameof(DosyaArsivModel.DosyaTipi),
-                HeaderText = "Tür",
-                FillWeight = 16,
-                MinimumWidth = 110
-            });
-            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = nameof(DosyaArsivModel.Uzanti),
-                HeaderText = "Uzantı",
-                FillWeight = 10,
-                MinimumWidth = 85
-            });
-            dgvDosyalar.Columns.Add(new DataGridViewTextBoxColumn()
-            {
-                DataPropertyName = nameof(DosyaArsivModel.Eklenme),
-                HeaderText = "Eklenme Tarihi",
-                FillWeight = 18,
-                MinimumWidth = 150
-            });
         }
         private void ConfigureFilters()
         {
@@ -269,12 +232,12 @@ namespace BKS
                 query = query.Where(x => x.EklenmeTarihi >= baslangic && x.EklenmeTarihi <= bitis);
             }
             var filtered = query.ToList();
-            dosyaBindingSource.DataSource = filtered;
+            dosyaBindingSource.DataSource = new GridItems<DosyaArsivModel>(filtered);
             UpdateSummary(filtered.Count);
         }
         private void UpdateSummary(int? filteredCount = null)
         {
-            int visibleCount = filteredCount ?? (dosyaBindingSource.DataSource as List<DosyaArsivModel>)?.Count ?? 0;
+            int visibleCount = filteredCount ?? (dosyaBindingSource.DataSource as System.Collections.ICollection)?.Count ?? 0;
             lblTotalValue.Text = $"{visibleCount} / {tumDosyalar.Count}";
             var lastFile = tumDosyalar.OrderByDescending(x => x.EklenmeTarihi).FirstOrDefault();
             lblLastValue.Text = lastFile == null || lastFile.EklenmeTarihi == default
@@ -289,6 +252,7 @@ namespace BKS
         }
         private void ClearFilters()
         {
+            GridFilterController.For(dgvDosyalar).Clear();
             txtAra.Clear();
             cmbTur.SelectedIndex = 0;
             chkTarih.Checked = false;
@@ -496,7 +460,6 @@ namespace BKS
             if (IsDisposed) return;
             isBusy = busy;
             cmbOgrenciler.Enabled = !busy;
-            archiveRibbon?.RefreshCommands();
             progressBar.Visible = busy;
             btnYukle.Enabled = !busy;
             btnIndir.Enabled = !busy;
@@ -533,7 +496,8 @@ namespace BKS
             {
                 dgvDosyalar.ClearSelection();
                 dgvDosyalar.Rows[e.RowIndex].Selected = true;
-                dgvDosyalar.CurrentCell = dgvDosyalar.Rows[e.RowIndex].Cells[0];
+                var first = dgvDosyalar.Columns.Cast<DataGridViewColumn>().FirstOrDefault(column => column.Visible);
+                if (first != null) dgvDosyalar.CurrentCell = dgvDosyalar.Rows[e.RowIndex].Cells[first.Index];
             }
         }
         private void ShowInExplorer(string filePath)

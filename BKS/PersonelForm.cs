@@ -17,18 +17,19 @@ namespace BKS
         public event EventHandler RefreshData;
         private Form2 _form2;
         private readonly EditSession _edits;
-        private SectionedForm _sections = null!;
         private PhotoEditor _photoEditor = null!;
         private bool _photoChanged;
         private readonly CancellationTokenSource _photoLoadCancellation = new();
         private bool _photoCancellationDisposed;
         public string connectionString = AppConfiguration.ConnectionString;
 
+        public PersonelForm() : this(null!) { }
+
         public PersonelForm(Form2 form2)
         {
             InitializeComponent();
             _form2 = form2;
-            BuildModernPersonnelFormLayout();
+            InitializeRuntimeState();
             _edits = new EditSession(this, () =>
             {
                 if (PersonelId == Guid.Empty) RunPersonnelSave();

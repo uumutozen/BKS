@@ -64,5 +64,6 @@ try { documents.GetOrCreate("failed", () => throw new InvalidOperationException(
 catch (InvalidOperationException) { }
 Check(!documents.TryGet("failed", out _), "A failed editor factory does not reserve its document key");
 var compact = LayoutRules.Workspace(1366, 768, 1F, true, false, true);
-Check(compact.RibbonHeight == 126 && compact.Content.Height == 614, "Compact ribbon preserves working space at 1366x768");
+Check(compact.RibbonHeight == 134 && compact.Content.Height == 606, "Compact ribbon preserves working space at 1366x768");
+RegressionChecks.Run(Check);
 Console.WriteLine($"{count} checks passed.");

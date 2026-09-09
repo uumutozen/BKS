@@ -1,8 +1,7 @@
-Parsed C# sources: 83
-Syntax errors: []
-Resource output names: 9 unique
-Designer handler errors: []
-Unique named shell commands: 42
-Ribbon dimensions / no horizontal scrolling: source rules valid
-Personnel photo hooks: True
-NOTE: Syntax and source-integrity checks only; no .NET compiler, Windows UI, or SQL server was run.
+BKS 1.4.0 kaynak kontrolü
+Ribbon tabından modül seçimi kaldırıldı. Belgeden Ribbon seçimi/enjeksiyonu kaldırıldı.
+Öğrenci/personel/Form2 runtime yerleşim dosyaları kaldırıldı; statik hiyerarşi Designer dosyalarında.
+Öğrencinin 17 giriş kontrolünün tamamı korundu. Personelde 38 giriş kontrolünden 37 tanesi korundu; hiçbir veri/event koduna bağlı olmayan textBox1 kaldırıldı.
+Form2 ve fatura giriş kontrolleri korundu. Yeni arama kutuları eklendi.
+Mevcut form resx dosyaları ve Database klasörü dosyaları byte düzeyinde değişmedi.
+Kaynak kod ve güncel BKS.exe birlikte paketlendi.

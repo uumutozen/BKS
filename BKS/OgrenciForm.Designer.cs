@@ -1,416 +1,732 @@
-namespace BKS
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace BKS;
+
+partial class OgrenciForm
 {
-    partial class OgrenciForm
+    private System.ComponentModel.IContainer components = null;
+
+    private TableLayoutPanel tlpGeneral;
+    public TextBox txtOgrenciAd;
+    private Label lbl_txtOgrenciAd;
+    public TextBox textSoyad;
+    private Label lbl_textSoyad;
+    public DateTimePicker dateDogum;
+    private Label lbl_dateDogum;
+    public TextBox textOgrenciKod;
+    private Label lbl_textOgrenciKod;
+    public ComboBox cmbogrsınıf;
+    private Label lbl_cmbogrsınıf;
+    private TableLayoutPanel pnlPhoto;
+    public PictureBox pictureBox1;
+    private Button btnChoosePhoto;
+    private Button btnRemovePhoto;
+    private Label lblPhotoStatus;
+    private TableLayoutPanel pnlGeneral;
+    private TableLayoutPanel tlpParents;
+    public TextBox txtBabaAd;
+    private Label lbl_txtBabaAd;
+    public TextBox txtAnneAd;
+    private Label lbl_txtAnneAd;
+    public MaskedTextBox txtBabaTel;
+    private Label lbl_txtBabaTel;
+    public MaskedTextBox txtAnneTel;
+    private Label lbl_txtAnneTel;
+    public RichTextBox txtBabaEvAdres;
+    private Label lbl_txtBabaEvAdres;
+    public RichTextBox txtAnneEvAdres;
+    private Label lbl_txtAnneEvAdres;
+    private TableLayoutPanel tlpPayment;
+    public CheckBox checkEvet;
+    private Label lbl_checkEvet;
+    public CheckBox checkAktif;
+    private Label lbl_checkAktif;
+    public CheckBox checkOdemeDurum;
+    private Label lbl_checkOdemeDurum;
+    public NumericUpDown numericPrice;
+    private Label lbl_numericPrice;
+    private TableLayoutPanel tlpNotes;
+    public TextBox textOgrenciDetay;
+    private Label lbl_textOgrenciDetay;
+    private TabControl tabStudentDetails;
+    private TabPage tabGeneral;
+    private TabPage tabParents;
+    private TabPage tabPayment;
+    private TabPage tabNotes;
+    private TableLayoutPanel pnlRoot;
+    private TableLayoutPanel pnlHeader;
+    private Label lblTitle;
+    private Label lblSubtitle;
+    private FlowLayoutPanel pnlCommandBar;
+    private Button btnAddStock;
+    private Button btnGuncelle;
+    private Button btnOgrenciYonetimiSil;
+    private Button btnClear;
+    private Button btnClose;
+
+    protected override void Dispose(bool disposing)
     {
-        private System.ComponentModel.IContainer components = null;
-
-        public System.Windows.Forms.TextBox txtOgrenciAd;
-        public System.Windows.Forms.TextBox textSoyad;
-        public System.Windows.Forms.TextBox txtBabaAd;
-        public System.Windows.Forms.TextBox txtAnneAd;
-        public System.Windows.Forms.ComboBox cmbogrsınıf;
-        public System.Windows.Forms.TextBox textOgrenciKod;
-        public System.Windows.Forms.TextBox textOgrenciDetay;
-        public System.Windows.Forms.MaskedTextBox txtBabaTel;
-        public System.Windows.Forms.MaskedTextBox txtAnneTel;
-        public System.Windows.Forms.RichTextBox txtBabaEvAdres;
-        public System.Windows.Forms.RichTextBox txtAnneEvAdres;
-        public System.Windows.Forms.NumericUpDown numericPrice;
-        public System.Windows.Forms.CheckBox checkEvet;
-        public System.Windows.Forms.CheckBox checkOdemeDurum;
-        public System.Windows.Forms.CheckBox checkAktif;
-        public System.Windows.Forms.DateTimePicker dateDogum;
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
-        private void InitializeComponent()
-        {
-            txtOgrenciAd = new TextBox();
-            textSoyad = new TextBox();
-            txtBabaAd = new TextBox();
-            txtAnneAd = new TextBox();
-            cmbogrsınıf = new ComboBox();
-            textOgrenciKod = new TextBox();
-            textOgrenciDetay = new TextBox();
-            txtBabaTel = new MaskedTextBox();
-            txtAnneTel = new MaskedTextBox();
-            txtBabaEvAdres = new RichTextBox();
-            txtAnneEvAdres = new RichTextBox();
-            numericPrice = new NumericUpDown();
-            checkEvet = new CheckBox();
-            checkOdemeDurum = new CheckBox();
-            checkAktif = new CheckBox();
-            dateDogum = new DateTimePicker();
-            groupBox1 = new GroupBox();
-            label1 = new Label();
-            pictureBox1 = new PictureBox();
-            groupBox2 = new GroupBox();
-            groupBox10 = new GroupBox();
-            groupBox7 = new GroupBox();
-            groupBox6 = new GroupBox();
-            groupBox12 = new GroupBox();
-            btnGuncelle = new Button();
-            btnOgrenciYonetimiSil = new Button();
-            btnAddStock = new Button();
-            ((System.ComponentModel.ISupportInitialize)numericPrice).BeginInit();
-            groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            groupBox2.SuspendLayout();
-            groupBox10.SuspendLayout();
-            groupBox7.SuspendLayout();
-            groupBox6.SuspendLayout();
-            groupBox12.SuspendLayout();
-            SuspendLayout();
-            // 
-            // txtOgrenciAd
-            // 
-            txtOgrenciAd.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            txtOgrenciAd.ForeColor = SystemColors.WindowFrame;
-            txtOgrenciAd.Location = new Point(171, 25);
-            txtOgrenciAd.Name = "txtOgrenciAd";
-            txtOgrenciAd.PlaceholderText = "Öğrenci Adı";
-            txtOgrenciAd.Size = new Size(259, 23);
-            txtOgrenciAd.TabIndex = 0;
-            txtOgrenciAd.TextChanged += txtOgrenciAd_TextChanged;
-            // 
-            // textSoyad
-            // 
-            textSoyad.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            textSoyad.ForeColor = SystemColors.WindowFrame;
-            textSoyad.Location = new Point(171, 54);
-            textSoyad.Name = "textSoyad";
-            textSoyad.PlaceholderText = "Öğrenci Soyadı";
-            textSoyad.Size = new Size(259, 23);
-            textSoyad.TabIndex = 1;
-            // 
-            // txtBabaAd
-            // 
-            txtBabaAd.ForeColor = SystemColors.WindowFrame;
-            txtBabaAd.Location = new Point(6, 38);
-            txtBabaAd.Name = "txtBabaAd";
-            txtBabaAd.PlaceholderText = "Adı Soyadı";
-            txtBabaAd.Size = new Size(200, 23);
-            txtBabaAd.TabIndex = 2;
-            // 
-            // txtAnneAd
-            // 
-            txtAnneAd.ForeColor = SystemColors.WindowFrame;
-            txtAnneAd.Location = new Point(6, 38);
-            txtAnneAd.Name = "txtAnneAd";
-            txtAnneAd.PlaceholderText = "Adı Soyadı";
-            txtAnneAd.Size = new Size(206, 23);
-            txtAnneAd.TabIndex = 3;
-            // 
-            // cmbogrsınıf
-            // 
-            cmbogrsınıf.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            cmbogrsınıf.ForeColor = SystemColors.WindowFrame;
-            cmbogrsınıf.Location = new Point(171, 141);
-            cmbogrsınıf.Name = "cmbogrsınıf";
-            cmbogrsınıf.Size = new Size(259, 23);
-            cmbogrsınıf.TabIndex = 4;
-            cmbogrsınıf.DrawItem += cmbogrsınıf_DrawItem;
-            // 
-            // textOgrenciKod
-            // 
-            textOgrenciKod.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            textOgrenciKod.ForeColor = SystemColors.WindowFrame;
-            textOgrenciKod.Location = new Point(171, 112);
-            textOgrenciKod.Name = "textOgrenciKod";
-            textOgrenciKod.PlaceholderText = "Öğrenci Numarası";
-            textOgrenciKod.Size = new Size(259, 23);
-            textOgrenciKod.TabIndex = 5;
-            // 
-            // textOgrenciDetay
-            // 
-            textOgrenciDetay.Location = new Point(436, 25);
-            textOgrenciDetay.Multiline = true;
-            textOgrenciDetay.Name = "textOgrenciDetay";
-            textOgrenciDetay.Size = new Size(529, 139);
-            textOgrenciDetay.TabIndex = 6;
-            // 
-            // txtBabaTel
-            // 
-            txtBabaTel.ForeColor = SystemColors.WindowFrame;
-            txtBabaTel.Location = new Point(250, 38);
-            txtBabaTel.Mask = "(999) 000-0000";
-            txtBabaTel.Name = "txtBabaTel";
-            txtBabaTel.Size = new Size(200, 23);
-            txtBabaTel.TabIndex = 7;
-            // 
-            // txtAnneTel
-            // 
-            txtAnneTel.ForeColor = SystemColors.WindowFrame;
-            txtAnneTel.Location = new Point(244, 38);
-            txtAnneTel.Mask = "(999) 000-0000";
-            txtAnneTel.Name = "txtAnneTel";
-            txtAnneTel.Size = new Size(206, 23);
-            txtAnneTel.TabIndex = 8;
-            // 
-            // txtBabaEvAdres
-            // 
-            txtBabaEvAdres.ForeColor = SystemColors.WindowFrame;
-            txtBabaEvAdres.Location = new Point(6, 86);
-            txtBabaEvAdres.Name = "txtBabaEvAdres";
-            txtBabaEvAdres.Size = new Size(444, 92);
-            txtBabaEvAdres.TabIndex = 9;
-            txtBabaEvAdres.Text = "Ev Adresi";
-            txtBabaEvAdres.Enter += txtBabaEvAdres_Enter;
-            txtBabaEvAdres.Leave += txtBabaEvAdres_Leave;
-            // 
-            // txtAnneEvAdres
-            // 
-            txtAnneEvAdres.ForeColor = SystemColors.WindowFrame;
-            txtAnneEvAdres.Location = new Point(6, 86);
-            txtAnneEvAdres.Name = "txtAnneEvAdres";
-            txtAnneEvAdres.Size = new Size(444, 92);
-            txtAnneEvAdres.TabIndex = 10;
-            txtAnneEvAdres.Text = "Ev Adresi";
-            txtAnneEvAdres.Enter += txtAnneEvAdres_Enter;
-            txtAnneEvAdres.Leave += txtAnneEvAdres_Leave;
-            // 
-            // numericPrice
-            // 
-            numericPrice.Location = new Point(15, 41);
-            numericPrice.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
-            numericPrice.Name = "numericPrice";
-            numericPrice.Size = new Size(155, 23);
-            numericPrice.TabIndex = 11;
-            // 
-            // checkEvet
-            // 
-            checkEvet.Location = new Point(17, 41);
-            checkEvet.Name = "checkEvet";
-            checkEvet.Size = new Size(104, 24);
-            checkEvet.TabIndex = 12;
-            checkEvet.Text = "Evet";
-            // 
-            // checkOdemeDurum
-            // 
-            checkOdemeDurum.Location = new Point(129, 41);
-            checkOdemeDurum.Name = "checkOdemeDurum";
-            checkOdemeDurum.Size = new Size(89, 24);
-            checkOdemeDurum.TabIndex = 13;
-            checkOdemeDurum.Text = "Ödendi";
-            // 
-            // checkAktif
-            // 
-            checkAktif.Location = new Point(21, 41);
-            checkAktif.Name = "checkAktif";
-            checkAktif.Size = new Size(92, 24);
-            checkAktif.TabIndex = 14;
-            checkAktif.Text = "Evet";
-            // 
-            // dateDogum
-            // 
-            dateDogum.CalendarForeColor = SystemColors.WindowFrame;
-            dateDogum.CalendarTitleForeColor = SystemColors.WindowFrame;
-            dateDogum.Location = new Point(171, 83);
-            dateDogum.Name = "dateDogum";
-            dateDogum.Size = new Size(259, 23);
-            dateDogum.TabIndex = 15;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(pictureBox1);
-            groupBox1.Controls.Add(txtOgrenciAd);
-            groupBox1.Controls.Add(textSoyad);
-            groupBox1.Controls.Add(textOgrenciDetay);
-            groupBox1.Controls.Add(textOgrenciKod);
-            groupBox1.Controls.Add(cmbogrsınıf);
-            groupBox1.Controls.Add(dateDogum);
-            groupBox1.ForeColor = Color.CornflowerBlue;
-            groupBox1.Location = new Point(6, 67);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(997, 187);
-            groupBox1.TabIndex = 16;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Öğrenci Bilgileri";
-            // 
-            // label1
-            // 
-            label1.Location = new Point(0, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(100, 23);
-            label1.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.BackColor = SystemColors.AppWorkspace;
-            pictureBox1.Location = new Point(6, 22);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(144, 159);
-            pictureBox1.TabIndex = 5;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(txtBabaEvAdres);
-            groupBox2.Controls.Add(txtBabaAd);
-            groupBox2.Controls.Add(txtBabaTel);
-            groupBox2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox2.ForeColor = Color.CornflowerBlue;
-            groupBox2.Location = new Point(6, 260);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(482, 184);
-            groupBox2.TabIndex = 17;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Öğrenci Baba Bilgileri";
-            // 
-            // groupBox10
-            // 
-            groupBox10.Controls.Add(txtAnneEvAdres);
-            groupBox10.Controls.Add(txtAnneAd);
-            groupBox10.Controls.Add(txtAnneTel);
-            groupBox10.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox10.ForeColor = Color.CornflowerBlue;
-            groupBox10.Location = new Point(521, 260);
-            groupBox10.Name = "groupBox10";
-            groupBox10.Size = new Size(482, 184);
-            groupBox10.TabIndex = 24;
-            groupBox10.TabStop = false;
-            groupBox10.Text = "Öğrenci Anne Bilgileri";
-            // 
-            // groupBox7
-            // 
-            groupBox7.Controls.Add(checkAktif);
-            groupBox7.Controls.Add(checkOdemeDurum);
-            groupBox7.FlatStyle = FlatStyle.Popup;
-            groupBox7.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox7.ForeColor = Color.CornflowerBlue;
-            groupBox7.Location = new Point(194, 489);
-            groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(233, 93);
-            groupBox7.TabIndex = 26;
-            groupBox7.TabStop = false;
-            groupBox7.Text = "Aktif mi ? Ödeme Durumu ?";
-            // 
-            // groupBox6
-            // 
-            groupBox6.Controls.Add(numericPrice);
-            groupBox6.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox6.ForeColor = Color.CornflowerBlue;
-            groupBox6.Location = new Point(452, 489);
-            groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(203, 93);
-            groupBox6.TabIndex = 25;
-            groupBox6.TabStop = false;
-            groupBox6.Text = "Öğrenci Ödeme Tutarı";
-            // 
-            // groupBox12
-            // 
-            groupBox12.Controls.Add(checkEvet);
-            groupBox12.FlatStyle = FlatStyle.Popup;
-            groupBox12.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            groupBox12.ForeColor = Color.CornflowerBlue;
-            groupBox12.Location = new Point(6, 489);
-            groupBox12.Name = "groupBox12";
-            groupBox12.Size = new Size(167, 93);
-            groupBox12.TabIndex = 27;
-            groupBox12.TabStop = false;
-            groupBox12.Text = "Aile Ayrı mı ?";
-            // 
-            // btnGuncelle
-            // 
-            btnGuncelle.BackColor = SystemColors.MenuHighlight;
-            btnGuncelle.Cursor = Cursors.Hand;
-            btnGuncelle.FlatAppearance.BorderSize = 0;
-            btnGuncelle.FlatStyle = FlatStyle.Flat;
-            btnGuncelle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnGuncelle.ForeColor = Color.White;
-            btnGuncelle.Location = new Point(912, 560);
-            btnGuncelle.Name = "btnGuncelle";
-            btnGuncelle.Size = new Size(114, 43);
-            btnGuncelle.TabIndex = 30;
-            btnGuncelle.Text = "Güncelle";
-            btnGuncelle.UseVisualStyleBackColor = false;
-            btnGuncelle.Click += btnGuncelle_Click;
-            // 
-            // btnOgrenciYonetimiSil
-            // 
-            btnOgrenciYonetimiSil.BackColor = SystemColors.MenuHighlight;
-            btnOgrenciYonetimiSil.Cursor = Cursors.Hand;
-            btnOgrenciYonetimiSil.FlatAppearance.BorderSize = 0;
-            btnOgrenciYonetimiSil.FlatStyle = FlatStyle.Flat;
-            btnOgrenciYonetimiSil.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnOgrenciYonetimiSil.ForeColor = Color.White;
-            btnOgrenciYonetimiSil.Location = new Point(672, 560);
-            btnOgrenciYonetimiSil.Name = "btnOgrenciYonetimiSil";
-            btnOgrenciYonetimiSil.Size = new Size(114, 43);
-            btnOgrenciYonetimiSil.TabIndex = 29;
-            btnOgrenciYonetimiSil.Text = "Sil";
-            btnOgrenciYonetimiSil.UseVisualStyleBackColor = false;
-            btnOgrenciYonetimiSil.Click += btnOgrenciYonetimiSil_Click;
-            // 
-            // btnAddStock
-            // 
-            btnAddStock.BackColor = SystemColors.MenuHighlight;
-            btnAddStock.Cursor = Cursors.Hand;
-            btnAddStock.FlatAppearance.BorderSize = 0;
-            btnAddStock.FlatStyle = FlatStyle.Flat;
-            btnAddStock.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnAddStock.ForeColor = Color.White;
-            btnAddStock.Location = new Point(792, 560);
-            btnAddStock.Name = "btnAddStock";
-            btnAddStock.Size = new Size(114, 43);
-            btnAddStock.TabIndex = 28;
-            btnAddStock.Text = "Kaydet";
-            btnAddStock.UseVisualStyleBackColor = false;
-            btnAddStock.Click += btnAddStock_Click;
-            // 
-            // OgrenciForm
-            // 
-            ClientSize = new Size(1039, 653);
-            Controls.Add(btnGuncelle);
-            Controls.Add(btnOgrenciYonetimiSil);
-            Controls.Add(btnAddStock);
-            Controls.Add(groupBox12);
-            Controls.Add(groupBox7);
-            Controls.Add(groupBox6);
-            Controls.Add(groupBox10);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
-            Name = "OgrenciForm";
-            Text = "Öğrenci Bilgi Formu";
-            Load += OgrenciForm_Load;
-            ((System.ComponentModel.ISupportInitialize)numericPrice).EndInit();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox10.ResumeLayout(false);
-            groupBox10.PerformLayout();
-            groupBox7.ResumeLayout(false);
-            groupBox6.ResumeLayout(false);
-            groupBox12.ResumeLayout(false);
-            ResumeLayout(false);
-        }
-
-        #endregion
-
-        private GroupBox groupBox1;
-        public PictureBox pictureBox1;
-        private GroupBox groupBox2;
-        private GroupBox groupBox10;
-        private GroupBox groupBox7;
-        private GroupBox groupBox6;
-        private GroupBox groupBox12;
-        private Button btnGuncelle;
-        private Button btnOgrenciYonetimiSil;
-        private Button btnAddStock;
-        private Label label1;
+        if (disposing) components?.Dispose();
+        base.Dispose(disposing);
     }
 
+    #region Windows Form Designer generated code
+    private void InitializeComponent()
+    {
+        components = new System.ComponentModel.Container();
+        tlpGeneral = new TableLayoutPanel();
+        txtOgrenciAd = new TextBox();
+        lbl_txtOgrenciAd = new Label();
+        textSoyad = new TextBox();
+        lbl_textSoyad = new Label();
+        dateDogum = new DateTimePicker();
+        lbl_dateDogum = new Label();
+        textOgrenciKod = new TextBox();
+        lbl_textOgrenciKod = new Label();
+        cmbogrsınıf = new ComboBox();
+        lbl_cmbogrsınıf = new Label();
+        pnlPhoto = new TableLayoutPanel();
+        pictureBox1 = new PictureBox();
+        btnChoosePhoto = new Button();
+        btnRemovePhoto = new Button();
+        lblPhotoStatus = new Label();
+        pnlGeneral = new TableLayoutPanel();
+        tlpParents = new TableLayoutPanel();
+        txtBabaAd = new TextBox();
+        lbl_txtBabaAd = new Label();
+        txtAnneAd = new TextBox();
+        lbl_txtAnneAd = new Label();
+        txtBabaTel = new MaskedTextBox();
+        lbl_txtBabaTel = new Label();
+        txtAnneTel = new MaskedTextBox();
+        lbl_txtAnneTel = new Label();
+        txtBabaEvAdres = new RichTextBox();
+        lbl_txtBabaEvAdres = new Label();
+        txtAnneEvAdres = new RichTextBox();
+        lbl_txtAnneEvAdres = new Label();
+        tlpPayment = new TableLayoutPanel();
+        checkEvet = new CheckBox();
+        lbl_checkEvet = new Label();
+        checkAktif = new CheckBox();
+        lbl_checkAktif = new Label();
+        checkOdemeDurum = new CheckBox();
+        lbl_checkOdemeDurum = new Label();
+        numericPrice = new NumericUpDown();
+        lbl_numericPrice = new Label();
+        tlpNotes = new TableLayoutPanel();
+        textOgrenciDetay = new TextBox();
+        lbl_textOgrenciDetay = new Label();
+        tabStudentDetails = new TabControl();
+        tabGeneral = new TabPage();
+        tabParents = new TabPage();
+        tabPayment = new TabPage();
+        tabNotes = new TabPage();
+        pnlRoot = new TableLayoutPanel();
+        pnlHeader = new TableLayoutPanel();
+        lblTitle = new Label();
+        lblSubtitle = new Label();
+        pnlCommandBar = new FlowLayoutPanel();
+        btnAddStock = new Button();
+        btnGuncelle = new Button();
+        btnOgrenciYonetimiSil = new Button();
+        btnClear = new Button();
+        btnClose = new Button();
+        ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)numericPrice).BeginInit();
+        SuspendLayout();
+        tlpGeneral.SuspendLayout();
+        pnlPhoto.SuspendLayout();
+        pnlGeneral.SuspendLayout();
+        tlpParents.SuspendLayout();
+        tlpPayment.SuspendLayout();
+        tlpNotes.SuspendLayout();
+        tabStudentDetails.SuspendLayout();
+        tabGeneral.SuspendLayout();
+        tabParents.SuspendLayout();
+        tabPayment.SuspendLayout();
+        tabNotes.SuspendLayout();
+        pnlRoot.SuspendLayout();
+        pnlHeader.SuspendLayout();
+        pnlCommandBar.SuspendLayout();
+        tlpGeneral.Name = "tlpGeneral";
+        tlpGeneral.Dock = DockStyle.Fill;
+        tlpGeneral.ColumnCount = 2;
+        tlpGeneral.RowCount = 7;
+        tlpGeneral.Margin = Padding.Empty;
+        tlpGeneral.Padding = new Padding(16);
+        tlpGeneral.BackColor = Color.White;
+        tlpGeneral.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpGeneral.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpGeneral.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpGeneral.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpGeneral.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpGeneral.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpGeneral.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpGeneral.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpGeneral.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tlpGeneral.AutoScroll = true;
+        txtOgrenciAd.PlaceholderText = "Öğrenci Adı";
+        txtOgrenciAd.Name = "txtOgrenciAd";
+        txtOgrenciAd.Dock = DockStyle.Fill;
+        txtOgrenciAd.Margin = new Padding(0, 0, 16, 10);
+        txtOgrenciAd.Size = new Size(260, 32);
+        txtOgrenciAd.TabIndex = 2;
+        txtOgrenciAd.Font = new Font("Segoe UI", 10F);
+        txtOgrenciAd.ForeColor = Color.FromArgb(37, 54, 75);
+        txtOgrenciAd.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtOgrenciAd.Name = "lbl_txtOgrenciAd";
+        lbl_txtOgrenciAd.AutoSize = true;
+        lbl_txtOgrenciAd.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtOgrenciAd.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtOgrenciAd.Text = "Öğrenci adı *";
+        textSoyad.PlaceholderText = "Öğrenci Soyadı";
+        textSoyad.Name = "textSoyad";
+        textSoyad.Dock = DockStyle.Fill;
+        textSoyad.Margin = new Padding(0, 0, 16, 10);
+        textSoyad.Size = new Size(260, 32);
+        textSoyad.TabIndex = 4;
+        textSoyad.Font = new Font("Segoe UI", 10F);
+        textSoyad.ForeColor = Color.FromArgb(37, 54, 75);
+        textSoyad.BorderStyle = BorderStyle.FixedSingle;
+        lbl_textSoyad.Name = "lbl_textSoyad";
+        lbl_textSoyad.AutoSize = true;
+        lbl_textSoyad.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_textSoyad.Margin = new Padding(0, 2, 12, 6);
+        lbl_textSoyad.Text = "Soyadı *";
+        dateDogum.Name = "dateDogum";
+        dateDogum.Dock = DockStyle.Fill;
+        dateDogum.Margin = new Padding(0, 0, 16, 10);
+        dateDogum.Size = new Size(260, 32);
+        dateDogum.TabIndex = 6;
+        dateDogum.Font = new Font("Segoe UI", 10F);
+        dateDogum.ForeColor = Color.FromArgb(37, 54, 75);
+        dateDogum.Format = DateTimePickerFormat.Custom;
+        dateDogum.CustomFormat = "dd.MM.yyyy";
+        lbl_dateDogum.Name = "lbl_dateDogum";
+        lbl_dateDogum.AutoSize = true;
+        lbl_dateDogum.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_dateDogum.Margin = new Padding(0, 2, 12, 6);
+        lbl_dateDogum.Text = "Doğum tarihi";
+        textOgrenciKod.PlaceholderText = "Öğrenci Numarası";
+        textOgrenciKod.Name = "textOgrenciKod";
+        textOgrenciKod.Dock = DockStyle.Fill;
+        textOgrenciKod.Margin = new Padding(0, 0, 16, 10);
+        textOgrenciKod.Size = new Size(260, 32);
+        textOgrenciKod.TabIndex = 8;
+        textOgrenciKod.Font = new Font("Segoe UI", 10F);
+        textOgrenciKod.ForeColor = Color.FromArgb(37, 54, 75);
+        textOgrenciKod.BorderStyle = BorderStyle.FixedSingle;
+        lbl_textOgrenciKod.Name = "lbl_textOgrenciKod";
+        lbl_textOgrenciKod.AutoSize = true;
+        lbl_textOgrenciKod.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_textOgrenciKod.Margin = new Padding(0, 2, 12, 6);
+        lbl_textOgrenciKod.Text = "Öğrenci kodu";
+        cmbogrsınıf.Name = "cmbogrsınıf";
+        cmbogrsınıf.Dock = DockStyle.Fill;
+        cmbogrsınıf.Margin = new Padding(0, 0, 16, 10);
+        cmbogrsınıf.Size = new Size(260, 32);
+        cmbogrsınıf.TabIndex = 10;
+        cmbogrsınıf.Font = new Font("Segoe UI", 10F);
+        cmbogrsınıf.ForeColor = Color.FromArgb(37, 54, 75);
+        lbl_cmbogrsınıf.Name = "lbl_cmbogrsınıf";
+        lbl_cmbogrsınıf.AutoSize = true;
+        lbl_cmbogrsınıf.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_cmbogrsınıf.Margin = new Padding(0, 2, 12, 6);
+        lbl_cmbogrsınıf.Text = "Sınıf *";
+        pnlPhoto.Name = "pnlPhoto";
+        pnlPhoto.Dock = DockStyle.Fill;
+        pnlPhoto.ColumnCount = 1;
+        pnlPhoto.RowCount = 4;
+        pnlPhoto.Margin = Padding.Empty;
+        pnlPhoto.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlPhoto.RowStyles.Add(new RowStyle(SizeType.Absolute, 186F));
+        pnlPhoto.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        pnlPhoto.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        pnlPhoto.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlPhoto.Padding = new Padding(12);
+        pnlPhoto.BackColor = Color.FromArgb(246, 248, 251);
+        pictureBox1.TabStop = false;
+        pictureBox1.Name = "pictureBox1";
+        pictureBox1.Dock = DockStyle.Fill;
+        pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+        pictureBox1.BackColor = Color.FromArgb(235, 240, 247);
+        pictureBox1.Margin = new Padding(0, 0, 0, 10);
+        btnChoosePhoto.Name = "btnChoosePhoto";
+        btnChoosePhoto.AutoSize = true;
+        btnChoosePhoto.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnChoosePhoto.MinimumSize = new Size(96, 34);
+        btnChoosePhoto.Padding = new Padding(12, 4, 12, 4);
+        btnChoosePhoto.Margin = new Padding(0, 0, 8, 0);
+        btnChoosePhoto.FlatStyle = FlatStyle.Flat;
+        btnChoosePhoto.BackColor = Color.FromArgb(246, 248, 251);
+        btnChoosePhoto.ForeColor = Color.FromArgb(37, 54, 75);
+        btnChoosePhoto.UseVisualStyleBackColor = false;
+        btnChoosePhoto.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnChoosePhoto.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnChoosePhoto.Text = "Fotoğraf seç";
+        btnRemovePhoto.Name = "btnRemovePhoto";
+        btnRemovePhoto.AutoSize = true;
+        btnRemovePhoto.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnRemovePhoto.MinimumSize = new Size(96, 34);
+        btnRemovePhoto.Padding = new Padding(12, 4, 12, 4);
+        btnRemovePhoto.Margin = new Padding(0, 0, 8, 0);
+        btnRemovePhoto.FlatStyle = FlatStyle.Flat;
+        btnRemovePhoto.BackColor = Color.FromArgb(246, 248, 251);
+        btnRemovePhoto.ForeColor = Color.FromArgb(37, 54, 75);
+        btnRemovePhoto.UseVisualStyleBackColor = false;
+        btnRemovePhoto.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnRemovePhoto.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnRemovePhoto.Text = "Fotoğrafı kaldır";
+        lblPhotoStatus.Name = "lblPhotoStatus";
+        lblPhotoStatus.ForeColor = Color.FromArgb(68, 87, 111);
+        lblPhotoStatus.Margin = new Padding(0, 2, 12, 6);
+        lblPhotoStatus.Text = "JPG, PNG veya BMP · En fazla 10 MB\nFotoğraf kayıtla kaydedilir.";
+        lblPhotoStatus.Dock = DockStyle.Fill;
+        lblPhotoStatus.AutoSize = false;
+        pnlGeneral.Name = "pnlGeneral";
+        pnlGeneral.Dock = DockStyle.Fill;
+        pnlGeneral.ColumnCount = 2;
+        pnlGeneral.RowCount = 1;
+        pnlGeneral.Margin = Padding.Empty;
+        pnlGeneral.BackColor = Color.White;
+        pnlGeneral.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlGeneral.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 224F));
+        pnlGeneral.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlGeneral.Padding = Padding.Empty;
+        tlpParents.Name = "tlpParents";
+        tlpParents.Dock = DockStyle.Fill;
+        tlpParents.ColumnCount = 2;
+        tlpParents.RowCount = 7;
+        tlpParents.Margin = Padding.Empty;
+        tlpParents.Padding = new Padding(16);
+        tlpParents.BackColor = Color.White;
+        tlpParents.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpParents.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpParents.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpParents.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpParents.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpParents.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpParents.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpParents.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
+        tlpParents.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tlpParents.AutoScroll = true;
+        txtBabaAd.PlaceholderText = "Adı Soyadı";
+        txtBabaAd.Name = "txtBabaAd";
+        txtBabaAd.Dock = DockStyle.Fill;
+        txtBabaAd.Margin = new Padding(0, 0, 16, 10);
+        txtBabaAd.Size = new Size(260, 32);
+        txtBabaAd.TabIndex = 19;
+        txtBabaAd.Font = new Font("Segoe UI", 10F);
+        txtBabaAd.ForeColor = Color.FromArgb(37, 54, 75);
+        txtBabaAd.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtBabaAd.Name = "lbl_txtBabaAd";
+        lbl_txtBabaAd.AutoSize = true;
+        lbl_txtBabaAd.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtBabaAd.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtBabaAd.Text = "Baba adı";
+        txtAnneAd.PlaceholderText = "Adı Soyadı";
+        txtAnneAd.Name = "txtAnneAd";
+        txtAnneAd.Dock = DockStyle.Fill;
+        txtAnneAd.Margin = new Padding(0, 0, 16, 10);
+        txtAnneAd.Size = new Size(260, 32);
+        txtAnneAd.TabIndex = 21;
+        txtAnneAd.Font = new Font("Segoe UI", 10F);
+        txtAnneAd.ForeColor = Color.FromArgb(37, 54, 75);
+        txtAnneAd.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtAnneAd.Name = "lbl_txtAnneAd";
+        lbl_txtAnneAd.AutoSize = true;
+        lbl_txtAnneAd.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtAnneAd.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtAnneAd.Text = "Anne adı";
+        txtBabaTel.Mask = "(999) 000-0000";
+        txtBabaTel.Name = "txtBabaTel";
+        txtBabaTel.Dock = DockStyle.Fill;
+        txtBabaTel.Margin = new Padding(0, 0, 16, 10);
+        txtBabaTel.Size = new Size(260, 32);
+        txtBabaTel.TabIndex = 23;
+        txtBabaTel.Font = new Font("Segoe UI", 10F);
+        txtBabaTel.ForeColor = Color.FromArgb(37, 54, 75);
+        txtBabaTel.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtBabaTel.Name = "lbl_txtBabaTel";
+        lbl_txtBabaTel.AutoSize = true;
+        lbl_txtBabaTel.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtBabaTel.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtBabaTel.Text = "Baba telefonu";
+        txtAnneTel.Mask = "(999) 000-0000";
+        txtAnneTel.Name = "txtAnneTel";
+        txtAnneTel.Dock = DockStyle.Fill;
+        txtAnneTel.Margin = new Padding(0, 0, 16, 10);
+        txtAnneTel.Size = new Size(260, 32);
+        txtAnneTel.TabIndex = 25;
+        txtAnneTel.Font = new Font("Segoe UI", 10F);
+        txtAnneTel.ForeColor = Color.FromArgb(37, 54, 75);
+        txtAnneTel.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtAnneTel.Name = "lbl_txtAnneTel";
+        lbl_txtAnneTel.AutoSize = true;
+        lbl_txtAnneTel.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtAnneTel.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtAnneTel.Text = "Anne telefonu";
+        txtBabaEvAdres.Text = "Ev Adresi";
+        txtBabaEvAdres.Name = "txtBabaEvAdres";
+        txtBabaEvAdres.Dock = DockStyle.Fill;
+        txtBabaEvAdres.Margin = new Padding(0, 0, 16, 10);
+        txtBabaEvAdres.Size = new Size(260, 32);
+        txtBabaEvAdres.TabIndex = 27;
+        txtBabaEvAdres.Font = new Font("Segoe UI", 10F);
+        txtBabaEvAdres.ForeColor = Color.FromArgb(37, 54, 75);
+        txtBabaEvAdres.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtBabaEvAdres.Name = "lbl_txtBabaEvAdres";
+        lbl_txtBabaEvAdres.AutoSize = true;
+        lbl_txtBabaEvAdres.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtBabaEvAdres.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtBabaEvAdres.Text = "Baba adresi";
+        txtAnneEvAdres.Text = "Ev Adresi";
+        txtAnneEvAdres.Name = "txtAnneEvAdres";
+        txtAnneEvAdres.Dock = DockStyle.Fill;
+        txtAnneEvAdres.Margin = new Padding(0, 0, 16, 10);
+        txtAnneEvAdres.Size = new Size(260, 32);
+        txtAnneEvAdres.TabIndex = 29;
+        txtAnneEvAdres.Font = new Font("Segoe UI", 10F);
+        txtAnneEvAdres.ForeColor = Color.FromArgb(37, 54, 75);
+        txtAnneEvAdres.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtAnneEvAdres.Name = "lbl_txtAnneEvAdres";
+        lbl_txtAnneEvAdres.AutoSize = true;
+        lbl_txtAnneEvAdres.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtAnneEvAdres.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtAnneEvAdres.Text = "Anne adresi";
+        tlpPayment.Name = "tlpPayment";
+        tlpPayment.Dock = DockStyle.Fill;
+        tlpPayment.ColumnCount = 2;
+        tlpPayment.RowCount = 5;
+        tlpPayment.Margin = Padding.Empty;
+        tlpPayment.Padding = new Padding(16);
+        tlpPayment.BackColor = Color.White;
+        tlpPayment.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpPayment.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpPayment.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpPayment.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpPayment.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpPayment.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpPayment.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tlpPayment.AutoScroll = true;
+        checkEvet.Text = "Evet";
+        checkEvet.Name = "checkEvet";
+        checkEvet.AutoSize = true;
+        checkEvet.Anchor = AnchorStyles.Left;
+        checkEvet.Margin = new Padding(0, 3, 16, 6);
+        lbl_checkEvet.Name = "lbl_checkEvet";
+        lbl_checkEvet.AutoSize = true;
+        lbl_checkEvet.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_checkEvet.Margin = new Padding(0, 2, 12, 6);
+        lbl_checkEvet.Text = "Aile ayrı mı?";
+        checkAktif.Text = "Evet";
+        checkAktif.Name = "checkAktif";
+        checkAktif.AutoSize = true;
+        checkAktif.Anchor = AnchorStyles.Left;
+        checkAktif.Margin = new Padding(0, 3, 16, 6);
+        lbl_checkAktif.Name = "lbl_checkAktif";
+        lbl_checkAktif.AutoSize = true;
+        lbl_checkAktif.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_checkAktif.Margin = new Padding(0, 2, 12, 6);
+        lbl_checkAktif.Text = "Aktif öğrenci";
+        checkOdemeDurum.Text = "Ödendi";
+        checkOdemeDurum.Name = "checkOdemeDurum";
+        checkOdemeDurum.AutoSize = true;
+        checkOdemeDurum.Anchor = AnchorStyles.Left;
+        checkOdemeDurum.Margin = new Padding(0, 3, 16, 6);
+        lbl_checkOdemeDurum.Name = "lbl_checkOdemeDurum";
+        lbl_checkOdemeDurum.AutoSize = true;
+        lbl_checkOdemeDurum.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_checkOdemeDurum.Margin = new Padding(0, 2, 12, 6);
+        lbl_checkOdemeDurum.Text = "Ödeme durumu";
+        numericPrice.Maximum = new decimal(new int[] { 10000000, 0, 0, 0 });
+        numericPrice.Name = "numericPrice";
+        numericPrice.Dock = DockStyle.Fill;
+        numericPrice.Margin = new Padding(0, 0, 16, 10);
+        numericPrice.Size = new Size(260, 32);
+        numericPrice.TabIndex = 38;
+        numericPrice.Font = new Font("Segoe UI", 10F);
+        numericPrice.ForeColor = Color.FromArgb(37, 54, 75);
+        numericPrice.ThousandsSeparator = true;
+        numericPrice.TextAlign = HorizontalAlignment.Right;
+        lbl_numericPrice.Name = "lbl_numericPrice";
+        lbl_numericPrice.AutoSize = true;
+        lbl_numericPrice.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_numericPrice.Margin = new Padding(0, 2, 12, 6);
+        lbl_numericPrice.Text = "Aylık ücret (₺)";
+        numericPrice.DecimalPlaces = 2;
+        tlpNotes.Name = "tlpNotes";
+        tlpNotes.Dock = DockStyle.Fill;
+        tlpNotes.ColumnCount = 1;
+        tlpNotes.RowCount = 3;
+        tlpNotes.Margin = Padding.Empty;
+        tlpNotes.Padding = new Padding(16);
+        tlpNotes.BackColor = Color.White;
+        tlpNotes.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100.0F));
+        tlpNotes.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpNotes.RowStyles.Add(new RowStyle(SizeType.Absolute, 280F));
+        tlpNotes.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tlpNotes.AutoScroll = true;
+        textOgrenciDetay.Name = "textOgrenciDetay";
+        textOgrenciDetay.Dock = DockStyle.Fill;
+        textOgrenciDetay.Margin = new Padding(0, 0, 16, 10);
+        textOgrenciDetay.Size = new Size(260, 32);
+        textOgrenciDetay.TabIndex = 41;
+        textOgrenciDetay.Font = new Font("Segoe UI", 10F);
+        textOgrenciDetay.ForeColor = Color.FromArgb(37, 54, 75);
+        textOgrenciDetay.BorderStyle = BorderStyle.FixedSingle;
+        lbl_textOgrenciDetay.Name = "lbl_textOgrenciDetay";
+        lbl_textOgrenciDetay.AutoSize = true;
+        lbl_textOgrenciDetay.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_textOgrenciDetay.Margin = new Padding(0, 2, 12, 6);
+        lbl_textOgrenciDetay.Text = "Öğrenci notları";
+        textOgrenciDetay.Multiline = true;
+        textOgrenciDetay.ScrollBars = ScrollBars.Vertical;
+        tabStudentDetails.Name = "tabStudentDetails";
+        tabStudentDetails.Dock = DockStyle.Fill;
+        tabStudentDetails.Padding = new Point(14, 7);
+        tabStudentDetails.SelectedIndex = 0;
+        tabGeneral.Name = "tabGeneral";
+        tabGeneral.Text = "Genel Bilgiler";
+        tabGeneral.Padding = new Padding(4);
+        tabGeneral.BackColor = Color.White;
+        tabGeneral.AutoScroll = true;
+        tabParents.Name = "tabParents";
+        tabParents.Text = "Veli Bilgileri";
+        tabParents.Padding = new Padding(4);
+        tabParents.BackColor = Color.White;
+        tabParents.AutoScroll = true;
+        tabPayment.Name = "tabPayment";
+        tabPayment.Text = "Ücret ve Durum";
+        tabPayment.Padding = new Padding(4);
+        tabPayment.BackColor = Color.White;
+        tabPayment.AutoScroll = true;
+        tabNotes.Name = "tabNotes";
+        tabNotes.Text = "Notlar";
+        tabNotes.Padding = new Padding(4);
+        tabNotes.BackColor = Color.White;
+        tabNotes.AutoScroll = true;
+        pnlRoot.Name = "pnlRoot";
+        pnlRoot.Dock = DockStyle.Fill;
+        pnlRoot.ColumnCount = 1;
+        pnlRoot.RowCount = 3;
+        pnlRoot.Margin = Padding.Empty;
+        pnlRoot.BackColor = Color.White;
+        pnlRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlRoot.Padding = Padding.Empty;
+        pnlHeader.Name = "pnlHeader";
+        pnlHeader.Dock = DockStyle.Fill;
+        pnlHeader.ColumnCount = 1;
+        pnlHeader.RowCount = 2;
+        pnlHeader.Margin = Padding.Empty;
+        pnlHeader.BackColor = Color.White;
+        pnlHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlHeader.Padding = new Padding(16, 6, 16, 0);
+        lblTitle.Name = "lblTitle";
+        lblTitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblTitle.Margin = new Padding(0, 2, 12, 6);
+        lblTitle.Text = "Öğrenci Kartı";
+        lblTitle.Font = new Font("Segoe UI Semibold", 15F);
+        lblTitle.AutoSize = true;
+        lblSubtitle.Name = "lblSubtitle";
+        lblSubtitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblSubtitle.Margin = new Padding(0, 2, 12, 6);
+        lblSubtitle.Text = "Bilgileri düzenleyin; değişikliklerinizi kaydedin.";
+        lblSubtitle.AutoSize = true;
+        pnlCommandBar.Name = "pnlCommandBar";
+        pnlCommandBar.Dock = DockStyle.Top;
+        pnlCommandBar.AutoSize = true;
+        pnlCommandBar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlCommandBar.WrapContents = true;
+        pnlCommandBar.Padding = new Padding(16, 8, 8, 8);
+        pnlCommandBar.Margin = Padding.Empty;
+        pnlCommandBar.BackColor = Color.White;
+        btnAddStock.Name = "btnAddStock";
+        btnAddStock.AutoSize = true;
+        btnAddStock.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnAddStock.MinimumSize = new Size(96, 34);
+        btnAddStock.Padding = new Padding(12, 4, 12, 4);
+        btnAddStock.Margin = new Padding(0, 0, 8, 0);
+        btnAddStock.FlatStyle = FlatStyle.Flat;
+        btnAddStock.BackColor = Color.FromArgb(40, 99, 163);
+        btnAddStock.ForeColor = Color.White;
+        btnAddStock.UseVisualStyleBackColor = false;
+        btnAddStock.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnAddStock.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnAddStock.Text = "Kaydet";
+        btnGuncelle.Name = "btnGuncelle";
+        btnGuncelle.AutoSize = true;
+        btnGuncelle.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnGuncelle.MinimumSize = new Size(96, 34);
+        btnGuncelle.Padding = new Padding(12, 4, 12, 4);
+        btnGuncelle.Margin = new Padding(0, 0, 8, 0);
+        btnGuncelle.FlatStyle = FlatStyle.Flat;
+        btnGuncelle.BackColor = Color.FromArgb(246, 248, 251);
+        btnGuncelle.ForeColor = Color.FromArgb(37, 54, 75);
+        btnGuncelle.UseVisualStyleBackColor = false;
+        btnGuncelle.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnGuncelle.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnGuncelle.Text = "Güncelle";
+        btnOgrenciYonetimiSil.Name = "btnOgrenciYonetimiSil";
+        btnOgrenciYonetimiSil.AutoSize = true;
+        btnOgrenciYonetimiSil.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnOgrenciYonetimiSil.MinimumSize = new Size(96, 34);
+        btnOgrenciYonetimiSil.Padding = new Padding(12, 4, 12, 4);
+        btnOgrenciYonetimiSil.Margin = new Padding(0, 0, 8, 0);
+        btnOgrenciYonetimiSil.FlatStyle = FlatStyle.Flat;
+        btnOgrenciYonetimiSil.BackColor = Color.FromArgb(246, 248, 251);
+        btnOgrenciYonetimiSil.ForeColor = Color.FromArgb(37, 54, 75);
+        btnOgrenciYonetimiSil.UseVisualStyleBackColor = false;
+        btnOgrenciYonetimiSil.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnOgrenciYonetimiSil.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnOgrenciYonetimiSil.Text = "Pasife al";
+        btnClear.Name = "btnClear";
+        btnClear.AutoSize = true;
+        btnClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnClear.MinimumSize = new Size(96, 34);
+        btnClear.Padding = new Padding(12, 4, 12, 4);
+        btnClear.Margin = new Padding(0, 0, 8, 0);
+        btnClear.FlatStyle = FlatStyle.Flat;
+        btnClear.BackColor = Color.FromArgb(246, 248, 251);
+        btnClear.ForeColor = Color.FromArgb(37, 54, 75);
+        btnClear.UseVisualStyleBackColor = false;
+        btnClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnClear.Text = "Temizle";
+        btnClose.Name = "btnClose";
+        btnClose.AutoSize = true;
+        btnClose.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnClose.MinimumSize = new Size(96, 34);
+        btnClose.Padding = new Padding(12, 4, 12, 4);
+        btnClose.Margin = new Padding(0, 0, 8, 0);
+        btnClose.FlatStyle = FlatStyle.Flat;
+        btnClose.BackColor = Color.FromArgb(246, 248, 251);
+        btnClose.ForeColor = Color.FromArgb(37, 54, 75);
+        btnClose.UseVisualStyleBackColor = false;
+        btnClose.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnClose.Text = "Kapat";
+        tlpGeneral.Controls.Add(lbl_txtOgrenciAd, 0, 0);
+        tlpGeneral.Controls.Add(txtOgrenciAd, 0, 1);
+        tlpGeneral.Controls.Add(lbl_textSoyad, 1, 0);
+        tlpGeneral.Controls.Add(textSoyad, 1, 1);
+        tlpGeneral.Controls.Add(lbl_dateDogum, 0, 2);
+        tlpGeneral.Controls.Add(dateDogum, 0, 3);
+        tlpGeneral.Controls.Add(lbl_textOgrenciKod, 1, 2);
+        tlpGeneral.Controls.Add(textOgrenciKod, 1, 3);
+        tlpGeneral.Controls.Add(lbl_cmbogrsınıf, 0, 4);
+        tlpGeneral.Controls.Add(cmbogrsınıf, 0, 5);
+        pnlPhoto.Controls.Add(pictureBox1, 0, 0);
+        pnlPhoto.Controls.Add(btnChoosePhoto, 0, 1);
+        pnlPhoto.Controls.Add(btnRemovePhoto, 0, 2);
+        pnlPhoto.Controls.Add(lblPhotoStatus, 0, 3);
+        pnlGeneral.Controls.Add(tlpGeneral, 0, 0);
+        pnlGeneral.Controls.Add(pnlPhoto, 1, 0);
+        tlpParents.Controls.Add(lbl_txtBabaAd, 0, 0);
+        tlpParents.Controls.Add(txtBabaAd, 0, 1);
+        tlpParents.Controls.Add(lbl_txtAnneAd, 1, 0);
+        tlpParents.Controls.Add(txtAnneAd, 1, 1);
+        tlpParents.Controls.Add(lbl_txtBabaTel, 0, 2);
+        tlpParents.Controls.Add(txtBabaTel, 0, 3);
+        tlpParents.Controls.Add(lbl_txtAnneTel, 1, 2);
+        tlpParents.Controls.Add(txtAnneTel, 1, 3);
+        tlpParents.Controls.Add(lbl_txtBabaEvAdres, 0, 4);
+        tlpParents.Controls.Add(txtBabaEvAdres, 0, 5);
+        tlpParents.Controls.Add(lbl_txtAnneEvAdres, 1, 4);
+        tlpParents.Controls.Add(txtAnneEvAdres, 1, 5);
+        tlpPayment.Controls.Add(lbl_checkEvet, 0, 0);
+        tlpPayment.Controls.Add(checkEvet, 0, 1);
+        tlpPayment.Controls.Add(lbl_checkAktif, 1, 0);
+        tlpPayment.Controls.Add(checkAktif, 1, 1);
+        tlpPayment.Controls.Add(lbl_checkOdemeDurum, 0, 2);
+        tlpPayment.Controls.Add(checkOdemeDurum, 0, 3);
+        tlpPayment.Controls.Add(lbl_numericPrice, 1, 2);
+        tlpPayment.Controls.Add(numericPrice, 1, 3);
+        tlpNotes.Controls.Add(lbl_textOgrenciDetay, 0, 0);
+        tlpNotes.Controls.Add(textOgrenciDetay, 0, 1);
+        tabGeneral.Controls.Add(pnlGeneral);
+        tabStudentDetails.Controls.Add(tabGeneral);
+        tabParents.Controls.Add(tlpParents);
+        tabStudentDetails.Controls.Add(tabParents);
+        tabPayment.Controls.Add(tlpPayment);
+        tabStudentDetails.Controls.Add(tabPayment);
+        tabNotes.Controls.Add(tlpNotes);
+        tabStudentDetails.Controls.Add(tabNotes);
+        pnlHeader.Controls.Add(lblTitle, 0, 0);
+        pnlHeader.Controls.Add(lblSubtitle, 0, 1);
+        pnlRoot.Controls.Add(pnlHeader, 0, 0);
+        pnlCommandBar.Controls.Add(btnAddStock);
+        pnlCommandBar.Controls.Add(btnGuncelle);
+        pnlCommandBar.Controls.Add(btnOgrenciYonetimiSil);
+        pnlCommandBar.Controls.Add(btnClear);
+        pnlCommandBar.Controls.Add(btnClose);
+        pnlRoot.Controls.Add(pnlCommandBar, 0, 1);
+        pnlRoot.Controls.Add(tabStudentDetails, 0, 2);
+        Controls.Add(pnlRoot);
+        txtOgrenciAd.TextChanged += txtOgrenciAd_TextChanged;
+        cmbogrsınıf.DrawItem += cmbogrsınıf_DrawItem;
+        pictureBox1.Click += pictureBox1_Click;
+        btnChoosePhoto.Click += ChoosePhoto_Click;
+        btnRemovePhoto.Click += RemovePhoto_Click;
+        txtBabaEvAdres.Enter += txtBabaEvAdres_Enter;
+        txtBabaEvAdres.Leave += txtBabaEvAdres_Leave;
+        txtAnneEvAdres.Enter += txtAnneEvAdres_Enter;
+        txtAnneEvAdres.Leave += txtAnneEvAdres_Leave;
+        btnAddStock.Click += btnAddStock_Click;
+        btnGuncelle.Click += btnGuncelle_Click;
+        btnOgrenciYonetimiSil.Click += btnOgrenciYonetimiSil_Click;
+        btnClear.Click += ClearStudent_Click;
+        btnClose.Click += CloseRecord_Click;
+        AutoScaleDimensions = new SizeF(96F, 96F);
+        AutoScaleMode = AutoScaleMode.Dpi;
+        Font = new Font("Segoe UI", 10F);
+        BackColor = Color.White;
+        ClientSize = new Size(1120, 760);
+        MinimumSize = new Size(720, 520);
+        StartPosition = FormStartPosition.CenterParent;
+        KeyPreview = true;
+        Name = "OgrenciForm";
+        Text = "Öğrenci Kartı";
+        Load += OgrenciForm_Load;
+        ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+        ((System.ComponentModel.ISupportInitialize)numericPrice).EndInit();
+        pnlCommandBar.ResumeLayout(false);
+        pnlCommandBar.PerformLayout();
+        pnlHeader.ResumeLayout(false);
+        pnlHeader.PerformLayout();
+        pnlRoot.ResumeLayout(false);
+        pnlRoot.PerformLayout();
+        tabNotes.ResumeLayout(false);
+        tabNotes.PerformLayout();
+        tabPayment.ResumeLayout(false);
+        tabPayment.PerformLayout();
+        tabParents.ResumeLayout(false);
+        tabParents.PerformLayout();
+        tabGeneral.ResumeLayout(false);
+        tabGeneral.PerformLayout();
+        tabStudentDetails.ResumeLayout(false);
+        tabStudentDetails.PerformLayout();
+        tlpNotes.ResumeLayout(false);
+        tlpNotes.PerformLayout();
+        tlpPayment.ResumeLayout(false);
+        tlpPayment.PerformLayout();
+        tlpParents.ResumeLayout(false);
+        tlpParents.PerformLayout();
+        pnlGeneral.ResumeLayout(false);
+        pnlGeneral.PerformLayout();
+        pnlPhoto.ResumeLayout(false);
+        pnlPhoto.PerformLayout();
+        tlpGeneral.ResumeLayout(false);
+        tlpGeneral.PerformLayout();
+        ResumeLayout(false);
+        PerformLayout();
+    }
+    #endregion
 }

@@ -31,7 +31,6 @@ public sealed class BksRibbon : UserControl
     private readonly HashSet<string> allowed = new(StringComparer.OrdinalIgnoreCase);
     private readonly List<string> hiddenTabs = new();
     private readonly List<(string Title, RibbonCommand[] Commands)> hiddenGroups = new();
-    private BksRibbon? documentRibbon;
     private bool arranging;
     public event EventHandler? CommandsChanged;
     private bool expanded = true;
@@ -39,10 +38,11 @@ public sealed class BksRibbon : UserControl
     public event Action<string>? PageSelected;
     public event EventHandler? ExpandedChanged;
     public bool IsExpanded => expanded;
+    public string? SelectedPageKey => selected;
     public BksRibbon()
     {
         AutoScaleMode = AutoScaleMode.None;
-        Height = 126;
+        Height = 134;
         Font = new Font("Segoe UI", 9F);
         BackColor = RibbonPalette.TabStrip;
         Controls.AddRange(new Control[]
@@ -93,14 +93,6 @@ public sealed class BksRibbon : UserControl
         navigationGroups[key] = groups;
         if (selected == key) BuildNavigation();
     }
-    public void SetDocumentRibbon(BksRibbon? ribbon)
-    {
-        if (documentRibbon != null) documentRibbon.CommandsChanged -= DocumentCommandsChanged;
-        documentRibbon = ribbon;
-        if (documentRibbon != null) documentRibbon.CommandsChanged += DocumentCommandsChanged;
-        BuildNavigation();
-    }
-    private void DocumentCommandsChanged(object? sender, EventArgs e) => RefreshCommands();
     public void SetAllowed(IEnumerable<string> keys)
     {
         allowed.Clear();
@@ -117,15 +109,12 @@ public sealed class BksRibbon : UserControl
     {
         if (!allowed.Contains(key) || !pages.ContainsKey(key)) return;
         selected = key;
-        if (documentRibbon != null) documentRibbon.CommandsChanged -= DocumentCommandsChanged;
-        documentRibbon = null;
         foreach (var entry in pages) entry.Value.Tab.Selected = entry.Key == key;
         BuildNavigation();
         if (notify) PageSelected?.Invoke(key);
     }
     internal IEnumerable<(string Title, RibbonCommand[] Commands)> ActiveGroups()
     {
-        if (documentRibbon != null) return documentRibbon.ActiveGroups();
         if (selected == null || !allowed.Contains(selected)) return Array.Empty<(string, RibbonCommand[])>();
         var groups = pages[selected].Groups.AsEnumerable();
         if (navigationGroups.TryGetValue(selected, out var links)) groups = links.Concat(groups);
@@ -133,12 +122,18 @@ public sealed class BksRibbon : UserControl
     }
     internal IEnumerable<(string Title, RibbonCommand[] Commands)> CommandsFor(Control? source)
     {
-        if (documentRibbon != null) return documentRibbon.CommandsFor(source);
         string? key = selected;
         for (var control = source; control != null; control = control.Parent)
-        if (control is TabPage && pages.ContainsKey(control.Name))
+        if (control is TabPage)
         {
-            key = control.Name;
+            var candidate = control.Name switch
+            {
+                "tabPageSatis" or "tabPageGelirGider" => "finance",
+                "tabPageOgrenciOnKayit" => "tabPageStok",
+                _ => control.Name
+            };
+            if (!pages.ContainsKey(candidate)) continue;
+            key = candidate;
             break;
         }
         if (key == null || !allowed.Contains(key) || !pages.TryGetValue(key, out var page))
@@ -174,7 +169,7 @@ public sealed class BksRibbon : UserControl
         try
         {
             int Px(int n) => (int) Math.Ceiling(n * DeviceDpi / 96F);
-            int top = Math.Min(Height, Px(30));
+            int top = Math.Min(Height, Px(32));
             tabs.SetBounds(0, 0, Math.Max(0, Width - Px(32)), top);
             collapse.SetBounds(Math.Max(0, Width - Px(32)), 0, Px(32), top);
             collapse.Text = expanded ? "⌃": "⌄";

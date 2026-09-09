@@ -3,15 +3,9 @@ namespace BKS;
 internal sealed class RibbonGroupView : Panel
 {
     private readonly List<(RibbonCommand Command, RibbonNavigationButton Button)> buttons = new();
-    public string Caption
-    {
-        get;
-    }
-    public int PreferredWidth
-    {
-        get;
-        private set;
-    }
+    public string Caption { get; }
+    public int PreferredWidth { get; private set; }
+
     public RibbonGroupView(string caption, IEnumerable<RibbonCommand> commands)
     {
         Caption = caption;
@@ -45,15 +39,15 @@ internal sealed class RibbonGroupView : Panel
             var item = buttons[index];
             if (item.Command.Size == RibbonButtonSize.Large)
             {
-                item.Button.SetBounds(x, Px(3), Px(68), Px(73));
-                x += Px(72);
+                item.Button.SetBounds(x, Px(3), Px(80), Px(76));
+                x += Px(84);
                 index++;
                 continue;
             }
             var column = buttons.Skip(index).TakeWhile(b => b.Command.Size == RibbonButtonSize.Small).Take(3).ToArray();
             int width = column.Max(b => TextRenderer.MeasureText(b.Command.Text, b.Button.Font).Width) + Px(34);
             for (int row = 0; row<column.Length; row++)
-            column[row].Button.SetBounds(x, Px(3 + row * 25), width, Px(25));
+            column[row].Button.SetBounds(x, Px(3 + row * 26), width, Px(26));
             x += width + Px(4);
             index += column.Length;
         }
@@ -62,10 +56,14 @@ internal sealed class RibbonGroupView : Panel
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
-        int captionHeight = (int) Math.Ceiling(18 * DeviceDpi / 96F);
-        using var border = new Pen(RibbonPalette.Border);
-        e.Graphics.DrawLine(border, Width - 1, 5, Width - 1, Height - 5);
-        TextRenderer.DrawText(e.Graphics, Caption, Font, new Rectangle(0, Height - captionHeight, Width - 1, captionHeight),
-        RibbonPalette.CaptionText, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine);
+        int captionHeight = (int)Math.Ceiling(20 * DeviceDpi / 96F);
+        int captionTop = Math.Max(0, Height - captionHeight);
+        using var captionBrush = new SolidBrush(RibbonPalette.Caption);
+        using var border = new Pen(RibbonPalette.Border, Math.Max(1, DeviceDpi / 96F));
+        e.Graphics.FillRectangle(captionBrush, 0, captionTop, Width, captionHeight);
+        e.Graphics.DrawLine(border, Math.Max(0, Width - 1), 6, Math.Max(0, Width - 1), Math.Max(6, Height - 6));
+        TextRenderer.DrawText(e.Graphics, Caption, Font,
+            new Rectangle(0, captionTop, Width, captionHeight), RibbonPalette.CaptionText,
+            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine);
     }
 }

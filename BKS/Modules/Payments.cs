@@ -44,80 +44,28 @@ public partial class Form2
         if (!_allowedModules.Contains(tabPageSatis.Name)) return;
         _documents.OpenDocument("payment:" + studentId, "Öğrenci ödemeleri", () =>
         {
-            var paymentForm = new Form
+            var paymentForm = new PaymentDetailsForm
             {
-                ClientSize = new Size(950, 680)
+                AddPayment = (amount, date, grid) => AddPayment(studentId, amount, date, grid),
+                ApprovePayment = grid => ApprovePayments(grid, studentId),
+                OpenPlan = grid => ShowPaymentPlanForm(studentId, grid),
+                RefreshPayments = grid => grid.DataSource = OdemeLoad(UserId, studentId)
             };
-            var paymentGrid = new DataGridView
-            {
-                DataSource = OdemeLoad(UserId, studentId)
-            };
-            var amount = new TextBox();
-            var date = new DateTimePicker();
-            var ribbon = Screens.Ribbon("Ödeme detayları", new RibbonCommand("Ödeme ekle", RibbonIcon.Add, () => AddPayment(studentId,
-            amount.Text, date.Value, paymentGrid)), new RibbonCommand("Seçileni onayla", RibbonIcon.Backup, () => ApprovePayments(paymentGrid,
-            studentId)), new RibbonCommand("Aylık plan", RibbonIcon.View, () => ShowPaymentPlanForm(studentId, paymentGrid)),
-            new RibbonCommand("Yenile", RibbonIcon.Refresh, () => paymentGrid.DataSource = OdemeLoad(UserId, studentId)), new RibbonCommand("Kapat",
-            RibbonIcon.Restore, paymentForm.Close));
-            Screens.Install(paymentForm, Screens.WithEditor(new ResponsiveFields(("Ödeme tutarı", amount), ("Ödeme tarihi", date)),
-            paymentGrid, .22F), ribbon, "Öğrenci ödeme detayları");
-            paymentGrid.MultiSelect = true;
-            paymentGrid.DataBindingComplete += (_, _) =>
-            {
-                foreach (var name in new[]
-                {
-                    "Id",
-                    "IsApproved"
-                }) if (paymentGrid.Columns.Contains(name)) paymentGrid.Columns[name].Visible = false;
-            };
+            paymentForm.PaymentGrid.DataSource = OdemeLoad(UserId, studentId);
             return paymentForm;
         }, tabPageSatis.Name);
     }
     private void ShowPaymentPlanForm(Guid studentId, DataGridView paymentGrid)
     {
-        Form planForm = new Form
-        {
-            Text = "Aylık Ödeme Planı",
-            Size = new Size(300, 200)
-        };
-        Label lblTutar = new Label
-        {
-            Text = "Aylık Tutar:",
-            Location = new Point(10, 20),
-            AutoSize = true
-        };
-        TextBox txtTutar = new TextBox
-        {
-            Location = new Point(100, 20),
-            Width = 150
-        };
-        Label lblAySayisi = new Label
-        {
-            Text = "Ay Sayısı:",
-            Location = new Point(10, 60),
-            AutoSize = true
-        };
-        NumericUpDown nudAy = new NumericUpDown
-        {
-            Location = new Point(100, 60),
-            Width = 150,
-            Minimum = 1,
-            Maximum = 24
-        };
-        Button btnOlustur = new Button
-        {
-            Text = "Oluştur",
-            Location = new Point(100, 100),
-            Width = 150
-        };
+        using var planForm = new PaymentPlanForm();
         Action createPlan = () =>
         {
-            if (!decimal.TryParse(txtTutar.Text, out decimal tutar) || tutar <= 0)
+            if (!decimal.TryParse(planForm.AmountText, out decimal tutar) || tutar <= 0)
             {
                 MessageBox.Show("Geçerli bir tutar giriniz.");
                 return;
             }
-            int aySayisi = (int) nudAy.Value;
+            int aySayisi = planForm.Months;
             using (SqlConnection conn = CreateConnection())
             {
                 conn.Open();
@@ -156,14 +104,7 @@ public partial class Form2
             MessageBox.Show("Aylık ödeme planı başarıyla oluşturuldu.");
             planForm.Close();
         };
-        planForm.Controls.Add(lblTutar);
-        planForm.Controls.Add(txtTutar);
-        planForm.Controls.Add(lblAySayisi);
-        planForm.Controls.Add(nudAy);
-        planForm.Controls.Add(btnOlustur);
-        Screens.Install(planForm, new ResponsiveFields(("Aylık tutar", txtTutar), ("Ay sayısı", nudAy)), Screens.Ribbon("Ödeme planı",
-        new RibbonCommand("Plan oluştur", RibbonIcon.Backup, createPlan), new RibbonCommand("Kapat", RibbonIcon.Restore,
-        planForm.Close)), "Aylık ödeme planı");
+        planForm.CreatePlan = createPlan;
         planForm.ShowDialog(this);
     }
     private void AddPayment(Guid studentId, string amountText, DateTime paymentDate, DataGridView paymentGrid)

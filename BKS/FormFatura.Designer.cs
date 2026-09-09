@@ -1,143 +1,508 @@
-namespace BKS
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace BKS;
+
+partial class FormFatura
 {
-    partial class FormFatura
+    private System.ComponentModel.IContainer components = null;
+
+    private TableLayoutPanel tlpInvoiceInfo;
+    private TextBox txtFaturaNo;
+    private Label lbl_txtFaturaNo;
+    private TextBox txtAliciUnvan;
+    private Label lbl_txtAliciUnvan;
+    private TextBox txtAliciVkn;
+    private Label lbl_txtAliciVkn;
+    private DateTimePicker dtTarih;
+    private Label lbl_dtTarih;
+    private DataGridView dgKalemler;
+    private DataGridViewTextBoxColumn colUrunAdi;
+    private DataGridViewTextBoxColumn colMiktar;
+    private DataGridViewTextBoxColumn colBirimFiyat;
+    private DataGridViewTextBoxColumn colKDV;
+    private DataGridView dgFaturalar;
+    private TableLayoutPanel pnlInvoiceHistory;
+    private TableLayoutPanel pnlInvoiceHistoryToolbar;
+    private Label pnlInvoiceHistoryTitle;
+    private TextBox txtInvoiceSearch;
+    private Button pnlInvoiceHistoryClear;
+    private Button pnlInvoiceHistoryColumns;
+    private Label pnlInvoiceHistoryCount;
+    private TabControl tabInvoices;
+    private TabPage tabLines;
+    private TabPage tabHistory;
+    private TableLayoutPanel pnlInvoiceBody;
+    private TableLayoutPanel pnlRoot;
+    private TableLayoutPanel pnlHeader;
+    private Label lblTitle;
+    private Label lblSubtitle;
+    private FlowLayoutPanel pnlCommandBar;
+    private Button btnKaydet;
+    private Button btnRefresh;
+    private Button btnNew;
+    private Button btnClose;
+
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Designer tarafından gerekli değişkenler
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Kaynakları temizle
-        /// </summary>
-        /// <param name="disposing">yönetilen kaynaklar dispose edilecek mi?</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer üretilen kod
-
-        /// <summary>
-        /// Form tasarımı
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.txtFaturaNo = new System.Windows.Forms.TextBox();
-            this.txtAliciUnvan = new System.Windows.Forms.TextBox();
-            this.txtAliciVkn = new System.Windows.Forms.TextBox();
-            this.dtTarih = new System.Windows.Forms.DateTimePicker();
-            this.dgKalemler = new System.Windows.Forms.DataGridView();
-            this.btnKaydet = new System.Windows.Forms.Button();
-            this.dgFaturalar = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgKalemler)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgFaturalar)).BeginInit();
-            this.SuspendLayout();
-
-            // txtFaturaNo
-            this.txtFaturaNo.Location = new System.Drawing.Point(100, 20);
-            this.txtFaturaNo.Name = "txtFaturaNo";
-            this.txtFaturaNo.Size = new System.Drawing.Size(200, 22);
-
-            // txtAliciUnvan
-            this.txtAliciUnvan.Location = new System.Drawing.Point(100, 50);
-            this.txtAliciUnvan.Name = "txtAliciUnvan";
-            this.txtAliciUnvan.Size = new System.Drawing.Size(200, 22);
-
-            // txtAliciVkn
-            this.txtAliciVkn.Location = new System.Drawing.Point(100, 80);
-            this.txtAliciVkn.Name = "txtAliciVkn";
-            this.txtAliciVkn.Size = new System.Drawing.Size(200, 22);
-
-            // dtTarih
-            this.dtTarih.Location = new System.Drawing.Point(100, 110);
-            this.dtTarih.Name = "dtTarih";
-            this.dtTarih.Size = new System.Drawing.Size(200, 22);
-
-            // dgKalemler
-            this.dgKalemler.Location = new System.Drawing.Point(20, 150);
-            this.dgKalemler.Name = "dgKalemler";
-            this.dgKalemler.Size = new System.Drawing.Size(500, 150);
-            this.dgKalemler.AllowUserToAddRows = true;
-            this.dgKalemler.AllowUserToDeleteRows = true;
-
-            // btnKaydet
-            this.btnKaydet.Location = new System.Drawing.Point(350, 110);
-            this.btnKaydet.Name = "btnKaydet";
-            this.btnKaydet.Size = new System.Drawing.Size(150, 30);
-            this.btnKaydet.Text = "Kaydet ve PDF Oluştur";
-            this.btnKaydet.Click += new System.EventHandler(this.btnKaydet_Click);
-
-            // dgFaturalar
-            this.dgFaturalar.Location = new System.Drawing.Point(20, 320);
-            this.dgFaturalar.Name = "dgFaturalar";
-            this.dgFaturalar.Size = new System.Drawing.Size(500, 150);
-            this.dgFaturalar.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgFaturalar_CellDoubleClick);
-
-            // label1
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 23);
-            this.label1.Text = "Fatura No:";
-
-            // label2
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 53);
-            this.label2.Text = "Alıcı Ünvan:";
-
-            // label3
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 83);
-            this.label3.Text = "Alıcı VKN:";
-
-            // label4
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 113);
-            this.label4.Text = "Tarih:";
-
-            // Form1
-            this.ClientSize = new System.Drawing.Size(550, 500);
-            this.Controls.Add(this.txtFaturaNo);
-            this.Controls.Add(this.txtAliciUnvan);
-            this.Controls.Add(this.txtAliciVkn);
-            this.Controls.Add(this.dtTarih);
-            this.Controls.Add(this.dgKalemler);
-            this.Controls.Add(this.btnKaydet);
-            this.Controls.Add(this.dgFaturalar);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label4);
-            this.Name = "Form1";
-            this.Text = "E-Fatura Modülü";
-            this.Load += new System.EventHandler(this.FormFatura_Load);
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgKalemler)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgFaturalar)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-        }
-
-        #endregion
-
-        private System.Windows.Forms.TextBox txtFaturaNo;
-        private System.Windows.Forms.TextBox txtAliciUnvan;
-        private System.Windows.Forms.TextBox txtAliciVkn;
-        private System.Windows.Forms.DateTimePicker dtTarih;
-        private System.Windows.Forms.DataGridView dgKalemler;
-        private System.Windows.Forms.Button btnKaydet;
-        private System.Windows.Forms.DataGridView dgFaturalar;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        if (disposing) components?.Dispose();
+        base.Dispose(disposing);
     }
+
+    #region Windows Form Designer generated code
+    private void InitializeComponent()
+    {
+        components = new System.ComponentModel.Container();
+        tlpInvoiceInfo = new TableLayoutPanel();
+        txtFaturaNo = new TextBox();
+        lbl_txtFaturaNo = new Label();
+        txtAliciUnvan = new TextBox();
+        lbl_txtAliciUnvan = new Label();
+        txtAliciVkn = new TextBox();
+        lbl_txtAliciVkn = new Label();
+        dtTarih = new DateTimePicker();
+        lbl_dtTarih = new Label();
+        dgKalemler = new DataGridView();
+        dgKalemler.MultiSelect = false;
+        colUrunAdi = new DataGridViewTextBoxColumn();
+        colMiktar = new DataGridViewTextBoxColumn();
+        colBirimFiyat = new DataGridViewTextBoxColumn();
+        colKDV = new DataGridViewTextBoxColumn();
+        dgFaturalar = new DataGridView();
+        dgFaturalar.MultiSelect = false;
+        pnlInvoiceHistory = new TableLayoutPanel();
+        pnlInvoiceHistoryToolbar = new TableLayoutPanel();
+        pnlInvoiceHistoryTitle = new Label();
+        txtInvoiceSearch = new TextBox();
+        pnlInvoiceHistoryClear = new Button();
+        pnlInvoiceHistoryColumns = new Button();
+        pnlInvoiceHistoryCount = new Label();
+        tabInvoices = new TabControl();
+        tabLines = new TabPage();
+        tabHistory = new TabPage();
+        pnlInvoiceBody = new TableLayoutPanel();
+        pnlRoot = new TableLayoutPanel();
+        pnlHeader = new TableLayoutPanel();
+        lblTitle = new Label();
+        lblSubtitle = new Label();
+        pnlCommandBar = new FlowLayoutPanel();
+        btnKaydet = new Button();
+        btnRefresh = new Button();
+        btnNew = new Button();
+        btnClose = new Button();
+        ((System.ComponentModel.ISupportInitialize)dgKalemler).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)dgFaturalar).BeginInit();
+        SuspendLayout();
+        tlpInvoiceInfo.SuspendLayout();
+        pnlInvoiceHistory.SuspendLayout();
+        pnlInvoiceHistoryToolbar.SuspendLayout();
+        tabInvoices.SuspendLayout();
+        tabLines.SuspendLayout();
+        tabHistory.SuspendLayout();
+        pnlInvoiceBody.SuspendLayout();
+        pnlRoot.SuspendLayout();
+        pnlHeader.SuspendLayout();
+        pnlCommandBar.SuspendLayout();
+        tlpInvoiceInfo.Name = "tlpInvoiceInfo";
+        tlpInvoiceInfo.Dock = DockStyle.Fill;
+        tlpInvoiceInfo.ColumnCount = 2;
+        tlpInvoiceInfo.RowCount = 5;
+        tlpInvoiceInfo.Margin = Padding.Empty;
+        tlpInvoiceInfo.Padding = new Padding(16);
+        tlpInvoiceInfo.BackColor = Color.White;
+        tlpInvoiceInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpInvoiceInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.0F));
+        tlpInvoiceInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpInvoiceInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpInvoiceInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 26F));
+        tlpInvoiceInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+        tlpInvoiceInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tlpInvoiceInfo.AutoScroll = true;
+        txtFaturaNo.Name = "txtFaturaNo";
+        txtFaturaNo.Dock = DockStyle.Fill;
+        txtFaturaNo.Margin = new Padding(0, 0, 16, 10);
+        txtFaturaNo.Size = new Size(260, 32);
+        txtFaturaNo.TabIndex = 2;
+        txtFaturaNo.Font = new Font("Segoe UI", 10F);
+        txtFaturaNo.ForeColor = Color.FromArgb(37, 54, 75);
+        txtFaturaNo.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtFaturaNo.Name = "lbl_txtFaturaNo";
+        lbl_txtFaturaNo.AutoSize = true;
+        lbl_txtFaturaNo.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtFaturaNo.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtFaturaNo.Text = "Fatura öneki";
+        txtAliciUnvan.Name = "txtAliciUnvan";
+        txtAliciUnvan.Dock = DockStyle.Fill;
+        txtAliciUnvan.Margin = new Padding(0, 0, 16, 10);
+        txtAliciUnvan.Size = new Size(260, 32);
+        txtAliciUnvan.TabIndex = 4;
+        txtAliciUnvan.Font = new Font("Segoe UI", 10F);
+        txtAliciUnvan.ForeColor = Color.FromArgb(37, 54, 75);
+        txtAliciUnvan.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtAliciUnvan.Name = "lbl_txtAliciUnvan";
+        lbl_txtAliciUnvan.AutoSize = true;
+        lbl_txtAliciUnvan.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtAliciUnvan.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtAliciUnvan.Text = "Alıcı unvanı";
+        txtAliciVkn.Name = "txtAliciVkn";
+        txtAliciVkn.Dock = DockStyle.Fill;
+        txtAliciVkn.Margin = new Padding(0, 0, 16, 10);
+        txtAliciVkn.Size = new Size(260, 32);
+        txtAliciVkn.TabIndex = 6;
+        txtAliciVkn.Font = new Font("Segoe UI", 10F);
+        txtAliciVkn.ForeColor = Color.FromArgb(37, 54, 75);
+        txtAliciVkn.BorderStyle = BorderStyle.FixedSingle;
+        lbl_txtAliciVkn.Name = "lbl_txtAliciVkn";
+        lbl_txtAliciVkn.AutoSize = true;
+        lbl_txtAliciVkn.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_txtAliciVkn.Margin = new Padding(0, 2, 12, 6);
+        lbl_txtAliciVkn.Text = "VKN / TCKN";
+        dtTarih.Name = "dtTarih";
+        dtTarih.Dock = DockStyle.Fill;
+        dtTarih.Margin = new Padding(0, 0, 16, 10);
+        dtTarih.Size = new Size(260, 32);
+        dtTarih.TabIndex = 8;
+        dtTarih.Font = new Font("Segoe UI", 10F);
+        dtTarih.ForeColor = Color.FromArgb(37, 54, 75);
+        dtTarih.Format = DateTimePickerFormat.Custom;
+        dtTarih.CustomFormat = "dd.MM.yyyy";
+        lbl_dtTarih.Name = "lbl_dtTarih";
+        lbl_dtTarih.AutoSize = true;
+        lbl_dtTarih.ForeColor = Color.FromArgb(68, 87, 111);
+        lbl_dtTarih.Margin = new Padding(0, 2, 12, 6);
+        lbl_dtTarih.Text = "Belge tarihi";
+        dgKalemler.Name = "dgKalemler";
+        dgKalemler.Dock = DockStyle.Fill;
+        dgKalemler.BackgroundColor = Color.White;
+        dgKalemler.BorderStyle = BorderStyle.None;
+        dgKalemler.EnableHeadersVisualStyles = false;
+        dgKalemler.ColumnHeadersHeight = 36;
+        dgKalemler.RowHeadersWidth = 44;
+        dgKalemler.AllowUserToAddRows = true;
+        dgKalemler.AllowUserToDeleteRows = true;
+        dgKalemler.ReadOnly = false;
+        dgKalemler.AllowUserToOrderColumns = true;
+        dgKalemler.AllowUserToResizeRows = false;
+        dgKalemler.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dgKalemler.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        dgKalemler.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(244, 247, 251);
+        dgKalemler.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9.5F);
+        dgKalemler.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dgKalemler.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
+        dgKalemler.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dgKalemler.DefaultCellStyle.SelectionForeColor = Color.FromArgb(37, 54, 75);
+        dgKalemler.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 252, 254);
+        dgKalemler.RowTemplate.Height = 32;
+        colUrunAdi.Name = "UrunAdi";
+        colUrunAdi.HeaderText = "Kalem açıklaması";
+        colUrunAdi.Width = 140;
+        dgKalemler.Columns.Add(colUrunAdi);
+        colUrunAdi.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        colMiktar.Name = "Miktar";
+        colMiktar.HeaderText = "Miktar";
+        colMiktar.Width = 140;
+        dgKalemler.Columns.Add(colMiktar);
+        colMiktar.ValueType = typeof(decimal);
+        colMiktar.DefaultCellStyle.Format = "N2";
+        colMiktar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+        colBirimFiyat.Name = "BirimFiyat";
+        colBirimFiyat.HeaderText = "Birim fiyat";
+        colBirimFiyat.Width = 140;
+        dgKalemler.Columns.Add(colBirimFiyat);
+        colBirimFiyat.ValueType = typeof(decimal);
+        colBirimFiyat.DefaultCellStyle.Format = "N2";
+        colBirimFiyat.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+        colKDV.Name = "KDV";
+        colKDV.HeaderText = "KDV %";
+        colKDV.Width = 140;
+        dgKalemler.Columns.Add(colKDV);
+        colKDV.ValueType = typeof(decimal);
+        colKDV.DefaultCellStyle.Format = "N2";
+        colKDV.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+        dgFaturalar.Name = "dgFaturalar";
+        dgFaturalar.Dock = DockStyle.Fill;
+        dgFaturalar.BackgroundColor = Color.White;
+        dgFaturalar.BorderStyle = BorderStyle.None;
+        dgFaturalar.EnableHeadersVisualStyles = false;
+        dgFaturalar.ColumnHeadersHeight = 36;
+        dgFaturalar.RowHeadersWidth = 44;
+        dgFaturalar.AllowUserToAddRows = false;
+        dgFaturalar.AllowUserToDeleteRows = false;
+        dgFaturalar.ReadOnly = true;
+        dgFaturalar.AllowUserToOrderColumns = true;
+        dgFaturalar.AllowUserToResizeRows = false;
+        dgFaturalar.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        dgFaturalar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        dgFaturalar.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(244, 247, 251);
+        dgFaturalar.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9.5F);
+        dgFaturalar.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dgFaturalar.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
+        dgFaturalar.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dgFaturalar.DefaultCellStyle.SelectionForeColor = Color.FromArgb(37, 54, 75);
+        dgFaturalar.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 252, 254);
+        dgFaturalar.RowTemplate.Height = 32;
+        pnlInvoiceHistory.Name = "pnlInvoiceHistory";
+        pnlInvoiceHistory.Dock = DockStyle.Fill;
+        pnlInvoiceHistory.ColumnCount = 1;
+        pnlInvoiceHistory.RowCount = 3;
+        pnlInvoiceHistory.Margin = Padding.Empty;
+        pnlInvoiceHistory.BackColor = Color.White;
+        pnlInvoiceHistory.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlInvoiceHistory.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
+        pnlInvoiceHistory.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlInvoiceHistory.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+        pnlInvoiceHistory.Padding = new Padding(8);
+        pnlInvoiceHistoryToolbar.Name = "pnlInvoiceHistoryToolbar";
+        pnlInvoiceHistoryToolbar.ColumnCount = 4;
+        pnlInvoiceHistoryToolbar.RowCount = 1;
+        pnlInvoiceHistoryToolbar.Margin = Padding.Empty;
+        pnlInvoiceHistoryToolbar.BackColor = Color.White;
+        pnlInvoiceHistoryToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlInvoiceHistoryToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+        pnlInvoiceHistoryToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
+        pnlInvoiceHistoryToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        pnlInvoiceHistoryToolbar.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+        pnlInvoiceHistoryToolbar.Padding = Padding.Empty;
+        pnlInvoiceHistoryToolbar.AutoSize = true;
+        pnlInvoiceHistoryToolbar.Dock = DockStyle.Top;
+        pnlInvoiceHistoryTitle.Name = "pnlInvoiceHistoryTitle";
+        pnlInvoiceHistoryTitle.ForeColor = Color.FromArgb(68, 87, 111);
+        pnlInvoiceHistoryTitle.Margin = new Padding(0, 2, 12, 6);
+        pnlInvoiceHistoryTitle.Text = "Kayıtlı faturalar";
+        pnlInvoiceHistoryTitle.Font = new Font("Segoe UI Semibold", 11F);
+        pnlInvoiceHistoryTitle.Anchor = AnchorStyles.Left;
+        pnlInvoiceHistoryTitle.AutoEllipsis = true;
+        pnlInvoiceHistoryTitle.AutoSize = false;
+        pnlInvoiceHistoryTitle.Dock = DockStyle.Fill;
+        txtInvoiceSearch.Name = "txtInvoiceSearch";
+        txtInvoiceSearch.Dock = DockStyle.Fill;
+        txtInvoiceSearch.Size = new Size(260, 32);
+        txtInvoiceSearch.TabIndex = 19;
+        txtInvoiceSearch.Font = new Font("Segoe UI", 10F);
+        txtInvoiceSearch.ForeColor = Color.FromArgb(37, 54, 75);
+        txtInvoiceSearch.BorderStyle = BorderStyle.FixedSingle;
+        txtInvoiceSearch.PlaceholderText = "Listede ara (Ctrl+F)";
+        txtInvoiceSearch.Margin = new Padding(0, 4, 8, 6);
+        pnlInvoiceHistoryClear.Name = "pnlInvoiceHistoryClear";
+        pnlInvoiceHistoryClear.AutoSize = true;
+        pnlInvoiceHistoryClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlInvoiceHistoryClear.MinimumSize = new Size(96, 34);
+        pnlInvoiceHistoryClear.Padding = new Padding(12, 4, 12, 4);
+        pnlInvoiceHistoryClear.Margin = new Padding(0, 0, 8, 0);
+        pnlInvoiceHistoryClear.FlatStyle = FlatStyle.Flat;
+        pnlInvoiceHistoryClear.BackColor = Color.FromArgb(246, 248, 251);
+        pnlInvoiceHistoryClear.ForeColor = Color.FromArgb(37, 54, 75);
+        pnlInvoiceHistoryClear.UseVisualStyleBackColor = false;
+        pnlInvoiceHistoryClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlInvoiceHistoryClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        pnlInvoiceHistoryClear.Text = "Temizle";
+        pnlInvoiceHistoryColumns.Name = "pnlInvoiceHistoryColumns";
+        pnlInvoiceHistoryColumns.AutoSize = true;
+        pnlInvoiceHistoryColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlInvoiceHistoryColumns.MinimumSize = new Size(96, 34);
+        pnlInvoiceHistoryColumns.Padding = new Padding(12, 4, 12, 4);
+        pnlInvoiceHistoryColumns.Margin = new Padding(0, 0, 8, 0);
+        pnlInvoiceHistoryColumns.FlatStyle = FlatStyle.Flat;
+        pnlInvoiceHistoryColumns.BackColor = Color.FromArgb(246, 248, 251);
+        pnlInvoiceHistoryColumns.ForeColor = Color.FromArgb(37, 54, 75);
+        pnlInvoiceHistoryColumns.UseVisualStyleBackColor = false;
+        pnlInvoiceHistoryColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlInvoiceHistoryColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        pnlInvoiceHistoryColumns.Text = "Sütunlar";
+        pnlInvoiceHistoryCount.Name = "pnlInvoiceHistoryCount";
+        pnlInvoiceHistoryCount.AutoSize = true;
+        pnlInvoiceHistoryCount.ForeColor = Color.FromArgb(68, 87, 111);
+        pnlInvoiceHistoryCount.Margin = new Padding(0, 2, 12, 6);
+        pnlInvoiceHistoryCount.Text = "Kayıt: 0";
+        pnlInvoiceHistoryCount.Dock = DockStyle.Fill;
+        tabInvoices.Name = "tabInvoices";
+        tabInvoices.Dock = DockStyle.Fill;
+        tabInvoices.Padding = new Point(14, 7);
+        tabInvoices.SelectedIndex = 0;
+        tabLines.Name = "tabLines";
+        tabLines.Text = "Fatura Kalemleri";
+        tabLines.Padding = new Padding(4);
+        tabLines.BackColor = Color.White;
+        tabLines.AutoScroll = true;
+        tabHistory.Name = "tabHistory";
+        tabHistory.Text = "Kayıtlı Faturalar";
+        tabHistory.Padding = new Padding(4);
+        tabHistory.BackColor = Color.White;
+        tabHistory.AutoScroll = true;
+        pnlInvoiceBody.Name = "pnlInvoiceBody";
+        pnlInvoiceBody.Dock = DockStyle.Fill;
+        pnlInvoiceBody.ColumnCount = 1;
+        pnlInvoiceBody.RowCount = 2;
+        pnlInvoiceBody.Margin = Padding.Empty;
+        pnlInvoiceBody.BackColor = Color.White;
+        pnlInvoiceBody.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlInvoiceBody.RowStyles.Add(new RowStyle(SizeType.Absolute, 178F));
+        pnlInvoiceBody.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlInvoiceBody.Padding = Padding.Empty;
+        pnlRoot.Name = "pnlRoot";
+        pnlRoot.Dock = DockStyle.Fill;
+        pnlRoot.ColumnCount = 1;
+        pnlRoot.RowCount = 3;
+        pnlRoot.Margin = Padding.Empty;
+        pnlRoot.BackColor = Color.White;
+        pnlRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlRoot.Padding = Padding.Empty;
+        pnlHeader.Name = "pnlHeader";
+        pnlHeader.Dock = DockStyle.Fill;
+        pnlHeader.ColumnCount = 1;
+        pnlHeader.RowCount = 2;
+        pnlHeader.Margin = Padding.Empty;
+        pnlHeader.BackColor = Color.White;
+        pnlHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlHeader.Padding = new Padding(16, 6, 16, 0);
+        lblTitle.Name = "lblTitle";
+        lblTitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblTitle.Margin = new Padding(0, 2, 12, 6);
+        lblTitle.Text = "Fatura Merkezi";
+        lblTitle.Font = new Font("Segoe UI Semibold", 15F);
+        lblTitle.AutoSize = true;
+        lblSubtitle.Name = "lblSubtitle";
+        lblSubtitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblSubtitle.Margin = new Padding(0, 2, 12, 6);
+        lblSubtitle.Text = "Bilgileri düzenleyin; değişikliklerinizi kaydedin.";
+        lblSubtitle.AutoSize = true;
+        pnlCommandBar.Name = "pnlCommandBar";
+        pnlCommandBar.Dock = DockStyle.Top;
+        pnlCommandBar.AutoSize = true;
+        pnlCommandBar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlCommandBar.WrapContents = true;
+        pnlCommandBar.Padding = new Padding(16, 8, 8, 8);
+        pnlCommandBar.Margin = Padding.Empty;
+        pnlCommandBar.BackColor = Color.White;
+        btnKaydet.Name = "btnKaydet";
+        btnKaydet.AutoSize = true;
+        btnKaydet.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnKaydet.MinimumSize = new Size(96, 34);
+        btnKaydet.Padding = new Padding(12, 4, 12, 4);
+        btnKaydet.Margin = new Padding(0, 0, 8, 0);
+        btnKaydet.FlatStyle = FlatStyle.Flat;
+        btnKaydet.BackColor = Color.FromArgb(40, 99, 163);
+        btnKaydet.ForeColor = Color.White;
+        btnKaydet.UseVisualStyleBackColor = false;
+        btnKaydet.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnKaydet.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnKaydet.Text = "Kaydet ve PDF";
+        btnRefresh.Name = "btnRefresh";
+        btnRefresh.AutoSize = true;
+        btnRefresh.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnRefresh.MinimumSize = new Size(96, 34);
+        btnRefresh.Padding = new Padding(12, 4, 12, 4);
+        btnRefresh.Margin = new Padding(0, 0, 8, 0);
+        btnRefresh.FlatStyle = FlatStyle.Flat;
+        btnRefresh.BackColor = Color.FromArgb(246, 248, 251);
+        btnRefresh.ForeColor = Color.FromArgb(37, 54, 75);
+        btnRefresh.UseVisualStyleBackColor = false;
+        btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnRefresh.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnRefresh.Text = "Geçmişi yenile";
+        btnNew.Name = "btnNew";
+        btnNew.AutoSize = true;
+        btnNew.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnNew.MinimumSize = new Size(96, 34);
+        btnNew.Padding = new Padding(12, 4, 12, 4);
+        btnNew.Margin = new Padding(0, 0, 8, 0);
+        btnNew.FlatStyle = FlatStyle.Flat;
+        btnNew.BackColor = Color.FromArgb(246, 248, 251);
+        btnNew.ForeColor = Color.FromArgb(37, 54, 75);
+        btnNew.UseVisualStyleBackColor = false;
+        btnNew.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnNew.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnNew.Text = "Yeni belge";
+        btnClose.Name = "btnClose";
+        btnClose.AutoSize = true;
+        btnClose.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnClose.MinimumSize = new Size(96, 34);
+        btnClose.Padding = new Padding(12, 4, 12, 4);
+        btnClose.Margin = new Padding(0, 0, 8, 0);
+        btnClose.FlatStyle = FlatStyle.Flat;
+        btnClose.BackColor = Color.FromArgb(246, 248, 251);
+        btnClose.ForeColor = Color.FromArgb(37, 54, 75);
+        btnClose.UseVisualStyleBackColor = false;
+        btnClose.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnClose.Text = "Kapat";
+        tlpInvoiceInfo.Controls.Add(lbl_txtFaturaNo, 0, 0);
+        tlpInvoiceInfo.Controls.Add(txtFaturaNo, 0, 1);
+        tlpInvoiceInfo.Controls.Add(lbl_txtAliciUnvan, 1, 0);
+        tlpInvoiceInfo.Controls.Add(txtAliciUnvan, 1, 1);
+        tlpInvoiceInfo.Controls.Add(lbl_txtAliciVkn, 0, 2);
+        tlpInvoiceInfo.Controls.Add(txtAliciVkn, 0, 3);
+        tlpInvoiceInfo.Controls.Add(lbl_dtTarih, 1, 2);
+        tlpInvoiceInfo.Controls.Add(dtTarih, 1, 3);
+        pnlInvoiceHistoryToolbar.Controls.Add(pnlInvoiceHistoryTitle, 0, 0);
+        pnlInvoiceHistoryToolbar.Controls.Add(txtInvoiceSearch, 1, 0);
+        pnlInvoiceHistoryToolbar.Controls.Add(pnlInvoiceHistoryClear, 2, 0);
+        pnlInvoiceHistoryToolbar.Controls.Add(pnlInvoiceHistoryColumns, 3, 0);
+        pnlInvoiceHistory.Controls.Add(pnlInvoiceHistoryToolbar, 0, 0);
+        pnlInvoiceHistory.Controls.Add(dgFaturalar, 0, 1);
+        pnlInvoiceHistory.Controls.Add(pnlInvoiceHistoryCount, 0, 2);
+        tabLines.Controls.Add(dgKalemler);
+        tabInvoices.Controls.Add(tabLines);
+        tabHistory.Controls.Add(pnlInvoiceHistory);
+        tabInvoices.Controls.Add(tabHistory);
+        pnlInvoiceBody.Controls.Add(tlpInvoiceInfo, 0, 0);
+        pnlInvoiceBody.Controls.Add(tabInvoices, 0, 1);
+        pnlHeader.Controls.Add(lblTitle, 0, 0);
+        pnlHeader.Controls.Add(lblSubtitle, 0, 1);
+        pnlRoot.Controls.Add(pnlHeader, 0, 0);
+        pnlCommandBar.Controls.Add(btnKaydet);
+        pnlCommandBar.Controls.Add(btnRefresh);
+        pnlCommandBar.Controls.Add(btnNew);
+        pnlCommandBar.Controls.Add(btnClose);
+        pnlRoot.Controls.Add(pnlCommandBar, 0, 1);
+        pnlRoot.Controls.Add(pnlInvoiceBody, 0, 2);
+        Controls.Add(pnlRoot);
+        dgFaturalar.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(dgFaturalar_CellDoubleClick);
+        btnKaydet.Click += new System.EventHandler(btnKaydet_Click);
+        btnRefresh.Click += RefreshInvoices_Click;
+        btnNew.Click += NewInvoice_Click;
+        btnClose.Click += CloseRecord_Click;
+        AutoScaleDimensions = new SizeF(96F, 96F);
+        AutoScaleMode = AutoScaleMode.Dpi;
+        Font = new Font("Segoe UI", 10F);
+        BackColor = Color.White;
+        ClientSize = new Size(1120, 760);
+        MinimumSize = new Size(720, 520);
+        StartPosition = FormStartPosition.CenterParent;
+        KeyPreview = true;
+        Name = "FormFatura";
+        Text = "Fatura Merkezi";
+        Load += FormFatura_Load;
+        ((System.ComponentModel.ISupportInitialize)dgKalemler).EndInit();
+        ((System.ComponentModel.ISupportInitialize)dgFaturalar).EndInit();
+        pnlCommandBar.ResumeLayout(false);
+        pnlCommandBar.PerformLayout();
+        pnlHeader.ResumeLayout(false);
+        pnlHeader.PerformLayout();
+        pnlRoot.ResumeLayout(false);
+        pnlRoot.PerformLayout();
+        pnlInvoiceBody.ResumeLayout(false);
+        pnlInvoiceBody.PerformLayout();
+        tabHistory.ResumeLayout(false);
+        tabHistory.PerformLayout();
+        tabLines.ResumeLayout(false);
+        tabLines.PerformLayout();
+        tabInvoices.ResumeLayout(false);
+        tabInvoices.PerformLayout();
+        pnlInvoiceHistoryToolbar.ResumeLayout(false);
+        pnlInvoiceHistoryToolbar.PerformLayout();
+        pnlInvoiceHistory.ResumeLayout(false);
+        pnlInvoiceHistory.PerformLayout();
+        tlpInvoiceInfo.ResumeLayout(false);
+        tlpInvoiceInfo.PerformLayout();
+        ResumeLayout(false);
+        PerformLayout();
+    }
+    #endregion
 }

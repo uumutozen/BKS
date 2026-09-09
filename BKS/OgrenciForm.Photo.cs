@@ -1,25 +1,17 @@
-using System.Data;
-using System.Data.SqlClient;
 namespace BKS;
+
 public partial class OgrenciForm
 {
-    private void pictureBox1_Click(object sender, EventArgs e)
+    private void pictureBox1_Click(object sender, EventArgs e) => _photoEditor.ChoosePhoto();
+
+    internal void SetPhoto(byte[]? bytes)
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog();
-        openFileDialog.Filter = "Fotoğraf |*.png;*.jpeg";
-        openFileDialog.Title = "Bir Fotoğraf Seçin";
-        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        Photo = bytes;
+        try { _photoEditor.SetBytes(bytes); }
+        catch (Exception error) when (error is ArgumentException or OutOfMemoryException or System.Runtime.InteropServices.ExternalException)
         {
-            pictureBox1.Image = System.Drawing.Image.FromFile(openFileDialog.FileName);
-            if (pictureBox1.Image != null)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-                    pictureBox1.Image.Save(ms, pictureBox1.Image.RawFormat);
-                    Photo = ms.ToArray();
-                }
-            }
+            // Bozuk bir eski fotoğraf öğrenci kartının açılmasını engellemez; özgün veri korunur.
+            _photoEditor.ShowError("Kayıtlı fotoğraf görüntülenemedi. Yeni bir fotoğraf seçebilirsiniz.");
         }
     }
 }

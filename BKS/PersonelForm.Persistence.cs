@@ -18,19 +18,19 @@ public partial class PersonelForm
         }
         if (!rbtPersonelErkek.Checked && !rbtPersonelKadin.Checked)
         {
-            _sections.Reveal(panel1);
+            Screens.RevealAndFocus(panel1);
             MessageBox.Show("Lütfen cinsiyet seçiniz.");
             return;
         }
         if (!rbtPersonelEvli.Checked && !rbtPersonelBekar.Checked)
         {
-            _sections.Reveal(panel2);
+            Screens.RevealAndFocus(panel2);
             MessageBox.Show("Lütfen medeni durum seçiniz.");
             return;
         }
         if (!rbtPersonelEgitimGorevlisiEvet.Checked && !rbtPersonelEgitimGorevlisiHayir.Checked)
         {
-            _sections.Reveal(panel3);
+            Screens.RevealAndFocus(panel3);
             MessageBox.Show("Lütfen eğitim görevlisi olup olmadığını seçiniz.");
             return;
         }
@@ -223,19 +223,19 @@ WHERE PersonelId = @id AND CompanyId=dbo.GetSirketIdByUserId(@UserId)";
         }
         if (!rbtPersonelErkek.Checked && !rbtPersonelKadin.Checked)
         {
-            _sections.Reveal(panel1);
+            Screens.RevealAndFocus(panel1);
             MessageBox.Show("Lütfen cinsiyet seçiniz.");
             return;
         }
         if (!rbtPersonelEvli.Checked && !rbtPersonelBekar.Checked)
         {
-            _sections.Reveal(panel2);
+            Screens.RevealAndFocus(panel2);
             MessageBox.Show("Lütfen medeni durum seçiniz.");
             return;
         }
         if (!rbtPersonelEgitimGorevlisiEvet.Checked && !rbtPersonelEgitimGorevlisiHayir.Checked)
         {
-            _sections.Reveal(panel3);
+            Screens.RevealAndFocus(panel3);
             MessageBox.Show("Lütfen eğitim görevlisi olup olmadığını seçiniz.");
             return;
         }

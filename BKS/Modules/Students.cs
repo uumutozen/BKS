@@ -10,12 +10,12 @@ public partial class Form2
 {
     public void LoadStockData(Guid userId)
     {
-        dataGridViewStok.DataSource = GetStudentTable(userId, GetStudentSearchText());
+        dataGridViewStok.DataSource = GetStudentTable(userId);
         dataGridViewStok.Refresh();
     }
     public DataTable LoadStockDataRefresh(Guid userId)
     {
-        return GetStudentTable(userId, GetStudentSearchText());
+        return GetStudentTable(userId);
     }
     private void Timer1_Tick(object sender, EventArgs e)
     {
@@ -64,10 +64,8 @@ public partial class Form2
             MessageBox.Show("Hatalı Veri Girişi", "Hata");
         }
     }
-    private void txtOgrenciYonetimiAra_TextChanged(object sender, EventArgs e)
-    {
-        RefreshStudentGrid();
-    }
+    private void txtOgrenciYonetimiAra_TextChanged(object sender, EventArgs e) =>
+        ModernWinForms.ApplySearchFilter(dataGridViewStok, txtOgrenciYonetimiAra.Text);
     private void dataGridViewStok_MouseDown(object sender, MouseEventArgs e)
     {
         DataGridView.HitTestInfo hit = dataGridViewStok.HitTest(e.X, e.Y);
@@ -77,7 +75,8 @@ public partial class Form2
             {
                 dataGridViewStok.ClearSelection();
                 dataGridViewStok.Rows[hit.RowIndex].Selected = true;
-                dataGridViewStok.CurrentCell = dataGridViewStok.Rows[hit.RowIndex].Cells[0];
+                var first = dataGridViewStok.Columns.Cast<DataGridViewColumn>().FirstOrDefault(column => column.Visible);
+                if (first != null) dataGridViewStok.CurrentCell = dataGridViewStok.Rows[hit.RowIndex].Cells[first.Index];
             }
             if (e.Button == MouseButtons.Right)
             {
@@ -87,63 +86,24 @@ public partial class Form2
     }
     private void dataGridViewStok_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex<0)
-        return;
-        DataGridViewRow row = dataGridViewStok.Rows[e.RowIndex];
-        if (!_allowedModules.Contains(tabPageStok.Name)) return;
-        string key = "student:" + row.Cells["Id"].Value;
-        _documents.OpenDocument(key, "Öğrenci kartı", () =>
+        if (e.RowIndex < 0 || e.RowIndex >= dataGridViewStok.Rows.Count || ! _allowedModules.Contains(tabPageStok.Name)) return;
+        UiActions.Run(() =>
         {
-            OgrenciForm ogrForm = new OgrenciForm(this);
-            ogrForm.UserId = UserId;
-            ogrForm.RefreshData += DataStokRefresh;
-            LoadStudentClassComboBox(ogrForm.cmbogrsınıf, UserId);
-            ogrForm.txtOgrenciAd.Text = row.Cells["İsim"].Value?.ToString() ?? string.Empty;
-            ogrForm.textSoyad.Text = row.Cells["Soyisim"].Value?.ToString() ?? string.Empty;
-            ogrForm.txtBabaAd.Text = row.Cells["Baba Adı"].Value?.ToString() ?? string.Empty;
-            ogrForm.txtAnneAd.Text = row.Cells["Anne Adı"].Value?.ToString() ?? string.Empty;
-            ogrForm.cmbogrsınıf.Text = row.Cells["Sınıfı"].Value?.ToString() ?? string.Empty;
-            ogrForm.textOgrenciKod.Text = row.Cells["Öğrenci Kodu"].Value?.ToString() ?? string.Empty;
-            ogrForm.textOgrenciDetay.Text = row.Cells["Öğrenci Hakkında"].Value?.ToString() ?? string.Empty;
-            ogrForm.txtBabaTel.Text = row.Cells["Baba Telefon"].Value?.ToString() ?? string.Empty;
-            ogrForm.txtAnneTel.Text = row.Cells["Anne Telefon"].Value?.ToString() ?? string.Empty;
-            ogrForm.txtBabaEvAdres.Text = row.Cells["Baba Adresi"].Value?.ToString() ?? string.Empty;
-            ogrForm.txtAnneEvAdres.Text = row.Cells["Anne Adresi"].Value?.ToString() ?? string.Empty;
-            if (row.Cells["FotoId"].Value is byte[] imageData && imageData.Length> 0)
+            var record = RecordFieldBinder.Snapshot(dataGridViewStok.Rows[e.RowIndex]);
+            var id = record.RequiredId("Id");
+            string name = (record.Get("İsim", string.Empty) + " " + record.Get("Soyisim", string.Empty)).Trim();
+            _documents.OpenDocument("student:" + id, "Öğrenci: " + name, () =>
             {
-                using (var ms = new MemoryStream(imageData))
+                var form = new OgrenciForm(this) { UserId = UserId };
+                try
                 {
-                    using var image = Image.FromStream(ms);
-                    ogrForm.pictureBox1.Image = new Bitmap(image);
-                    ogrForm.Photo = imageData;
-                    ogrForm.pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                    form.RefreshData += DataStokRefresh;
+                    StudentRecordMapper.Fill(form, record);
+                    return form;
                 }
-            }
-            else
-            {
-                ogrForm.pictureBox1.Image = null;
-            }
-            ogrForm.numericPrice.Value = row.Cells["MonthlyFee"].Value != null &&
-            decimal.TryParse(row.Cells["MonthlyFee"].Value.ToString(), out decimal price)
-            ? price
-            : 0;
-            ogrForm.checkAktif.Checked = row.Cells["Aktif Öğrenci mi"].Value?.ToString() == "Evet";
-            ogrForm.checkEvet.Checked = row.Cells["Aile Ayrı Mı"].Value?.ToString() == "Evet";
-            ogrForm.checkOdemeDurum.Checked = row.Cells["Ödeme Durumu"].Value?.ToString() == "Ödeme Yapıldı" ||
-            row.Cells["Ödeme Durumu"].Value?.ToString() == "True";
-            if (row.Cells["Doğum Tarihi"].Value != null &&
-            DateTime.TryParse(row.Cells["Doğum Tarihi"].Value.ToString(), out DateTime birthDate) &&
-            birthDate >= ogrForm.dateDogum.MinDate && birthDate <= ogrForm.dateDogum.MaxDate)
-            {
-                ogrForm.dateDogum.Value = birthDate;
-            }
-            else
-            {
-                ogrForm.dateDogum.Value = DateTime.Now;
-            }
-            ogrForm.StudentId = (Guid) row.Cells["Id"].Value;
-            return ogrForm;
-        }, tabPageStok.Name);
+                catch { form.Dispose(); throw; }
+            }, tabPageStok.Name);
+        });
     }
     private void ödemeDetaylarıToolStripMenuItem_Click_1(object sender, EventArgs e)
     {
@@ -171,10 +131,8 @@ public partial class Form2
                     MessageBox.Show("Geçerli öğrenci bilgisi alınamadı.");
                     return;
                 }
-                using (var arsiv = new arsivForm(UserId, connectionString, ogrenciId))
-                {
-                    arsiv.ShowDialog();
-                }
+                _documents.OpenDocument("archive:student:" + ogrenciId, "Öğrenci evrak arşivi",
+                    () => new arsivForm(UserId, connectionString, ogrenciId), tabPageStok.Name);
             }
             else if (activeTag == PersonelModuleTag)
             {
@@ -183,11 +141,9 @@ public partial class Form2
                     MessageBox.Show("Geçerli personel bilgisi alınamadı.");
                     return;
                 }
-                Guid arsivOgrenciId = EnsurePersonelArchiveStudent(personelId);
-                using (var arsiv = new arsivForm(UserId, connectionString, arsivOgrenciId))
-                {
-                    arsiv.ShowDialog();
-                }
+                _documents.OpenDocument("archive:personnel:" + personelId, "Personel evrak arşivi",
+                    () => new arsivForm(UserId, connectionString, EnsurePersonelArchiveStudent(personelId)),
+                    tabPagePersonelYonetimi.Name);
             }
             else
             {

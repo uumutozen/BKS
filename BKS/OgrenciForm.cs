@@ -21,11 +21,14 @@ namespace BKS
         public event EventHandler RefreshData;
         private Form2 _form2;
         private readonly EditSession _edits;
+        private PhotoEditor _photoEditor = null!;
+        public OgrenciForm() : this(null!) { }
+
         public OgrenciForm(Form2 form2)
         {
             _form2 = form2;
             InitializeComponent();
-            BuildModernStudentFormLayout();
+            InitializeRuntimeState();
             _edits = new EditSession(this, () =>
             {
                 if (StudentId == Guid.Empty) RunStudentSave();
@@ -39,7 +42,12 @@ namespace BKS
         {
             if (AppConfiguration.DesignPreview) return;
             var selectedClass = cmbogrsınıf.Text;
-            LoadStudentClassComboBox(UserId);
+            try { LoadStudentClassComboBox(UserId); }
+            catch (Exception)
+            {
+                MessageBox.Show("Sınıf listesi yüklenemedi. Bağlantıyı kontrol edip kartı yeniden açın.",
+                    "Öğrenci kartı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             cmbogrsınıf.Text = selectedClass;
         }
         private void txtOgrenciAd_TextChanged(object sender, EventArgs e)
@@ -115,7 +123,7 @@ namespace BKS
                 // Placeholder gibi görünmesi için gri
             }
         }
-        public byte[] Photo
+        public byte[]? Photo
         {
             get;
             set;

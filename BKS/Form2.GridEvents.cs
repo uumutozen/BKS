@@ -34,8 +34,8 @@ public partial class Form2
             aktifDGV.Rows[hit.RowIndex].Selected = true;
             if (hit.ColumnIndex >= 0)
             aktifDGV.CurrentCell = aktifDGV.Rows[hit.RowIndex].Cells[hit.ColumnIndex];
-            else
-            aktifDGV.CurrentCell = aktifDGV.Rows[hit.RowIndex].Cells[0];
+            else if (aktifDGV.Columns.Cast<DataGridViewColumn>().FirstOrDefault(column => column.Visible) is { } first)
+                aktifDGV.CurrentCell = aktifDGV.Rows[hit.RowIndex].Cells[first.Index];
         }
         if (e.Button == MouseButtons.Right)
         {
@@ -69,7 +69,6 @@ public partial class Form2
                     UserId = UserId
                 };
                 form.RefreshData += DataStokRefresh;
-                LoadStudentClassComboBox(form.cmbogrsınıf, UserId);
                 return form;
             }, tabPageStok.Name);
         }

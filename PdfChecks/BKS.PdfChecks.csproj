@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../BKS/Infrastructure/InvoiceLine.cs" Link="InvoiceLine.cs" />
+    <Compile Include="../BKS/Infrastructure/InvoicePdf.cs" Link="InvoicePdf.cs" />
+    <Compile Include="../BKS/Infrastructure/Pdf/*.cs" Link="Pdf/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(BksOfflineDependencies)' == ''">
+    <PackageReference Include="PdfSharpCore" Version="1.3.67" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(BksOfflineDependencies)' != ''">
+    <Reference Include="$(BksOfflineDependencies)/*.dll" Exclude="$(BksOfflineDependencies)/sni.dll" />
+  </ItemGroup>
+</Project>

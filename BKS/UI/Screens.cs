@@ -34,8 +34,21 @@ internal static class Screens
         form.Shown += (_, _) => FitToScreen(form);
         form.ResumeLayout(true);
     }
+    public static void PrepareDesignerForm(Form form)
+    {
+        // Designer owns the hierarchy, Dock, Anchor and DPI baseline.
+        form.Shown += (_, _) => FitToScreen(form);
+    }
     public static void FitToScreen(Form form)
     {
+        if (!form.TopLevel)
+        {
+            form.MinimumSize = Size.Empty;
+            form.MaximumSize = Size.Empty;
+            form.WindowState = FormWindowState.Normal;
+            form.Dock = DockStyle.Fill;
+            return;
+        }
         var area = Screen.FromControl(form).WorkingArea;
         form.MinimumSize = new Size(Math.Min(600, area.Width), Math.Min(440, area.Height));
         if (form.TopLevel && form.WindowState == FormWindowState.Normal)
@@ -61,30 +74,18 @@ internal static class Screens
     }
     public static void Mount(Form form, Control body, BksRibbon ribbon, Control? title = null, Control? footer = null)
     {
-        if (body is SectionedForm sections)
-        {
-            var commands = sections.Titles.Select(title => new RibbonCommand(title, RibbonIcon.Folder, () => sections.SelectSection(title),
-            IsSelected: () => sections.CurrentTitle == title)).ToArray();
-            ribbon.SetNavigation("record", ("Form bölümleri", commands));
-            sections.SectionChanged += (_, _) => ribbon.RefreshCommands();
-        }
-        else
-        {
-            ribbon.SetNavigation("record", ("Çalışma alanı", new[]
-            {
-                new RibbonCommand(form.Text, RibbonIcon.View, () => body.SelectNextControl(null, true, true, true, false))
-            }));
-        }
-        form.Controls.Clear();
+        // Shell mounting only. A record form must retain its Designer root.
+        if (form.Controls.Count != 0)
+            throw new InvalidOperationException("Ribbon shell yalnızca boş ana host üzerine yerleştirilebilir.");
         form.Controls.Add(new RibbonWorkspace(body, ribbon, title, footer));
     }
-    public static Control Grid(DataGridView grid)
+    public static Control Grid(DataGridView grid, string? title = null)
     {
         ModernWinForms.StyleGrid(grid);
         grid.Dock = DockStyle.Fill;
         grid.ReadOnly = true;
         grid.AllowUserToAddRows = false;
-        return new ListSurface(grid);
+        return new ListSurface(grid, title);
     }
     public static void RevealAndFocus(Control target)
     {

@@ -43,11 +43,28 @@ internal static class LayoutDiagnostics
                     Check(input.Left >= 0 && input.Right <= card.ClientSize.Width, form.Text + ": field outside card");
                 }
             }
+            foreach (var table in Walk(form).OfType<TableLayoutPanel>().Where(c => c.Visible))
+            {
+                var children = table.Controls.Cast<Control>().Where(c => c.Visible).ToArray();
+                for (int i = 0; i < children.Length; i++)
+                for (int j = i + 1; j < children.Length; j++)
+                    Check(!children[i].Bounds.IntersectsWith(children[j].Bounds), form.Text + ": Designer table controls overlap: " + children[i].Name + " / " + children[j].Name);
+            }
             foreach (var ribbon in Walk(form).OfType<BksRibbon>().Where(c => c.Visible))
             {
                 Check(ribbon.IsExpanded && ribbon.Height >= 115 * ribbon.DeviceDpi / 96F && ribbon.Height <= 135 * ribbon.DeviceDpi / 96F,
                 form.Text + ": grouped ribbon visible");
                 Check(!Walk(ribbon).OfType<ScrollableControl>().Any(c => c.HorizontalScroll.Visible), form.Text + ": ribbon horizontal scrollbar");
+            }
+            foreach (var list in Walk(form).OfType<ListSurface>().Where(control => control.Visible))
+            {
+                var children = list.Controls.Cast<Control>().Where(control => control.Visible).ToArray();
+                for (int i = 0; i < children.Length; i++)
+                for (int j = i + 1; j < children.Length; j++)
+                    Check(!children[i].Bounds.IntersectsWith(children[j].Bounds), form.Text + ": list search/header/grid overlap");
+                foreach (var child in children)
+                    Check(child.Left >= 0 && child.Right <= list.ClientSize.Width && child.Top >= 0 && child.Bottom <= list.ClientSize.Height,
+                        form.Text + ": list toolbar outside bounds");
             }
             foreach (var panel in Walk(form).OfType<LoginInputPanel>())
             foreach (var input in panel.Controls.OfType<TextBox>())
@@ -93,9 +110,11 @@ internal static class LayoutDiagnostics
         try
         {
             PhotoDiagnostics.Run(Check);
+            DocumentDiagnostics.Run(Check);
             using (var login = new Form1()) Exercise(login, "Yeni giriş ekranı");
             using var main = new Form2();
             Exercise(main, "Ana pencere / tüm modüller");
+            main.VerifyNavigationContract(Check);
             using (var form = new ConnectionSettingsForm()) Exercise(form, "Bağlantı ayarları");
             using (var form = new OgrenciForm(main)) Exercise(form, "Öğrenci");
             using (var form = new PersonelForm(main)) Exercise(form, "Personel");
@@ -103,6 +122,9 @@ internal static class LayoutDiagnostics
             using (var form = new arsivForm(Guid.Empty, "", Guid.Empty)) Exercise(form, "Arşiv");
             using (var form = new OzelRapor()) Exercise(form, "Rapor tasarımı");
             using (var form = new RaporCalistirForm(0)) Exercise(form, "Rapor çalıştırma");
+            using (var form = new PaymentDetailsForm()) Exercise(form, "Ödeme detayları");
+            using (var form = new PaymentPlanForm()) Exercise(form, "Aylık ödeme planı");
+            using (var form = new DataListForm()) Exercise(form, "İşlem geçmişi");
             log.AppendLine($"PASS: {checks} layout assertions. Repeat at Windows scaling 100%, 125%, 150%, 200%.");
             File.WriteAllText(Path.Combine(directory, "Windows_Yerlesim_Sonucu.txt"), log.ToString());
             return 0;

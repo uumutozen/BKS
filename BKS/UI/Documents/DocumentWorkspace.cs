@@ -1,17 +1,16 @@
 namespace BKS;
-/// <summary>Owns document tabs and embedded forms, including single-instance activation.</summary>
+
+/// <summary>Tek örnek açma, yetki ve kapanış akışını yönetir. Sekme çizimi ayrı sınıftadır.</summary>
 internal sealed class DocumentWorkspace : Panel
 {
-    private sealed record Document(TabPage Page, Form? Form, string? Permission, bool KeepAlive);
-    private readonly DocumentRegistry<Document> documents = new();
+    private readonly DocumentRegistry<DocumentEntry> documents = new();
     private readonly TabControl tabs;
-    public Func<string, bool>? CanClosePage
-    {
-        get;
-        set;
-    }
-    public event Action<string, BksRibbon?>? ActiveDocumentChanged;
-    public string? ActiveKey => documents.Entries.FirstOrDefault(p => p.Value.Page == tabs.SelectedTab).Key;
+    private readonly DocumentTabPresenter tabPresenter;
+
+    public Func<string, bool>? CanClosePage { get; set; }
+    public event Action<string>? ActiveDocumentChanged;
+    public string? ActiveKey => FindKey(tabs.SelectedTab);
+
     public DocumentWorkspace(TabControl tabs)
     {
         this.tabs = tabs;
@@ -20,173 +19,166 @@ internal sealed class DocumentWorkspace : Panel
         tabs.Parent?.Controls.Remove(tabs);
         tabs.TabPages.Clear();
         tabs.Dock = DockStyle.Fill;
-        tabs.Appearance = TabAppearance.Normal;
-        tabs.DrawMode = TabDrawMode.OwnerDrawFixed;
-        tabs.SizeMode = TabSizeMode.Fixed;
-        tabs.ItemSize = new Size(180, 30);
-        tabs.Padding = new Point(10, 4);
-        tabs.DrawItem += DrawTab;
-        tabs.MouseDown += TabMouseDown;
+        tabPresenter = new DocumentTabPresenter(tabs);
+        tabPresenter.CloseRequested += CloseRequested;
         tabs.SelectedIndexChanged += (_, _) => NotifyActive();
         Controls.Add(tabs);
-        ResizeTabs();
     }
+
     public void OpenPage(string key, string title, TabPage page, string? permission = null)
     {
-        var document = documents.GetOrCreate(key, () => new Document(page, null, permission, true));
-        document.Page.Text = title;
+        var document = documents.GetOrCreate(key, () => new DocumentEntry(page, null, permission, true));
+        document.Page.Text = document.Page.ToolTipText = title;
         Activate(document);
     }
-    public void OpenDocument(string key, string title, Func<Form> factory, string? permission = null)
+
+    public TForm OpenDocument<TForm>(string key, string title, Func<TForm> factory, string? permission = null)
+        where TForm : Form
     {
+        if (documents.TryGet(key, out var stale) && stale?.Form?.IsDisposed == true)
+            RemoveClosed(key, stale);
+
+        bool created = false;
         var document = documents.GetOrCreate(key, () =>
         {
-            var form = factory();
-            var page = new TabPage(title)
-            {
-                Name = key,
-                Padding = Padding.Empty,
-                BackColor = Color.White
-            };
-            form.TopLevel = false;
-            form.FormBorderStyle = FormBorderStyle.None;
-            form.MinimumSize = Size.Empty;
-            form.Dock = DockStyle.Fill;
-            var workspace = form.Controls.OfType<RibbonWorkspace>().FirstOrDefault();
-            workspace?.Embed();
-            page.Controls.Add(form);
-            form.FormClosed += (_, _) => RemoveClosed(key, page);
-            return new Document(page, form, permission, false);
+            var entry = CreateDocument(key, title, factory, permission);
+            created = true;
+            return entry;
         });
-        Activate(document);
-        document.Form?.Show();
-        NotifyActive();
+        if (document.Form is not TForm form)
+            throw new InvalidOperationException("Belge anahtarı farklı bir ekran türü için kullanılmış: " + key);
+
+        try
+        {
+            Activate(document);
+            form.Show();
+        }
+        catch
+        {
+            if (created)
+            {
+                RemoveClosed(key, document);
+                form.Dispose();
+            }
+            throw;
+        }
+        if (!form.IsDisposed)
+        {
+            Screens.FitToScreen(form);
+            form.BringToFront();
+            form.SelectNextControl(null, true, true, true, false);
+            NotifyActive();
+        }
+        return form;
     }
+
+    private DocumentEntry CreateDocument<TForm>(string key, string title, Func<TForm> factory, string? permission)
+        where TForm : Form
+    {
+        var form = factory() ?? throw new InvalidOperationException("Belge oluşturucu boş form döndürdü.");
+        var page = new TabPage(title)
+        {
+            Name = key, ToolTipText = title, Padding = Padding.Empty, BackColor = Color.White
+        };
+        try
+        {
+            DocumentFormHost.Attach(form, page);
+            var document = new DocumentEntry(page, form, permission, false);
+            form.FormClosed += (_, _) => RemoveClosed(key, document);
+            return document;
+        }
+        catch
+        {
+            page.Dispose();
+            form.Dispose();
+            throw;
+        }
+    }
+
     public bool Activate(string key)
     {
-        if (!documents.TryGet(key, out var document) || document == null) return false;
+        if (!documents.TryGet(key, out var document) || document is null) return false;
         Activate(document);
         return true;
     }
-    private void Activate(Document document)
+
+    private void Activate(DocumentEntry document)
     {
         if (!tabs.TabPages.Contains(document.Page)) tabs.TabPages.Add(document.Page);
         tabs.SelectedTab = document.Page;
         document.Page.Focus();
         NotifyActive();
     }
+
     public void ApplyAccess(ISet<string> permissions)
     {
-        foreach (var entry in documents.Entries)
+        foreach (var document in documents.Entries.Select(entry => entry.Value))
         {
-            var document = entry.Value;
-            bool allowed = document.Permission == null || permissions.Contains(document.Permission);
+            bool allowed = document.Permission is null || permissions.Contains(document.Permission);
             document.Page.Enabled = allowed;
-            // Detach inaccessible documents without discarding unsaved edits during a permission refresh.
             if (!allowed) tabs.TabPages.Remove(document.Page);
         }
     }
+
     public bool CloseDocument(string key)
     {
-        if (key == "home" || !documents.TryGet(key, out var document) || document == null) return true;
-        if (document.Form != null)
+        if (key == "home" || !documents.TryGet(key, out var document) || document is null) return true;
+        if (document.Form is { } form)
         {
-            document.Form.Close();
-            return document.Form.IsDisposed;
+            if (document.Page.Enabled) Activate(document);
+            form.Close();
+            return form.IsDisposed;
         }
         if (CanClosePage?.Invoke(key) == false) return false;
         tabs.TabPages.Remove(document.Page);
         NotifyActive();
         return true;
     }
+
     public bool CloseAll()
     {
         foreach (var entry in documents.Entries)
-        if (!CloseDocument(entry.Key)) return false;
+            if (!CloseDocument(entry.Key)) return false;
         return true;
     }
-    private void RemoveClosed(string key, TabPage page)
+
+    private void RemoveClosed(string key, DocumentEntry document)
     {
         documents.Remove(key);
-        tabs.TabPages.Remove(page);
-        page.Dispose();
+        tabs.TabPages.Remove(document.Page);
+        if (document.Form is not null) document.Page.Controls.Remove(document.Form);
+        document.Page.Dispose();
         NotifyActive();
     }
+
+    private string? FindKey(TabPage? page) => documents.Entries.FirstOrDefault(entry => entry.Value.Page == page).Key;
+
     private void NotifyActive()
     {
-        var entry = documents.Entries.FirstOrDefault(p => p.Value.Page == tabs.SelectedTab);
-        if (entry.Value == null) return;
-        var ribbon = entry.Value.Form?.Controls.OfType<RibbonWorkspace>().FirstOrDefault()?.Ribbon;
-        ActiveDocumentChanged?.Invoke(entry.Key, ribbon);
+        if (ActiveKey is not { } key || !documents.TryGet(key, out var document) || document is null) return;
+        ActiveDocumentChanged?.Invoke(key);
     }
-    private void DrawTab(object? sender, DrawItemEventArgs e)
+
+    private void CloseRequested(TabPage page, DocumentCloseMode mode)
     {
-        var page = tabs.TabPages[e.Index];
-        bool active = tabs.SelectedIndex == e.Index;
-        using var fill = new SolidBrush(active ? Color.White: RibbonPalette.DocumentTab);
-        e.Graphics.FillRectangle(fill, e.Bounds);
-        var text = Rectangle.Inflate(e.Bounds, - 8, 0);
-        text.Width -= 22;
-        TextRenderer.DrawText(e.Graphics, page.Text, tabs.Font, text, RibbonPalette.Text,
-        TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
-        if (page.Name != "home")
-        TextRenderer.DrawText(e.Graphics, "×", tabs.Font, CloseBounds(e.Index), RibbonPalette.CaptionText,
-        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-        using var border = new Pen(active ? RibbonPalette.Accent: RibbonPalette.Border);
-        e.Graphics.DrawLine(border, e.Bounds.Left, e.Bounds.Bottom - 1, e.Bounds.Right, e.Bounds.Bottom - 1);
-    }
-    private Rectangle CloseBounds(int index)
-    {
-        var rect = tabs.GetTabRect(index);
-        int width = (int) Math.Ceiling(24 * DeviceDpi / 96F);
-        return new Rectangle(rect.Right - width, rect.Top, width, rect.Height);
-    }
-    private void TabMouseDown(object? sender, MouseEventArgs e)
-    {
-        for (int i = 0; i<tabs.TabCount; i++)
+        var open = tabs.TabPages.Cast<TabPage>().ToArray();
+        int index = Array.IndexOf(open, page);
+        IEnumerable<TabPage> targets = mode switch
         {
-            if (!tabs.GetTabRect(i).Contains(e.Location)) continue;
-            var key = documents.Entries.First(p => p.Value.Page == tabs.TabPages[i]).Key;
-            if (e.Button == MouseButtons.Middle || (e.Button == MouseButtons.Left && CloseBounds(i).Contains(e.Location)))
-            CloseDocument(key);
-            else if (e.Button == MouseButtons.Right) ShowTabMenu(key, i, e.Location);
-            break;
-        }
+            DocumentCloseMode.Current => new[] { page },
+            DocumentCloseMode.Others => open.Where(candidate => candidate != page),
+            DocumentCloseMode.ToRight => open.Skip(index + 1),
+            _ => open.AsEnumerable()
+        };
+        foreach (var target in targets.ToArray())
+            if (FindKey(target) is { } key && !CloseDocument(key)) break;
     }
-    private void ShowTabMenu(string key, int index, Point point)
-    {
-        var menu = new ContextMenuStrip();
-        void Add(string caption, IEnumerable<string> keys)
-        {
-            var snapshot = keys.ToArray();
-            menu.Items.Add(caption, null, (_, _) =>
-            {
-                foreach (var item in snapshot) if (!CloseDocument(item)) break;
-            });
-        }
-        var open = tabs.TabPages.Cast<TabPage>()
-        .Select(page => documents.Entries.First(p => p.Value.Page == page).Key).ToArray();
-        Add("Kapat", new[]
-        {
-            key
-        });
-        Add("Diğerlerini kapat", open.Where(k => k != key));
-        Add("Sağdakileri kapat", open.Skip(index + 1));
-        Add("Tümünü kapat", open);
-        menu.Closed += (_, _) => menu.Dispose();
-        menu.Show(tabs, point);
-    }
-    private void ResizeTabs() => tabs.ItemSize = new Size((int)(180 * DeviceDpi / 96F), (int)(30 * DeviceDpi / 96F));
-    protected override void OnDpiChangedAfterParent(EventArgs e)
-    {
-        base.OnDpiChangedAfterParent(e);
-        ResizeTabs();
-    }
+
     protected override void Dispose(bool disposing)
     {
         if (disposing)
-        foreach (var entry in documents.Entries)
-        if (!entry.Value.KeepAlive && !entry.Value.Page.IsDisposed) entry.Value.Page.Dispose();
+            foreach (var document in documents.Entries.Select(entry => entry.Value))
+                if (!document.Page.IsDisposed) document.Page.Dispose();
         base.Dispose(disposing);
     }
 }

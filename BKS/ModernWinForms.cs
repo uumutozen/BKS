@@ -203,68 +203,10 @@ namespace BKS
             groupBox.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold, GraphicsUnit.Point, 162);
         }
 
-        public static void StyleGrid(DataGridView grid)
-        {
-            grid.BorderStyle = BorderStyle.None;
-            grid.BackgroundColor = CardBack;
-            grid.GridColor = Border;
-            grid.EnableHeadersVisualStyles = false;
-            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            grid.AllowUserToOrderColumns = true;
-            grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            grid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            grid.MultiSelect = false;
-            grid.RowHeadersVisible = false;
-            grid.AllowUserToResizeRows = false;
-            grid.ColumnHeadersHeight = (int)(44 * grid.DeviceDpi / 96F);
-            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(222, 232, 245);
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = RibbonPalette.Text;
-            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point,
-            162);
-            grid.DefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            grid.DefaultCellStyle.ForeColor = Text;
-            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 234, 254);
-            grid.DefaultCellStyle.SelectionForeColor = Text;
-            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(248, 250, 252);
-            grid.RowTemplate.Height = (int)(40 * grid.DeviceDpi / 96F);
-            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            grid.DefaultCellStyle.Padding = new Padding(9, 3, 9, 3);
-            grid.ColumnHeadersDefaultCellStyle.Padding = new Padding(8, 0, 8, 0);
-            grid.Paint -= PaintEmptyGrid;
-            grid.Paint += PaintEmptyGrid;
-        }
+        public static void StyleGrid(DataGridView grid) => GridAppearance.Apply(grid);
 
-        private static void PaintEmptyGrid(object? sender, PaintEventArgs e)
-        {
-            if (sender is not DataGridView grid || grid.Rows.Count>(grid.AllowUserToAddRows ? 1: 0)) return;
-            var rect = new Rectangle(12, grid.ColumnHeadersHeight + 16, Math.Max(0, grid.Width - 24), Math.Max(0, grid.Height - grid.ColumnHeadersHeight - 32));
-            TextRenderer.DrawText(e.Graphics, "Gösterilecek kayıt bulunamadı.", grid.Font, rect, Muted,
-            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
-        }
-
-        public static void ApplySearchFilter(DataGridView grid, string searchText)
-        {
-            if (grid.DataSource == null) return;
-            var term = DataValues.EscapeLike((searchText ?? string.Empty).Trim());
-            if (grid.DataSource is DataTable dt)
-            {
-                dt.DefaultView.RowFilter = string.IsNullOrWhiteSpace(term)
-                ? string.Empty
-                : string.Join(" OR ", dt.Columns.Cast<DataColumn>()
-                .Where(c => c.DataType == typeof(string))
-                .Select(c => $"CONVERT([{c.ColumnName.Replace("\\", "\\\\").Replace("]", "\\]")}], 'System.String') LIKE '%{term}%'"));
-            }
-            else if (grid.DataSource is DataView dv)
-            {
-                dv.RowFilter = string.IsNullOrWhiteSpace(term)
-                ? string.Empty
-                : string.Join(" OR ", dv.Table.Columns.Cast<DataColumn>()
-                .Where(c => c.DataType == typeof(string))
-                .Select(c => $"CONVERT([{c.ColumnName.Replace("\\", "\\\\").Replace("]", "\\]")}], 'System.String') LIKE '%{term}%'"));
-            }
-        }
+        public static void ApplySearchFilter(DataGridView grid, string searchText) =>
+            GridFilterController.For(grid).SetSearch(searchText);
 
         public static void UseSegoeRecursive(Control parent)
         {

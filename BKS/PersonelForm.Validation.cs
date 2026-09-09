@@ -16,7 +16,7 @@ public partial class PersonelForm
         })
         {
             if (!string.IsNullOrWhiteSpace(item.Input.Text)) continue;
-            _sections.Reveal(item.Input);
+            Screens.RevealAndFocus(item.Input);
             MessageBox.Show(item.Name + " alanını doldurun.", "Eksik bilgi");
             item.Input.Focus();
             return false;

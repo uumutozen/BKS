@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
-    <Version>1.2.0</Version>
+    <Version>1.4.0</Version>
     <!-- Only the canonical resources below are embedded. Designer copies of
          partial forms must not generate a second BKS.Form2.resources. -->
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
@@ -17,10 +17,59 @@
     <ApplicationIcon>helm_icon.ico</ApplicationIcon>
     <SignAssembly>False</SignAssembly>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <FileVersion>1.2.0.0</FileVersion>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Update="PaymentDetailsForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="PaymentDetailsForm.Designer.cs"><DependentUpon>PaymentDetailsForm.cs</DependentUpon></Compile>
+    <EmbeddedResource Include="PaymentDetailsForm.resx"><DependentUpon>PaymentDetailsForm.cs</DependentUpon><LogicalName>BKS.PaymentDetailsForm.resources</LogicalName></EmbeddedResource>
+    <Compile Update="PaymentPlanForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="PaymentPlanForm.Designer.cs"><DependentUpon>PaymentPlanForm.cs</DependentUpon></Compile>
+    <EmbeddedResource Include="PaymentPlanForm.resx"><DependentUpon>PaymentPlanForm.cs</DependentUpon><LogicalName>BKS.PaymentPlanForm.resources</LogicalName></EmbeddedResource>
+    <Compile Update="DataListForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="DataListForm.Designer.cs"><DependentUpon>DataListForm.cs</DependentUpon></Compile>
+    <EmbeddedResource Include="DataListForm.resx"><DependentUpon>DataListForm.cs</DependentUpon><LogicalName>BKS.DataListForm.resources</LogicalName></EmbeddedResource>
+    <Compile Update="ConnectionSettingsForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="ConnectionSettingsForm.Designer.cs"><DependentUpon>ConnectionSettingsForm.cs</DependentUpon></Compile>
+    <EmbeddedResource Include="ConnectionSettingsForm.resx"><DependentUpon>ConnectionSettingsForm.cs</DependentUpon><LogicalName>BKS.ConnectionSettingsForm.resources</LogicalName></EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Form2.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="Form2.Designer.cs"><DependentUpon>Form2.cs</DependentUpon></Compile>
+    <Compile Update="Form2.Session.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.ModuleBehavior.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.DesignerEvents.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.User.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.Commands.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.Data.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.Lifecycle.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.Window.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.GridEvents.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.Ribbon.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.Actions.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.Preview.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="OgrenciForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="OgrenciForm.Designer.cs"><DependentUpon>OgrenciForm.cs</DependentUpon></Compile>
+    <Compile Update="OgrenciForm.Runtime.cs"><DependentUpon>OgrenciForm.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="OgrenciForm.Persistence.cs"><DependentUpon>OgrenciForm.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="OgrenciForm.Photo.cs"><DependentUpon>OgrenciForm.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="PersonelForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="PersonelForm.Designer.cs"><DependentUpon>PersonelForm.cs</DependentUpon></Compile>
+    <Compile Update="PersonelForm.Runtime.cs"><DependentUpon>PersonelForm.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="PersonelForm.Photo.cs"><DependentUpon>PersonelForm.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="PersonelForm.Validation.cs"><DependentUpon>PersonelForm.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="PersonelForm.Persistence.cs"><DependentUpon>PersonelForm.cs</DependentUpon><SubType>Code</SubType></Compile>
+    <Compile Update="FormFatura.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="FormFatura.Designer.cs"><DependentUpon>FormFatura.cs</DependentUpon></Compile>
+    <Compile Update="arsivForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="arsivForm.Designer.cs"><DependentUpon>arsivForm.cs</DependentUpon></Compile>
+    <Compile Update="OzelRapor.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="OzelRapor.Designer.cs"><DependentUpon>OzelRapor.cs</DependentUpon></Compile>
+    <Compile Update="RaporCalistirForm.cs"><SubType>Form</SubType></Compile>
+    <Compile Update="RaporCalistirForm.Designer.cs"><DependentUpon>RaporCalistirForm.cs</DependentUpon></Compile>
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Remove="app1.manifest" />
   </ItemGroup>
@@ -73,6 +122,7 @@
       <LogicalName>BKS.Properties.Resources.resources</LogicalName>
     </EmbeddedResource>
     <Compile Update="Form2.Ribbon.cs"><SubType>Code</SubType></Compile>
+    <Compile Update="Form2.NavigationChecks.cs"><DependentUpon>Form2.cs</DependentUpon><SubType>Code</SubType></Compile>
   </ItemGroup>
 
   <ItemGroup>

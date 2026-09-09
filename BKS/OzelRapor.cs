@@ -15,57 +15,30 @@ namespace BKS
         public OzelRapor()
         {
             InitializeComponent();
-            InitUITheme();
+            InitializeReportBehavior();
             _edits = new EditSession(this, () => btnRaporKaydet_Click(this, EventArgs.Empty));
             txtQuery.KeyDown += TxtQuery_KeyDown;
             txtQuery.GotFocus += (s, e) => txtQuery.BackColor = Color.Azure;
             txtQuery.LostFocus += (s, e) => txtQuery.BackColor = Color.White;
-            btnRaporKaydet.Click += btnRaporKaydet_Click;
-            btnRaporYukle.Click += btnRaporYukle_Click;
-            btnGenerateFields.Click += btnGenerateFields_Click;
-            btnRunQuery.Click += btnRunQuery_Click;
-            this.Load += OzelRapor_Load;
         }
         // --- UI RENK/TEMA AYARI ---
-        private void InitUITheme()
-        {
-            txtQuery.Multiline = true;
-            txtQuery.ScrollBars = ScrollBars.Both;
-            txtQuery.WordWrap = false;
-            txtQuery.Font = new Font("Consolas", 11F);
-            var tabs = new TabControl
-            {
-                Dock = DockStyle.Fill
-            };
-            var query = new TabPage("SQL sorgusu");
-            query.Controls.Add(txtQuery);
-            txtQuery.Dock = DockStyle.Fill;
-            var parameters = new TabPage("Parametreler");
-            parameters.Controls.Add(panelParametreler);
-            panelParametreler.Dock = DockStyle.Fill;
-            var results = new TabPage("Sonuçlar");
-            results.Controls.Add(Screens.Grid(dataGridView1));
-            tabs.TabPages.AddRange(new[]
-            {
-                query,
-                parameters,
-                results
-            });
-            var root = new EditorGridPanel(new ResponsiveFields(("Rapor adı", txtRaporAdi), ("Kayıtlı rapor", cmbOzelRaporlar)),
-            tabs, .20F);
-            var ribbon = Screens.Ribbon("Rapor tasarımı", new RibbonCommand("Kaydet", RibbonIcon.Backup, () => btnRaporKaydet_Click(this,
-            EventArgs.Empty)), new RibbonCommand("Yükle", RibbonIcon.Folder, () => btnRaporYukle_Click(this, EventArgs.Empty)),
-            new RibbonCommand("Parametreler", RibbonIcon.Search, () =>
-            {
-                btnGenerateFields_Click(this, EventArgs.Empty);
-                tabs.SelectedTab = parameters;
-            }), new RibbonCommand("Çalıştır", RibbonIcon.View, () =>
-            {
-                btnRunQuery_Click(this, EventArgs.Empty);
-                tabs.SelectedTab = results;
-            }));
-            Screens.Install(this, root, ribbon, "Özel rapor tasarımı");
-        }
+        private void InitializeReportBehavior()
+    {
+        Screens.PrepareDesignerForm(this);
+        DesignerListBinding.Attach(dataGridView1, txtResultsSearch, pnlResultsClear, pnlResultsColumns, pnlResultsCount);
+    }
+    private void GenerateParameters_Click(object? sender, EventArgs e) => UiActions.Run(() =>
+    {
+        btnGenerateFields_Click(this, EventArgs.Empty);
+        tabReport.SelectedTab = tabParameters;
+    });
+    private void RunQuery_Click(object? sender, EventArgs e) => UiActions.Run(() =>
+    {
+        btnRunQuery_Click(this, EventArgs.Empty);
+        tabReport.SelectedTab = tabResults;
+    });
+    private void CloseRecord_Click(object? sender, EventArgs e) => Close();
+
         // --- Özel Raporlar DB ---
         private void OzelRaporlariYukle()
         {

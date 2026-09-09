@@ -10,6 +10,7 @@ namespace BKS
         public Form2()
         {
             InitializeComponent();
+            if (System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime) return;
             ConfigureMainWindow();
             BuildResponsiveLayout();
             this.Text = "Anaokulu Yönetim Sistemi";

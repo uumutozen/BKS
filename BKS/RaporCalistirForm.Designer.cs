@@ -1,39 +1,291 @@
-namespace BKS
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace BKS;
+
+partial class RaporCalistirForm
 {
-    partial class RaporCalistirForm
+    private System.ComponentModel.IContainer components = null;
+
+    private Panel panelParametreler;
+    private DataGridView gridSonuc;
+    private TableLayoutPanel pnlResults;
+    private TableLayoutPanel pnlResultsToolbar;
+    private Label pnlResultsTitle;
+    private TextBox txtResultsSearch;
+    private Button pnlResultsClear;
+    private Button pnlResultsColumns;
+    private Label pnlResultsCount;
+    private TableLayoutPanel pnlReportBody;
+    private TableLayoutPanel pnlRoot;
+    private TableLayoutPanel pnlHeader;
+    private Label lblTitle;
+    private Label lblSubtitle;
+    private FlowLayoutPanel pnlCommandBar;
+    private Button btnCalistir;
+    private Button btnClose;
+
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "RaporCalistirForm";
-        }
-
-        #endregion
+        if (disposing) components?.Dispose();
+        base.Dispose(disposing);
     }
+
+    #region Windows Form Designer generated code
+    private void InitializeComponent()
+    {
+        components = new System.ComponentModel.Container();
+        panelParametreler = new Panel();
+        gridSonuc = new DataGridView();
+        gridSonuc.MultiSelect = false;
+        pnlResults = new TableLayoutPanel();
+        pnlResultsToolbar = new TableLayoutPanel();
+        pnlResultsTitle = new Label();
+        txtResultsSearch = new TextBox();
+        pnlResultsClear = new Button();
+        pnlResultsColumns = new Button();
+        pnlResultsCount = new Label();
+        pnlReportBody = new TableLayoutPanel();
+        pnlRoot = new TableLayoutPanel();
+        pnlHeader = new TableLayoutPanel();
+        lblTitle = new Label();
+        lblSubtitle = new Label();
+        pnlCommandBar = new FlowLayoutPanel();
+        btnCalistir = new Button();
+        btnClose = new Button();
+        ((System.ComponentModel.ISupportInitialize)gridSonuc).BeginInit();
+        SuspendLayout();
+        panelParametreler.SuspendLayout();
+        pnlResults.SuspendLayout();
+        pnlResultsToolbar.SuspendLayout();
+        pnlReportBody.SuspendLayout();
+        pnlRoot.SuspendLayout();
+        pnlHeader.SuspendLayout();
+        pnlCommandBar.SuspendLayout();
+        panelParametreler.Name = "panelParametreler";
+        panelParametreler.Dock = DockStyle.Fill;
+        panelParametreler.AutoScroll = true;
+        panelParametreler.Padding = new Padding(16);
+        gridSonuc.Name = "gridSonuc";
+        gridSonuc.Dock = DockStyle.Fill;
+        gridSonuc.BackgroundColor = Color.White;
+        gridSonuc.BorderStyle = BorderStyle.None;
+        gridSonuc.EnableHeadersVisualStyles = false;
+        gridSonuc.ColumnHeadersHeight = 36;
+        gridSonuc.RowHeadersWidth = 44;
+        gridSonuc.AllowUserToAddRows = false;
+        gridSonuc.AllowUserToDeleteRows = false;
+        gridSonuc.ReadOnly = true;
+        gridSonuc.AllowUserToOrderColumns = true;
+        gridSonuc.AllowUserToResizeRows = false;
+        gridSonuc.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        gridSonuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+        gridSonuc.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(244, 247, 251);
+        gridSonuc.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9.5F);
+        gridSonuc.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        gridSonuc.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
+        gridSonuc.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        gridSonuc.DefaultCellStyle.SelectionForeColor = Color.FromArgb(37, 54, 75);
+        gridSonuc.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 252, 254);
+        gridSonuc.RowTemplate.Height = 32;
+        pnlResults.Name = "pnlResults";
+        pnlResults.Dock = DockStyle.Fill;
+        pnlResults.ColumnCount = 1;
+        pnlResults.RowCount = 3;
+        pnlResults.Margin = Padding.Empty;
+        pnlResults.BackColor = Color.White;
+        pnlResults.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlResults.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
+        pnlResults.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlResults.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+        pnlResults.Padding = new Padding(8);
+        pnlResultsToolbar.Name = "pnlResultsToolbar";
+        pnlResultsToolbar.ColumnCount = 4;
+        pnlResultsToolbar.RowCount = 1;
+        pnlResultsToolbar.Margin = Padding.Empty;
+        pnlResultsToolbar.BackColor = Color.White;
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        pnlResultsToolbar.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+        pnlResultsToolbar.Padding = Padding.Empty;
+        pnlResultsToolbar.AutoSize = true;
+        pnlResultsToolbar.Dock = DockStyle.Top;
+        pnlResultsTitle.Name = "pnlResultsTitle";
+        pnlResultsTitle.ForeColor = Color.FromArgb(68, 87, 111);
+        pnlResultsTitle.Margin = new Padding(0, 2, 12, 6);
+        pnlResultsTitle.Text = "Rapor sonuçları";
+        pnlResultsTitle.Font = new Font("Segoe UI Semibold", 11F);
+        pnlResultsTitle.Anchor = AnchorStyles.Left;
+        pnlResultsTitle.AutoEllipsis = true;
+        pnlResultsTitle.AutoSize = false;
+        pnlResultsTitle.Dock = DockStyle.Fill;
+        txtResultsSearch.Name = "txtResultsSearch";
+        txtResultsSearch.Dock = DockStyle.Fill;
+        txtResultsSearch.Size = new Size(260, 32);
+        txtResultsSearch.TabIndex = 6;
+        txtResultsSearch.Font = new Font("Segoe UI", 10F);
+        txtResultsSearch.ForeColor = Color.FromArgb(37, 54, 75);
+        txtResultsSearch.BorderStyle = BorderStyle.FixedSingle;
+        txtResultsSearch.PlaceholderText = "Listede ara (Ctrl+F)";
+        txtResultsSearch.Margin = new Padding(0, 4, 8, 6);
+        pnlResultsClear.Name = "pnlResultsClear";
+        pnlResultsClear.AutoSize = true;
+        pnlResultsClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlResultsClear.MinimumSize = new Size(96, 34);
+        pnlResultsClear.Padding = new Padding(12, 4, 12, 4);
+        pnlResultsClear.Margin = new Padding(0, 0, 8, 0);
+        pnlResultsClear.FlatStyle = FlatStyle.Flat;
+        pnlResultsClear.BackColor = Color.FromArgb(246, 248, 251);
+        pnlResultsClear.ForeColor = Color.FromArgb(37, 54, 75);
+        pnlResultsClear.UseVisualStyleBackColor = false;
+        pnlResultsClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlResultsClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        pnlResultsClear.Text = "Temizle";
+        pnlResultsColumns.Name = "pnlResultsColumns";
+        pnlResultsColumns.AutoSize = true;
+        pnlResultsColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlResultsColumns.MinimumSize = new Size(96, 34);
+        pnlResultsColumns.Padding = new Padding(12, 4, 12, 4);
+        pnlResultsColumns.Margin = new Padding(0, 0, 8, 0);
+        pnlResultsColumns.FlatStyle = FlatStyle.Flat;
+        pnlResultsColumns.BackColor = Color.FromArgb(246, 248, 251);
+        pnlResultsColumns.ForeColor = Color.FromArgb(37, 54, 75);
+        pnlResultsColumns.UseVisualStyleBackColor = false;
+        pnlResultsColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlResultsColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        pnlResultsColumns.Text = "Sütunlar";
+        pnlResultsCount.Name = "pnlResultsCount";
+        pnlResultsCount.AutoSize = true;
+        pnlResultsCount.ForeColor = Color.FromArgb(68, 87, 111);
+        pnlResultsCount.Margin = new Padding(0, 2, 12, 6);
+        pnlResultsCount.Text = "Kayıt: 0";
+        pnlResultsCount.Dock = DockStyle.Fill;
+        pnlReportBody.Name = "pnlReportBody";
+        pnlReportBody.Dock = DockStyle.Fill;
+        pnlReportBody.ColumnCount = 1;
+        pnlReportBody.RowCount = 2;
+        pnlReportBody.Margin = Padding.Empty;
+        pnlReportBody.BackColor = Color.White;
+        pnlReportBody.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlReportBody.RowStyles.Add(new RowStyle(SizeType.Absolute, 190F));
+        pnlReportBody.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlReportBody.Padding = Padding.Empty;
+        pnlRoot.Name = "pnlRoot";
+        pnlRoot.Dock = DockStyle.Fill;
+        pnlRoot.ColumnCount = 1;
+        pnlRoot.RowCount = 3;
+        pnlRoot.Margin = Padding.Empty;
+        pnlRoot.BackColor = Color.White;
+        pnlRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlRoot.Padding = Padding.Empty;
+        pnlHeader.Name = "pnlHeader";
+        pnlHeader.Dock = DockStyle.Fill;
+        pnlHeader.ColumnCount = 1;
+        pnlHeader.RowCount = 2;
+        pnlHeader.Margin = Padding.Empty;
+        pnlHeader.BackColor = Color.White;
+        pnlHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        pnlHeader.Padding = new Padding(16, 6, 16, 0);
+        lblTitle.Name = "lblTitle";
+        lblTitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblTitle.Margin = new Padding(0, 2, 12, 6);
+        lblTitle.Text = "Özel Raporu Çalıştır";
+        lblTitle.Font = new Font("Segoe UI Semibold", 15F);
+        lblTitle.AutoSize = true;
+        lblSubtitle.Name = "lblSubtitle";
+        lblSubtitle.ForeColor = Color.FromArgb(68, 87, 111);
+        lblSubtitle.Margin = new Padding(0, 2, 12, 6);
+        lblSubtitle.Text = "Bilgileri düzenleyin; değişikliklerinizi kaydedin.";
+        lblSubtitle.AutoSize = true;
+        pnlCommandBar.Name = "pnlCommandBar";
+        pnlCommandBar.Dock = DockStyle.Top;
+        pnlCommandBar.AutoSize = true;
+        pnlCommandBar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        pnlCommandBar.WrapContents = true;
+        pnlCommandBar.Padding = new Padding(16, 8, 8, 8);
+        pnlCommandBar.Margin = Padding.Empty;
+        pnlCommandBar.BackColor = Color.White;
+        btnCalistir.Name = "btnCalistir";
+        btnCalistir.AutoSize = true;
+        btnCalistir.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnCalistir.MinimumSize = new Size(96, 34);
+        btnCalistir.Padding = new Padding(12, 4, 12, 4);
+        btnCalistir.Margin = new Padding(0, 0, 8, 0);
+        btnCalistir.FlatStyle = FlatStyle.Flat;
+        btnCalistir.BackColor = Color.FromArgb(40, 99, 163);
+        btnCalistir.ForeColor = Color.White;
+        btnCalistir.UseVisualStyleBackColor = false;
+        btnCalistir.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnCalistir.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnCalistir.Text = "Çalıştır";
+        btnClose.Name = "btnClose";
+        btnClose.AutoSize = true;
+        btnClose.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+        btnClose.MinimumSize = new Size(96, 34);
+        btnClose.Padding = new Padding(12, 4, 12, 4);
+        btnClose.Margin = new Padding(0, 0, 8, 0);
+        btnClose.FlatStyle = FlatStyle.Flat;
+        btnClose.BackColor = Color.FromArgb(246, 248, 251);
+        btnClose.ForeColor = Color.FromArgb(37, 54, 75);
+        btnClose.UseVisualStyleBackColor = false;
+        btnClose.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
+        btnClose.Text = "Kapat";
+        pnlResultsToolbar.Controls.Add(pnlResultsTitle, 0, 0);
+        pnlResultsToolbar.Controls.Add(txtResultsSearch, 1, 0);
+        pnlResultsToolbar.Controls.Add(pnlResultsClear, 2, 0);
+        pnlResultsToolbar.Controls.Add(pnlResultsColumns, 3, 0);
+        pnlResults.Controls.Add(pnlResultsToolbar, 0, 0);
+        pnlResults.Controls.Add(gridSonuc, 0, 1);
+        pnlResults.Controls.Add(pnlResultsCount, 0, 2);
+        pnlReportBody.Controls.Add(panelParametreler, 0, 0);
+        pnlReportBody.Controls.Add(pnlResults, 0, 1);
+        pnlHeader.Controls.Add(lblTitle, 0, 0);
+        pnlHeader.Controls.Add(lblSubtitle, 0, 1);
+        pnlRoot.Controls.Add(pnlHeader, 0, 0);
+        pnlCommandBar.Controls.Add(btnCalistir);
+        pnlCommandBar.Controls.Add(btnClose);
+        pnlRoot.Controls.Add(pnlCommandBar, 0, 1);
+        pnlRoot.Controls.Add(pnlReportBody, 0, 2);
+        Controls.Add(pnlRoot);
+        btnCalistir.Click += BtnCalistir_Click;
+        btnClose.Click += CloseRecord_Click;
+        AutoScaleDimensions = new SizeF(96F, 96F);
+        AutoScaleMode = AutoScaleMode.Dpi;
+        Font = new Font("Segoe UI", 10F);
+        BackColor = Color.White;
+        ClientSize = new Size(1120, 760);
+        MinimumSize = new Size(720, 520);
+        StartPosition = FormStartPosition.CenterParent;
+        KeyPreview = true;
+        Name = "RaporCalistirForm";
+        Text = "Özel Raporu Çalıştır";
+        Load += RaporCalistirForm_Load;
+        ((System.ComponentModel.ISupportInitialize)gridSonuc).EndInit();
+        pnlCommandBar.ResumeLayout(false);
+        pnlCommandBar.PerformLayout();
+        pnlHeader.ResumeLayout(false);
+        pnlHeader.PerformLayout();
+        pnlRoot.ResumeLayout(false);
+        pnlRoot.PerformLayout();
+        pnlReportBody.ResumeLayout(false);
+        pnlReportBody.PerformLayout();
+        pnlResultsToolbar.ResumeLayout(false);
+        pnlResultsToolbar.PerformLayout();
+        pnlResults.ResumeLayout(false);
+        pnlResults.PerformLayout();
+        panelParametreler.ResumeLayout(false);
+        panelParametreler.PerformLayout();
+        ResumeLayout(false);
+        PerformLayout();
+    }
+    #endregion
 }

@@ -1,0 +1,43 @@
+PASS Missing permission response denies access
+PASS Empty permissions deny ordinary user
+PASS Unknown module cannot unlock all pages
+PASS Only granted module opens
+PASS Validated Turkish admin role supported
+PASS Pre-registration payment flags survive conversion
+PASS Payment cents preserved
+PASS Invoice totals and VAT reconcile
+PASS Negative invoice quantity rejected
+PASS Layout adapts to width and DPI
+PASS Literal search works: [1]
+PASS Literal search works: %
+PASS Literal search works: *
+PASS Literal search works: O'Neil
+PASS XLSX shared/inline Turkish strings preserved
+PASS XLSX numeric values use Turkish formatting
+PASS Excel serial date interpreted via style
+PASS Empty Excel cells safe
+PASS 160 workspace cases: 100/125/150/200% DPI, resize and ribbon states do not overlap
+PASS Short search panel preserves one readable input row
+PASS Search field minimum scales at 200% DPI
+PASS Minimized editor cannot produce negative bounds
+PASS Repeated navigation preserves the same editor and unsaved values
+PASS Closing and reopening creates a fresh editor
+PASS A failed editor factory does not reserve its document key
+PASS Compact ribbon preserves working space at 1366x768
+PASS PDF: original newline reproduction preserves both lines
+PASS PDF: Windows, Unix and blank lines are normalized without null entries
+PASS PDF: descriptions wrap at word boundaries
+PASS PDF: long tokens preserve Turkish text, combining characters and surrogate pairs
+PASS PDF: empty text never produces a null line
+PASS Grid: combined filters and special column/value characters: O'Neil
+PASS Grid: combined filters and special column/value characters: [1]
+PASS Grid: combined filters and special column/value characters: %
+PASS Grid: combined filters and special column/value characters: *
+PASS Grid: clearing user filters retains the underlying data restriction
+PASS Archive: search and sort preserve the selected model identity
+PASS Archive: clearing filters restores all rows and retains sorting
+PASS Card: typed IDs and legacy boolean values can be read
+PASS Card: absent fields and invalid dates do not crash form population
+PASS Document: reentrant opening cannot create duplicate tabs
+PASS Document: a null factory result leaves no stale entry
+42 checks passed.

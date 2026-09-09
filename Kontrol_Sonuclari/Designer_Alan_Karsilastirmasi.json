@@ -1,0 +1,34 @@
+{
+  "OgrenciForm": {
+    "original_inputs": 17,
+    "new_inputs": 17,
+    "removed_inputs": []
+  },
+  "PersonelForm": {
+    "original_inputs": 38,
+    "new_inputs": 37,
+    "removed_inputs": [
+      "textBox1"
+    ]
+  },
+  "FormFatura": {
+    "original_inputs": 4,
+    "new_inputs": 5,
+    "removed_inputs": []
+  },
+  "Form2": {
+    "original_inputs": 16,
+    "new_inputs": 22,
+    "removed_inputs": []
+  },
+  "OzelRapor": {
+    "original_inputs": 3,
+    "new_inputs": 4,
+    "removed_inputs": []
+  },
+  "RaporCalistirForm": {
+    "original_inputs": 0,
+    "new_inputs": 1,
+    "removed_inputs": []
+  }
+}

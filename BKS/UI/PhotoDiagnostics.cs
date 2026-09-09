@@ -16,14 +16,18 @@ internal static class PhotoDiagnostics
             check(normalized.Width == 1024 && normalized.Height == 512, "Photo: aspect ratio and maximum size");
             using (var file = File.Open(photo, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
             check(file.Length> 0, "Photo: original file is not locked");
-            using (var editor = new PhotoEditor(new PictureBox()))
+            using (var picture = new PictureBox())
+            using (var choose = new Button())
+            using (var remove = new Button())
+            using (var status = new Label())
             {
+                var editor = new PhotoEditor(picture, choose, remove, status);
                 int events = 0;
                 editor.PhotoChanged += _ => events++;
                 editor.SetBytes(bytes);
-                check(editor.Controls.OfType<PictureBox>().Single().Image != null, "Photo: preview can load after stream closure");
+                check(picture.Image != null, "Photo: preview can load after stream closure");
                 editor.SetBytes(null);
-                check(editor.Controls.OfType<PictureBox>().Single().Image == null && events == 0, "Photo: programmatic loading does not mark a user edit");
+                check(picture.Image == null && events == 0, "Photo: programmatic loading does not mark a user edit");
             }
             string invalid = Path.Combine(directory, "invalid.jpg");
             File.WriteAllText(invalid, "not an image");

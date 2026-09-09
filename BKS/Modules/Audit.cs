@@ -62,31 +62,17 @@ public partial class Form2
         int modulCode = sourceDgv.Tag != null
         ? Convert.ToInt32(sourceDgv.Tag)
         : sourceDgv.Name == "dataGridViewStok" ? StudentModuleTag: 0;
-        Form logForm = new Form
-        {
-            Width = 800,
-            Height = 600,
-            Text = modulCode == StudentModuleTag
-            ? "Öğrenci Yönetimi Log"
-            : modulCode == PersonelModuleTag
-            ? "Personel Yönetimi Log"
-            : "Loglar"
-        };
-        DataGridView dgv = new DataGridView
-        {
-            Dock = DockStyle.Fill
-        };
-        logForm.Controls.Add(dgv);
-        dgv.DataSource = ExecuteDataTable(
-        @"SELECT * FROM deleteandlogs
+        string permission = modulCode == PersonelModuleTag ? tabPagePersonelYonetimi.Name : tabPageStok.Name;
+        if (!_allowedModules.Contains(permission)) return;
+        string title = modulCode == PersonelModuleTag ? "Personel işlem geçmişi" : "Öğrenci işlem geçmişi";
+        _documents.OpenDocument("history:" + modulCode, title, () => new DataListForm(title, () => ExecuteDataTable(
+            @"SELECT * FROM deleteandlogs
               WHERE SirketId = (SELECT TOP 1 CompanyId FROM CompanyUsers WHERE UserId = @UserId)
                 AND ModulKod = @ModulCode
               ORDER BY SilinmeZamani DESC",
-        CommandType.Text,
-        DbParam("@UserId", UserId),
-        DbParam("@ModulCode", modulCode));
-        logForm.Show();
+            CommandType.Text, DbParam("@UserId", UserId), DbParam("@ModulCode", modulCode))), permission);
     }
+
     private void DeleteStripMenuItem_Click(object sender, EventArgs e)
     {
         int activeTag = GetActiveGridTag();

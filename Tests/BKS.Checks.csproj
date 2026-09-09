@@ -7,5 +7,10 @@
     <Compile Include="../BKS/Infrastructure/LayoutRules.cs" Link="LayoutRules.cs" />
     <Compile Include="../BKS/Infrastructure/XlsxWorkbook.cs" Link="XlsxWorkbook.cs" />
     <Compile Include="../BKS/UI/Documents/DocumentRegistry.cs" Link="DocumentRegistry.cs" />
+    <Compile Include="../BKS/Infrastructure/Pdf/TextLineBreaker.cs" Link="TextLineBreaker.cs" />
+    <Compile Include="../BKS/Infrastructure/TableFilterExpression.cs" Link="TableFilterExpression.cs" />
+    <Compile Include="../BKS/Infrastructure/RecordValues.cs" Link="RecordValues.cs" />
+    <Compile Include="../BKS/Infrastructure/IGridFilterSource.cs" Link="IGridFilterSource.cs" />
+    <Compile Include="../BKS/Infrastructure/GridItems.cs" Link="GridItems.cs" />
   </ItemGroup>
 </Project>

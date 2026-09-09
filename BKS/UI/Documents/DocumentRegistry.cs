@@ -1,17 +1,28 @@
 namespace BKS;
-/// <summary>Generic keyed lifetime store; the factory runs only for a new key.</summary>
-public sealed class DocumentRegistry<T> where T: class
+
+/// <summary>UI'den bağımsız, anahtara göre tek nesne üreten generic kayıt deposu.</summary>
+public sealed class DocumentRegistry<T> where T : class
 {
-    private readonly Dictionary<string, T> documents = new(StringComparer.OrdinalIgnoreCase);
-    public IEnumerable<KeyValuePair<string, T>> Entries => documents.ToArray();
+    private readonly Dictionary<string, T> items = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> creating = new(StringComparer.OrdinalIgnoreCase);
+
+    public IEnumerable<KeyValuePair<string, T>> Entries => items.ToArray();
+
     public T GetOrCreate(string key, Func<T> factory)
     {
-        if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("Document key is required.", nameof(key));
-        if (documents.TryGetValue(key, out var existing)) return existing;
-        var value = factory();
-        documents.Add(key, value);
-        return value;
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        ArgumentNullException.ThrowIfNull(factory);
+        if (items.TryGetValue(key, out var existing)) return existing;
+        if (!creating.Add(key)) throw new InvalidOperationException("Bu ekran zaten açılıyor: " + key);
+        try
+        {
+            var item = factory() ?? throw new InvalidOperationException("Ekran oluşturucusu boş sonuç döndürdü.");
+            items.Add(key, item);
+            return item;
+        }
+        finally { creating.Remove(key); }
     }
-    public bool TryGet(string key, out T? value) => documents.TryGetValue(key, out value);
-    public bool Remove(string key) => documents.Remove(key);
+
+    public bool TryGet(string key, out T? value) => items.TryGetValue(key, out value);
+    public bool Remove(string key) => items.Remove(key);
 }

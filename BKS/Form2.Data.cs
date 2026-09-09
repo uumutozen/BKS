@@ -184,7 +184,7 @@ public partial class Form2
 
     private void RefreshStudentGrid()
     {
-        dataGridViewStok.DataSource = GetStudentTable(UserId, GetStudentSearchText());
+        dataGridViewStok.DataSource = GetStudentTable(UserId);
         dataGridViewStok.Refresh();
     }
 
