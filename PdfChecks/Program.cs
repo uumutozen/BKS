@@ -1,5 +1,5 @@
 using BKS;
-using PdfSharpCore.IO;
+using PdfSharpCore.Pdf.IO;
 
 // Gerçek PDF üreticisini çalıştırır; örnek verilerdir, SQL/API kullanılmaz.
 string directory = Path.GetFullPath(args.FirstOrDefault() ?? "Pdf_Sonuclari");

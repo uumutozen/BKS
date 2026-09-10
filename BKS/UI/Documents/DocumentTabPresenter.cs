@@ -41,7 +41,7 @@ internal sealed class DocumentTabPresenter
         if (e.Index < 0 || e.Index >= tabs.TabCount) return;
         var page = tabs.TabPages[e.Index];
         bool selected = tabs.SelectedIndex == e.Index;
-        using var fill = new SolidBrush(selected ? Color.White : hovered == e.Index ? RibbonPalette.HoverTop : RibbonPalette.DocumentTab);
+        using var fill = new SolidBrush(selected ? RibbonPalette.Surface : hovered == e.Index ? RibbonPalette.HoverTop : RibbonPalette.DocumentTab);
         using var border = new Pen(RibbonPalette.Border);
         e.Graphics.FillRectangle(fill, e.Bounds);
         e.Graphics.DrawRectangle(border, e.Bounds.X, e.Bounds.Y, e.Bounds.Width - 1, e.Bounds.Height - 1);
@@ -80,14 +80,13 @@ internal sealed class DocumentTabPresenter
 
     private void ShowMenu(TabPage page, Point location)
     {
-        var menu = new ContextMenuStrip();
+        var menu = TransientMenu.Create(tabs);
         foreach (var option in new[]
         {
             ("Kapat", DocumentCloseMode.Current), ("Diğerlerini kapat", DocumentCloseMode.Others),
             ("Sağdakileri kapat", DocumentCloseMode.ToRight), ("Tümünü kapat", DocumentCloseMode.All)
         })
             menu.Items.Add(option.Item1, null, (_, _) => CloseRequested?.Invoke(page, option.Item2));
-        menu.Closed += (_, _) => menu.Dispose();
         menu.Show(tabs, location);
     }
 }

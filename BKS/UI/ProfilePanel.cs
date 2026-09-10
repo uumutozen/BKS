@@ -10,7 +10,7 @@ internal sealed class ProfilePanel : Panel
         this.fields = fields;
         Dock = DockStyle.Fill;
         AutoScroll = true;
-        BackColor = Color.White;
+        BackColor = RibbonPalette.Surface;
         foreach (var control in new[]
         {
             photo,

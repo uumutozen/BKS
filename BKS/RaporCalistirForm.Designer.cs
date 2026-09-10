@@ -26,6 +26,11 @@ partial class RaporCalistirForm
     private Button btnCalistir;
     private Button btnClose;
 
+    private DataGridView parameterGrid;
+    private DataGridViewTextBoxColumn parameterName;
+    private DataGridViewComboBoxColumn parameterType;
+    private DataGridViewTextBoxColumn parameterValue;
+    private DataGridViewCheckBoxColumn parameterNull;
     protected override void Dispose(bool disposing)
     {
         if (disposing) components?.Dispose();
@@ -55,6 +60,12 @@ partial class RaporCalistirForm
         btnCalistir = new Button();
         btnClose = new Button();
         ((System.ComponentModel.ISupportInitialize)gridSonuc).BeginInit();
+        parameterGrid = new DataGridView();
+        parameterName = new DataGridViewTextBoxColumn();
+        parameterType = new DataGridViewComboBoxColumn();
+        parameterValue = new DataGridViewTextBoxColumn();
+        parameterNull = new DataGridViewCheckBoxColumn();
+        ((System.ComponentModel.ISupportInitialize)parameterGrid).BeginInit();
         SuspendLayout();
         panelParametreler.SuspendLayout();
         pnlResults.SuspendLayout();
@@ -69,7 +80,7 @@ partial class RaporCalistirForm
         panelParametreler.Padding = new Padding(16);
         gridSonuc.Name = "gridSonuc";
         gridSonuc.Dock = DockStyle.Fill;
-        gridSonuc.BackgroundColor = Color.White;
+        gridSonuc.BackgroundColor = Color.FromArgb(239, 247, 253);
         gridSonuc.BorderStyle = BorderStyle.None;
         gridSonuc.EnableHeadersVisualStyles = false;
         gridSonuc.ColumnHeadersHeight = 36;
@@ -81,20 +92,20 @@ partial class RaporCalistirForm
         gridSonuc.AllowUserToResizeRows = false;
         gridSonuc.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         gridSonuc.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-        gridSonuc.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(244, 247, 251);
+        gridSonuc.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(218, 236, 250);
         gridSonuc.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9.5F);
-        gridSonuc.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        gridSonuc.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(218, 236, 250);
         gridSonuc.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
-        gridSonuc.DefaultCellStyle.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        gridSonuc.DefaultCellStyle.SelectionBackColor = Color.FromArgb(200, 224, 246);
         gridSonuc.DefaultCellStyle.SelectionForeColor = Color.FromArgb(37, 54, 75);
-        gridSonuc.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 252, 254);
+        gridSonuc.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(239, 247, 253);
         gridSonuc.RowTemplate.Height = 32;
         pnlResults.Name = "pnlResults";
         pnlResults.Dock = DockStyle.Fill;
         pnlResults.ColumnCount = 1;
         pnlResults.RowCount = 3;
         pnlResults.Margin = Padding.Empty;
-        pnlResults.BackColor = Color.White;
+        pnlResults.BackColor = Color.FromArgb(239, 247, 253);
         pnlResults.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         pnlResults.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
         pnlResults.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -104,11 +115,11 @@ partial class RaporCalistirForm
         pnlResultsToolbar.ColumnCount = 4;
         pnlResultsToolbar.RowCount = 1;
         pnlResultsToolbar.Margin = Padding.Empty;
-        pnlResultsToolbar.BackColor = Color.White;
+        pnlResultsToolbar.BackColor = Color.FromArgb(218, 236, 250);
         pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        pnlResultsToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         pnlResultsToolbar.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
         pnlResultsToolbar.Padding = Padding.Empty;
         pnlResultsToolbar.AutoSize = true;
@@ -141,7 +152,7 @@ partial class RaporCalistirForm
         pnlResultsClear.BackColor = Color.FromArgb(246, 248, 251);
         pnlResultsClear.ForeColor = Color.FromArgb(37, 54, 75);
         pnlResultsClear.UseVisualStyleBackColor = false;
-        pnlResultsClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlResultsClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         pnlResultsClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         pnlResultsClear.Text = "Temizle";
         pnlResultsColumns.Name = "pnlResultsColumns";
@@ -154,7 +165,7 @@ partial class RaporCalistirForm
         pnlResultsColumns.BackColor = Color.FromArgb(246, 248, 251);
         pnlResultsColumns.ForeColor = Color.FromArgb(37, 54, 75);
         pnlResultsColumns.UseVisualStyleBackColor = false;
-        pnlResultsColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        pnlResultsColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         pnlResultsColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         pnlResultsColumns.Text = "Sütunlar";
         pnlResultsCount.Name = "pnlResultsCount";
@@ -168,7 +179,7 @@ partial class RaporCalistirForm
         pnlReportBody.ColumnCount = 1;
         pnlReportBody.RowCount = 2;
         pnlReportBody.Margin = Padding.Empty;
-        pnlReportBody.BackColor = Color.White;
+        pnlReportBody.BackColor = Color.FromArgb(239, 247, 253);
         pnlReportBody.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         pnlReportBody.RowStyles.Add(new RowStyle(SizeType.Absolute, 190F));
         pnlReportBody.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -178,9 +189,9 @@ partial class RaporCalistirForm
         pnlRoot.ColumnCount = 1;
         pnlRoot.RowCount = 3;
         pnlRoot.Margin = Padding.Empty;
-        pnlRoot.BackColor = Color.White;
+        pnlRoot.BackColor = Color.FromArgb(228, 241, 252);
         pnlRoot.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
+        pnlRoot.RowStyles.Add(new RowStyle(SizeType.Absolute, 78F));
         pnlRoot.RowStyles.Add(new RowStyle(SizeType.AutoSize, 0F));
         pnlRoot.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         pnlRoot.Padding = Padding.Empty;
@@ -189,9 +200,9 @@ partial class RaporCalistirForm
         pnlHeader.ColumnCount = 1;
         pnlHeader.RowCount = 2;
         pnlHeader.Margin = Padding.Empty;
-        pnlHeader.BackColor = Color.White;
+        pnlHeader.BackColor = Color.FromArgb(218, 236, 250);
         pnlHeader.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+        pnlHeader.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
         pnlHeader.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         pnlHeader.Padding = new Padding(16, 6, 16, 0);
         lblTitle.Name = "lblTitle";
@@ -212,7 +223,7 @@ partial class RaporCalistirForm
         pnlCommandBar.WrapContents = true;
         pnlCommandBar.Padding = new Padding(16, 8, 8, 8);
         pnlCommandBar.Margin = Padding.Empty;
-        pnlCommandBar.BackColor = Color.White;
+        pnlCommandBar.BackColor = Color.FromArgb(228, 241, 252);
         btnCalistir.Name = "btnCalistir";
         btnCalistir.AutoSize = true;
         btnCalistir.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -223,7 +234,7 @@ partial class RaporCalistirForm
         btnCalistir.BackColor = Color.FromArgb(40, 99, 163);
         btnCalistir.ForeColor = Color.White;
         btnCalistir.UseVisualStyleBackColor = false;
-        btnCalistir.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnCalistir.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnCalistir.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnCalistir.Text = "Çalıştır";
         btnClose.Name = "btnClose";
@@ -236,7 +247,7 @@ partial class RaporCalistirForm
         btnClose.BackColor = Color.FromArgb(246, 248, 251);
         btnClose.ForeColor = Color.FromArgb(37, 54, 75);
         btnClose.UseVisualStyleBackColor = false;
-        btnClose.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnClose.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnClose.Text = "Kapat";
         pnlResultsToolbar.Controls.Add(pnlResultsTitle, 0, 0);
@@ -255,13 +266,44 @@ partial class RaporCalistirForm
         pnlCommandBar.Controls.Add(btnClose);
         pnlRoot.Controls.Add(pnlCommandBar, 0, 1);
         pnlRoot.Controls.Add(pnlReportBody, 0, 2);
+
+        parameterGrid.Name = "parameterGrid";
+        parameterGrid.Dock = DockStyle.Fill;
+        parameterGrid.BackgroundColor = Color.FromArgb(239, 247, 253);
+        parameterGrid.BorderStyle = BorderStyle.None;
+        parameterGrid.AllowUserToAddRows = false;
+        parameterGrid.AllowUserToDeleteRows = false;
+        parameterGrid.RowHeadersVisible = false;
+        parameterGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        parameterGrid.ColumnHeadersHeight = 34;
+        parameterGrid.RowTemplate.Height = 32;
+        parameterGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(218, 236, 250);
+        parameterGrid.EnableHeadersVisualStyles = false;
+        parameterGrid.DefaultCellStyle.BackColor = Color.FromArgb(250, 253, 255);
+        parameterName.Name = "ParameterName";
+        parameterName.HeaderText = "Parametre";
+        parameterName.ReadOnly = true;
+        parameterName.FillWeight = 25F;
+        parameterType.Name = "ParameterType";
+        parameterType.HeaderText = "Tür";
+        parameterType.Items.AddRange(new object[] { "Metin", "Tam sayı", "Tutar", "Tarih", "Evet / Hayır", "GUID" });
+        parameterType.FillWeight = 25F;
+        parameterValue.Name = "ParameterValue";
+        parameterValue.HeaderText = "Değer";
+        parameterValue.FillWeight = 40F;
+        parameterNull.Name = "ParameterNull";
+        parameterNull.HeaderText = "Boş (NULL)";
+        parameterNull.FillWeight = 15F;
+        parameterGrid.Columns.AddRange(new DataGridViewColumn[] { parameterName, parameterType, parameterValue, parameterNull });
+        panelParametreler.Controls.Add(parameterGrid);
+
         Controls.Add(pnlRoot);
         btnCalistir.Click += BtnCalistir_Click;
         btnClose.Click += CloseRecord_Click;
         AutoScaleDimensions = new SizeF(96F, 96F);
         AutoScaleMode = AutoScaleMode.Dpi;
         Font = new Font("Segoe UI", 10F);
-        BackColor = Color.White;
+        BackColor = Color.FromArgb(228, 241, 252);
         ClientSize = new Size(1120, 760);
         MinimumSize = new Size(720, 520);
         StartPosition = FormStartPosition.CenterParent;
@@ -284,6 +326,7 @@ partial class RaporCalistirForm
         pnlResults.PerformLayout();
         panelParametreler.ResumeLayout(false);
         panelParametreler.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)parameterGrid).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }

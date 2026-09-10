@@ -8,7 +8,7 @@ public sealed class ResponsiveFields : Panel
     {
         Dock = DockStyle.Fill;
         AutoScroll = true;
-        BackColor = Color.White;
+        BackColor = RibbonPalette.Surface;
         Padding = new Padding(12);
         DoubleBuffered = true;
         foreach (var(label, input) in items) AddField(label, input);
@@ -17,7 +17,7 @@ public sealed class ResponsiveFields : Panel
     {
         var card = new TableLayoutPanel
         {
-            BackColor = Color.White,
+            BackColor = RibbonPalette.Surface,
             Padding = new Padding(2, 0, 10, 8),
             ColumnCount = 1,
             RowCount = 2,

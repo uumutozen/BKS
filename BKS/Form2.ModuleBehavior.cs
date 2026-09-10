@@ -36,11 +36,7 @@ public partial class Form2
         dataOgrVw.Tag = 0;
         dataOgrVw.ContextMenuStrip = null;
         contextMenuStrip1.Items.Clear();
-        contextMenuStrip1.Items.AddRange(new ToolStripItem[]
-        {
-            ödemeDetaylarıToolStripMenuItem,
-            geçmişHareketToolStripMenuItem
-        });
+        // All student/personnel actions now come from the same Ribbon command definitions.
         dataGridViewStok.ContextMenuStrip = contextMenuStrip1;
         dgvPersonelYonetimi.ContextMenuStrip = contextMenuStrip1;
         DgvOgrenciYonetimiSiniflar.ContextMenuStrip = null;

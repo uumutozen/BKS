@@ -117,6 +117,7 @@ partial class Form2
     private Button FaturaBtn;
     private TableLayoutPanel editordataGridOdeme;
     private TableLayoutPanel bodydataGridOdeme;
+    private Label lblFinanceSummary;
     private TabPage tabPageGelirGider;
     private DataGridView salesGrid;
     private TableLayoutPanel listsalesGrid;
@@ -270,6 +271,7 @@ partial class Form2
         listdataOgrVwCount = new Label();
         tabPageGelirGider = new TabPage();
         bodydataGridOdeme = new TableLayoutPanel();
+        lblFinanceSummary = new Label();
         editordataGridOdeme = new TableLayoutPanel();
         fieldsdataGridOdeme = new TableLayoutPanel();
         lbl_txtDescription = new Label();
@@ -378,7 +380,7 @@ partial class Form2
         // 
         // tabPageStok
         // 
-        tabPageStok.BackColor = Color.White;
+        tabPageStok.BackColor = Color.FromArgb(239, 247, 253);
         tabPageStok.Controls.Add(listdataGridViewStok);
         tabPageStok.Location = new Point(4, 26);
         tabPageStok.Name = "tabPageStok";
@@ -389,7 +391,7 @@ partial class Form2
         // 
         // listdataGridViewStok
         // 
-        listdataGridViewStok.BackColor = Color.White;
+        listdataGridViewStok.BackColor = Color.FromArgb(239, 247, 253);
         listdataGridViewStok.ColumnCount = 1;
         listdataGridViewStok.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdataGridViewStok.Controls.Add(listdataGridViewStokToolbar, 0, 0);
@@ -410,12 +412,12 @@ partial class Form2
         // listdataGridViewStokToolbar
         // 
         listdataGridViewStokToolbar.AutoSize = true;
-        listdataGridViewStokToolbar.BackColor = Color.White;
+        listdataGridViewStokToolbar.BackColor = Color.FromArgb(218, 236, 250);
         listdataGridViewStokToolbar.ColumnCount = 4;
         listdataGridViewStokToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdataGridViewStokToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        listdataGridViewStokToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        listdataGridViewStokToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        listdataGridViewStokToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        listdataGridViewStokToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         listdataGridViewStokToolbar.Controls.Add(listdataGridViewStokTitle, 0, 0);
         listdataGridViewStokToolbar.Controls.Add(txtOgrenciYonetimiAra, 1, 0);
         listdataGridViewStokToolbar.Controls.Add(listdataGridViewStokClear, 2, 0);
@@ -461,7 +463,7 @@ partial class Form2
         listdataGridViewStokClear.AutoSize = true;
         listdataGridViewStokClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdataGridViewStokClear.BackColor = Color.FromArgb(246, 248, 251);
-        listdataGridViewStokClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdataGridViewStokClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdataGridViewStokClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdataGridViewStokClear.FlatStyle = FlatStyle.Flat;
         listdataGridViewStokClear.ForeColor = Color.FromArgb(37, 54, 75);
@@ -480,7 +482,7 @@ partial class Form2
         listdataGridViewStokColumns.AutoSize = true;
         listdataGridViewStokColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdataGridViewStokColumns.BackColor = Color.FromArgb(246, 248, 251);
-        listdataGridViewStokColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdataGridViewStokColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdataGridViewStokColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdataGridViewStokColumns.FlatStyle = FlatStyle.Flat;
         listdataGridViewStokColumns.ForeColor = Color.FromArgb(37, 54, 75);
@@ -500,15 +502,15 @@ partial class Form2
         dataGridViewStok.AllowUserToDeleteRows = false;
         dataGridViewStok.AllowUserToOrderColumns = true;
         dataGridViewStok.AllowUserToResizeRows = false;
-        dataGridViewCellStyle1.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridViewCellStyle1.BackColor = Color.FromArgb(239, 247, 253);
         dataGridViewStok.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-        dataGridViewStok.BackgroundColor = Color.White;
+        dataGridViewStok.BackgroundColor = Color.FromArgb(239, 247, 253);
         dataGridViewStok.BorderStyle = BorderStyle.None;
         dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle2.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle2.BackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 9.5F);
         dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
         dataGridViewStok.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
@@ -518,7 +520,7 @@ partial class Form2
         dataGridViewCellStyle3.BackColor = SystemColors.Window;
         dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.5F);
         dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-        dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(200, 224, 246);
         dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(37, 54, 75);
         dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
         dataGridViewStok.DefaultCellStyle = dataGridViewCellStyle3;
@@ -606,7 +608,7 @@ partial class Form2
         // 
         // tabPagePersonelYonetimi
         // 
-        tabPagePersonelYonetimi.BackColor = Color.White;
+        tabPagePersonelYonetimi.BackColor = Color.FromArgb(239, 247, 253);
         tabPagePersonelYonetimi.Controls.Add(listdgvPersonelYonetimi);
         tabPagePersonelYonetimi.Location = new Point(4, 24);
         tabPagePersonelYonetimi.Name = "tabPagePersonelYonetimi";
@@ -617,7 +619,7 @@ partial class Form2
         // 
         // listdgvPersonelYonetimi
         // 
-        listdgvPersonelYonetimi.BackColor = Color.White;
+        listdgvPersonelYonetimi.BackColor = Color.FromArgb(239, 247, 253);
         listdgvPersonelYonetimi.ColumnCount = 1;
         listdgvPersonelYonetimi.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdgvPersonelYonetimi.Controls.Add(listdgvPersonelYonetimiToolbar, 0, 0);
@@ -638,12 +640,12 @@ partial class Form2
         // listdgvPersonelYonetimiToolbar
         // 
         listdgvPersonelYonetimiToolbar.AutoSize = true;
-        listdgvPersonelYonetimiToolbar.BackColor = Color.White;
+        listdgvPersonelYonetimiToolbar.BackColor = Color.FromArgb(218, 236, 250);
         listdgvPersonelYonetimiToolbar.ColumnCount = 4;
         listdgvPersonelYonetimiToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdgvPersonelYonetimiToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        listdgvPersonelYonetimiToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        listdgvPersonelYonetimiToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        listdgvPersonelYonetimiToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        listdgvPersonelYonetimiToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         listdgvPersonelYonetimiToolbar.Controls.Add(listdgvPersonelYonetimiTitle, 0, 0);
         listdgvPersonelYonetimiToolbar.Controls.Add(_personnelSearch, 1, 0);
         listdgvPersonelYonetimiToolbar.Controls.Add(listdgvPersonelYonetimiClear, 2, 0);
@@ -688,7 +690,7 @@ partial class Form2
         listdgvPersonelYonetimiClear.AutoSize = true;
         listdgvPersonelYonetimiClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdgvPersonelYonetimiClear.BackColor = Color.FromArgb(246, 248, 251);
-        listdgvPersonelYonetimiClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdgvPersonelYonetimiClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdgvPersonelYonetimiClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdgvPersonelYonetimiClear.FlatStyle = FlatStyle.Flat;
         listdgvPersonelYonetimiClear.ForeColor = Color.FromArgb(37, 54, 75);
@@ -707,7 +709,7 @@ partial class Form2
         listdgvPersonelYonetimiColumns.AutoSize = true;
         listdgvPersonelYonetimiColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdgvPersonelYonetimiColumns.BackColor = Color.FromArgb(246, 248, 251);
-        listdgvPersonelYonetimiColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdgvPersonelYonetimiColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdgvPersonelYonetimiColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdgvPersonelYonetimiColumns.FlatStyle = FlatStyle.Flat;
         listdgvPersonelYonetimiColumns.ForeColor = Color.FromArgb(37, 54, 75);
@@ -727,15 +729,15 @@ partial class Form2
         dgvPersonelYonetimi.AllowUserToDeleteRows = false;
         dgvPersonelYonetimi.AllowUserToOrderColumns = true;
         dgvPersonelYonetimi.AllowUserToResizeRows = false;
-        dataGridViewCellStyle4.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridViewCellStyle4.BackColor = Color.FromArgb(239, 247, 253);
         dgvPersonelYonetimi.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-        dgvPersonelYonetimi.BackgroundColor = Color.White;
+        dgvPersonelYonetimi.BackgroundColor = Color.FromArgb(239, 247, 253);
         dgvPersonelYonetimi.BorderStyle = BorderStyle.None;
         dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle5.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle5.BackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle5.Font = new Font("Segoe UI Semibold", 9.5F);
         dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
         dgvPersonelYonetimi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
@@ -745,7 +747,7 @@ partial class Form2
         dataGridViewCellStyle6.BackColor = SystemColors.Window;
         dataGridViewCellStyle6.Font = new Font("Segoe UI", 9.5F);
         dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-        dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(200, 224, 246);
         dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(37, 54, 75);
         dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
         dgvPersonelYonetimi.DefaultCellStyle = dataGridViewCellStyle6;
@@ -778,7 +780,7 @@ partial class Form2
         // 
         // tabPageOgrenciOnKayit
         // 
-        tabPageOgrenciOnKayit.BackColor = Color.White;
+        tabPageOgrenciOnKayit.BackColor = Color.FromArgb(239, 247, 253);
         tabPageOgrenciOnKayit.Controls.Add(bodydgvOnKayitlar);
         tabPageOgrenciOnKayit.Location = new Point(4, 24);
         tabPageOgrenciOnKayit.Name = "tabPageOgrenciOnKayit";
@@ -788,7 +790,7 @@ partial class Form2
         // 
         // bodydgvOnKayitlar
         // 
-        bodydgvOnKayitlar.BackColor = Color.White;
+        bodydgvOnKayitlar.BackColor = Color.FromArgb(239, 247, 253);
         bodydgvOnKayitlar.ColumnCount = 1;
         bodydgvOnKayitlar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         bodydgvOnKayitlar.Controls.Add(editordgvOnKayitlar, 0, 0);
@@ -805,7 +807,7 @@ partial class Form2
         // 
         // editordgvOnKayitlar
         // 
-        editordgvOnKayitlar.BackColor = Color.White;
+        editordgvOnKayitlar.BackColor = Color.FromArgb(239, 247, 253);
         editordgvOnKayitlar.ColumnCount = 1;
         editordgvOnKayitlar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         editordgvOnKayitlar.Controls.Add(fieldsdgvOnKayitlar, 0, 0);
@@ -823,7 +825,7 @@ partial class Form2
         // fieldsdgvOnKayitlar
         // 
         fieldsdgvOnKayitlar.AutoScroll = true;
-        fieldsdgvOnKayitlar.BackColor = Color.White;
+        fieldsdgvOnKayitlar.BackColor = Color.FromArgb(239, 247, 253);
         fieldsdgvOnKayitlar.ColumnCount = 3;
         fieldsdgvOnKayitlar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
         fieldsdgvOnKayitlar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
@@ -1003,7 +1005,7 @@ partial class Form2
         // 
         actionsdgvOnKayitlar.AutoSize = true;
         actionsdgvOnKayitlar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        actionsdgvOnKayitlar.BackColor = Color.White;
+        actionsdgvOnKayitlar.BackColor = Color.FromArgb(239, 247, 253);
         actionsdgvOnKayitlar.Controls.Add(btnOnKayitEkle);
         actionsdgvOnKayitlar.Controls.Add(btnKesinKayitYap);
         actionsdgvOnKayitlar.Controls.Add(btnOnKayitSil);
@@ -1020,7 +1022,7 @@ partial class Form2
         btnOnKayitEkle.AutoSize = true;
         btnOnKayitEkle.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnOnKayitEkle.BackColor = Color.FromArgb(246, 248, 251);
-        btnOnKayitEkle.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnOnKayitEkle.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnOnKayitEkle.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnOnKayitEkle.FlatStyle = FlatStyle.Flat;
         btnOnKayitEkle.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1040,7 +1042,7 @@ partial class Form2
         btnKesinKayitYap.AutoSize = true;
         btnKesinKayitYap.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnKesinKayitYap.BackColor = Color.FromArgb(246, 248, 251);
-        btnKesinKayitYap.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnKesinKayitYap.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnKesinKayitYap.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnKesinKayitYap.FlatStyle = FlatStyle.Flat;
         btnKesinKayitYap.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1060,7 +1062,7 @@ partial class Form2
         btnOnKayitSil.AutoSize = true;
         btnOnKayitSil.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnOnKayitSil.BackColor = Color.FromArgb(246, 248, 251);
-        btnOnKayitSil.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnOnKayitSil.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnOnKayitSil.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnOnKayitSil.FlatStyle = FlatStyle.Flat;
         btnOnKayitSil.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1077,7 +1079,7 @@ partial class Form2
         // 
         // listdgvOnKayitlar
         // 
-        listdgvOnKayitlar.BackColor = Color.White;
+        listdgvOnKayitlar.BackColor = Color.FromArgb(239, 247, 253);
         listdgvOnKayitlar.ColumnCount = 1;
         listdgvOnKayitlar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdgvOnKayitlar.Controls.Add(listdgvOnKayitlarToolbar, 0, 0);
@@ -1098,12 +1100,12 @@ partial class Form2
         // listdgvOnKayitlarToolbar
         // 
         listdgvOnKayitlarToolbar.AutoSize = true;
-        listdgvOnKayitlarToolbar.BackColor = Color.White;
+        listdgvOnKayitlarToolbar.BackColor = Color.FromArgb(218, 236, 250);
         listdgvOnKayitlarToolbar.ColumnCount = 4;
         listdgvOnKayitlarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdgvOnKayitlarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        listdgvOnKayitlarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        listdgvOnKayitlarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        listdgvOnKayitlarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        listdgvOnKayitlarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         listdgvOnKayitlarToolbar.Controls.Add(listdgvOnKayitlarTitle, 0, 0);
         listdgvOnKayitlarToolbar.Controls.Add(txtPreRegistrationSearch, 1, 0);
         listdgvOnKayitlarToolbar.Controls.Add(listdgvOnKayitlarClear, 2, 0);
@@ -1148,7 +1150,7 @@ partial class Form2
         listdgvOnKayitlarClear.AutoSize = true;
         listdgvOnKayitlarClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdgvOnKayitlarClear.BackColor = Color.FromArgb(246, 248, 251);
-        listdgvOnKayitlarClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdgvOnKayitlarClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdgvOnKayitlarClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdgvOnKayitlarClear.FlatStyle = FlatStyle.Flat;
         listdgvOnKayitlarClear.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1167,7 +1169,7 @@ partial class Form2
         listdgvOnKayitlarColumns.AutoSize = true;
         listdgvOnKayitlarColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdgvOnKayitlarColumns.BackColor = Color.FromArgb(246, 248, 251);
-        listdgvOnKayitlarColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdgvOnKayitlarColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdgvOnKayitlarColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdgvOnKayitlarColumns.FlatStyle = FlatStyle.Flat;
         listdgvOnKayitlarColumns.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1187,15 +1189,15 @@ partial class Form2
         dgvOnKayitlar.AllowUserToDeleteRows = false;
         dgvOnKayitlar.AllowUserToOrderColumns = true;
         dgvOnKayitlar.AllowUserToResizeRows = false;
-        dataGridViewCellStyle7.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridViewCellStyle7.BackColor = Color.FromArgb(239, 247, 253);
         dgvOnKayitlar.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
-        dgvOnKayitlar.BackgroundColor = Color.White;
+        dgvOnKayitlar.BackgroundColor = Color.FromArgb(239, 247, 253);
         dgvOnKayitlar.BorderStyle = BorderStyle.None;
         dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle8.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle8.BackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle8.Font = new Font("Segoe UI Semibold", 9.5F);
         dataGridViewCellStyle8.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
         dgvOnKayitlar.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
@@ -1204,7 +1206,7 @@ partial class Form2
         dataGridViewCellStyle9.BackColor = SystemColors.Window;
         dataGridViewCellStyle9.Font = new Font("Segoe UI", 9.5F);
         dataGridViewCellStyle9.ForeColor = SystemColors.ControlText;
-        dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(200, 224, 246);
         dataGridViewCellStyle9.SelectionForeColor = Color.FromArgb(37, 54, 75);
         dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
         dgvOnKayitlar.DefaultCellStyle = dataGridViewCellStyle9;
@@ -1235,7 +1237,7 @@ partial class Form2
         // 
         // _classesPage
         // 
-        _classesPage.BackColor = Color.White;
+        _classesPage.BackColor = Color.FromArgb(239, 247, 253);
         _classesPage.Controls.Add(bodyDgvOgrenciYonetimiSiniflar);
         _classesPage.Location = new Point(4, 24);
         _classesPage.Name = "_classesPage";
@@ -1245,7 +1247,7 @@ partial class Form2
         // 
         // bodyDgvOgrenciYonetimiSiniflar
         // 
-        bodyDgvOgrenciYonetimiSiniflar.BackColor = Color.White;
+        bodyDgvOgrenciYonetimiSiniflar.BackColor = Color.FromArgb(239, 247, 253);
         bodyDgvOgrenciYonetimiSiniflar.ColumnCount = 1;
         bodyDgvOgrenciYonetimiSiniflar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         bodyDgvOgrenciYonetimiSiniflar.Controls.Add(editorDgvOgrenciYonetimiSiniflar, 0, 0);
@@ -1262,7 +1264,7 @@ partial class Form2
         // 
         // editorDgvOgrenciYonetimiSiniflar
         // 
-        editorDgvOgrenciYonetimiSiniflar.BackColor = Color.White;
+        editorDgvOgrenciYonetimiSiniflar.BackColor = Color.FromArgb(239, 247, 253);
         editorDgvOgrenciYonetimiSiniflar.ColumnCount = 1;
         editorDgvOgrenciYonetimiSiniflar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         editorDgvOgrenciYonetimiSiniflar.Controls.Add(fieldsDgvOgrenciYonetimiSiniflar, 0, 0);
@@ -1280,7 +1282,7 @@ partial class Form2
         // fieldsDgvOgrenciYonetimiSiniflar
         // 
         fieldsDgvOgrenciYonetimiSiniflar.AutoScroll = true;
-        fieldsDgvOgrenciYonetimiSiniflar.BackColor = Color.White;
+        fieldsDgvOgrenciYonetimiSiniflar.BackColor = Color.FromArgb(239, 247, 253);
         fieldsDgvOgrenciYonetimiSiniflar.ColumnCount = 3;
         fieldsDgvOgrenciYonetimiSiniflar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
         fieldsDgvOgrenciYonetimiSiniflar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
@@ -1378,7 +1380,7 @@ partial class Form2
         // 
         actionsDgvOgrenciYonetimiSiniflar.AutoSize = true;
         actionsDgvOgrenciYonetimiSiniflar.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        actionsDgvOgrenciYonetimiSiniflar.BackColor = Color.White;
+        actionsDgvOgrenciYonetimiSiniflar.BackColor = Color.FromArgb(239, 247, 253);
         actionsDgvOgrenciYonetimiSiniflar.Controls.Add(btnOgrenciYonetimiSinifKaydet);
         actionsDgvOgrenciYonetimiSiniflar.Controls.Add(btnOgrenciYonetimiSinifGuncelle);
         actionsDgvOgrenciYonetimiSiniflar.Controls.Add(btnOgrenciYonetimiSinifSil);
@@ -1395,7 +1397,7 @@ partial class Form2
         btnOgrenciYonetimiSinifKaydet.AutoSize = true;
         btnOgrenciYonetimiSinifKaydet.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnOgrenciYonetimiSinifKaydet.BackColor = Color.FromArgb(246, 248, 251);
-        btnOgrenciYonetimiSinifKaydet.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnOgrenciYonetimiSinifKaydet.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnOgrenciYonetimiSinifKaydet.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnOgrenciYonetimiSinifKaydet.FlatStyle = FlatStyle.Flat;
         btnOgrenciYonetimiSinifKaydet.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1415,7 +1417,7 @@ partial class Form2
         btnOgrenciYonetimiSinifGuncelle.AutoSize = true;
         btnOgrenciYonetimiSinifGuncelle.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnOgrenciYonetimiSinifGuncelle.BackColor = Color.FromArgb(246, 248, 251);
-        btnOgrenciYonetimiSinifGuncelle.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnOgrenciYonetimiSinifGuncelle.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnOgrenciYonetimiSinifGuncelle.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnOgrenciYonetimiSinifGuncelle.FlatStyle = FlatStyle.Flat;
         btnOgrenciYonetimiSinifGuncelle.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1435,7 +1437,7 @@ partial class Form2
         btnOgrenciYonetimiSinifSil.AutoSize = true;
         btnOgrenciYonetimiSinifSil.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnOgrenciYonetimiSinifSil.BackColor = Color.FromArgb(246, 248, 251);
-        btnOgrenciYonetimiSinifSil.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnOgrenciYonetimiSinifSil.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnOgrenciYonetimiSinifSil.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnOgrenciYonetimiSinifSil.FlatStyle = FlatStyle.Flat;
         btnOgrenciYonetimiSinifSil.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1452,7 +1454,7 @@ partial class Form2
         // 
         // listDgvOgrenciYonetimiSiniflar
         // 
-        listDgvOgrenciYonetimiSiniflar.BackColor = Color.White;
+        listDgvOgrenciYonetimiSiniflar.BackColor = Color.FromArgb(239, 247, 253);
         listDgvOgrenciYonetimiSiniflar.ColumnCount = 1;
         listDgvOgrenciYonetimiSiniflar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listDgvOgrenciYonetimiSiniflar.Controls.Add(listDgvOgrenciYonetimiSiniflarToolbar, 0, 0);
@@ -1473,12 +1475,12 @@ partial class Form2
         // listDgvOgrenciYonetimiSiniflarToolbar
         // 
         listDgvOgrenciYonetimiSiniflarToolbar.AutoSize = true;
-        listDgvOgrenciYonetimiSiniflarToolbar.BackColor = Color.White;
+        listDgvOgrenciYonetimiSiniflarToolbar.BackColor = Color.FromArgb(218, 236, 250);
         listDgvOgrenciYonetimiSiniflarToolbar.ColumnCount = 4;
         listDgvOgrenciYonetimiSiniflarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listDgvOgrenciYonetimiSiniflarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        listDgvOgrenciYonetimiSiniflarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        listDgvOgrenciYonetimiSiniflarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        listDgvOgrenciYonetimiSiniflarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        listDgvOgrenciYonetimiSiniflarToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         listDgvOgrenciYonetimiSiniflarToolbar.Controls.Add(listDgvOgrenciYonetimiSiniflarTitle, 0, 0);
         listDgvOgrenciYonetimiSiniflarToolbar.Controls.Add(txtClassesSearch, 1, 0);
         listDgvOgrenciYonetimiSiniflarToolbar.Controls.Add(listDgvOgrenciYonetimiSiniflarClear, 2, 0);
@@ -1523,7 +1525,7 @@ partial class Form2
         listDgvOgrenciYonetimiSiniflarClear.AutoSize = true;
         listDgvOgrenciYonetimiSiniflarClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listDgvOgrenciYonetimiSiniflarClear.BackColor = Color.FromArgb(246, 248, 251);
-        listDgvOgrenciYonetimiSiniflarClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listDgvOgrenciYonetimiSiniflarClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listDgvOgrenciYonetimiSiniflarClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listDgvOgrenciYonetimiSiniflarClear.FlatStyle = FlatStyle.Flat;
         listDgvOgrenciYonetimiSiniflarClear.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1542,7 +1544,7 @@ partial class Form2
         listDgvOgrenciYonetimiSiniflarColumns.AutoSize = true;
         listDgvOgrenciYonetimiSiniflarColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listDgvOgrenciYonetimiSiniflarColumns.BackColor = Color.FromArgb(246, 248, 251);
-        listDgvOgrenciYonetimiSiniflarColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listDgvOgrenciYonetimiSiniflarColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listDgvOgrenciYonetimiSiniflarColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listDgvOgrenciYonetimiSiniflarColumns.FlatStyle = FlatStyle.Flat;
         listDgvOgrenciYonetimiSiniflarColumns.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1562,15 +1564,15 @@ partial class Form2
         DgvOgrenciYonetimiSiniflar.AllowUserToDeleteRows = false;
         DgvOgrenciYonetimiSiniflar.AllowUserToOrderColumns = true;
         DgvOgrenciYonetimiSiniflar.AllowUserToResizeRows = false;
-        dataGridViewCellStyle10.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridViewCellStyle10.BackColor = Color.FromArgb(239, 247, 253);
         DgvOgrenciYonetimiSiniflar.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle10;
-        DgvOgrenciYonetimiSiniflar.BackgroundColor = Color.White;
+        DgvOgrenciYonetimiSiniflar.BackgroundColor = Color.FromArgb(239, 247, 253);
         DgvOgrenciYonetimiSiniflar.BorderStyle = BorderStyle.None;
         dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle11.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle11.BackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle11.Font = new Font("Segoe UI Semibold", 9.5F);
         dataGridViewCellStyle11.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle11.SelectionBackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle11.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle11.WrapMode = DataGridViewTriState.True;
         DgvOgrenciYonetimiSiniflar.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
@@ -1580,7 +1582,7 @@ partial class Form2
         dataGridViewCellStyle12.BackColor = SystemColors.Window;
         dataGridViewCellStyle12.Font = new Font("Segoe UI", 9.5F);
         dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
-        dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(200, 224, 246);
         dataGridViewCellStyle12.SelectionForeColor = Color.FromArgb(37, 54, 75);
         dataGridViewCellStyle12.WrapMode = DataGridViewTriState.False;
         DgvOgrenciYonetimiSiniflar.DefaultCellStyle = dataGridViewCellStyle12;
@@ -1612,7 +1614,7 @@ partial class Form2
         // 
         // tabPageSatis
         // 
-        tabPageSatis.BackColor = Color.White;
+        tabPageSatis.BackColor = Color.FromArgb(239, 247, 253);
         tabPageSatis.Controls.Add(bodydataOgrVw);
         tabPageSatis.Location = new Point(4, 24);
         tabPageSatis.Name = "tabPageSatis";
@@ -1622,7 +1624,7 @@ partial class Form2
         // 
         // bodydataOgrVw
         // 
-        bodydataOgrVw.BackColor = Color.White;
+        bodydataOgrVw.BackColor = Color.FromArgb(239, 247, 253);
         bodydataOgrVw.ColumnCount = 1;
         bodydataOgrVw.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         bodydataOgrVw.Controls.Add(editordataOgrVw, 0, 0);
@@ -1639,7 +1641,7 @@ partial class Form2
         // 
         // editordataOgrVw
         // 
-        editordataOgrVw.BackColor = Color.White;
+        editordataOgrVw.BackColor = Color.FromArgb(239, 247, 253);
         editordataOgrVw.ColumnCount = 1;
         editordataOgrVw.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         editordataOgrVw.Controls.Add(fieldsdataOgrVw, 0, 0);
@@ -1657,7 +1659,7 @@ partial class Form2
         // fieldsdataOgrVw
         // 
         fieldsdataOgrVw.AutoScroll = true;
-        fieldsdataOgrVw.BackColor = Color.White;
+        fieldsdataOgrVw.BackColor = Color.FromArgb(239, 247, 253);
         fieldsdataOgrVw.ColumnCount = 3;
         fieldsdataOgrVw.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
         fieldsdataOgrVw.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
@@ -1730,7 +1732,7 @@ partial class Form2
         // 
         actionsdataOgrVw.AutoSize = true;
         actionsdataOgrVw.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        actionsdataOgrVw.BackColor = Color.White;
+        actionsdataOgrVw.BackColor = Color.FromArgb(239, 247, 253);
         actionsdataOgrVw.Controls.Add(btnMakeSale);
         actionsdataOgrVw.Dock = DockStyle.Top;
         actionsdataOgrVw.Location = new Point(0, 99);
@@ -1745,7 +1747,7 @@ partial class Form2
         btnMakeSale.AutoSize = true;
         btnMakeSale.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnMakeSale.BackColor = Color.FromArgb(246, 248, 251);
-        btnMakeSale.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnMakeSale.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnMakeSale.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnMakeSale.FlatStyle = FlatStyle.Flat;
         btnMakeSale.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1762,7 +1764,7 @@ partial class Form2
         // 
         // listdataOgrVw
         // 
-        listdataOgrVw.BackColor = Color.White;
+        listdataOgrVw.BackColor = Color.FromArgb(239, 247, 253);
         listdataOgrVw.ColumnCount = 1;
         listdataOgrVw.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdataOgrVw.Controls.Add(listdataOgrVwToolbar, 0, 0);
@@ -1783,12 +1785,12 @@ partial class Form2
         // listdataOgrVwToolbar
         // 
         listdataOgrVwToolbar.AutoSize = true;
-        listdataOgrVwToolbar.BackColor = Color.White;
+        listdataOgrVwToolbar.BackColor = Color.FromArgb(218, 236, 250);
         listdataOgrVwToolbar.ColumnCount = 4;
         listdataOgrVwToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdataOgrVwToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        listdataOgrVwToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        listdataOgrVwToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        listdataOgrVwToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        listdataOgrVwToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         listdataOgrVwToolbar.Controls.Add(listdataOgrVwTitle, 0, 0);
         listdataOgrVwToolbar.Controls.Add(txtPaymentsSearch, 1, 0);
         listdataOgrVwToolbar.Controls.Add(listdataOgrVwClear, 2, 0);
@@ -1833,7 +1835,7 @@ partial class Form2
         listdataOgrVwClear.AutoSize = true;
         listdataOgrVwClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdataOgrVwClear.BackColor = Color.FromArgb(246, 248, 251);
-        listdataOgrVwClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdataOgrVwClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdataOgrVwClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdataOgrVwClear.FlatStyle = FlatStyle.Flat;
         listdataOgrVwClear.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1852,7 +1854,7 @@ partial class Form2
         listdataOgrVwColumns.AutoSize = true;
         listdataOgrVwColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdataOgrVwColumns.BackColor = Color.FromArgb(246, 248, 251);
-        listdataOgrVwColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdataOgrVwColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdataOgrVwColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdataOgrVwColumns.FlatStyle = FlatStyle.Flat;
         listdataOgrVwColumns.ForeColor = Color.FromArgb(37, 54, 75);
@@ -1872,15 +1874,15 @@ partial class Form2
         dataOgrVw.AllowUserToDeleteRows = false;
         dataOgrVw.AllowUserToOrderColumns = true;
         dataOgrVw.AllowUserToResizeRows = false;
-        dataGridViewCellStyle13.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridViewCellStyle13.BackColor = Color.FromArgb(239, 247, 253);
         dataOgrVw.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle13;
-        dataOgrVw.BackgroundColor = Color.White;
+        dataOgrVw.BackgroundColor = Color.FromArgb(239, 247, 253);
         dataOgrVw.BorderStyle = BorderStyle.None;
         dataGridViewCellStyle14.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle14.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle14.BackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle14.Font = new Font("Segoe UI Semibold", 9.5F);
         dataGridViewCellStyle14.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle14.SelectionBackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle14.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle14.WrapMode = DataGridViewTriState.True;
         dataOgrVw.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle14;
@@ -1890,7 +1892,7 @@ partial class Form2
         dataGridViewCellStyle15.BackColor = SystemColors.Window;
         dataGridViewCellStyle15.Font = new Font("Segoe UI", 9.5F);
         dataGridViewCellStyle15.ForeColor = SystemColors.ControlText;
-        dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridViewCellStyle15.SelectionBackColor = Color.FromArgb(200, 224, 246);
         dataGridViewCellStyle15.SelectionForeColor = Color.FromArgb(37, 54, 75);
         dataGridViewCellStyle15.WrapMode = DataGridViewTriState.False;
         dataOgrVw.DefaultCellStyle = dataGridViewCellStyle15;
@@ -1921,7 +1923,7 @@ partial class Form2
         // 
         // tabPageGelirGider
         // 
-        tabPageGelirGider.BackColor = Color.White;
+        tabPageGelirGider.BackColor = Color.FromArgb(239, 247, 253);
         tabPageGelirGider.Controls.Add(bodydataGridOdeme);
         tabPageGelirGider.Location = new Point(4, 24);
         tabPageGelirGider.Name = "tabPageGelirGider";
@@ -1931,24 +1933,35 @@ partial class Form2
         // 
         // bodydataGridOdeme
         // 
-        bodydataGridOdeme.BackColor = Color.White;
+        bodydataGridOdeme.BackColor = Color.FromArgb(239, 247, 253);
         bodydataGridOdeme.ColumnCount = 1;
         bodydataGridOdeme.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         bodydataGridOdeme.Controls.Add(editordataGridOdeme, 0, 0);
-        bodydataGridOdeme.Controls.Add(listdataGridOdeme, 0, 1);
+        lblFinanceSummary.Name = "lblFinanceSummary";
+        lblFinanceSummary.Dock = DockStyle.Fill;
+        lblFinanceSummary.TextAlign = ContentAlignment.MiddleLeft;
+        lblFinanceSummary.AutoEllipsis = true;
+        lblFinanceSummary.Padding = new Padding(16, 0, 0, 0);
+        lblFinanceSummary.BackColor = Color.FromArgb(218, 236, 250);
+        lblFinanceSummary.Text = "Gelir: 0,00 TL    •    Gider: 0,00 TL    •    Bakiye: 0,00 TL";
+        bodydataGridOdeme.Controls.Add(lblFinanceSummary, 0, 1);
+        bodydataGridOdeme.Controls.Add(listdataGridOdeme, 0, 2);
         bodydataGridOdeme.Dock = DockStyle.Fill;
+        bodydataGridOdeme.AutoScroll = true;
+        bodydataGridOdeme.AutoScrollMinSize = new Size(0, 340);
         bodydataGridOdeme.Location = new Point(0, 0);
         bodydataGridOdeme.Margin = new Padding(0);
         bodydataGridOdeme.Name = "bodydataGridOdeme";
-        bodydataGridOdeme.RowCount = 2;
+        bodydataGridOdeme.RowCount = 3;
         bodydataGridOdeme.RowStyles.Add(new RowStyle(SizeType.Absolute, 154F));
+        bodydataGridOdeme.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
         bodydataGridOdeme.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         bodydataGridOdeme.Size = new Size(1112, 732);
         bodydataGridOdeme.TabIndex = 0;
         // 
         // editordataGridOdeme
         // 
-        editordataGridOdeme.BackColor = Color.White;
+        editordataGridOdeme.BackColor = Color.FromArgb(239, 247, 253);
         editordataGridOdeme.ColumnCount = 1;
         editordataGridOdeme.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         editordataGridOdeme.Controls.Add(fieldsdataGridOdeme, 0, 0);
@@ -1966,7 +1979,7 @@ partial class Form2
         // fieldsdataGridOdeme
         // 
         fieldsdataGridOdeme.AutoScroll = true;
-        fieldsdataGridOdeme.BackColor = Color.White;
+        fieldsdataGridOdeme.BackColor = Color.FromArgb(239, 247, 253);
         fieldsdataGridOdeme.ColumnCount = 3;
         fieldsdataGridOdeme.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
         fieldsdataGridOdeme.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
@@ -2086,7 +2099,7 @@ partial class Form2
         // 
         actionsdataGridOdeme.AutoSize = true;
         actionsdataGridOdeme.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        actionsdataGridOdeme.BackColor = Color.White;
+        actionsdataGridOdeme.BackColor = Color.FromArgb(239, 247, 253);
         actionsdataGridOdeme.Controls.Add(btnAddIncomeExpense);
         actionsdataGridOdeme.Controls.Add(FaturaBtn);
         actionsdataGridOdeme.Dock = DockStyle.Top;
@@ -2102,7 +2115,7 @@ partial class Form2
         btnAddIncomeExpense.AutoSize = true;
         btnAddIncomeExpense.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         btnAddIncomeExpense.BackColor = Color.FromArgb(246, 248, 251);
-        btnAddIncomeExpense.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        btnAddIncomeExpense.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         btnAddIncomeExpense.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         btnAddIncomeExpense.FlatStyle = FlatStyle.Flat;
         btnAddIncomeExpense.ForeColor = Color.FromArgb(37, 54, 75);
@@ -2122,7 +2135,7 @@ partial class Form2
         FaturaBtn.AutoSize = true;
         FaturaBtn.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         FaturaBtn.BackColor = Color.FromArgb(246, 248, 251);
-        FaturaBtn.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        FaturaBtn.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         FaturaBtn.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         FaturaBtn.FlatStyle = FlatStyle.Flat;
         FaturaBtn.ForeColor = Color.FromArgb(37, 54, 75);
@@ -2139,7 +2152,7 @@ partial class Form2
         // 
         // listdataGridOdeme
         // 
-        listdataGridOdeme.BackColor = Color.White;
+        listdataGridOdeme.BackColor = Color.FromArgb(239, 247, 253);
         listdataGridOdeme.ColumnCount = 1;
         listdataGridOdeme.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdataGridOdeme.Controls.Add(listdataGridOdemeToolbar, 0, 0);
@@ -2160,12 +2173,12 @@ partial class Form2
         // listdataGridOdemeToolbar
         // 
         listdataGridOdemeToolbar.AutoSize = true;
-        listdataGridOdemeToolbar.BackColor = Color.White;
+        listdataGridOdemeToolbar.BackColor = Color.FromArgb(218, 236, 250);
         listdataGridOdemeToolbar.ColumnCount = 4;
         listdataGridOdemeToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listdataGridOdemeToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        listdataGridOdemeToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        listdataGridOdemeToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        listdataGridOdemeToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        listdataGridOdemeToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         listdataGridOdemeToolbar.Controls.Add(listdataGridOdemeTitle, 0, 0);
         listdataGridOdemeToolbar.Controls.Add(txtFinanceSearch, 1, 0);
         listdataGridOdemeToolbar.Controls.Add(listdataGridOdemeClear, 2, 0);
@@ -2210,7 +2223,7 @@ partial class Form2
         listdataGridOdemeClear.AutoSize = true;
         listdataGridOdemeClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdataGridOdemeClear.BackColor = Color.FromArgb(246, 248, 251);
-        listdataGridOdemeClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdataGridOdemeClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdataGridOdemeClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdataGridOdemeClear.FlatStyle = FlatStyle.Flat;
         listdataGridOdemeClear.ForeColor = Color.FromArgb(37, 54, 75);
@@ -2229,7 +2242,7 @@ partial class Form2
         listdataGridOdemeColumns.AutoSize = true;
         listdataGridOdemeColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listdataGridOdemeColumns.BackColor = Color.FromArgb(246, 248, 251);
-        listdataGridOdemeColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listdataGridOdemeColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listdataGridOdemeColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listdataGridOdemeColumns.FlatStyle = FlatStyle.Flat;
         listdataGridOdemeColumns.ForeColor = Color.FromArgb(37, 54, 75);
@@ -2249,15 +2262,15 @@ partial class Form2
         dataGridOdeme.AllowUserToDeleteRows = false;
         dataGridOdeme.AllowUserToOrderColumns = true;
         dataGridOdeme.AllowUserToResizeRows = false;
-        dataGridViewCellStyle16.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridViewCellStyle16.BackColor = Color.FromArgb(239, 247, 253);
         dataGridOdeme.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle16;
-        dataGridOdeme.BackgroundColor = Color.White;
+        dataGridOdeme.BackgroundColor = Color.FromArgb(239, 247, 253);
         dataGridOdeme.BorderStyle = BorderStyle.None;
         dataGridViewCellStyle17.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle17.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle17.BackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle17.Font = new Font("Segoe UI Semibold", 9.5F);
         dataGridViewCellStyle17.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle17.SelectionBackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle17.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle17.WrapMode = DataGridViewTriState.True;
         dataGridOdeme.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
@@ -2266,7 +2279,7 @@ partial class Form2
         dataGridViewCellStyle18.BackColor = SystemColors.Window;
         dataGridViewCellStyle18.Font = new Font("Segoe UI", 9.5F);
         dataGridViewCellStyle18.ForeColor = SystemColors.ControlText;
-        dataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridViewCellStyle18.SelectionBackColor = Color.FromArgb(200, 224, 246);
         dataGridViewCellStyle18.SelectionForeColor = Color.FromArgb(37, 54, 75);
         dataGridViewCellStyle18.WrapMode = DataGridViewTriState.False;
         dataGridOdeme.DefaultCellStyle = dataGridViewCellStyle18;
@@ -2296,7 +2309,7 @@ partial class Form2
         // 
         // tabPageOzelRaporlar
         // 
-        tabPageOzelRaporlar.BackColor = Color.White;
+        tabPageOzelRaporlar.BackColor = Color.FromArgb(239, 247, 253);
         tabPageOzelRaporlar.Controls.Add(listsalesGrid);
         tabPageOzelRaporlar.Location = new Point(4, 24);
         tabPageOzelRaporlar.Name = "tabPageOzelRaporlar";
@@ -2307,7 +2320,7 @@ partial class Form2
         // 
         // listsalesGrid
         // 
-        listsalesGrid.BackColor = Color.White;
+        listsalesGrid.BackColor = Color.FromArgb(239, 247, 253);
         listsalesGrid.ColumnCount = 1;
         listsalesGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listsalesGrid.Controls.Add(listsalesGridToolbar, 0, 0);
@@ -2328,12 +2341,12 @@ partial class Form2
         // listsalesGridToolbar
         // 
         listsalesGridToolbar.AutoSize = true;
-        listsalesGridToolbar.BackColor = Color.White;
+        listsalesGridToolbar.BackColor = Color.FromArgb(218, 236, 250);
         listsalesGridToolbar.ColumnCount = 4;
         listsalesGridToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         listsalesGridToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 230F));
-        listsalesGridToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 92F));
-        listsalesGridToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+        listsalesGridToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
+        listsalesGridToolbar.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
         listsalesGridToolbar.Controls.Add(listsalesGridTitle, 0, 0);
         listsalesGridToolbar.Controls.Add(txtReportsSearch, 1, 0);
         listsalesGridToolbar.Controls.Add(listsalesGridClear, 2, 0);
@@ -2378,7 +2391,7 @@ partial class Form2
         listsalesGridClear.AutoSize = true;
         listsalesGridClear.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listsalesGridClear.BackColor = Color.FromArgb(246, 248, 251);
-        listsalesGridClear.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listsalesGridClear.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listsalesGridClear.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listsalesGridClear.FlatStyle = FlatStyle.Flat;
         listsalesGridClear.ForeColor = Color.FromArgb(37, 54, 75);
@@ -2397,7 +2410,7 @@ partial class Form2
         listsalesGridColumns.AutoSize = true;
         listsalesGridColumns.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         listsalesGridColumns.BackColor = Color.FromArgb(246, 248, 251);
-        listsalesGridColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+        listsalesGridColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
         listsalesGridColumns.FlatAppearance.MouseOverBackColor = Color.FromArgb(221, 237, 253);
         listsalesGridColumns.FlatStyle = FlatStyle.Flat;
         listsalesGridColumns.ForeColor = Color.FromArgb(37, 54, 75);
@@ -2418,15 +2431,15 @@ partial class Form2
         salesGrid.AllowUserToDeleteRows = false;
         salesGrid.AllowUserToOrderColumns = true;
         salesGrid.AllowUserToResizeRows = false;
-        dataGridViewCellStyle19.BackColor = Color.FromArgb(250, 252, 254);
+        dataGridViewCellStyle19.BackColor = Color.FromArgb(239, 247, 253);
         salesGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle19;
-        salesGrid.BackgroundColor = Color.White;
+        salesGrid.BackgroundColor = Color.FromArgb(239, 247, 253);
         salesGrid.BorderStyle = BorderStyle.None;
         dataGridViewCellStyle20.Alignment = DataGridViewContentAlignment.MiddleLeft;
-        dataGridViewCellStyle20.BackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle20.BackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle20.Font = new Font("Segoe UI Semibold", 9.5F);
         dataGridViewCellStyle20.ForeColor = SystemColors.WindowText;
-        dataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(244, 247, 251);
+        dataGridViewCellStyle20.SelectionBackColor = Color.FromArgb(218, 236, 250);
         dataGridViewCellStyle20.SelectionForeColor = SystemColors.HighlightText;
         dataGridViewCellStyle20.WrapMode = DataGridViewTriState.True;
         salesGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle20;
@@ -2435,7 +2448,7 @@ partial class Form2
         dataGridViewCellStyle21.BackColor = SystemColors.Window;
         dataGridViewCellStyle21.Font = new Font("Segoe UI", 9.5F);
         dataGridViewCellStyle21.ForeColor = SystemColors.ControlText;
-        dataGridViewCellStyle21.SelectionBackColor = Color.FromArgb(219, 235, 252);
+        dataGridViewCellStyle21.SelectionBackColor = Color.FromArgb(200, 224, 246);
         dataGridViewCellStyle21.SelectionForeColor = Color.FromArgb(37, 54, 75);
         dataGridViewCellStyle21.WrapMode = DataGridViewTriState.False;
         salesGrid.DefaultCellStyle = dataGridViewCellStyle21;
@@ -2467,7 +2480,7 @@ partial class Form2
         // 
         // _homePage
         // 
-        _homePage.BackColor = Color.White;
+        _homePage.BackColor = Color.FromArgb(239, 247, 253);
         _homePage.Controls.Add(pnlHome);
         _homePage.Location = new Point(4, 24);
         _homePage.Name = "_homePage";
@@ -2477,7 +2490,7 @@ partial class Form2
         // 
         // pnlHome
         // 
-        pnlHome.BackColor = Color.White;
+        pnlHome.BackColor = Color.FromArgb(239, 247, 253);
         pnlHome.ColumnCount = 1;
         pnlHome.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         pnlHome.Controls.Add(lblHomeTitle, 0, 0);
@@ -2538,7 +2551,7 @@ partial class Form2
         // 
         AutoScaleDimensions = new SizeF(96F, 96F);
         AutoScaleMode = AutoScaleMode.Dpi;
-        BackColor = Color.White;
+        BackColor = Color.FromArgb(228, 241, 252);
         ClientSize = new Size(1120, 760);
         Controls.Add(tabControl);
         Font = new Font("Segoe UI", 10F);

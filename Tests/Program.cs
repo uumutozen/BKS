@@ -66,4 +66,5 @@ Check(!documents.TryGet("failed", out _), "A failed editor factory does not rese
 var compact = LayoutRules.Workspace(1366, 768, 1F, true, false, true);
 Check(compact.RibbonHeight == 134 && compact.Content.Height == 606, "Compact ribbon preserves working space at 1366x768");
 RegressionChecks.Run(Check);
+WorkflowChecks.Run(Check);
 Console.WriteLine($"{count} checks passed.");

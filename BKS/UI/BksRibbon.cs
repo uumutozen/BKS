@@ -224,7 +224,7 @@ public sealed class BksRibbon : UserControl
     }
     private void ShowTabOverflow()
     {
-        var menu = new ContextMenuStrip();
+        var menu = TransientMenu.Create(this);
         foreach (var key in hiddenTabs)
         {
             var item = new ToolStripMenuItem(pages[key].Tab.Text)
@@ -234,12 +234,11 @@ public sealed class BksRibbon : UserControl
             item.Click += (_, _) => SelectPage(key);
             menu.Items.Add(item);
         }
-        menu.Closed += (_, _) => menu.Dispose();
         menu.Show(moreTabs, new Point(0, moreTabs.Height));
     }
     private void ShowCommandOverflow()
     {
-        var menu = new ContextMenuStrip();
+        var menu = TransientMenu.Create(this);
         var images = new List<Image>();
         foreach (var group in hiddenGroups)
         {
@@ -258,9 +257,8 @@ public sealed class BksRibbon : UserControl
             }
             menu.Items.Add(parent);
         }
-        menu.Closed += (_, _) =>
+        menu.Disposed += (_, _) =>
         {
-            menu.Dispose();
             foreach (var image in images) image.Dispose();
         };
         menu.Show(moreGroups, new Point(0, moreGroups.Height));

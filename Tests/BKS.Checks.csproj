@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup>
+    <Compile Include="../BKS/Infrastructure/PaymentSchedule.cs" Link="PaymentSchedule.cs" />
+    <Compile Include="../BKS/Infrastructure/ReportQuery.cs" Link="ReportQuery.cs" />
+    <Compile Include="../BKS/Infrastructure/HistoryDetails.cs" Link="HistoryDetails.cs" />
+    <Compile Include="../BKS/Infrastructure/InvoiceDraft.cs" Link="InvoiceDraft.cs" />
+    <Compile Include="../BKS/Infrastructure/IncomeExpenseEntry.cs" Link="IncomeExpenseEntry.cs" />
     <Compile Include="../BKS/Infrastructure/ModuleAccess.cs" Link="ModuleAccess.cs" />
     <Compile Include="../BKS/Infrastructure/DataValues.cs" Link="DataValues.cs" />
     <Compile Include="../BKS/Infrastructure/InvoiceLine.cs" Link="InvoiceLine.cs" />

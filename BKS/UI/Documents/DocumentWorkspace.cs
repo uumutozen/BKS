@@ -78,7 +78,7 @@ internal sealed class DocumentWorkspace : Panel
         var form = factory() ?? throw new InvalidOperationException("Belge oluşturucu boş form döndürdü.");
         var page = new TabPage(title)
         {
-            Name = key, ToolTipText = title, Padding = Padding.Empty, BackColor = Color.White
+            Name = key, ToolTipText = title, Padding = Padding.Empty, BackColor = RibbonPalette.Surface
         };
         try
         {

@@ -23,7 +23,7 @@ internal sealed class ModuleReader
             },
             "tabPageSatis" => new()
             {
-                Query("SELECT p.Id,p.StudentId,a.Name+' '+a.Surname AS [Öğrenci],p.PaymentDate AS [Ödeme Tarihi],p.Amount AS [Tutar] FROM AYSFeePayments p JOIN AYSStudents a ON a.Id=p.StudentId WHERE p.SchoolId=dbo.GetSirketIdByUserId(@UserId) ORDER BY p.PaymentDate DESC"),
+                Query(PaymentRepository.ListSql + " ORDER BY p.PaymentDate DESC,p.Id"),
                 Query("SELECT Id,Name+' '+Surname AS Name FROM AYSStudents WHERE SchoolId=dbo.GetSirketIdByUserId(@UserId) AND ISNULL(IsDeleted,0)=0 ORDER BY Name")
             },
             "tabPagePersonelYonetimi" => new()

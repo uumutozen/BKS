@@ -9,7 +9,7 @@ namespace BKS
     internal static class ModernWinForms
     {
         public static readonly Color PageBack = RibbonPalette.Workspace;
-        public static readonly Color CardBack = Color.White;
+        public static readonly Color CardBack = RibbonPalette.Group;
         public static readonly Color Border = RibbonPalette.Border;
         public static readonly Color Primary = RibbonPalette.Accent;
         public static readonly Color PrimaryDark = RibbonPalette.ActiveBorder;

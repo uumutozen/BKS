@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -25,6 +25,7 @@
     <Compile Update="PaymentDetailsForm.cs"><SubType>Form</SubType></Compile>
     <Compile Update="PaymentDetailsForm.Designer.cs"><DependentUpon>PaymentDetailsForm.cs</DependentUpon></Compile>
     <EmbeddedResource Include="PaymentDetailsForm.resx"><DependentUpon>PaymentDetailsForm.cs</DependentUpon><LogicalName>BKS.PaymentDetailsForm.resources</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="UI\BksRibbon.resx" />
     <Compile Update="PaymentPlanForm.cs"><SubType>Form</SubType></Compile>
     <Compile Update="PaymentPlanForm.Designer.cs"><DependentUpon>PaymentPlanForm.cs</DependentUpon></Compile>
     <EmbeddedResource Include="PaymentPlanForm.resx"><DependentUpon>PaymentPlanForm.cs</DependentUpon><LogicalName>BKS.PaymentPlanForm.resources</LogicalName></EmbeddedResource>
@@ -76,10 +77,6 @@
 
   <ItemGroup>
     <Content Include="helm_icon.ico" />
-  </ItemGroup>
-
-
-  <ItemGroup>
   </ItemGroup>
 
 

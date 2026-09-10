@@ -1,57 +1,50 @@
 using System.Data;
-using System.Data.SqlClient;
-using Newtonsoft.Json;
-using System.Text;
-using System.Net;
-using System.ComponentModel;
-using System.Collections;
 namespace BKS;
 public partial class Form2
 {
-    private void LoadSalesData()
+    private bool financeSaving;
+    private void LoadSalesData() => _ = LoadModuleAsync(tabPageGelirGider.Name);
+    private async void btnAddIncomeExpense_Click(object sender, EventArgs e)
     {
-        dataGridOdeme.DataSource = ExecuteDataTable(FinanceQuery, CommandType.Text, DbParam("@UserId", UserId));
-    }
-    private void btnAddIncomeExpense_Click(object sender, EventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(txtDescription.Text) || numericAmount.Value <= 0 || (!radioIncome.Checked && !radioExpense.Checked))
-        {
-            MessageBox.Show("Açıklama, pozitif tutar ve gelir/gider türünü belirtin.");
-            return;
-        }
-        ExecuteNonQueryCommand("INSERT INTO GelirGider (Aciklama,Miktar,Tip,SirketId) VALUES (@Aciklama,@Miktar,@Tip,dbo.GetSirketIdByUserId(@UserId))",
-        CommandType.Text, DbParam("@Aciklama", txtDescription.Text.Trim()), DbParam("@Miktar", numericAmount.Value), DbParam("@Tip",
-        radioIncome.Checked ? "G": "D"), DbParam("@UserId", UserId));
-        txtDescription.Clear();
-        numericAmount.Value = 0;
-        _pageEdits[tabPageGelirGider.Name].AcceptChanges();
-        LoadSalesData();
-        SetRibbonStatus("Gelir/gider kaydedildi.");
-    }
-    private void LoadOzelRaporlarToGrid()
-    {
-        salesGrid.DataSource = ExecuteDataTable("SELECT Id, RaporAdi, Sorgu, KayitTarihi FROM OzelRaporlar ORDER BY KayitTarihi DESC");
-        if (salesGrid.Columns.Contains("Id")) salesGrid.Columns["Id"].Visible = false;
-        if (salesGrid.Columns.Contains("Sorgu")) salesGrid.Columns["Sorgu"].Visible = false;
-        if (salesGrid.Columns.Contains("RaporAdi")) salesGrid.Columns["RaporAdi"].HeaderText = "Rapor Adı";
-        if (salesGrid.Columns.Contains("KayitTarihi")) salesGrid.Columns["KayitTarihi"].HeaderText = "Eklenme Tarihi";
-    }
-    private void salesGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-    {
+        if (financeSaving || AppConfiguration.DesignPreview || !_allowedModules.Contains(tabPageGelirGider.Name)) return;
+        var entry = new IncomeExpenseEntry(txtDescription.Text.Trim(), numericAmount.Value,
+            radioIncome.Checked ? "G" : radioExpense.Checked ? "D" : "");
+        try { entry.Validate(); }
+        catch (Exception ex) { UiActions.ShowError(ex); return; }
+        var user = UserId;
+        financeSaving = true;
+        tabPageGelirGider.Enabled = false;
+        _ribbon.RefreshCommands();
         try
         {
-            if (e.RowIndex<0)
-            return;
-            var row = salesGrid.Rows[e.RowIndex];
-            int raporId = Convert.ToInt32(row.Cells["Id"].Value);
-            if (!_allowedModules.Contains(tabPageOzelRaporlar.Name)) return;
-            _documents.OpenDocument("report:" + raporId, row.Cells["RaporAdi"].Value?.ToString() ?? "Rapor",
-            () => new RaporCalistirForm(raporId), tabPageOzelRaporlar.Name);
+            await Task.Run(() => new FinanceRepository().Save(user, entry));
+            if (IsDisposed) return;
+            txtDescription.Clear();
+            numericAmount.Value = 0;
+            _pageEdits[tabPageGelirGider.Name].AcceptChanges();
+            SetRibbonStatus("Gelir / gider kaydedildi.");
         }
-        catch (Exception)
+        catch (Exception ex) { if (!IsDisposed) UiActions.ShowError(ex); return; }
+        finally
         {
-            MessageBox.Show("Rapor çalıştırılırken bir hata oluştu. Lütfen raporun sorgusunu kontrol edin.", "Hata", MessageBoxButtons.OK,
-            MessageBoxIcon.Error);
+            financeSaving = false;
+            if (!IsDisposed) { tabPageGelirGider.Enabled = _allowedModules.Contains(tabPageGelirGider.Name); _ribbon.RefreshCommands(); }
         }
+        await LoadModuleAsync(tabPageGelirGider.Name);
     }
+    private void UpdateFinanceSummary(DataTable table)
+    {
+        var rows = table.AsEnumerable();
+        decimal income = rows.Where(r => Convert.ToString(r["Tür"]) == "Gelir").Sum(r => DataValues.Money(r["Tutar"]));
+        decimal expense = rows.Where(r => Convert.ToString(r["Tür"]) == "Gider").Sum(r => DataValues.Money(r["Tutar"]));
+        lblFinanceSummary.Text = $"Gelir: {income:N2} TL    •    Gider: {expense:N2} TL    •    Bakiye: {income - expense:N2} TL";
+    }
+    private void LoadOzelRaporlarToGrid() => _ = LoadModuleAsync(tabPageOzelRaporlar.Name);
+    private void salesGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) => UiActions.Run(() =>
+    {
+        if (e.RowIndex < 0 || e.RowIndex >= salesGrid.Rows.Count || !_allowedModules.Contains(tabPageOzelRaporlar.Name)) return;
+        if (!salesGrid.Columns.Contains("Id") || !int.TryParse(Convert.ToString(salesGrid.Rows[e.RowIndex].Cells["Id"].Value), out int id)) return;
+        string title = Convert.ToString(salesGrid.Rows[e.RowIndex].Cells["RaporAdi"].Value) ?? "Rapor";
+        _documents.OpenDocument("report:" + id, title, () => new RaporCalistirForm(id), tabPageOzelRaporlar.Name);
+    });
 }

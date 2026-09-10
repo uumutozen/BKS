@@ -131,6 +131,7 @@ public partial class Form2
                 break;
                 case "tabPageGelirGider":
                 dataGridOdeme.DataSource = result[0];
+                UpdateFinanceSummary(result[0]);
                 break;
                 case "tabPageOzelRaporlar":
                 salesGrid.DataSource = result[0];

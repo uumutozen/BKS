@@ -21,6 +21,7 @@ public partial class Form2
     }
     private void Form2_FormClosing(object sender, FormClosingEventArgs e)
     {
+        if (financeSaving || paymentSaving) { e.Cancel = true; return; }
         if (_documents == null) return;
         if (!_documents.CloseAll())
         {

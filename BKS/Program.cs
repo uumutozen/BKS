@@ -10,6 +10,7 @@ internal static class Program
         CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.GetCultureInfo("tr-TR");
         if (args.Contains("--layout-checks"))
         {
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             var index = Array.IndexOf(args, "--layout-checks");
             var directory = args.Length> index + 1 ? args[index + 1]: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "HelmSoftware", "BKS", "LayoutChecks");

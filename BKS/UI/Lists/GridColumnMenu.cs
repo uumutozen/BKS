@@ -20,7 +20,7 @@ internal sealed class GridColumnMenu
 
     private void Show(DataGridViewColumn column)
     {
-        var menu = new ContextMenuStrip();
+        var menu = TransientMenu.Create(grid);
         void Sort(string caption, ListSortDirection direction)
         {
             var item = menu.Items.Add(caption, null, (_, _) => UiActions.Run(() => grid.Sort(column, direction)));
@@ -43,13 +43,12 @@ internal sealed class GridColumnMenu
             e.SuppressKeyPress = true;
             menu.Close();
         };
-        menu.Closed += (_, _) => menu.Dispose();
         menu.Show(Cursor.Position);
     }
 
     public void ShowColumnChooser(Control owner)
     {
-        var menu = new ContextMenuStrip();
+        var menu = TransientMenu.Create(grid);
         foreach (var column in grid.Columns.Cast<DataGridViewColumn>().Where(column => !GridAppearance.IsTechnical(column)).OrderBy(column => column.DisplayIndex))
         {
             var item = new ToolStripMenuItem(column.HeaderText) { Checked = column.Visible, CheckOnClick = true };
@@ -64,7 +63,6 @@ internal sealed class GridColumnMenu
             };
             menu.Items.Add(item);
         }
-        menu.Closed += (_, _) => menu.Dispose();
         menu.Show(owner, new Point(0, owner.Height));
     }
 }

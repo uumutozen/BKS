@@ -48,7 +48,7 @@ internal static class LayoutDiagnostics
                 var children = table.Controls.Cast<Control>().Where(c => c.Visible).ToArray();
                 for (int i = 0; i < children.Length; i++)
                 for (int j = i + 1; j < children.Length; j++)
-                    Check(!children[i].Bounds.IntersectsWith(children[j].Bounds), form.Text + ": Designer table controls overlap: " + children[i].Name + " / " + children[j].Name);
+                    Check(!children[i].Bounds.IntersectsWith(children[j].Bounds), form.Text + ": Designer table controls overlap: " + children[i].Name + " " + children[i].Bounds + " / " + children[j].Name + " " + children[j].Bounds + "; form=" + form.Size + "; table=" + table.ClientSize);
             }
             foreach (var ribbon in Walk(form).OfType<BksRibbon>().Where(c => c.Visible))
             {
@@ -109,12 +109,14 @@ internal static class LayoutDiagnostics
         }
         try
         {
+            ReworkDiagnostics.Run(Check, directory);
             PhotoDiagnostics.Run(Check);
             DocumentDiagnostics.Run(Check);
             using (var login = new Form1()) Exercise(login, "Yeni giriş ekranı");
             using var main = new Form2();
             Exercise(main, "Ana pencere / tüm modüller");
             main.VerifyNavigationContract(Check);
+            ReworkDiagnostics.Capture(main, Path.Combine(directory, "Ana_Ekran.png"));
             using (var form = new ConnectionSettingsForm()) Exercise(form, "Bağlantı ayarları");
             using (var form = new OgrenciForm(main)) Exercise(form, "Öğrenci");
             using (var form = new PersonelForm(main)) Exercise(form, "Personel");

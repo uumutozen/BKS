@@ -1,0 +1,13 @@
+PASS Yeni giriş ekranı: resize, tabs, navigation, scroll; DPI=96
+PASS Ana pencere / tüm modüller: resize, tabs, navigation, scroll; DPI=96
+PASS Bağlantı ayarları: resize, tabs, navigation, scroll; DPI=96
+PASS Öğrenci: resize, tabs, navigation, scroll; DPI=96
+PASS Personel: resize, tabs, navigation, scroll; DPI=96
+PASS Fatura: resize, tabs, navigation, scroll; DPI=96
+PASS Arşiv: resize, tabs, navigation, scroll; DPI=96
+PASS Rapor tasarımı: resize, tabs, navigation, scroll; DPI=96
+PASS Rapor çalıştırma: resize, tabs, navigation, scroll; DPI=96
+PASS Ödeme detayları: resize, tabs, navigation, scroll; DPI=96
+PASS Aylık ödeme planı: resize, tabs, navigation, scroll; DPI=96
+PASS İşlem geçmişi: resize, tabs, navigation, scroll; DPI=96
+PASS: 6822 layout assertions. Repeat at Windows scaling 100%, 125%, 150%, 200%.

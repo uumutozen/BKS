@@ -62,15 +62,22 @@ public partial class Form2
         int modulCode = sourceDgv.Tag != null
         ? Convert.ToInt32(sourceDgv.Tag)
         : sourceDgv.Name == "dataGridViewStok" ? StudentModuleTag: 0;
+        OpenHistory(modulCode);
+    }
+    private void OpenHistory(int modulCode)
+    {
+        if (AppConfiguration.DesignPreview || modulCode is not (StudentModuleTag or PersonelModuleTag)) return;
         string permission = modulCode == PersonelModuleTag ? tabPagePersonelYonetimi.Name : tabPageStok.Name;
         if (!_allowedModules.Contains(permission)) return;
         string title = modulCode == PersonelModuleTag ? "Personel işlem geçmişi" : "Öğrenci işlem geçmişi";
-        _documents.OpenDocument("history:" + modulCode, title, () => new DataListForm(title, () => ExecuteDataTable(
+        var user = UserId;
+        var form = _documents.OpenDocument("history:" + modulCode, title, () => new DataListForm(title, () => ExecuteDataTable(
             @"SELECT * FROM deleteandlogs
               WHERE SirketId = (SELECT TOP 1 CompanyId FROM CompanyUsers WHERE UserId = @UserId)
                 AND ModulKod = @ModulCode
               ORDER BY SilinmeZamani DESC",
-            CommandType.Text, DbParam("@UserId", UserId), DbParam("@ModulCode", modulCode))), permission);
+            CommandType.Text, DbParam("@UserId", user), DbParam("@ModulCode", modulCode))), permission);
+        _ = form.ReloadAsync();
     }
 
     private void DeleteStripMenuItem_Click(object sender, EventArgs e)

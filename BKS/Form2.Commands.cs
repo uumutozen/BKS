@@ -57,7 +57,12 @@ public partial class Form2
             Command("students.archive", "Pasife al", RibbonIcon.Archive, () => DeleteSelected(dataGridViewStok), students,
             () => OnPage(students) && dataGridViewStok.CurrentRow != null),
             Command("students.files", "Evrak arşivi", RibbonIcon.Folder, () => ArchiveSelected(dataGridViewStok), students,
-            () => OnPage(students) && dataGridViewStok.CurrentRow != null)
+            () => OnPage(students) && dataGridViewStok.CurrentRow != null),
+            Command("students.payments", "Ödemeler / plan", RibbonIcon.Backup, () =>
+            {
+                if (TryGetSelectedGuid(dataGridViewStok, "Id", out var student)) ShowPaymentDetails(student);
+            }, payments, () => OnPage(students) && _allowedModules.Contains(students) && dataGridViewStok.CurrentRow != null),
+            Command("students.history", "İşlem geçmişi", RibbonIcon.View, () => OpenHistory(StudentModuleTag), students)
         }),
         ("Ön kayıt", new[]
         {
@@ -98,8 +103,8 @@ public partial class Form2
         }),
         ("İşlemler", new[]
         {
-            Command("payments.save", "Tahsilat kaydet", RibbonIcon.Backup, RunPaymentEntry, payments, () => OnPage(payments)),
-            Command("finance.save", "Gelir / gider kaydet", RibbonIcon.Backup, RunIncomeExpenseSave, finance, () => OnPage(finance)),
+            Command("payments.save", "Ödeme oluştur", RibbonIcon.Backup, RunPaymentEntry, payments, () => OnPage(payments) && !paymentSaving),
+            Command("finance.save", "Gelir / gider kaydet", RibbonIcon.Backup, RunIncomeExpenseSave, finance, () => OnPage(finance) && !financeSaving),
             Command("finance.refresh", "Yenile", RibbonIcon.Refresh, ReloadCurrent, enabled: () => OnPage(payments) || OnPage(finance), shortcut: Keys.F5)
         }));
         _ribbon.AddPage(personnel, "Personel",
@@ -113,7 +118,8 @@ public partial class Form2
             Command("personnel.remove", "Pasife al", RibbonIcon.Archive, () => DeleteSelected(dgvPersonelYonetimi), personnel,
             () => OnPage(personnel) && dgvPersonelYonetimi.CurrentRow != null),
             Command("personnel.files", "Evrak arşivi", RibbonIcon.Folder, () => ArchiveSelected(dgvPersonelYonetimi), personnel,
-            () => OnPage(personnel) && dgvPersonelYonetimi.CurrentRow != null)
+            () => OnPage(personnel) && dgvPersonelYonetimi.CurrentRow != null),
+            Command("personnel.history", "İşlem geçmişi", RibbonIcon.View, () => OpenHistory(PersonelModuleTag), personnel)
         }),
         ("Liste", new[]
         {

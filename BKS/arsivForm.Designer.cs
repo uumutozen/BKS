@@ -234,7 +234,7 @@ namespace BKS
             // 
             // pnlTotalCard
             // 
-            pnlTotalCard.BackColor = Color.White;
+            pnlTotalCard.BackColor = Color.FromArgb(239, 247, 253);
             pnlTotalCard.Controls.Add(lblTotalValue);
             pnlTotalCard.Controls.Add(lblTotalTitle);
             pnlTotalCard.Location = new Point(8, 16);
@@ -268,7 +268,7 @@ namespace BKS
             // 
             // pnlSelectedCard
             // 
-            pnlSelectedCard.BackColor = Color.White;
+            pnlSelectedCard.BackColor = Color.FromArgb(239, 247, 253);
             pnlSelectedCard.Controls.Add(lblSelectedValue);
             pnlSelectedCard.Controls.Add(lblSelectedTitle);
             pnlSelectedCard.Location = new Point(280, 16);
@@ -302,7 +302,7 @@ namespace BKS
             // 
             // pnlLastCard
             // 
-            pnlLastCard.BackColor = Color.White;
+            pnlLastCard.BackColor = Color.FromArgb(239, 247, 253);
             pnlLastCard.Controls.Add(lblLastValue);
             pnlLastCard.Controls.Add(lblLastTitle);
             pnlLastCard.Location = new Point(652, 16);
@@ -631,15 +631,15 @@ namespace BKS
             dgvDosyalar.AllowUserToDeleteRows = false;
             dgvDosyalar.AllowUserToResizeRows = false;
             dgvDosyalar.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvDosyalar.BackgroundColor = Color.White;
+            dgvDosyalar.BackgroundColor = Color.FromArgb(239, 247, 253);
             dgvDosyalar.BorderStyle = BorderStyle.None;
             dgvDosyalar.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvDosyalar.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(244, 247, 251);
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(218, 236, 250);
             dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
             dataGridViewCellStyle1.ForeColor = Color.FromArgb(37, 54, 75);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(244, 247, 251);
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(218, 236, 250);
             dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(37, 54, 75);
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvDosyalar.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
@@ -647,7 +647,7 @@ namespace BKS
             dgvDosyalar.Columns.AddRange(new DataGridViewColumn[] { colDosyaAdi, colDosyaTipi, colUzanti, colEklenme });
             dgvDosyalar.ContextMenuStrip = dgvContextMenu;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(239, 247, 253);
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
             dataGridViewCellStyle3.ForeColor = Color.FromArgb(30, 41, 59);
             dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(219, 234, 254);
@@ -748,7 +748,7 @@ namespace BKS
             // 
             // btnColumns
             // 
-            btnColumns.FlatAppearance.BorderColor = Color.FromArgb(220, 226, 233);
+            btnColumns.FlatAppearance.BorderColor = Color.FromArgb(189, 214, 235);
             btnColumns.FlatStyle = FlatStyle.Flat;
             btnColumns.Location = new Point(1039, 13);
             btnColumns.Name = "btnColumns";
@@ -773,7 +773,7 @@ namespace BKS
             // 
             // btnMasaustuIndir
             // 
-            btnMasaustuIndir.BackColor = Color.FromArgb(244, 247, 251);
+            btnMasaustuIndir.BackColor = Color.FromArgb(218, 236, 250);
             btnMasaustuIndir.FlatAppearance.BorderSize = 0;
             btnMasaustuIndir.FlatStyle = FlatStyle.Flat;
             btnMasaustuIndir.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);

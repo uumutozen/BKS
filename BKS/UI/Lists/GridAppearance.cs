@@ -25,7 +25,7 @@ internal sealed class GridAppearance
     private void ApplyStyle()
     {
         grid.BorderStyle = BorderStyle.None;
-        grid.BackgroundColor = Color.White;
+        grid.BackgroundColor = RibbonPalette.Surface;
         grid.EnableHeadersVisualStyles = false;
         grid.GridColor = RibbonPalette.GridLine;
         grid.ColumnHeadersDefaultCellStyle.BackColor = RibbonPalette.GridHeader;
@@ -43,7 +43,7 @@ internal sealed class GridAppearance
         grid.DefaultCellStyle.Font = new Font("Segoe UI", 9.5F);
         grid.DefaultCellStyle.Padding = new Padding(Px(8), Px(3), Px(8), Px(3));
         grid.DefaultCellStyle.ForeColor = RibbonPalette.Text;
-        grid.DefaultCellStyle.BackColor = Color.White;
+        grid.DefaultCellStyle.BackColor = RibbonPalette.GridRow;
         grid.DefaultCellStyle.SelectionBackColor = RibbonPalette.SelectedRow;
         grid.DefaultCellStyle.SelectionForeColor = RibbonPalette.Text;
         grid.AlternatingRowsDefaultCellStyle.BackColor = RibbonPalette.AlternateRow;

@@ -1,183 +1,121 @@
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
-
+using System.Text.Json;
 namespace BKS;
-
 public partial class FormFatura : Form
 {
-    public Guid UserId
-    {
-        get;
-        set;
-    }
-    private bool saving;
-    private readonly EditSession _edits;
-    private readonly string connStr = AppConfiguration.ConnectionString;
-
+    public Guid UserId { get; set; }
+    private readonly FormOperation operation;
+    private readonly FormDraft draft;
     public FormFatura()
     {
         InitializeComponent();
-        InitializeInvoiceBehavior();
-        _edits = new EditSession(this, () => btnKaydet_Click(this, EventArgs.Empty),
-        () => System.Text.Json.JsonSerializer.Serialize(dgKalemler.Rows.Cast<DataGridViewRow>()
-        .Where(row => !row.IsNewRow).Select(row => row.Cells.Cast<DataGridViewCell>().Select(cell => Convert.ToString(cell.Value)).ToArray()).ToArray()));
-    }
-
-    private void InitializeInvoiceBehavior()
-    {
+        operation = new FormOperation(this);
         Screens.PrepareDesignerForm(this);
         GridAppearance.Apply(dgKalemler);
         DesignerListBinding.Attach(dgFaturalar, txtInvoiceSearch, pnlInvoiceHistoryClear, pnlInvoiceHistoryColumns, pnlInvoiceHistoryCount);
+        txtFaturaNo.Text = "BKS";
+        draft = new FormDraft(this, Snapshot, SaveAsync);
+        dgKalemler.DefaultValuesNeeded += (_, e) =>
+        {
+            e.Row.Cells["Miktar"].Value = 1M; e.Row.Cells["BirimFiyat"].Value = 0M; e.Row.Cells["KDV"].Value = 20M;
+        };
+        dgKalemler.DataError += (_, e) =>
+        {
+            e.ThrowException = false;
+            if (e.RowIndex >= 0 && e.RowIndex < dgKalemler.Rows.Count) dgKalemler.Rows[e.RowIndex].ErrorText = "Geçerli bir sayı girin (örnek: 1250,50).";
+        };
+        dgKalemler.CellValueChanged += (_, _) => UpdateTotals();
+        dgKalemler.RowsRemoved += (_, _) => UpdateTotals();
         KeyDown += (_, e) =>
         {
-            if (e.Control && e.KeyCode == Keys.S && !AppConfiguration.DesignPreview)
-            {
-                UiActions.Run(() => btnKaydet_Click(this, EventArgs.Empty));
-                e.SuppressKeyPress = true;
-            }
+            if (e.Control && e.KeyCode == Keys.S) { e.SuppressKeyPress = true; btnKaydet_Click(this, e); }
         };
     }
-    private void RefreshInvoices_Click(object? sender, EventArgs e) => UiActions.Run(() => FaturalariYukle(UserId));
-    private void NewInvoice_Click(object? sender, EventArgs e)
-    {
-        txtAliciUnvan.Clear(); txtAliciVkn.Clear(); dgKalemler.Rows.Clear();
-        tabInvoices.SelectedTab = tabLines;
-    }
-    private void CloseRecord_Click(object? sender, EventArgs e) => Close();
-
-
-    private void FormFatura_Load(object sender, EventArgs e)
-    {
-        dgKalemler.DefaultValuesNeeded += (_, args) =>
-        {
-            args.Row.Cells["Miktar"].Value = 1M;
-            args.Row.Cells["BirimFiyat"].Value = 0M;
-            args.Row.Cells["KDV"].Value = 20M;
-        };
-        dgKalemler.DataError += (_, args) =>
-        {
-            args.ThrowException = false;
-            dgKalemler.Rows[args.RowIndex].ErrorText = "Sayısal alanlarda geçerli bir tutar girin.";
-        };
-        if (string.IsNullOrWhiteSpace(txtFaturaNo.Text)) txtFaturaNo.Text = "BKS";
-        if (!AppConfiguration.DesignPreview) FaturalariYukle(UserId);
-    }
-
+    private string Snapshot() => JsonSerializer.Serialize(new {
+        Prefix = txtFaturaNo.Text, Recipient = txtAliciUnvan.Text, Tax = txtAliciVkn.Text, Date = dtTarih.Value.Date,
+        Lines = dgKalemler.Rows.Cast<DataGridViewRow>().Where(r => !r.IsNewRow)
+            .Select(r => r.Cells.Cast<DataGridViewCell>().Select(c => Convert.ToString(c.Value)).ToArray()).ToArray()
+    });
+    private InvoiceLine ReadLine(DataGridViewRow row) => new(Convert.ToString(row.Cells["UrunAdi"].Value)?.Trim() ?? "",
+        DataValues.Money(row.Cells["Miktar"].Value), DataValues.Money(row.Cells["BirimFiyat"].Value), DataValues.Money(row.Cells["KDV"].Value));
     private List<InvoiceLine> ReadLines()
     {
-        if (!dgKalemler.EndEdit()) throw new InvalidOperationException("Kalemlerdeki sayısal değerleri düzeltin.");
+        if (!dgKalemler.EndEdit()) throw new InvalidOperationException("Fatura kalemlerindeki sayısal değerleri düzeltin.");
         var lines = new List<InvoiceLine>();
         foreach (DataGridViewRow row in dgKalemler.Rows)
         {
             if (row.IsNewRow) continue;
-            var line = new InvoiceLine(Convert.ToString(row.Cells["UrunAdi"].Value)?.Trim() ?? "", DataValues.Money(row.Cells["Miktar"].Value),
-            DataValues.Money(row.Cells["BirimFiyat"].Value), DataValues.Money(row.Cells["KDV"].Value));
-            line.Validate();
-            lines.Add(line);
+            try { var line = ReadLine(row); line.Validate(); row.ErrorText = ""; lines.Add(line); }
+            catch (Exception ex) when (ex is InvalidOperationException or FormatException or OverflowException)
+            { row.ErrorText = ex.Message; throw new InvalidOperationException($"{row.Index + 1}. satır: {ex.Message}"); }
         }
-        if (lines.Count == 0) throw new InvalidOperationException("En az bir fatura kalemi ekleyin.");
         return lines;
     }
-
-    private void btnKaydet_Click(object sender, EventArgs e)
+    private void UpdateTotals()
     {
-        if (saving) return;
-        var prefix = txtFaturaNo.Text.Trim().ToUpperInvariant();
-        var title = txtAliciUnvan.Text.Trim();
-        var tax = txtAliciVkn.Text.Trim();
-        if (!Regex.IsMatch(prefix, @"^[A-Z0-9]{1,12}$") || title.Length == 0 || !Regex.IsMatch(tax, @"^(\d{10}|\d{11})$")) throw new InvalidOperationException("Önek 1–12 harf/rakam, alıcı unvanı ve 10/11 haneli VKN/TCKN girin.");
-        var lines = ReadLines();
-        saving = true;
-        btnKaydet.Enabled = false;
-        string? path = null;
-        bool committed = false;
         try
         {
-            using var conn = new SqlConnection(connStr);
-            conn.Open();
-            using var transaction = conn.BeginTransaction(IsolationLevel.Serializable);
-            var fullPrefix = prefix + dtTarih.Value.ToString("yy");
-            using var numberCmd = new SqlCommand("SELECT MAX(FaturaNo) FROM Faturalar WITH (UPDLOCK,HOLDLOCK) WHERE SirketId=dbo.GetSirketIdByUserId(@UserId) AND FaturaNo LIKE @Prefix+'%'",
-            conn, transaction);
-            numberCmd.Parameters.AddWithValue("@UserId", UserId);
-            numberCmd.Parameters.AddWithValue("@Prefix", fullPrefix);
-            var previous = numberCmd.ExecuteScalar() as string;
-            var number = 1;
-            if (previous != null && previous.StartsWith(fullPrefix) && int.TryParse(previous[fullPrefix.Length ..], out var last)) number = checked(last + 1);
-            if (number> 99999) throw new InvalidOperationException("Bu önek için numara sınırına ulaşıldı; yeni bir önek seçin.");
-            var invoiceNo = fullPrefix + number.ToString("D5");
-            var folder = Path.Combine(AppConfiguration.DataDirectory, "Faturalar", UserId.ToString("N"));
-            Directory.CreateDirectory(folder);
-            path = Path.Combine(folder, invoiceNo + "_" + Guid.NewGuid().ToString("N") + ".pdf");
-            InvoicePdf.Write(path, invoiceNo, title, tax, dtTarih.Value, lines);
-            using var insert = new SqlCommand("INSERT INTO Faturalar(FaturaNo,AliciUnvan,AliciVKN,Tarih,PdfYolu,PdfIcerik,SirketId) VALUES(@No,@Title,@Tax,@Date,@Path,@Pdf,dbo.GetSirketIdByUserId(@UserId))",
-            conn, transaction);
-            insert.Parameters.AddWithValue("@No", invoiceNo);
-            insert.Parameters.AddWithValue("@Title", title);
-            insert.Parameters.AddWithValue("@Tax", tax);
-            insert.Parameters.AddWithValue("@Date", dtTarih.Value.Date);
-            insert.Parameters.AddWithValue("@Path", path);
-            insert.Parameters.Add("@Pdf", SqlDbType.VarBinary, - 1).Value = File.ReadAllBytes(path);
-            insert.Parameters.AddWithValue("@UserId", UserId);
-            if (insert.ExecuteNonQuery() != 1) throw new InvalidOperationException("Belge veritabanına kaydedilemedi.");
-            transaction.Commit();
-            committed = true;
-            dgKalemler.Rows.Clear();
-            _edits.AcceptChanges();
-            MessageBox.Show(invoiceNo + " kaydedildi. PDF ve veritabanı numarası aynıdır.", "Fatura");
-            FaturalariYukle(UserId);
+            var lines = dgKalemler.Rows.Cast<DataGridViewRow>().Where(r => !r.IsNewRow).Select(ReadLine).ToArray();
+            lblTotals.Text = $"Ara toplam: {lines.Sum(l => l.Net):N2} TL    •    KDV: {lines.Sum(l => l.Vat):N2} TL    •    Genel toplam: {lines.Sum(l => l.Total):N2} TL";
         }
-        catch
-        {
-            if (!committed && path != null && File.Exists(path)) File.Delete(path);
-            throw;
-        }
-        finally
-        {
-            saving = false;
-            if (!IsDisposed) btnKaydet.Enabled = true;
-        }
+        catch (Exception ex) when (ex is FormatException or OverflowException)
+        { lblTotals.Text = "Toplamı görmek için kalemlerdeki sayısal alanları tamamlayın."; }
     }
-
-    private void FaturalariYukle(Guid user)
+    private async void FormFatura_Load(object sender, EventArgs e) => await operation.RunAsync(LoadInvoicesAsync);
+    private async Task LoadInvoicesAsync()
     {
-        using var conn = new SqlConnection(connStr);
-        using var cmd = new SqlCommand("SELECT Id,FaturaNo,AliciUnvan,AliciVKN,Tarih FROM Faturalar WHERE SirketId=dbo.GetSirketIdByUserId(@UserId) ORDER BY Tarih DESC,FaturaNo DESC",
-        conn);
-        cmd.Parameters.AddWithValue("@UserId", user);
-        using var adapter = new SqlDataAdapter(cmd);
-        var table = new DataTable();
-        adapter.Fill(table);
+        var repository = new InvoiceRepository(UserId);
+        var table = await Task.Run(repository.Read);
+        if (IsDisposed) { table.Dispose(); return; }
+        var old = dgFaturalar.DataSource as DataTable;
         dgFaturalar.DataSource = table;
-        if (dgFaturalar.Columns.Contains("Id")) dgFaturalar.Columns["Id"].Visible = false;
+        old?.Dispose();
+        foreach (DataGridViewColumn column in dgFaturalar.Columns)
+            column.HeaderText = column.Name switch { "FaturaNo" => "Fatura no", "AliciUnvan" => "Alıcı unvanı", "AliciVKN" => "VKN / TCKN", _ => column.Name };
     }
-
-    private void dgFaturalar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    private async Task<bool> SaveAsync()
     {
-        if (e.RowIndex<0 || dgFaturalar.Rows[e.RowIndex].IsNewRow) return;
-        UiActions.Run(() =>
+        bool saved = false;
+        await operation.RunAsync(async () =>
         {
-            var row = dgFaturalar.Rows[e.RowIndex];
-            using var conn = new SqlConnection(connStr);
-            using var cmd = new SqlCommand("SELECT PdfIcerik FROM Faturalar WHERE Id=@Id AND SirketId=dbo.GetSirketIdByUserId(@UserId)",
-            conn);
-            cmd.Parameters.AddWithValue("@Id", row.Cells["Id"].Value);
-            cmd.Parameters.AddWithValue("@UserId", UserId);
-            conn.Open();
-            if (cmd.ExecuteScalar() is not byte[] bytes || bytes.Length == 0) throw new InvalidOperationException("Belgenin PDF içeriği bulunamadı.");
+            var invoice = new InvoiceDraft(txtFaturaNo.Text.Trim().ToUpperInvariant(), txtAliciUnvan.Text.Trim(),
+                txtAliciVkn.Text.Trim(), dtTarih.Value.Date, ReadLines());
+            invoice.Validate();
+            var repository = new InvoiceRepository(UserId);
+            string number = await Task.Run(() => repository.Save(invoice));
+            dgKalemler.Rows.Clear();
+            draft.Accept();
+            saved = true;
+            lblSubtitle.Text = number + " kaydedildi. PDF ve kayıt aynı fatura numarasını kullanır.";
+            await LoadInvoicesAsync();
+        });
+        return saved;
+    }
+    private async void btnKaydet_Click(object sender, EventArgs e) => await SaveAsync();
+    private async void RefreshInvoices_Click(object? sender, EventArgs e) => await operation.RunAsync(LoadInvoicesAsync);
+    private async void NewInvoice_Click(object? sender, EventArgs e)
+    {
+        if (operation.IsBusy || !await draft.ConfirmAsync()) return;
+        txtAliciUnvan.Clear(); txtAliciVkn.Clear(); dgKalemler.Rows.Clear();
+        dtTarih.Value = DateTime.Today;
+        draft.Accept();
+        tabInvoices.SelectedTab = tabLines;
+    }
+    private async void dgFaturalar_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.RowIndex < 0 || e.RowIndex >= dgFaturalar.Rows.Count || dgFaturalar.Rows[e.RowIndex].IsNewRow) return;
+        var id = dgFaturalar.Rows[e.RowIndex].Cells["Id"].Value;
+        await operation.RunAsync(async () =>
+        {
+            var repository = new InvoiceRepository(UserId);
+            var bytes = await Task.Run(() => repository.Pdf(id));
             var folder = Path.Combine(AppConfiguration.DataDirectory, "Onizleme");
             Directory.CreateDirectory(folder);
             var path = Path.Combine(folder, Guid.NewGuid().ToString("N") + ".pdf");
-            File.WriteAllBytes(path, bytes);
-            Process.Start(new ProcessStartInfo(path)
-            {
-                UseShellExecute = true
-            });
+            await File.WriteAllBytesAsync(path, bytes);
+            Process.Start(new ProcessStartInfo(path) { UseShellExecute = true });
         });
     }
+    private void CloseRecord_Click(object? sender, EventArgs e) => Close();
 }

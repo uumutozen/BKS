@@ -26,7 +26,7 @@ internal sealed class SectionedForm : Panel
         ForeColor = RibbonPalette.CaptionText,
         AutoEllipsis = true
     };
-    private readonly Panel body = new() { BackColor = Color.White };
+    private readonly Panel body = new() { BackColor = RibbonPalette.Surface };
     private bool selecting;
 
     public IEnumerable<Control> Contents => sections.Select(section => section.Content);
@@ -37,7 +37,7 @@ internal sealed class SectionedForm : Panel
     public SectionedForm()
     {
         Dock = DockStyle.Fill;
-        BackColor = Color.White;
+        BackColor = RibbonPalette.Surface;
         Controls.AddRange(new Control[] { body, navigation, compactNavigation, heading, description });
         navigation.DrawItem += DrawSection;
         navigation.SelectedIndexChanged += (_, _) => SelectIndex(navigation.SelectedIndex);
